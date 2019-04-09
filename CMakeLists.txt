@@ -2997,6 +2997,7 @@ foreach(_hdr
   include/grpcpp/alarm.h
   include/grpcpp/alarm_impl.h
   include/grpcpp/channel.h
+  include/grpcpp/channel_impl.h
   include/grpcpp/client_context.h
   include/grpcpp/completion_queue.h
   include/grpcpp/create_channel.h
@@ -3006,6 +3007,7 @@ foreach(_hdr
   include/grpcpp/ext/health_check_service_server_builder_option.h
   include/grpcpp/generic/async_generic_service.h
   include/grpcpp/generic/generic_stub.h
+  include/grpcpp/generic/generic_stub_impl.h
   include/grpcpp/grpcpp.h
   include/grpcpp/health_check_service_interface.h
   include/grpcpp/health_check_service_interface_impl.h
@@ -3028,11 +3030,15 @@ foreach(_hdr
   include/grpcpp/resource_quota_impl.h
   include/grpcpp/security/auth_context.h
   include/grpcpp/security/auth_metadata_processor.h
+  include/grpcpp/security/auth_metadata_processor_impl.h
   include/grpcpp/security/credentials.h
   include/grpcpp/security/server_credentials.h
+  include/grpcpp/security/server_credentials_impl.h
   include/grpcpp/server.h
   include/grpcpp/server_builder.h
+  include/grpcpp/server_builder_impl.h
   include/grpcpp/server_context.h
+  include/grpcpp/server_impl.h
   include/grpcpp/server_posix.h
   include/grpcpp/server_posix_impl.h
   include/grpcpp/support/async_stream.h
@@ -3176,6 +3182,7 @@ foreach(_hdr
   include/grpcpp/impl/codegen/stub_options.h
   include/grpcpp/impl/codegen/sync_stream.h
   include/grpcpp/impl/codegen/time.h
+  include/grpcpp/impl/codegen/sync.h
   include/grpc++/impl/codegen/proto_utils.h
   include/grpcpp/impl/codegen/proto_buffer_reader.h
   include/grpcpp/impl/codegen/proto_buffer_writer.h
@@ -3595,6 +3602,7 @@ foreach(_hdr
   include/grpcpp/alarm.h
   include/grpcpp/alarm_impl.h
   include/grpcpp/channel.h
+  include/grpcpp/channel_impl.h
   include/grpcpp/client_context.h
   include/grpcpp/completion_queue.h
   include/grpcpp/create_channel.h
@@ -3604,6 +3612,7 @@ foreach(_hdr
   include/grpcpp/ext/health_check_service_server_builder_option.h
   include/grpcpp/generic/async_generic_service.h
   include/grpcpp/generic/generic_stub.h
+  include/grpcpp/generic/generic_stub_impl.h
   include/grpcpp/grpcpp.h
   include/grpcpp/health_check_service_interface.h
   include/grpcpp/health_check_service_interface_impl.h
@@ -3626,11 +3635,15 @@ foreach(_hdr
   include/grpcpp/resource_quota_impl.h
   include/grpcpp/security/auth_context.h
   include/grpcpp/security/auth_metadata_processor.h
+  include/grpcpp/security/auth_metadata_processor_impl.h
   include/grpcpp/security/credentials.h
   include/grpcpp/security/server_credentials.h
+  include/grpcpp/security/server_credentials_impl.h
   include/grpcpp/server.h
   include/grpcpp/server_builder.h
+  include/grpcpp/server_builder_impl.h
   include/grpcpp/server_context.h
+  include/grpcpp/server_impl.h
   include/grpcpp/server_posix.h
   include/grpcpp/server_posix_impl.h
   include/grpcpp/support/async_stream.h
@@ -3774,6 +3787,7 @@ foreach(_hdr
   include/grpcpp/impl/codegen/stub_options.h
   include/grpcpp/impl/codegen/sync_stream.h
   include/grpcpp/impl/codegen/time.h
+  include/grpcpp/impl/codegen/sync.h
   include/grpc/census.h
 )
   string(REPLACE "include/" "" _path ${_hdr})
@@ -3840,6 +3854,7 @@ target_link_libraries(grpc++_error_details
 foreach(_hdr
   include/grpc++/support/error_details.h
   include/grpcpp/support/error_details.h
+  include/grpcpp/support/error_details_impl.h
 )
   string(REPLACE "include/" "" _path ${_hdr})
   get_filename_component(_path ${_path} PATH)
@@ -3973,6 +3988,7 @@ target_link_libraries(grpc++_reflection
 foreach(_hdr
   include/grpc++/ext/proto_server_reflection_plugin.h
   include/grpcpp/ext/proto_server_reflection_plugin.h
+  include/grpcpp/ext/proto_server_reflection_plugin_impl.h
 )
   string(REPLACE "include/" "" _path ${_hdr})
   get_filename_component(_path ${_path} PATH)
@@ -4226,6 +4242,7 @@ foreach(_hdr
   include/grpc/impl/codegen/sync_generic.h
   include/grpc/impl/codegen/sync_posix.h
   include/grpc/impl/codegen/sync_windows.h
+  include/grpcpp/impl/codegen/sync.h
   include/grpc++/impl/codegen/proto_utils.h
   include/grpcpp/impl/codegen/proto_buffer_reader.h
   include/grpcpp/impl/codegen/proto_buffer_writer.h
@@ -4422,6 +4439,7 @@ foreach(_hdr
   include/grpc/impl/codegen/sync_generic.h
   include/grpc/impl/codegen/sync_posix.h
   include/grpc/impl/codegen/sync_windows.h
+  include/grpcpp/impl/codegen/sync.h
   include/grpc++/impl/codegen/proto_utils.h
   include/grpcpp/impl/codegen/proto_buffer_reader.h
   include/grpcpp/impl/codegen/proto_buffer_writer.h
@@ -4565,6 +4583,7 @@ foreach(_hdr
   include/grpcpp/alarm.h
   include/grpcpp/alarm_impl.h
   include/grpcpp/channel.h
+  include/grpcpp/channel_impl.h
   include/grpcpp/client_context.h
   include/grpcpp/completion_queue.h
   include/grpcpp/create_channel.h
@@ -4574,6 +4593,7 @@ foreach(_hdr
   include/grpcpp/ext/health_check_service_server_builder_option.h
   include/grpcpp/generic/async_generic_service.h
   include/grpcpp/generic/generic_stub.h
+  include/grpcpp/generic/generic_stub_impl.h
   include/grpcpp/grpcpp.h
   include/grpcpp/health_check_service_interface.h
   include/grpcpp/health_check_service_interface_impl.h
@@ -4596,11 +4616,15 @@ foreach(_hdr
   include/grpcpp/resource_quota_impl.h
   include/grpcpp/security/auth_context.h
   include/grpcpp/security/auth_metadata_processor.h
+  include/grpcpp/security/auth_metadata_processor_impl.h
   include/grpcpp/security/credentials.h
   include/grpcpp/security/server_credentials.h
+  include/grpcpp/security/server_credentials_impl.h
   include/grpcpp/server.h
   include/grpcpp/server_builder.h
+  include/grpcpp/server_builder_impl.h
   include/grpcpp/server_context.h
+  include/grpcpp/server_impl.h
   include/grpcpp/server_posix.h
   include/grpcpp/server_posix_impl.h
   include/grpcpp/support/async_stream.h
@@ -4744,6 +4768,7 @@ foreach(_hdr
   include/grpcpp/impl/codegen/stub_options.h
   include/grpcpp/impl/codegen/sync_stream.h
   include/grpcpp/impl/codegen/time.h
+  include/grpcpp/impl/codegen/sync.h
 )
   string(REPLACE "include/" "" _path ${_hdr})
   get_filename_component(_path ${_path} PATH)

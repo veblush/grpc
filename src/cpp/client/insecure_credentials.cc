@@ -46,7 +46,7 @@ class InsecureChannelCredentialsImpl final : public ChannelCredentials {
           interceptor_creators) override {
     grpc_channel_args channel_args;
     args.SetChannelArgs(&channel_args);
-    return grpc::CreateChannelInternal(
+    return ::grpc_impl::CreateChannelInternal(
         "",
         grpc_insecure_channel_create(target.c_str(), &channel_args, nullptr),
         std::move(interceptor_creators));

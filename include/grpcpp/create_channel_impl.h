@@ -35,8 +35,7 @@ namespace grpc_impl {
 /// \param creds Credentials to use for the created channel. If it does not
 /// hold an object or is invalid, a lame channel (one on which all operations
 /// fail) is returned.
-///  TODO(karthikrs) - Clean up the "Impl".
-std::shared_ptr<grpc::Channel> CreateChannelImpl(
+std::shared_ptr<grpc::Channel> CreateChannel(
     const grpc::string& target,
     const std::shared_ptr<grpc::ChannelCredentials>& creds);
 
@@ -50,8 +49,7 @@ std::shared_ptr<grpc::Channel> CreateChannelImpl(
 /// hold an object or is invalid, a lame channel (one on which all operations
 /// fail) is returned.
 /// \param args Options for channel creation.
-///  TODO(karthikrs) - Clean up the "Impl".
-std::shared_ptr<::grpc::Channel> CreateCustomChannelImpl(
+std::shared_ptr<grpc::Channel> CreateCustomChannel(
     const grpc::string& target,
     const std::shared_ptr<grpc::ChannelCredentials>& creds,
     const grpc::ChannelArguments& args);
