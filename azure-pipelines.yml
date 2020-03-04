@@ -11,5 +11,8 @@ pool:
 
 steps:
 - script: |
+    git submodule init --update
+  displayName: 'git-submodule'
+- script: |
     make
   displayName: 'make'
