@@ -572,6 +572,7 @@ grpc_cc_library(
     external_deps = [
         "absl/base",
         "absl/memory",
+        "absl/random",
         "absl/strings",
         "absl/strings:str_format",
         "absl/synchronization",

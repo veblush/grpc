@@ -383,6 +383,7 @@
         'absl/synchronization:synchronization',
         'absl/strings:strings',
         'absl/strings:str_format',
+        'absl/random:random',
         'absl/memory:memory',
         'absl/base:base',
       ],
