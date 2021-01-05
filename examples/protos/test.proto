@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+message OpenStreamRequest
+{
+}
+
+message MessageToStream
+{
+}
+
+service StreamService
+{
+    rpc OpenStream(OpenStreamRequest) returns(stream MessageToStream) {};
+}
