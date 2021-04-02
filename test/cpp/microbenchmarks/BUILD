@@ -396,3 +396,16 @@ grpc_cc_test(
     ],
     deps = [":callback_streaming_ping_pong_h"],
 )
+
+grpc_cc_test(
+    name = "bm_absl_status",
+    srcs = ["bm_absl_status.cc"],
+    tags = [
+        "no_mac",
+        "no_windows",
+    ],
+    deps = [":helpers"],
+    external_deps = [
+        "absl/status",
+    ],    
+)
