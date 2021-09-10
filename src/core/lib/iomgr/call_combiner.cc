@@ -179,8 +179,7 @@ void CallCombiner::Stop(DEBUG_ARGS const char* reason) {
       }
       if (GRPC_TRACE_FLAG_ENABLED(grpc_call_combiner_trace)) {
         gpr_log(GPR_INFO, "  EXECUTING FROM QUEUE: closure=%p error=%s",
-                closure,
-                grpc_error_std_string(closure->error).c_str());
+                closure, grpc_error_std_string(closure->error).c_str());
       }
       ScheduleClosure(closure, closure->error);
       break;
