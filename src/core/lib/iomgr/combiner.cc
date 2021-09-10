@@ -155,7 +155,7 @@ static void combiner_exec(grpc_core::Combiner* lock, grpc_closure* cl,
   }
   GPR_ASSERT(last & STATE_UNORPHANED);  // ensure lock has not been destroyed
   assert(cl->cb);
-  cl->error_data.error = error;
+  cl->error = error;
   lock->queue.Push(cl->next_data.mpscq_node.get());
 }
 
@@ -232,7 +232,7 @@ bool grpc_combiner_continue_exec_ctx() {
     }
     GPR_TIMER_SCOPE("combiner.exec1", 0);
     grpc_closure* cl = reinterpret_cast<grpc_closure*>(n);
-    grpc_error_handle cl_err = cl->error_data.error;
+    grpc_error_handle cl_err = cl->error;
 #ifndef NDEBUG
     cl->scheduled = false;
 #endif
@@ -248,7 +248,7 @@ bool grpc_combiner_continue_exec_ctx() {
       GRPC_COMBINER_TRACE(
           gpr_log(GPR_INFO, "C:%p execute_final[%d] c=%p", lock, loops, c));
       grpc_closure* next = c->next_data.next;
-      grpc_error_handle error = c->error_data.error;
+      grpc_error_handle error = c->error;
 #ifndef NDEBUG
       c->scheduled = false;
 #endif
@@ -312,9 +312,9 @@ static void combiner_finally_exec(grpc_core::Combiner* lock,
       grpc_core::ExecCtx::Get()->combiner_data()->active_combiner));
   if (grpc_core::ExecCtx::Get()->combiner_data()->active_combiner != lock) {
     GPR_TIMER_MARK("slowpath", 0);
-    // Using error_data.scratch to store the combiner so that it can be accessed
+    // Using scratch to store the combiner so that it can be accessed
     // in enqueue_finally.
-    closure->error_data.scratch = reinterpret_cast<uintptr_t>(lock);
+    closure->scratch = reinterpret_cast<uintptr_t>(lock);
     lock->Run(GRPC_CLOSURE_CREATE(enqueue_finally, closure, nullptr), error);
     return;
   }
@@ -328,7 +328,7 @@ static void combiner_finally_exec(grpc_core::Combiner* lock,
 static void enqueue_finally(void* closure, grpc_error_handle error) {
   grpc_closure* cl = static_cast<grpc_closure*>(closure);
   combiner_finally_exec(
-      reinterpret_cast<grpc_core::Combiner*>(cl->error_data.scratch), cl,
+      reinterpret_cast<grpc_core::Combiner*>(cl->scratch), cl,
       GRPC_ERROR_REF(error));
 }
 
