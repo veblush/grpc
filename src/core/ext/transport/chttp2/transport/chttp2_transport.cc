@@ -1234,19 +1234,16 @@ void grpc_chttp2_complete_closure_step(grpc_chttp2_transport* t,
           closure->error, GRPC_ERROR_STR_TARGET_ADDRESS,
           grpc_slice_from_copied_string(t->peer_string.c_str()));
     }
-    closure->error =
-        grpc_error_add_child(closure->error, error);
+    closure->error = grpc_error_add_child(closure->error, error);
   }
   if (closure->next_data.scratch < CLOSURE_BARRIER_FIRST_REF_BIT) {
     if ((t->write_state == GRPC_CHTTP2_WRITE_STATE_IDLE) ||
         !(closure->next_data.scratch & CLOSURE_BARRIER_MAY_COVER_WRITE)) {
       // Using GRPC_CLOSURE_SCHED instead of GRPC_CLOSURE_RUN to avoid running
       // closures earlier than when it is safe to do so.
-      grpc_core::ExecCtx::Run(DEBUG_LOCATION, closure,
-                              closure->error);
+      grpc_core::ExecCtx::Run(DEBUG_LOCATION, closure, closure->error);
     } else {
-      grpc_closure_list_append(&t->run_after_write, closure,
-                               closure->error);
+      grpc_closure_list_append(&t->run_after_write, closure, closure->error);
     }
   }
 }
