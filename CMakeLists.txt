@@ -1745,7 +1745,6 @@ add_library(grpc
   src/core/ext/upb-generated/src/proto/grpc/gcp/altscontext.upb.c
   src/core/ext/upb-generated/src/proto/grpc/gcp/handshaker.upb.c
   src/core/ext/upb-generated/src/proto/grpc/gcp/transport_security_common.upb.c
-  src/core/ext/upb-generated/src/proto/grpc/health/v1/health.upb.c
   src/core/ext/upb-generated/src/proto/grpc/lb/v1/load_balancer.upb.c
   src/core/ext/upb-generated/udpa/annotations/migrate.upb.c
   src/core/ext/upb-generated/udpa/annotations/security.upb.c
@@ -2497,7 +2496,6 @@ add_library(grpc_unsecure
   src/core/ext/transport/chttp2/transport/writing.cc
   src/core/ext/transport/inproc/inproc_plugin.cc
   src/core/ext/transport/inproc/inproc_transport.cc
-  src/core/ext/upb-generated/src/proto/grpc/health/v1/health.upb.c
   src/core/ext/upb-generated/src/proto/grpc/lb/v1/load_balancer.upb.c
   src/core/ext/upb-generated/udpa/data/orca/v1/orca_load_report.upb.c
   src/core/ext/upb-generated/validate/validate.upb.c
