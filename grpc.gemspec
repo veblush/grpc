@@ -488,8 +488,6 @@ Gem::Specification.new do |s|
   s.files += %w( src/core/ext/upb-generated/src/proto/grpc/gcp/handshaker.upb.h )
   s.files += %w( src/core/ext/upb-generated/src/proto/grpc/gcp/transport_security_common.upb.c )
   s.files += %w( src/core/ext/upb-generated/src/proto/grpc/gcp/transport_security_common.upb.h )
-  s.files += %w( src/core/ext/upb-generated/src/proto/grpc/health/v1/health.upb.c )
-  s.files += %w( src/core/ext/upb-generated/src/proto/grpc/health/v1/health.upb.h )
   s.files += %w( src/core/ext/upb-generated/src/proto/grpc/lb/v1/load_balancer.upb.c )
   s.files += %w( src/core/ext/upb-generated/src/proto/grpc/lb/v1/load_balancer.upb.h )
   s.files += %w( src/core/ext/upb-generated/udpa/annotations/migrate.upb.c )
