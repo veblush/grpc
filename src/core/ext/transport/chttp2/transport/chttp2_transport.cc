@@ -1227,26 +1227,28 @@ void grpc_chttp2_complete_closure_step(grpc_chttp2_transport* t,
         write_state_name(t->write_state));
   }
   if (error != GRPC_ERROR_NONE) {
-    if (closure->error_data.error == GRPC_ERROR_NONE) {
-      closure->error_data.error = GRPC_ERROR_CREATE_FROM_STATIC_STRING(
+    if (*closure->error_data.error == GRPC_ERROR_NONE) {
+      *closure->error_data.error = GRPC_ERROR_CREATE_FROM_STATIC_STRING(
           "Error in HTTP transport completing operation");
-      closure->error_data.error =
-          grpc_error_set_str(closure->error_data.error,
+      *closure->error_data.error =
+          grpc_error_set_str(*closure->error_data.error,
                              GRPC_ERROR_STR_TARGET_ADDRESS, t->peer_string);
     }
-    closure->error_data.error =
-        grpc_error_add_child(closure->error_data.error, error);
+    *closure->error_data.error =
+        grpc_error_add_child(*closure->error_data.error, error);
   }
   if (closure->next_data.scratch < CLOSURE_BARRIER_FIRST_REF_BIT) {
     if ((t->write_state == GRPC_CHTTP2_WRITE_STATE_IDLE) ||
         !(closure->next_data.scratch & CLOSURE_BARRIER_MAY_COVER_WRITE)) {
       // Using GRPC_CLOSURE_SCHED instead of GRPC_CLOSURE_RUN to avoid running
       // closures earlier than when it is safe to do so.
-      grpc_core::ExecCtx::Run(DEBUG_LOCATION, closure,
-                              closure->error_data.error);
+      grpc_error_handle run_error = *closure->error_data.error;
+      *closure->error_data.error = GRPC_ERROR_NONE;
+      grpc_core::ExecCtx::Run(DEBUG_LOCATION, closure, run_error);
+
     } else {
       grpc_closure_list_append(&t->run_after_write, closure,
-                               closure->error_data.error);
+                               *closure->error_data.error);
     }
   }
 }
@@ -1394,7 +1396,7 @@ static void perform_stream_op_locked(void* stream_op,
     // This batch has send ops. Use final_data as a barrier until enqueue time;
     // the initial counter is dropped at the end of this function.
     on_complete->next_data.scratch = CLOSURE_BARRIER_FIRST_REF_BIT;
-    on_complete->error_data.error = GRPC_ERROR_NONE;
+    *on_complete->error_data.error = GRPC_ERROR_NONE;
   }
 
   if (op->cancel_stream) {
