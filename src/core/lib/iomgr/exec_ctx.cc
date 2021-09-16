@@ -159,7 +159,8 @@ bool ExecCtx::Flush() {
       closure_list_.head = closure_list_.tail = nullptr;
       while (c != nullptr) {
         grpc_closure* next = c->next_data.next;
-        grpc_error_handle error = c->error_data.error;
+        grpc_error_handle error = *c->error_data.error;
+        *c->error_data.error = GRPC_ERROR_NONE;
         did_something = true;
         exec_ctx_run(c, error);
         c = next;
@@ -226,7 +227,10 @@ void ExecCtx::RunList(const DebugLocation& location, grpc_closure_list* list) {
     c->run = false;
     GPR_ASSERT(c->cb != nullptr);
 #endif
-    exec_ctx_sched(c, c->error_data.error);
+    grpc_error_handle error = *c->error_data.error;
+    *c->error_data.error = GRPC_ERROR_NONE;
+    exec_ctx_sched(c, error);
+
     c = next;
   }
   list->head = list->tail = nullptr;
