@@ -27,7 +27,7 @@
 #include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/profiling/timers.h"
 
-static void exec_ctx_run(grpc_closure* closure, grpc_error_handle error) {
+static void exec_ctx_run(grpc_closure* closure) {
 #ifndef NDEBUG
   closure->scheduled = false;
   if (grpc_trace_closure.enabled()) {
@@ -37,7 +37,10 @@ static void exec_ctx_run(grpc_closure* closure, grpc_error_handle error) {
             closure->line_initiated);
   }
 #endif
-  closure->cb(closure->cb_arg, error);
+  grpc_error_handle error = std::move(*closure->error_data.error);
+  closure->error_data.error.Destroy();
+  closure->error_data.error.Init();
+  closure->cb(closure->cb_arg, std::move(error));
 #ifndef NDEBUG
   if (grpc_trace_closure.enabled()) {
     gpr_log(GPR_DEBUG, "closure %p finished", closure);
@@ -46,9 +49,8 @@ static void exec_ctx_run(grpc_closure* closure, grpc_error_handle error) {
   GRPC_ERROR_UNREF(error);
 }
 
-static void exec_ctx_sched(grpc_closure* closure, grpc_error_handle error) {
-  grpc_closure_list_append(grpc_core::ExecCtx::Get()->closure_list(), closure,
-                           error);
+static void exec_ctx_sched(grpc_closure* closure) {
+  grpc_closure_list_append(grpc_core::ExecCtx::Get()->closure_list(), closure);
 }
 
 static gpr_timespec g_start_time;
@@ -151,9 +153,8 @@ bool ExecCtx::Flush() {
       closure_list_.head = closure_list_.tail = nullptr;
       while (c != nullptr) {
         grpc_closure* next = c->next_data.next;
-        grpc_error_handle error = c->error_data.error;
         did_something = true;
-        exec_ctx_run(c, error);
+        exec_ctx_run(c);
         c = next;
       }
     } else if (!grpc_combiner_continue_exec_ctx()) {
@@ -195,7 +196,8 @@ void ExecCtx::Run(const DebugLocation& location, grpc_closure* closure,
   closure->run = false;
   GPR_ASSERT(closure->cb != nullptr);
 #endif
-  exec_ctx_sched(closure, error);
+  *closure->error_data.error = std::move(error);
+  exec_ctx_sched(closure);
 }
 
 void ExecCtx::RunList(const DebugLocation& location, grpc_closure_list* list) {
@@ -218,7 +220,7 @@ void ExecCtx::RunList(const DebugLocation& location, grpc_closure_list* list) {
     c->run = false;
     GPR_ASSERT(c->cb != nullptr);
 #endif
-    exec_ctx_sched(c, c->error_data.error);
+    exec_ctx_sched(c);
     c = next;
   }
   list->head = list->tail = nullptr;
