@@ -861,6 +861,7 @@ grpc_error_handle Chttp2ServerAddPort(Server* server, const char* addr,
   std::vector<grpc_error_handle> error_list;
   // Using lambda to avoid use of goto.
   grpc_error_handle error = [&]() {
+    grpc_error_handle error = GRPC_ERROR_NONE;
     if (absl::StartsWith(addr, kUnixUriPrefix)) {
       error = grpc_resolve_unix_domain_address(
           addr + sizeof(kUnixUriPrefix) - 1, &resolved);
