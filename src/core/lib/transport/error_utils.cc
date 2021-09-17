@@ -36,7 +36,7 @@ static grpc_error_handle recursively_find_error_with_field(
   }
 #ifdef GRPC_ERROR_IS_ABSEIL_STATUS
   std::vector<absl::Status> children = grpc_core::StatusGetChildren(error);
-  for (auto child : children) {
+  for (const auto& child : children) {
     grpc_error_handle result = recursively_find_error_with_field(child, which);
     if (result != GRPC_ERROR_NONE) return result;
   }
@@ -164,7 +164,7 @@ bool grpc_error_has_clear_grpc_status(grpc_error_handle error) {
   }
 #ifdef GRPC_ERROR_IS_ABSEIL_STATUS
   std::vector<absl::Status> children = grpc_core::StatusGetChildren(error);
-  for (auto child : children) {
+  for (const auto& child : children) {
     if (grpc_error_has_clear_grpc_status(child)) {
       return true;
     }
