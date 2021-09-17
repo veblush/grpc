@@ -194,7 +194,7 @@ static absl::Status grpc_status_create_from_vector(
     VectorType* error_list) {
   absl::Status error = GRPC_ERROR_NONE;
   if (error_list->size() != 0) {
-    error = grpc_status_create(absl::StatusCode::kUnknown, desc, DEBUG_LOCATION,
+    error = grpc_status_create(absl::StatusCode::kUnknown, desc, location,
                                error_list->size(), error_list->data());
     error_list->clear();
   }
