@@ -65,7 +65,7 @@ absl::Status grpc_status_create(absl::StatusCode code, absl::string_view msg,
   return s;
 }
 
-std::string grpc_error_std_string(const absl::Status& error) {
+std::string grpc_error_std_string(absl::Status error) {
   return grpc_core::StatusToString(error);
 }
 

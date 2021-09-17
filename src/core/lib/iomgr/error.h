@@ -190,7 +190,7 @@ absl::Status grpc_status_create(absl::StatusCode code, absl::string_view msg,
 // them. If the vector is empty, return GRPC_ERROR_NONE.
 template <typename VectorType>
 static absl::Status grpc_status_create_from_vector(
-    const grpc_core::DebugLocation& location, const char* desc,
+    const grpc_core::DebugLocation& location, absl::string_view desc,
     VectorType* error_list) {
   absl::Status error = GRPC_ERROR_NONE;
   if (error_list->size() != 0) {
