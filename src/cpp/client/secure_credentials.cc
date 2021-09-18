@@ -217,7 +217,7 @@ grpc::Status StsCredentialsOptionsFromEnv(StsCredentialsOptions* options) {
   char* sts_creds_path = gpr_getenv("STS_CREDENTIALS");
   grpc_error_handle error = GRPC_ERROR_NONE;
   grpc::Status status;
-  auto cleanup = [&json_string, &sts_creds_path, &error, &status]() {
+  auto cleanup = [&json_string, &sts_creds_path, &status]() {
     grpc_slice_unref_internal(json_string);
     gpr_free(sts_creds_path);
     GRPC_ERROR_UNREF(error);
