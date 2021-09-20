@@ -358,6 +358,9 @@ static void unref_by(grpc_fd* fd, int n) {
     grpc_iomgr_unregister_object(&fd->iomgr_object);
     fork_fd_list_remove_node(fd->fork_fd_list);
     if (fd->shutdown) GRPC_ERROR_UNREF(fd->shutdown_error);
+#ifdef GRPC_ERROR_IS_ABSEIL_STATUS
+    fd->shutdown_error.~Status();
+#endif
     gpr_free(fd);
   } else {
     GPR_ASSERT(old > n);
@@ -372,6 +375,9 @@ static grpc_fd* fd_create(int fd, const char* name, bool track_err) {
   gpr_mu_init(&r->mu);
   gpr_atm_rel_store(&r->refst, 1);
   r->shutdown = 0;
+#ifdef GRPC_ERROR_IS_ABSEIL_STATUS
+  new (&r->shutdown_error) absl::Status();
+#endif
   r->read_closure = CLOSURE_NOT_READY;
   r->write_closure = CLOSURE_NOT_READY;
   r->fd = fd;
