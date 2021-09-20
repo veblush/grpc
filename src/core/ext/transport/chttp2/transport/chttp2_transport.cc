@@ -2509,7 +2509,6 @@ static void read_action(void* tp, grpc_error_handle error) {
 
 static void read_action_locked(void* tp, grpc_error_handle error) {
   GPR_TIMER_SCOPE("reading_action_locked", 0);
-
   grpc_chttp2_transport* t = static_cast<grpc_chttp2_transport*>(tp);
 
   GRPC_ERROR_REF(error);
