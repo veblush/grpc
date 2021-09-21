@@ -30,7 +30,9 @@ static void test_set_get_int() {
   grpc_error_handle error = GRPC_ERROR_CREATE_FROM_STATIC_STRING("Test");
   GPR_ASSERT(error != GRPC_ERROR_NONE);
   intptr_t i = 0;
+#ifndef NDEBUG
   GPR_ASSERT(grpc_error_get_int(error, GRPC_ERROR_INT_FILE_LINE, &i));
+#endif
   GPR_ASSERT(i);  // line set will never be 0
   GPR_ASSERT(!grpc_error_get_int(error, GRPC_ERROR_INT_ERRNO, &i));
   GPR_ASSERT(!grpc_error_get_int(error, GRPC_ERROR_INT_SIZE, &i));
