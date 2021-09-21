@@ -90,6 +90,7 @@ absl::Status grpc_wsa_error(const grpc_core::DebugLocation& location, int err,
   StatusSetInt(&s, grpc_core::StatusIntProperty::kWsaError, err);
   StatusSetStr(&s, grpc_core::StatusStrProperty::kOsError, utf8_message);
   StatusSetStr(&s, grpc_core::StatusStrProperty::kSyscall, call_name);
+  return s;
 }
 #endif
 
@@ -158,8 +159,14 @@ bool grpc_error_get_str(grpc_error_handle error, grpc_error_strs which,
 
 grpc_error_handle grpc_error_add_child(grpc_error_handle src,
                                        grpc_error_handle child) {
-  grpc_core::StatusAddChild(&src, child);
-  return src;
+  if (src.ok()) {
+    return child;
+  } else {
+    if (!child.ok()) {
+      grpc_core::StatusAddChild(&src, child);
+    }
+    return src;
+  }
 }
 
 bool grpc_log_error(const char* what, grpc_error_handle error, const char* file,
