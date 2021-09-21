@@ -90,6 +90,7 @@ absl::Status grpc_wsa_error(const grpc_core::DebugLocation& location, int err,
   StatusSetInt(&s, grpc_core::StatusIntProperty::kWsaError, err);
   StatusSetStr(&s, grpc_core::StatusStrProperty::kOsError, utf8_message);
   StatusSetStr(&s, grpc_core::StatusStrProperty::kSyscall, call_name);
+  return s;
 }
 #endif
 
@@ -131,35 +132,61 @@ bool grpc_error_get_int(grpc_error_handle error, grpc_error_ints which,
 grpc_error_handle grpc_error_set_str(grpc_error_handle src,
                                      grpc_error_strs which,
                                      const grpc_slice& str) {
-  grpc_core::StatusSetStr(
-      &src, static_cast<grpc_core::StatusStrProperty>(which),
-      std::string(reinterpret_cast<const char*>(GRPC_SLICE_START_PTR(str)),
-                  GRPC_SLICE_LENGTH(str)));
+  if (which == GRPC_ERROR_STR_DESCRIPTION) {
+    // To change the message of absl::Status, a new instance should be created
+    // with a code and payload because it doesn' have a setter for it.
+    absl::Status s = absl::Status(
+        src.code(),
+        std::string(reinterpret_cast<const char*>(GRPC_SLICE_START_PTR(str)),
+                    GRPC_SLICE_LENGTH(str)));
+    src.ForEachPayload(
+        [&](absl::string_view type_url, const absl::Cord& payload) {
+          s.SetPayload(type_url, payload);
+        });
+    return s;
+  } else {
+    grpc_core::StatusSetStr(
+        &src, static_cast<grpc_core::StatusStrProperty>(which),
+        std::string(reinterpret_cast<const char*>(GRPC_SLICE_START_PTR(str)),
+                    GRPC_SLICE_LENGTH(str)));
+  }
   return src;
 }
 
 bool grpc_error_get_str(grpc_error_handle error, grpc_error_strs which,
                         grpc_slice* s) {
-  absl::optional<std::string> value = grpc_core::StatusGetStr(
-      error, static_cast<grpc_core::StatusStrProperty>(which));
-  if (value.has_value()) {
-    *s = grpc_slice_from_copied_buffer(value->c_str(), value->size());
-    return true;
-  } else {
-    // TODO(veblush): Remove this once absl::Status migration is done
-    if (which == GRPC_ERROR_STR_DESCRIPTION && !error.message().empty()) {
-      *s = grpc_slice_from_copied_buffer(error.message().data(),
-                                         error.message().size());
+  if (which == GRPC_ERROR_STR_DESCRIPTION) {
+    // absl::Status uses the message field for GRPC_ERROR_STR_DESCRIPTION
+    // instead of using payload.
+    absl::string_view msg = error.message();
+    if (msg.empty()) {
+      return false;
+    } else {
+      *s = grpc_slice_from_copied_buffer(msg.data(), msg.size());
       return true;
     }
-    return false;
+  } else {
+    absl::optional<std::string> value = grpc_core::StatusGetStr(
+        error, static_cast<grpc_core::StatusStrProperty>(which));
+    if (value.has_value()) {
+      *s = grpc_slice_from_copied_buffer(value->c_str(), value->size());
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
 grpc_error_handle grpc_error_add_child(grpc_error_handle src,
                                        grpc_error_handle child) {
-  grpc_core::StatusAddChild(&src, child);
-  return src;
+  if (src.ok()) {
+    return child;
+  } else {
+    if (!child.ok()) {
+      grpc_core::StatusAddChild(&src, child);
+    }
+    return src;
+  }
 }
 
 bool grpc_log_error(const char* what, grpc_error_handle error, const char* file,
