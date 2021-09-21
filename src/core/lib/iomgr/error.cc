@@ -90,6 +90,7 @@ absl::Status grpc_wsa_error(const grpc_core::DebugLocation& location, int err,
   StatusSetInt(&s, grpc_core::StatusIntProperty::kWsaError, err);
   StatusSetStr(&s, grpc_core::StatusStrProperty::kOsError, utf8_message);
   StatusSetStr(&s, grpc_core::StatusStrProperty::kSyscall, call_name);
+  return s;
 }
 #endif
 

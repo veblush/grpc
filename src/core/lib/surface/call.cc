@@ -1066,6 +1066,11 @@ static void recv_trailing_filter(void* args, grpc_metadata_batch* b,
       gpr_free(peer);
     }
     if (b->legacy_index()->named.grpc_message != nullptr) {
+      if (error == GRPC_ERROR_NONE) {
+        error = absl::UnknownError("");
+        error = grpc_error_set_int(error, GRPC_ERROR_INT_GRPC_STATUS,
+                                   static_cast<intptr_t>(status_code));
+      }
       error = grpc_error_set_str(
           error, GRPC_ERROR_STR_GRPC_MESSAGE,
           grpc_slice_ref_internal(
