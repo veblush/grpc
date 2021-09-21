@@ -357,7 +357,9 @@ static void unref_by(grpc_fd* fd, int n) {
     gpr_mu_destroy(&fd->mu);
     grpc_iomgr_unregister_object(&fd->iomgr_object);
     fork_fd_list_remove_node(fd->fork_fd_list);
-    if (fd->shutdown) GRPC_ERROR_UNREF(fd->shutdown_error);
+    if (fd->shutdown) {
+      GRPC_ERROR_UNREF(fd->shutdown_error);
+    }
 #ifdef GRPC_ERROR_IS_ABSEIL_STATUS
     fd->shutdown_error.~Status();
 #endif
