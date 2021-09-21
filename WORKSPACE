@@ -19,7 +19,6 @@ register_toolchains(
 )
 
 load("@bazel_toolchains//rules/exec_properties:exec_properties.bzl", "create_rbe_exec_properties_dict", "custom_exec_properties")
-
 load("@bazel_skylib//lib:dicts.bzl", "dicts")
 
 custom_exec_properties(
