@@ -111,7 +111,7 @@ static grpc_error_handle CFStreamAnnotateError(grpc_error_handle src_error,
       grpc_error_set_int(src_error, GRPC_ERROR_INT_GRPC_STATUS,
                          GRPC_STATUS_UNAVAILABLE),
       GRPC_ERROR_STR_TARGET_ADDRESS,
-      grpc_slice_from_copied_string(ep->peer_string.c_str()));
+      ep->peer_string);
 }
 
 static void CallReadCb(CFStreamEndpoint* ep, grpc_error_handle error) {
