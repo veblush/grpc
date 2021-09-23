@@ -1336,6 +1336,7 @@ grpc_cc_library(
         "grpc_codegen",
         "grpc_trace",
         "slice",
+        "slice_refcount",
         "useful",
     ],
 )
