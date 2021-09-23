@@ -222,7 +222,6 @@ void ExecCtx::RunList(const DebugLocation& location, grpc_closure_list* list) {
     grpc_error_handle error = *c->error_data.error;
     *c->error_data.error = GRPC_ERROR_NONE;
     exec_ctx_sched(c, error);
-
     c = next;
   }
   list->head = list->tail = nullptr;

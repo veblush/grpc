@@ -1245,7 +1245,6 @@ void grpc_chttp2_complete_closure_step(grpc_chttp2_transport* t,
       grpc_error_handle run_error = *closure->error_data.error;
       *closure->error_data.error = GRPC_ERROR_NONE;
       grpc_core::ExecCtx::Run(DEBUG_LOCATION, closure, run_error);
-
     } else {
       grpc_closure_list_append(&t->run_after_write, closure,
                                *closure->error_data.error);
