@@ -114,7 +114,7 @@ size_t Executor::RunClosures(const char* executor_name,
   grpc_closure* c = list.head;
   while (c != nullptr) {
     grpc_closure* next = c->next_data.next;
-    grpc_error_handle error = std::move(*c->error_data.error);
+    grpc_error_handle error = *c->error_data.error;
     c->error_data.error.Destroy();
 #ifndef NDEBUG
     EXECUTOR_TRACE("(%s) run %p [created by %s:%d]", executor_name, c,
@@ -123,7 +123,7 @@ size_t Executor::RunClosures(const char* executor_name,
 #else
     EXECUTOR_TRACE("(%s) run %p", executor_name, c);
 #endif
-    c->cb(c->cb_arg, std::move(error));
+    c->cb(c->cb_arg, error);
     GRPC_ERROR_UNREF(error);
     c = next;
     n++;
