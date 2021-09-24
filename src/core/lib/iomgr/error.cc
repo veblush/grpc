@@ -184,6 +184,8 @@ bool grpc_error_get_str(grpc_error_handle error, grpc_error_strs which,
           case absl::StatusCode::kCancelled:
             msg = "CANCELLED";
             break;
+          default:
+            break;
         }
         if (msg != nullptr) {
           s->refcount = &grpc_core::kNoopRefcount;

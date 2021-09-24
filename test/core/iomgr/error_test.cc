@@ -32,8 +32,8 @@ static void test_set_get_int() {
   intptr_t i = 0;
 #ifndef NDEBUG
   GPR_ASSERT(grpc_error_get_int(error, GRPC_ERROR_INT_FILE_LINE, &i));
-#endif
   GPR_ASSERT(i);  // line set will never be 0
+#endif
   GPR_ASSERT(!grpc_error_get_int(error, GRPC_ERROR_INT_ERRNO, &i));
   GPR_ASSERT(!grpc_error_get_int(error, GRPC_ERROR_INT_SIZE, &i));
 
@@ -56,13 +56,13 @@ static void test_set_get_str() {
   grpc_slice str;
   GPR_ASSERT(!grpc_error_get_str(error, GRPC_ERROR_STR_SYSCALL, &str));
   GPR_ASSERT(!grpc_error_get_str(error, GRPC_ERROR_STR_TSI_ERROR, &str));
-
+#ifndef NDEBUG
   GPR_ASSERT(grpc_error_get_str(error, GRPC_ERROR_STR_FILE, &str));
   GPR_ASSERT(strstr((char*)GRPC_SLICE_START_PTR(str),
                     "error_test.c"));  // __FILE__ expands differently on
                                        // Windows. All should at least
                                        // contain error_test.c
-
+#endif
   GPR_ASSERT(grpc_error_get_str(error, GRPC_ERROR_STR_DESCRIPTION, &str));
   GPR_ASSERT(!strncmp((char*)GRPC_SLICE_START_PTR(str), "Test",
                       GRPC_SLICE_LENGTH(str)));
