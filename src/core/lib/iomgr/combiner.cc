@@ -221,12 +221,12 @@ bool grpc_combiner_continue_exec_ctx() {
       return true;
     }
     grpc_closure* cl = reinterpret_cast<grpc_closure*>(n);
-    grpc_error_handle cl_err = *cl->error_data.error;
-    *cl->error_data.error = GRPC_ERROR_NONE;
+    grpc_error_handle cl_err = std::move(*cl->error_data.error);
+    cl->error_data.error.Destroy();
 #ifndef NDEBUG
     cl->scheduled = false;
 #endif
-    cl->cb(cl->cb_arg, cl_err);
+    cl->cb(cl->cb_arg, std::move(cl_err));
     GRPC_ERROR_UNREF(cl_err);
   } else {
     grpc_closure* c = lock->final_list.head;
@@ -237,12 +237,12 @@ bool grpc_combiner_continue_exec_ctx() {
       GRPC_COMBINER_TRACE(
           gpr_log(GPR_INFO, "C:%p execute_final[%d] c=%p", lock, loops, c));
       grpc_closure* next = c->next_data.next;
-      grpc_error_handle error = *c->error_data.error;
-      *c->error_data.error = GRPC_ERROR_NONE;
+      grpc_error_handle error = std::move(*c->error_data.error);
+      c->error_data.error.Destroy();
 #ifndef NDEBUG
       c->scheduled = false;
 #endif
-      c->cb(c->cb_arg, error);
+      c->cb(c->cb_arg, std::move(error));
       GRPC_ERROR_UNREF(error);
       c = next;
     }

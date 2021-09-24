@@ -172,6 +172,24 @@ inline void grpc_closure_list_init(grpc_closure_list* closure_list) {
 }
 
 /** add \a closure to the end of \a list
+    Returns true if \a list becomes non-empty */
+inline bool grpc_closure_list_append(grpc_closure_list* closure_list,
+                                     grpc_closure* closure) {
+  if (closure == nullptr) {
+    return false;
+  }
+  closure->next_data.next = nullptr;
+  bool was_empty = (closure_list->head == nullptr);
+  if (was_empty) {
+    closure_list->head = closure;
+  } else {
+    closure_list->tail->next_data.next = closure;
+  }
+  closure_list->tail = closure;
+  return was_empty;
+}
+
+/** add \a closure to the end of \a list
     and set \a closure's result to \a error
     Returns true if \a list becomes non-empty */
 inline bool grpc_closure_list_append(grpc_closure_list* closure_list,
@@ -182,15 +200,7 @@ inline bool grpc_closure_list_append(grpc_closure_list* closure_list,
     return false;
   }
   *closure->error_data.error = error;
-  closure->next_data.next = nullptr;
-  bool was_empty = (closure_list->head == nullptr);
-  if (was_empty) {
-    closure_list->head = closure;
-  } else {
-    closure_list->tail->next_data.next = closure;
-  }
-  closure_list->tail = closure;
-  return was_empty;
+  return grpc_closure_list_append(closure_list, closure);
 }
 
 /** force all success bits in \a list to false */
