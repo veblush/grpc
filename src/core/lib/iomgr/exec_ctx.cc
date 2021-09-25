@@ -39,6 +39,7 @@ static void exec_ctx_run(grpc_closure* closure) {
 #endif
   grpc_error_handle error = std::move(*closure->error_data.error);
   closure->error_data.error.Destroy();
+  closure->error_data.error.Init();
   closure->cb(closure->cb_arg, std::move(error));
 #ifndef NDEBUG
   if (grpc_trace_closure.enabled()) {
