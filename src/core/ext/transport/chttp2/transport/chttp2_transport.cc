@@ -2113,11 +2113,10 @@ void grpc_chttp2_fake_status(grpc_chttp2_transport* t, grpc_chttp2_stream* s,
                           grpc_core::UnmanagedMemorySlice(status_string)));
     if (!message.empty()) {
       grpc_slice message_slice = grpc_slice_from_cpp_string(std::move(message));
-      GRPC_LOG_IF_ERROR(
-          "add_status_message",
-          grpc_chttp2_incoming_metadata_buffer_replace_or_add(
-              &s->trailing_metadata_buffer, GRPC_MDSTR_GRPC_MESSAGE,
-              message_slice));
+      GRPC_LOG_IF_ERROR("add_status_message",
+                        grpc_chttp2_incoming_metadata_buffer_replace_or_add(
+                            &s->trailing_metadata_buffer,
+                            GRPC_MDSTR_GRPC_MESSAGE, message_slice));
     }
     s->published_metadata[1] = GRPC_METADATA_SYNTHESIZED_FROM_FAKE;
     grpc_chttp2_maybe_complete_recv_trailing_metadata(t, s);
