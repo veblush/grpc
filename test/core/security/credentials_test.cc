@@ -1494,7 +1494,7 @@ TEST(CredentialsTest, google_default_creds_auth_key) {
   g_test_gce_tenancy_checker_called = false;
   g_test_is_on_gce = true;
   set_google_default_creds_env_var_with_file_contents(
-      "json_key_google_default_creds", json_key);
+      "json_key", json_key);
   gpr_free(json_key);
   creds = reinterpret_cast<grpc_composite_channel_credentials*>(
       grpc_google_default_credentials_create(nullptr));
@@ -1517,7 +1517,7 @@ TEST(CredentialsTest, google_default_creds_refresh_token) {
   grpc_composite_channel_credentials* creds;
   grpc_flush_cached_google_default_credentials();
   set_google_default_creds_env_var_with_file_contents(
-      "refresh_token_google_default_creds", test_refresh_token_str);
+      "test_refresh_token_str", test_refresh_token_str);
   creds = reinterpret_cast<grpc_composite_channel_credentials*>(
       grpc_google_default_credentials_create(nullptr));
   auto* default_creds =
@@ -1538,7 +1538,7 @@ TEST(CredentialsTest, google_default_creds_external_account_credentials) {
   grpc_composite_channel_credentials* creds;
   grpc_flush_cached_google_default_credentials();
   set_google_default_creds_env_var_with_file_contents(
-      "google_default_creds_external_account_credentials",
+      "test_external_account_credentials_str",
       test_external_account_credentials_str);
   creds = reinterpret_cast<grpc_composite_channel_credentials*>(
       grpc_google_default_credentials_create(nullptr));
@@ -1560,7 +1560,7 @@ TEST(CredentialsTest,
   grpc_composite_channel_credentials* creds;
   grpc_flush_cached_google_default_credentials();
   set_google_default_creds_env_var_with_file_contents(
-      "google_default_creds_external_account_credentials",
+      "test_external_account_credentials_multi_pattern_sts_str",
       test_external_account_credentials_multi_pattern_sts_str);
   creds = reinterpret_cast<grpc_composite_channel_credentials*>(
       grpc_google_default_credentials_create(nullptr));
@@ -1582,7 +1582,7 @@ TEST(CredentialsTest,
   grpc_composite_channel_credentials* creds;
   grpc_flush_cached_google_default_credentials();
   set_google_default_creds_env_var_with_file_contents(
-      "google_default_creds_external_account_credentials",
+      "test_external_account_credentials_multi_pattern_iam_str",
       test_external_account_credentials_multi_pattern_iam_str);
   creds = reinterpret_cast<grpc_composite_channel_credentials*>(
       grpc_google_default_credentials_create(nullptr));
