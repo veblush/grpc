@@ -1493,8 +1493,7 @@ TEST(CredentialsTest, google_default_creds_auth_key) {
   set_gce_tenancy_checker_for_testing(test_gce_tenancy_checker);
   g_test_gce_tenancy_checker_called = false;
   g_test_is_on_gce = true;
-  set_google_default_creds_env_var_with_file_contents(
-      "json_key", json_key);
+  set_google_default_creds_env_var_with_file_contents("json_key", json_key);
   gpr_free(json_key);
   creds = reinterpret_cast<grpc_composite_channel_credentials*>(
       grpc_google_default_credentials_create(nullptr));
@@ -1516,8 +1515,8 @@ TEST(CredentialsTest, google_default_creds_refresh_token) {
   grpc_core::ExecCtx exec_ctx;
   grpc_composite_channel_credentials* creds;
   grpc_flush_cached_google_default_credentials();
-  set_google_default_creds_env_var_with_file_contents(
-      "test_refresh_token_str", test_refresh_token_str);
+  set_google_default_creds_env_var_with_file_contents("test_refresh_token_str",
+                                                      test_refresh_token_str);
   creds = reinterpret_cast<grpc_composite_channel_credentials*>(
       grpc_google_default_credentials_create(nullptr));
   auto* default_creds =
