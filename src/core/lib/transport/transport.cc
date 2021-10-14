@@ -245,6 +245,7 @@ static void destroy_made_transport_stream_op(void* arg,
                                              grpc_error_handle error) {
   made_transport_stream_op* op = static_cast<made_transport_stream_op*>(arg);
   grpc_closure* c = op->inner_on_complete;
+  op->~made_transport_stream_op();
   gpr_free(op);
   grpc_core::Closure::Run(DEBUG_LOCATION, c, GRPC_ERROR_REF(error));
 }
