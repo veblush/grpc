@@ -37,10 +37,10 @@ static void exec_ctx_run(grpc_closure* closure) {
             closure->line_initiated);
   }
 #endif
-  grpc_error_handle error = std::move(*closure->error_data.error);
+  grpc_error_handle error = *closure->error_data.error;
   closure->error_data.error.Destroy();
   closure->error_data.error.Init();
-  closure->cb(closure->cb_arg, std::move(error));
+  closure->cb(closure->cb_arg, error);
 #ifndef NDEBUG
   if (grpc_trace_closure.enabled()) {
     gpr_log(GPR_DEBUG, "closure %p finished", closure);
@@ -196,7 +196,7 @@ void ExecCtx::Run(const DebugLocation& location, grpc_closure* closure,
   closure->run = false;
   GPR_ASSERT(closure->cb != nullptr);
 #endif
-  *closure->error_data.error = std::move(error);
+  *closure->error_data.error = error;
   exec_ctx_sched(closure);
 }
 
