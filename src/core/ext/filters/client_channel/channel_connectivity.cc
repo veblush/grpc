@@ -161,7 +161,7 @@ class StateWatcher {
       }
       switch (phase_) {
         case kWaiting:
-          GRPC_ERROR_REF(error);
+          (void)GRPC_ERROR_REF(error);
           error_ = error;
           phase_ = kReadyToCallBack;
           break;
@@ -169,7 +169,7 @@ class StateWatcher {
           if (error != GRPC_ERROR_NONE) {
             GPR_ASSERT(!due_to_completion);
             GRPC_ERROR_UNREF(error_);
-            GRPC_ERROR_REF(error);
+            (void)GRPC_ERROR_REF(error);
             error_ = error;
           }
           phase_ = kCallingBackAndFinished;
