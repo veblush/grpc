@@ -115,10 +115,8 @@ def get_bazel_bin_root_path(elink):
 
 
 def copy_upb_generated_files(rules, args):
-    EXTERNAL_LINKS = [
-        ('@com_google_protobuf//', ':src/'),
-        ('@com_google_googleapis//', '')
-    ]
+    EXTERNAL_LINKS = [('@com_google_protobuf//', ':src/'),
+                      ('@com_google_googleapis//', '')]
     for rule in rules:
         files = []
         elink = ('//', '')
