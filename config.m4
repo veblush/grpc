@@ -225,8 +225,10 @@ if test "$PHP_GRPC" != "no"; then
     src/core/ext/upb-generated/envoy/type/v3/semantic_version.upb.c \
     src/core/ext/upb-generated/google/api/annotations.upb.c \
     src/core/ext/upb-generated/google/api/expr/v1alpha1/checked.upb.c \
+    src/core/ext/upb-generated/google/api/expr/v1alpha1/eval.upb.c \
+    src/core/ext/upb-generated/google/api/expr/v1alpha1/explain.upb.c \
     src/core/ext/upb-generated/google/api/expr/v1alpha1/syntax.upb.c \
-    src/core/ext/upb-generated/google/api/http.upb.c \
+    src/core/ext/upb-generated/google/api/expr/v1alpha1/value.upb.c \
     src/core/ext/upb-generated/google/protobuf/any.upb.c \
     src/core/ext/upb-generated/google/protobuf/descriptor.upb.c \
     src/core/ext/upb-generated/google/protobuf/duration.upb.c \
@@ -327,8 +329,6 @@ if test "$PHP_GRPC" != "no"; then
     src/core/ext/upbdefs-generated/envoy/type/v3/percent.upbdefs.c \
     src/core/ext/upbdefs-generated/envoy/type/v3/range.upbdefs.c \
     src/core/ext/upbdefs-generated/envoy/type/v3/semantic_version.upbdefs.c \
-    src/core/ext/upbdefs-generated/google/api/annotations.upbdefs.c \
-    src/core/ext/upbdefs-generated/google/api/http.upbdefs.c \
     src/core/ext/upbdefs-generated/google/protobuf/any.upbdefs.c \
     src/core/ext/upbdefs-generated/google/protobuf/descriptor.upbdefs.c \
     src/core/ext/upbdefs-generated/google/protobuf/duration.upbdefs.c \
@@ -1178,7 +1178,6 @@ if test "$PHP_GRPC" != "no"; then
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/envoy/type/metadata/v3)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/envoy/type/tracing/v3)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/envoy/type/v3)
-  PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/google/api)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/google/protobuf)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/google/rpc)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/udpa/annotations)

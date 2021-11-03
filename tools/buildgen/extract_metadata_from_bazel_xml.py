@@ -388,6 +388,7 @@ def _expand_upb_proto_library_rules(bazel_rules):
     GEN_UPBDEFS_ROOT = '//:src/core/ext/upbdefs-generated/'
     EXTERNAL_LINKS = [
         ('@com_google_protobuf//', ':src/'),
+        ('@com_google_googleapis//', '')
     ]
     for name, bazel_rule in bazel_rules.items():
         gen_func = bazel_rule.get('generator_function', None)

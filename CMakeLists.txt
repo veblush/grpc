@@ -1324,16 +1324,7 @@ target_link_libraries(end2end_tests
 endif()
 
 add_library(gpr
-  src/core/ext/upb-generated/google/api/annotations.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/checked.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/syntax.upb.c
-  src/core/ext/upb-generated/google/api/http.upb.c
   src/core/ext/upb-generated/google/protobuf/any.upb.c
-  src/core/ext/upb-generated/google/protobuf/duration.upb.c
-  src/core/ext/upb-generated/google/protobuf/empty.upb.c
-  src/core/ext/upb-generated/google/protobuf/struct.upb.c
-  src/core/ext/upb-generated/google/protobuf/timestamp.upb.c
-  src/core/ext/upb-generated/google/protobuf/wrappers.upb.c
   src/core/ext/upb-generated/google/rpc/status.upb.c
   src/core/lib/gpr/alloc.cc
   src/core/lib/gpr/atm.cc
@@ -1676,6 +1667,17 @@ add_library(grpc
   src/core/ext/upb-generated/envoy/type/v3/percent.upb.c
   src/core/ext/upb-generated/envoy/type/v3/range.upb.c
   src/core/ext/upb-generated/envoy/type/v3/semantic_version.upb.c
+  src/core/ext/upb-generated/google/api/annotations.upb.c
+  src/core/ext/upb-generated/google/api/expr/v1alpha1/checked.upb.c
+  src/core/ext/upb-generated/google/api/expr/v1alpha1/eval.upb.c
+  src/core/ext/upb-generated/google/api/expr/v1alpha1/explain.upb.c
+  src/core/ext/upb-generated/google/api/expr/v1alpha1/syntax.upb.c
+  src/core/ext/upb-generated/google/api/expr/v1alpha1/value.upb.c
+  src/core/ext/upb-generated/google/protobuf/duration.upb.c
+  src/core/ext/upb-generated/google/protobuf/empty.upb.c
+  src/core/ext/upb-generated/google/protobuf/struct.upb.c
+  src/core/ext/upb-generated/google/protobuf/timestamp.upb.c
+  src/core/ext/upb-generated/google/protobuf/wrappers.upb.c
   src/core/ext/upb-generated/src/proto/grpc/gcp/altscontext.upb.c
   src/core/ext/upb-generated/src/proto/grpc/gcp/handshaker.upb.c
   src/core/ext/upb-generated/src/proto/grpc/gcp/transport_security_common.upb.c
@@ -1768,8 +1770,6 @@ add_library(grpc
   src/core/ext/upbdefs-generated/envoy/type/v3/percent.upbdefs.c
   src/core/ext/upbdefs-generated/envoy/type/v3/range.upbdefs.c
   src/core/ext/upbdefs-generated/envoy/type/v3/semantic_version.upbdefs.c
-  src/core/ext/upbdefs-generated/google/api/annotations.upbdefs.c
-  src/core/ext/upbdefs-generated/google/api/http.upbdefs.c
   src/core/ext/upbdefs-generated/google/protobuf/any.upbdefs.c
   src/core/ext/upbdefs-generated/google/protobuf/duration.upbdefs.c
   src/core/ext/upbdefs-generated/google/protobuf/empty.upbdefs.c
@@ -2438,6 +2438,8 @@ add_library(grpc_unsecure
   src/core/ext/transport/chttp2/transport/writing.cc
   src/core/ext/transport/inproc/inproc_plugin.cc
   src/core/ext/transport/inproc/inproc_transport.cc
+  src/core/ext/upb-generated/google/protobuf/duration.upb.c
+  src/core/ext/upb-generated/google/protobuf/timestamp.upb.c
   src/core/ext/upb-generated/src/proto/grpc/health/v1/health.upb.c
   src/core/ext/upb-generated/src/proto/grpc/lb/v1/load_balancer.upb.c
   src/core/ext/upb-generated/validate/validate.upb.c
@@ -7580,16 +7582,7 @@ endif()
 if(gRPC_BUILD_TESTS)
 
 add_executable(activity_test
-  src/core/ext/upb-generated/google/api/annotations.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/checked.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/syntax.upb.c
-  src/core/ext/upb-generated/google/api/http.upb.c
   src/core/ext/upb-generated/google/protobuf/any.upb.c
-  src/core/ext/upb-generated/google/protobuf/duration.upb.c
-  src/core/ext/upb-generated/google/protobuf/empty.upb.c
-  src/core/ext/upb-generated/google/protobuf/struct.upb.c
-  src/core/ext/upb-generated/google/protobuf/timestamp.upb.c
-  src/core/ext/upb-generated/google/protobuf/wrappers.upb.c
   src/core/ext/upb-generated/google/rpc/status.upb.c
   src/core/lib/gpr/alloc.cc
   src/core/lib/gpr/atm.cc
@@ -9077,16 +9070,7 @@ endif()
 if(gRPC_BUILD_TESTS)
 
 add_executable(chunked_vector_test
-  src/core/ext/upb-generated/google/api/annotations.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/checked.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/syntax.upb.c
-  src/core/ext/upb-generated/google/api/http.upb.c
   src/core/ext/upb-generated/google/protobuf/any.upb.c
-  src/core/ext/upb-generated/google/protobuf/duration.upb.c
-  src/core/ext/upb-generated/google/protobuf/empty.upb.c
-  src/core/ext/upb-generated/google/protobuf/struct.upb.c
-  src/core/ext/upb-generated/google/protobuf/timestamp.upb.c
-  src/core/ext/upb-generated/google/protobuf/wrappers.upb.c
   src/core/ext/upb-generated/google/rpc/status.upb.c
   src/core/lib/gpr/alloc.cc
   src/core/lib/gpr/atm.cc
@@ -9748,16 +9732,7 @@ endif()
 if(gRPC_BUILD_TESTS)
 
 add_executable(core_configuration_test
-  src/core/ext/upb-generated/google/api/annotations.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/checked.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/syntax.upb.c
-  src/core/ext/upb-generated/google/api/http.upb.c
   src/core/ext/upb-generated/google/protobuf/any.upb.c
-  src/core/ext/upb-generated/google/protobuf/duration.upb.c
-  src/core/ext/upb-generated/google/protobuf/empty.upb.c
-  src/core/ext/upb-generated/google/protobuf/struct.upb.c
-  src/core/ext/upb-generated/google/protobuf/timestamp.upb.c
-  src/core/ext/upb-generated/google/protobuf/wrappers.upb.c
   src/core/ext/upb-generated/google/rpc/status.upb.c
   src/core/lib/channel/handshaker_registry.cc
   src/core/lib/config/core_configuration.cc
@@ -10781,16 +10756,7 @@ endif()
 if(gRPC_BUILD_TESTS)
 
 add_executable(for_each_test
-  src/core/ext/upb-generated/google/api/annotations.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/checked.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/syntax.upb.c
-  src/core/ext/upb-generated/google/api/http.upb.c
   src/core/ext/upb-generated/google/protobuf/any.upb.c
-  src/core/ext/upb-generated/google/protobuf/duration.upb.c
-  src/core/ext/upb-generated/google/protobuf/empty.upb.c
-  src/core/ext/upb-generated/google/protobuf/struct.upb.c
-  src/core/ext/upb-generated/google/protobuf/timestamp.upb.c
-  src/core/ext/upb-generated/google/protobuf/wrappers.upb.c
   src/core/ext/upb-generated/google/rpc/status.upb.c
   src/core/lib/gpr/alloc.cc
   src/core/lib/gpr/atm.cc
@@ -12498,16 +12464,7 @@ endif()
 if(gRPC_BUILD_TESTS)
 
 add_executable(latch_test
-  src/core/ext/upb-generated/google/api/annotations.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/checked.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/syntax.upb.c
-  src/core/ext/upb-generated/google/api/http.upb.c
   src/core/ext/upb-generated/google/protobuf/any.upb.c
-  src/core/ext/upb-generated/google/protobuf/duration.upb.c
-  src/core/ext/upb-generated/google/protobuf/empty.upb.c
-  src/core/ext/upb-generated/google/protobuf/struct.upb.c
-  src/core/ext/upb-generated/google/protobuf/timestamp.upb.c
-  src/core/ext/upb-generated/google/protobuf/wrappers.upb.c
   src/core/ext/upb-generated/google/rpc/status.upb.c
   src/core/lib/gpr/alloc.cc
   src/core/lib/gpr/atm.cc
@@ -13168,16 +13125,7 @@ endif()
 if(gRPC_BUILD_TESTS)
 
 add_executable(observable_test
-  src/core/ext/upb-generated/google/api/annotations.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/checked.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/syntax.upb.c
-  src/core/ext/upb-generated/google/api/http.upb.c
   src/core/ext/upb-generated/google/protobuf/any.upb.c
-  src/core/ext/upb-generated/google/protobuf/duration.upb.c
-  src/core/ext/upb-generated/google/protobuf/empty.upb.c
-  src/core/ext/upb-generated/google/protobuf/struct.upb.c
-  src/core/ext/upb-generated/google/protobuf/timestamp.upb.c
-  src/core/ext/upb-generated/google/protobuf/wrappers.upb.c
   src/core/ext/upb-generated/google/rpc/status.upb.c
   src/core/lib/gpr/alloc.cc
   src/core/lib/gpr/atm.cc
@@ -13449,16 +13397,7 @@ endif()
 if(gRPC_BUILD_TESTS)
 
 add_executable(pipe_test
-  src/core/ext/upb-generated/google/api/annotations.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/checked.upb.c
-  src/core/ext/upb-generated/google/api/expr/v1alpha1/syntax.upb.c
-  src/core/ext/upb-generated/google/api/http.upb.c
   src/core/ext/upb-generated/google/protobuf/any.upb.c
-  src/core/ext/upb-generated/google/protobuf/duration.upb.c
-  src/core/ext/upb-generated/google/protobuf/empty.upb.c
-  src/core/ext/upb-generated/google/protobuf/struct.upb.c
-  src/core/ext/upb-generated/google/protobuf/timestamp.upb.c
-  src/core/ext/upb-generated/google/protobuf/wrappers.upb.c
   src/core/ext/upb-generated/google/rpc/status.upb.c
   src/core/lib/gpr/alloc.cc
   src/core/lib/gpr/atm.cc
