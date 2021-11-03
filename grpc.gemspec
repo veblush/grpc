@@ -665,6 +665,8 @@ Gem::Specification.new do |s|
   s.files += %w( src/core/ext/upbdefs-generated/envoy/type/v3/range.upbdefs.h )
   s.files += %w( src/core/ext/upbdefs-generated/envoy/type/v3/semantic_version.upbdefs.c )
   s.files += %w( src/core/ext/upbdefs-generated/envoy/type/v3/semantic_version.upbdefs.h )
+  s.files += %w( src/core/ext/upbdefs-generated/google/api/annotations.upbdefs.c )
+  s.files += %w( src/core/ext/upbdefs-generated/google/api/annotations.upbdefs.h )
   s.files += %w( src/core/ext/upbdefs-generated/google/protobuf/any.upbdefs.c )
   s.files += %w( src/core/ext/upbdefs-generated/google/protobuf/any.upbdefs.h )
   s.files += %w( src/core/ext/upbdefs-generated/google/protobuf/descriptor.upbdefs.c )

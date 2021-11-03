@@ -645,6 +645,8 @@
     <file baseinstalldir="/" name="src/core/ext/upbdefs-generated/envoy/type/v3/range.upbdefs.h" role="src" />
     <file baseinstalldir="/" name="src/core/ext/upbdefs-generated/envoy/type/v3/semantic_version.upbdefs.c" role="src" />
     <file baseinstalldir="/" name="src/core/ext/upbdefs-generated/envoy/type/v3/semantic_version.upbdefs.h" role="src" />
+    <file baseinstalldir="/" name="src/core/ext/upbdefs-generated/google/api/annotations.upbdefs.c" role="src" />
+    <file baseinstalldir="/" name="src/core/ext/upbdefs-generated/google/api/annotations.upbdefs.h" role="src" />
     <file baseinstalldir="/" name="src/core/ext/upbdefs-generated/google/protobuf/any.upbdefs.c" role="src" />
     <file baseinstalldir="/" name="src/core/ext/upbdefs-generated/google/protobuf/any.upbdefs.h" role="src" />
     <file baseinstalldir="/" name="src/core/ext/upbdefs-generated/google/protobuf/descriptor.upbdefs.c" role="src" />

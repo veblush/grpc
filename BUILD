@@ -4442,6 +4442,7 @@ grpc_cc_library(
         "envoy_annotations_upbdefs",
         "envoy_core_upbdefs",
         "envoy_type_upbdefs",
+        "google_api_annotations_upbdefs",
         "google_rpc_status_upbdefs",
         "proto_gen_validate_upbdefs",
         "protobuf_any_upbdefs",
@@ -4990,6 +4991,11 @@ WELL_KNOWN_PROTO_TARGETS = [
 
 grpc_upb_proto_library(
     name = "google_api_annotations_upb",
+    deps = ["@com_google_googleapis//google/api:annotations_proto"],
+)
+
+grpc_upb_proto_reflection_library(
+    name = "google_api_annotations_upbdefs",
     deps = ["@com_google_googleapis//google/api:annotations_proto"],
 )
 

@@ -1322,6 +1322,7 @@ LIBGRPC_SRC = \
     src/core/ext/upbdefs-generated/envoy/type/v3/percent.upbdefs.c \
     src/core/ext/upbdefs-generated/envoy/type/v3/range.upbdefs.c \
     src/core/ext/upbdefs-generated/envoy/type/v3/semantic_version.upbdefs.c \
+    src/core/ext/upbdefs-generated/google/api/annotations.upbdefs.c \
     src/core/ext/upbdefs-generated/google/protobuf/any.upbdefs.c \
     src/core/ext/upbdefs-generated/google/protobuf/duration.upbdefs.c \
     src/core/ext/upbdefs-generated/google/protobuf/empty.upbdefs.c \
@@ -2885,6 +2886,7 @@ src/core/ext/upbdefs-generated/envoy/type/v3/http.upbdefs.c: $(OPENSSL_DEP)
 src/core/ext/upbdefs-generated/envoy/type/v3/percent.upbdefs.c: $(OPENSSL_DEP)
 src/core/ext/upbdefs-generated/envoy/type/v3/range.upbdefs.c: $(OPENSSL_DEP)
 src/core/ext/upbdefs-generated/envoy/type/v3/semantic_version.upbdefs.c: $(OPENSSL_DEP)
+src/core/ext/upbdefs-generated/google/api/annotations.upbdefs.c: $(OPENSSL_DEP)
 src/core/ext/upbdefs-generated/google/protobuf/any.upbdefs.c: $(OPENSSL_DEP)
 src/core/ext/upbdefs-generated/google/protobuf/duration.upbdefs.c: $(OPENSSL_DEP)
 src/core/ext/upbdefs-generated/google/protobuf/empty.upbdefs.c: $(OPENSSL_DEP)

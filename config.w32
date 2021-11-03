@@ -295,6 +295,7 @@ if (PHP_GRPC != "no") {
     "src\\core\\ext\\upbdefs-generated\\envoy\\type\\v3\\percent.upbdefs.c " +
     "src\\core\\ext\\upbdefs-generated\\envoy\\type\\v3\\range.upbdefs.c " +
     "src\\core\\ext\\upbdefs-generated\\envoy\\type\\v3\\semantic_version.upbdefs.c " +
+    "src\\core\\ext\\upbdefs-generated\\google\\api\\annotations.upbdefs.c " +
     "src\\core\\ext\\upbdefs-generated\\google\\protobuf\\any.upbdefs.c " +
     "src\\core\\ext\\upbdefs-generated\\google\\protobuf\\descriptor.upbdefs.c " +
     "src\\core\\ext\\upbdefs-generated\\google\\protobuf\\duration.upbdefs.c " +
@@ -1276,6 +1277,7 @@ if (PHP_GRPC != "no") {
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\src\\core\\ext\\upbdefs-generated\\envoy\\type\\tracing\\v3");
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\src\\core\\ext\\upbdefs-generated\\envoy\\type\\v3");
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\src\\core\\ext\\upbdefs-generated\\google");
+  FSO.CreateFolder(base_dir+"\\ext\\grpc\\src\\core\\ext\\upbdefs-generated\\google\\api");
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\src\\core\\ext\\upbdefs-generated\\google\\protobuf");
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\src\\core\\ext\\upbdefs-generated\\google\\rpc");
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\src\\core\\ext\\upbdefs-generated\\udpa");

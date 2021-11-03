@@ -304,6 +304,7 @@ CORE_SOURCE_FILES = [
     'src/core/ext/upbdefs-generated/envoy/type/v3/percent.upbdefs.c',
     'src/core/ext/upbdefs-generated/envoy/type/v3/range.upbdefs.c',
     'src/core/ext/upbdefs-generated/envoy/type/v3/semantic_version.upbdefs.c',
+    'src/core/ext/upbdefs-generated/google/api/annotations.upbdefs.c',
     'src/core/ext/upbdefs-generated/google/protobuf/any.upbdefs.c',
     'src/core/ext/upbdefs-generated/google/protobuf/descriptor.upbdefs.c',
     'src/core/ext/upbdefs-generated/google/protobuf/duration.upbdefs.c',

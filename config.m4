@@ -329,6 +329,7 @@ if test "$PHP_GRPC" != "no"; then
     src/core/ext/upbdefs-generated/envoy/type/v3/percent.upbdefs.c \
     src/core/ext/upbdefs-generated/envoy/type/v3/range.upbdefs.c \
     src/core/ext/upbdefs-generated/envoy/type/v3/semantic_version.upbdefs.c \
+    src/core/ext/upbdefs-generated/google/api/annotations.upbdefs.c \
     src/core/ext/upbdefs-generated/google/protobuf/any.upbdefs.c \
     src/core/ext/upbdefs-generated/google/protobuf/descriptor.upbdefs.c \
     src/core/ext/upbdefs-generated/google/protobuf/duration.upbdefs.c \
@@ -1178,6 +1179,7 @@ if test "$PHP_GRPC" != "no"; then
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/envoy/type/metadata/v3)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/envoy/type/tracing/v3)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/envoy/type/v3)
+  PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/google/api)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/google/protobuf)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/google/rpc)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/udpa/annotations)
