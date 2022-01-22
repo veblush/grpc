@@ -12,10 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM silkeh/clang:13
+FROM debian:bullseye
 
-# Install prerequisites for the clang-tidy script
-RUN apt-get update && apt-get install -y python3 jq git
+# Install clang-tidy 11
+RUN apt-get update && apt-get install -y clang-tidy-11 jq git
+ENV CLANG_TIDY=clang-tidy-11
 
 ADD clang_tidy_all_the_things.sh /
 
