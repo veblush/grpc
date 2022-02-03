@@ -262,9 +262,9 @@ TEST(XdsBootstrapTest, MissingChannelCreds) {
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
-  EXPECT_THAT(grpc_error_std_string(error),
-              ::testing::ContainsRegex(
-                  "field:channel_creds error:does not exist."));
+  EXPECT_THAT(
+      grpc_error_std_string(error),
+      ::testing::ContainsRegex("field:channel_creds error:does not exist."));
   GRPC_ERROR_UNREF(error);
 }
 
