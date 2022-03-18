@@ -914,11 +914,15 @@ void Subchannel::OnRetryAlarm(void* arg, grpc_error_handle error) {
     // Still connecting, keep ref around. Note that this stolen ref won't
     // be dropped without first acquiring c->mu_.
     c.release();
+    abort();
   }
   GRPC_ERROR_UNREF(error);
 }
 
 void Subchannel::ContinueConnectingLocked() {
+  gpr_log(GPR_INFO,
+          "subchannel %p %s: start to connect to channel", this,
+          key_.ToString().c_str());
   SubchannelConnector::Args args;
   args.address = &address_for_connect_;
   args.interested_parties = pollset_set_;
