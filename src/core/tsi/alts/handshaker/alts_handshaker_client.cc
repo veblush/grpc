@@ -209,7 +209,7 @@ void alts_handshaker_client_handle_response(alts_handshaker_client* c,
   }
   /* TSI handshake has been shutdown. */
   if (alts_tsi_handshaker_has_shutdown(handshaker)) {
-    gpr_log(GPR_INFO, "TSI handshake shutdown");
+    gpr_log(GPR_ERROR, "TSI handshake shutdown (is_ok=%d)", is_ok);
     handle_response_done(client, TSI_HANDSHAKE_SHUTDOWN, nullptr, 0, nullptr);
     return;
   }
