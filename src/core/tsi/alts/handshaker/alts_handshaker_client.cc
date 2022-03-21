@@ -353,10 +353,12 @@ class HandshakeQueue {
   void RequestHandshake(alts_grpc_handshaker_client* client) {
     {
       grpc_core::MutexLock lock(&mu_);
+      char* target = grpc_slice_to_c_string(client->target_name);
       gpr_log(GPR_DEBUG,
-              "HandshakeQueue(%p).RequestHandshake(client=%p, os=%d, q=%d)",
-              this, client, int(outstanding_handshakes_),
+              "HandshakeQueue(%p).RequestHandshake(client=%p, target=%s, os=%d, q=%d)",
+              this, client, target, int(outstanding_handshakes_),
               int(queued_handshakes_.size()));
+      gpr_free(target);
       if (outstanding_handshakes_ == max_outstanding_handshakes_) {
         // Max number already running, add to queue.
         queued_handshakes_.push_back(client);
@@ -447,17 +449,19 @@ static tsi_result make_grpc_call(alts_handshaker_client* c, bool is_start) {
 static void on_status_received(void* arg, grpc_error_handle error) {
   alts_grpc_handshaker_client* client =
       static_cast<alts_grpc_handshaker_client*>(arg);
-  if (client->handshake_status_code != GRPC_STATUS_OK) {
+  if (client->handshake_status_code != GRPC_STATUS_OK || true) {
     // TODO(apolcyn): consider overriding the handshake result's
     // status from the final ALTS message with the status here.
     char* status_details =
         grpc_slice_to_c_string(client->handshake_status_details);
+    char* target = grpc_slice_to_c_string(client->target_name);
     gpr_log(GPR_INFO,
-            "alts_grpc_handshaker_client:%p on_status_received "
+            "alts_grpc_handshaker_client:%p target:%s on_status_received "
             "status:%d details:|%s| error:|%s|",
-            client, client->handshake_status_code, status_details,
+            client, target, client->handshake_status_code, status_details,
             grpc_error_std_string(error).c_str());
     gpr_free(status_details);
+    gpr_free(target);
   }
   maybe_complete_tsi_next(client, true /* receive_status_finished */,
                           nullptr /* pending_recv_message_result */);
