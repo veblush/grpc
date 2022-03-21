@@ -353,6 +353,10 @@ class HandshakeQueue {
   void RequestHandshake(alts_grpc_handshaker_client* client) {
     {
       grpc_core::MutexLock lock(&mu_);
+      gpr_log(GPR_DEBUG,
+              "HandshakeQueue(%p).RequestHandshake(client=%p, os=%d, q=%d)",
+              this, client, int(outstanding_handshakes_),
+              int(queued_handshakes_.size()));
       if (outstanding_handshakes_ == max_outstanding_handshakes_) {
         // Max number already running, add to queue.
         queued_handshakes_.push_back(client);
@@ -368,6 +372,8 @@ class HandshakeQueue {
     alts_grpc_handshaker_client* client = nullptr;
     {
       grpc_core::MutexLock lock(&mu_);
+      gpr_log(GPR_DEBUG, "HandshakeQueue(%p).HandshakeDone(os=%d, q=%d)", this,
+              int(outstanding_handshakes_), int(queued_handshakes_.size()));
       if (queued_handshakes_.empty()) {
         // Nothing more in queue.  Decrement count and return immediately.
         --outstanding_handshakes_;
