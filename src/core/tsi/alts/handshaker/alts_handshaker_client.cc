@@ -355,7 +355,8 @@ class HandshakeQueue {
       grpc_core::MutexLock lock(&mu_);
       char* target = grpc_slice_to_c_string(client->target_name);
       gpr_log(GPR_DEBUG,
-              "HandshakeQueue(%p).RequestHandshake(client=%p, target=%s, os=%d, q=%d)",
+              "HandshakeQueue(%p).RequestHandshake(client=%p, target=%s, "
+              "os=%d, q=%d)",
               this, client, target, int(outstanding_handshakes_),
               int(queued_handshakes_.size()));
       gpr_free(target);
@@ -449,7 +450,7 @@ static tsi_result make_grpc_call(alts_handshaker_client* c, bool is_start) {
 static void on_status_received(void* arg, grpc_error_handle error) {
   alts_grpc_handshaker_client* client =
       static_cast<alts_grpc_handshaker_client*>(arg);
-  if (client->handshake_status_code != GRPC_STATUS_OK || true) {
+  if (true) {
     // TODO(apolcyn): consider overriding the handshake result's
     // status from the final ALTS message with the status here.
     char* status_details =
