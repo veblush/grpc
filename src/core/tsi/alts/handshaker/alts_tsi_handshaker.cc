@@ -497,8 +497,15 @@ static void alts_tsi_handshaker_create_channel(
       static_cast<alts_tsi_handshaker_continue_handshaker_next_args*>(arg);
   alts_tsi_handshaker* handshaker = next_args->handshaker;
   GPR_ASSERT(handshaker->channel == nullptr);
+  //
+  grpc_arg args_to_add[1];
+  args_to_add[0] = grpc_channel_arg_integer_create(
+      const_cast<char*>(GRPC_ARG_USE_LOCAL_SUBCHANNEL_POOL), 1);
+  grpc_channel_args* channel_args =
+      grpc_channel_args_copy_and_add(nullptr, args_to_add, 1);
+  //
   handshaker->channel = grpc_insecure_channel_create(
-      next_args->handshaker->handshaker_service_url, nullptr, nullptr);
+      next_args->handshaker->handshaker_service_url, channel_args, nullptr);
   gpr_log(GPR_ERROR,
           "alts_tsi_handshaker_create_channel(handshaker=%p channel=%p "
           "interested_parties=%p)",
