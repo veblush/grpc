@@ -450,7 +450,7 @@ static tsi_result make_grpc_call(alts_handshaker_client* c, bool is_start) {
 static void on_status_received(void* arg, grpc_error_handle error) {
   alts_grpc_handshaker_client* client =
       static_cast<alts_grpc_handshaker_client*>(arg);
-  if (client->handshake_status_code != GRPC_STATUS_OK || true) {
+  if (true) {
     // TODO(apolcyn): consider overriding the handshake result's
     // status from the final ALTS message with the status here.
     char* status_details =
