@@ -638,6 +638,10 @@ tsi_result alts_tsi_handshaker_create(
     gpr_log(GPR_ERROR, "Invalid arguments to alts_tsi_handshaker_create()");
     return TSI_INVALID_ARGUMENT;
   }
+  gpr_log(GPR_ERROR,
+          "alts_tsi_handshaker_create(target=%s, handshaker_service_url=%s, "
+          "is_client=%d, interested_parties=%p)",
+          target_name, handshaker_service_url, is_client, interested_parties);
   bool use_dedicated_cq = interested_parties == nullptr;
   alts_tsi_handshaker* handshaker = new alts_tsi_handshaker();
   memset(&handshaker->base, 0, sizeof(handshaker->base));
