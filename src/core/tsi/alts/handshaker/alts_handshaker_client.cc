@@ -355,7 +355,8 @@ class HandshakeQueue {
       grpc_core::MutexLock lock(&mu_);
       char* target = grpc_slice_to_c_string(client->target_name);
       gpr_log(GPR_DEBUG,
-              "HandshakeQueue(%p).RequestHandshake(client=%p, target=%s, os=%d, q=%d)",
+              "HandshakeQueue(%p).RequestHandshake(client=%p, target=%s, "
+              "os=%d, q=%d)",
               this, client, target, int(outstanding_handshakes_),
               int(queued_handshakes_.size()));
       gpr_free(target);
@@ -719,6 +720,10 @@ alts_handshaker_client* alts_grpc_handshaker_client_create(
   client->handshake_status_details = grpc_empty_slice();
   client->max_frame_size = max_frame_size;
   grpc_slice slice = grpc_slice_from_copied_string(handshaker_service_url);
+  gpr_log(GPR_ERROR,
+          "alts_grpc_handshaker_client_create(handshaker=%p channel=%p "
+          "interested_parties=%p)",
+          handshaker, channel, interested_parties);
   client->call =
       strcmp(handshaker_service_url, ALTS_HANDSHAKER_SERVICE_URL_FOR_TESTING) ==
               0

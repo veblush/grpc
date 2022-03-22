@@ -499,6 +499,10 @@ static void alts_tsi_handshaker_create_channel(
   GPR_ASSERT(handshaker->channel == nullptr);
   handshaker->channel = grpc_insecure_channel_create(
       next_args->handshaker->handshaker_service_url, nullptr, nullptr);
+  gpr_log(GPR_ERROR,
+          "alts_tsi_handshaker_create_channel(handshaker=%p channel=%p "
+          "interested_parties=%p)",
+          handshaker, handshaker->channel, handshaker->interested_parties);
   tsi_result continue_next_result =
       alts_tsi_handshaker_continue_handshaker_next(
           handshaker, next_args->received_bytes.get(),
