@@ -31,10 +31,13 @@ alts_shared_resource_dedicated* grpc_alts_get_shared_resource_dedicated(void) {
 }
 
 static void thread_worker(void* /*arg*/) {
+  gpr_log(GPR_INFO, "ALTS::thread_worker start");
   while (true) {
     grpc_event event =
         grpc_completion_queue_next(g_alts_resource_dedicated.cq,
                                    gpr_inf_future(GPR_CLOCK_REALTIME), nullptr);
+    gpr_log(GPR_DEBUG, "ALTS::thread_worker next(type=%d success=%d tag=%p)",
+            event.type, event.success, event.tag);
     GPR_ASSERT(event.type != GRPC_QUEUE_TIMEOUT);
     if (event.type == GRPC_QUEUE_SHUTDOWN) {
       break;
@@ -44,6 +47,7 @@ static void thread_worker(void* /*arg*/) {
         static_cast<alts_handshaker_client*>(event.tag);
     alts_handshaker_client_handle_response(client, event.success);
   }
+  gpr_log(GPR_INFO, "ALTS::thread_worker exit");
 }
 
 void grpc_alts_shared_resource_dedicated_init() {
