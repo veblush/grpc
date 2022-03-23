@@ -354,7 +354,7 @@ class HandshakeQueue {
     {
       grpc_core::MutexLock lock(&mu_);
       char* target = grpc_slice_to_c_string(client->target_name);
-      gpr_log(GPR_DEBUG,
+      gpr_log(GPR_INFO,
               "HandshakeQueue(%p).RequestHandshake(client=%p, target=%s, "
               "os=%d, q=%d)",
               this, client, target, int(outstanding_handshakes_),
@@ -375,7 +375,7 @@ class HandshakeQueue {
     alts_grpc_handshaker_client* client = nullptr;
     {
       grpc_core::MutexLock lock(&mu_);
-      gpr_log(GPR_DEBUG, "HandshakeQueue(%p).HandshakeDone(os=%d, q=%d)", this,
+      gpr_log(GPR_INFO, "HandshakeQueue(%p).HandshakeDone(os=%d, q=%d)", this,
               int(outstanding_handshakes_), int(queued_handshakes_.size()));
       if (queued_handshakes_.empty()) {
         // Nothing more in queue.  Decrement count and return immediately.

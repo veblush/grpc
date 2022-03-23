@@ -296,8 +296,6 @@ void grpc_tcp_client_create_from_prepared_fd(
     return;
   }
 
-  grpc_pollset_set_add_fd(interested_parties, fdobj);
-
   async_connect* ac = new async_connect();
   ac->closure = closure;
   ac->ep = ep;
@@ -320,6 +318,8 @@ void grpc_tcp_client_create_from_prepared_fd(
   grpc_timer_init(&ac->alarm, deadline, &ac->on_alarm);
   grpc_fd_notify_on_write(ac->fd, &ac->write_closure);
   gpr_mu_unlock(&ac->mu);
+
+  grpc_pollset_set_add_fd(interested_parties, fdobj);
 }
 
 static void tcp_connect(grpc_closure* closure, grpc_endpoint** ep,
