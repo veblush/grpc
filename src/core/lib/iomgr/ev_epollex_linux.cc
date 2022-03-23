@@ -613,7 +613,7 @@ static grpc_error_handle pollable_add_fd(pollable* p, grpc_fd* fd) {
   static const char* err_desc = "pollable_add_fd";
   const int epfd = p->epfd;
   if (GRPC_TRACE_FLAG_ENABLED(grpc_polling_trace)) {
-    gpr_log(GPR_INFO, "add fd %p (%d) to pollable %p", fd, fd->fd, p);
+    gpr_log(GPR_ERROR, "add fd %p (%d) to pollable %p", fd, fd->fd, p);
   }
 
   struct epoll_event ev_fd;
@@ -931,7 +931,7 @@ static grpc_error_handle pollable_epoll(pollable* p, grpc_millis deadline) {
   int timeout = poll_deadline_to_millis_timeout(deadline);
 
   if (GRPC_TRACE_FLAG_ENABLED(grpc_polling_trace)) {
-    gpr_log(GPR_INFO, "POLLABLE:%p[%s] poll for %dms", p,
+    gpr_log(GPR_ERROR, "POLLABLE:%p[%s] poll for %dms", p,
             pollable_desc(p).c_str(), timeout);
   }
 
