@@ -376,10 +376,12 @@ static void fd_destroy(void* arg, grpc_error_handle /*error*/) {
   fd->destroy();
 
   /* Add the fd to the freelist */
+  /*
   gpr_mu_lock(&fd_freelist_mu);
   fd->freelist_next = fd_freelist;
   fd_freelist = fd;
   gpr_mu_unlock(&fd_freelist_mu);
+  */
 }
 
 #ifndef NDEBUG
