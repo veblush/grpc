@@ -931,7 +931,7 @@ static grpc_error_handle pollable_epoll(pollable* p, grpc_millis deadline) {
   int timeout = poll_deadline_to_millis_timeout(deadline);
 
   if (GRPC_TRACE_FLAG_ENABLED(grpc_polling_trace)) {
-    gpr_log(GPR_ERROR, "POLLABLE:%p[%s] poll for %dms", p,
+    gpr_log(GPR_INFO, "POLLABLE:%p[%s] poll for %dms", p,
             pollable_desc(p).c_str(), timeout);
   }
 
@@ -950,7 +950,11 @@ static grpc_error_handle pollable_epoll(pollable* p, grpc_millis deadline) {
   if (r < 0) return GRPC_OS_ERROR(errno, "epoll_wait");
 
   if (GRPC_TRACE_FLAG_ENABLED(grpc_polling_trace)) {
-    gpr_log(GPR_INFO, "POLLABLE:%p got %d events", p, r);
+    if (r >= MAX_EPOLL_EVENTS) {
+      gpr_log(GPR_ERROR, "POLLABLE:%p got %d events (MAX)", p, r);
+    } else {
+      gpr_log(GPR_INFO, "POLLABLE:%p got %d events", p, r);
+    }
   }
 
   p->event_cursor = 0;
