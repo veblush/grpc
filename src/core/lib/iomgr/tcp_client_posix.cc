@@ -104,11 +104,11 @@ done:
 static void tc_on_alarm(void* acp, grpc_error_handle error) {
   int done;
   async_connect* ac = static_cast<async_connect*>(acp);
-  if (GRPC_TRACE_FLAG_ENABLED(grpc_tcp_trace)) {
-    gpr_log(GPR_INFO, "CLIENT_CONNECT: %s: on_alarm: error=%s",
-            ac->addr_str.c_str(), grpc_error_std_string(error).c_str());
-  }
   gpr_mu_lock(&ac->mu);
+  if (GRPC_TRACE_FLAG_ENABLED(grpc_tcp_trace)) {
+    gpr_log(GPR_INFO, "CLIENT_CONNECT(fd=%p): %s: on_alarm: error=%s",
+            ac->fd, ac->addr_str.c_str(), grpc_error_std_string(error).c_str());
+  }
   if (ac->fd != nullptr) {
     grpc_fd_shutdown(
         ac->fd, GRPC_ERROR_CREATE_FROM_STATIC_STRING("connect() timed out"));
@@ -140,12 +140,11 @@ static void on_writable(void* acp, grpc_error_handle error) {
 
   (void)GRPC_ERROR_REF(error);
 
-  if (GRPC_TRACE_FLAG_ENABLED(grpc_tcp_trace)) {
-    gpr_log(GPR_INFO, "CLIENT_CONNECT: %s: on_writable: error=%s",
-            ac->addr_str.c_str(), grpc_error_std_string(error).c_str());
-  }
-
   gpr_mu_lock(&ac->mu);
+  if (GRPC_TRACE_FLAG_ENABLED(grpc_tcp_trace)) {
+    gpr_log(GPR_INFO, "CLIENT_CONNECT(fd=%p): %s: on_writable: error=%s",
+            ac->fd, ac->addr_str.c_str(), grpc_error_std_string(error).c_str());
+  }
   GPR_ASSERT(ac->fd);
   fd = ac->fd;
   ac->fd = nullptr;
@@ -276,10 +275,12 @@ void grpc_tcp_client_create_from_prepared_fd(
     err = connect(fd, reinterpret_cast<const grpc_sockaddr*>(addr->addr),
                   addr->len);
   } while (err < 0 && errno == EINTR);
-
   std::string name = absl::StrCat("tcp-client:", grpc_sockaddr_to_uri(addr));
   grpc_fd* fdobj = grpc_fd_create(fd, name.c_str(), true);
-
+  if (GRPC_TRACE_FLAG_ENABLED(grpc_tcp_trace)) {
+    gpr_log(GPR_INFO, "CLIENT_CONNECT(fd=%p): %s: connect call err=%d errno=%d",
+            fdobj, grpc_sockaddr_to_uri(addr).c_str(), err, errno);
+  }
   if (err >= 0) {
     *ep = grpc_tcp_client_create_from_fd(fdobj, channel_args,
                                          grpc_sockaddr_to_uri(addr));
