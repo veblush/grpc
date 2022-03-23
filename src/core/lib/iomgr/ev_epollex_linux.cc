@@ -65,7 +65,7 @@
 // use-after-destruction)
 //#define GRPC_EPOLLEX_CREATE_WORKERS_ON_HEAP 1
 
-#define MAX_EPOLL_EVENTS 100
+#define MAX_EPOLL_EVENTS 10000
 #define MAX_FDS_IN_CACHE 32
 
 grpc_core::DebugOnlyTraceFlag grpc_trace_pollable_refcount(false,
@@ -950,7 +950,7 @@ static grpc_error_handle pollable_epoll(pollable* p, grpc_millis deadline) {
   if (r < 0) return GRPC_OS_ERROR(errno, "epoll_wait");
 
   if (GRPC_TRACE_FLAG_ENABLED(grpc_polling_trace)) {
-    if (r >= MAX_EPOLL_EVENTS) {
+    if (r >= 100) {
       gpr_log(GPR_ERROR, "POLLABLE:%p got %d events (MAX)", p, r);
     } else {
       gpr_log(GPR_INFO, "POLLABLE:%p got %d events", p, r);
