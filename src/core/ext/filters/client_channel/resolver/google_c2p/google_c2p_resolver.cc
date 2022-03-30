@@ -322,8 +322,10 @@ void GoogleCloud2ProdResolver::StartXdsResolver() {
   std::random_device rd;
   std::mt19937 mt(rd());
   std::uniform_int_distribution<uint64_t> dist(1, UINT64_MAX);
+  std::string node_id = absl::StrCat("C2P-", dist(mt));
+  gpr_log(GPR_INFO, "StartXdsResolver: node-id=%s", node_id.c_str());
   Json::Object node = {
-      {"id", absl::StrCat("C2P-", dist(mt))},
+      {"id", node_id},
   };
   if (!zone_->empty()) {
     node["locality"] = Json::Object{
