@@ -441,6 +441,13 @@ void PriorityLb::TryNextPriorityLocked(bool report_connecting) {
       gpr_log(GPR_INFO, "[priority_lb %p] trying priority %u, child %s", this,
               priority, child_name.c_str());
     }
+    // DEBUG
+    if (priority == config_->priorities().size() - 1) {
+      gpr_log(GPR_ERROR, "[priority_lb %p] ugh last priority %u, child %s", this,
+              priority, child_name.c_str());
+      GPR_ASSERT(false);
+    }
+    // DEBUG
     auto& child = children_[child_name];
     if (child == nullptr) {
       if (report_connecting) {
