@@ -453,8 +453,8 @@ void PriorityLb::TryNextPriorityLocked(bool report_connecting) {
     }
     // DEBUG
     if (priority == config_->priorities().size() - 1) {
-      gpr_log(GPR_ERROR, "[priority_lb %p] ugh last priority %u, child %s", this,
-              priority, child_name.c_str());
+      gpr_log(GPR_ERROR, "[priority_lb %p] ugh last priority %u, child %s",
+              this, priority, child_name.c_str());
       GPR_ASSERT(false);
     }
     // DEBUG
