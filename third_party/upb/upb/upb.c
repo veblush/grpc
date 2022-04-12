@@ -147,6 +147,8 @@ static void upb_Arena_addblock(upb_Arena* a, upb_Arena* root, void* ptr,
                                size_t size) {
   mem_block* block = ptr;
 
+  printf("upb_Arena_addblock pre arena:%p root:%p ptr:%p size:%zu\n", a, root, ptr, size);
+
   /* The block is for arena |a|, but should appear in the freelist of |root|. */
   block->next = root->freelist;
   block->size = (uint32_t)size;
@@ -209,6 +211,8 @@ upb_Arena* arena_initslow(void* mem, size_t n, upb_alloc* alloc) {
   a->freelist = NULL;
   a->freelist_tail = NULL;
   a->cleanup_metadata = upb_cleanup_metadata(NULL, false);
+
+  printf("arena_initslow arena:%p ptr:%p n:%zu\n", a, mem, n);
 
   upb_Arena_addblock(a, a, mem, n);
 
