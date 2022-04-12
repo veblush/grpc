@@ -160,6 +160,8 @@ static void upb_Arena_addblock(upb_Arena* a, upb_Arena* root, void* ptr,
   a->cleanup_metadata = upb_cleanup_metadata(
       &block->cleanups, upb_cleanup_has_initial_block(a->cleanup_metadata));
 
+  printf("upb_Arena_addblock arena:%p ptr:%p size:%zu\n", a, a->head.ptr, size);
+
   UPB_POISON_MEMORY_REGION(a->head.ptr, a->head.end - a->head.ptr);
 }
 
@@ -233,6 +235,8 @@ upb_Arena* upb_Arena_Init(void* mem, size_t n, upb_alloc* alloc) {
   }
 
   a = UPB_PTR_AT(mem, n - sizeof(*a), upb_Arena);
+
+  printf("upb_Arena_Init arena:%p ptr:%p n:%zu\n", a, mem, n);
 
   a->head.alloc.func = &upb_Arena_doalloc;
   a->block_alloc = alloc;

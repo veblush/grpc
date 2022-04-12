@@ -38,6 +38,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "upb/port_def.inc"
 
@@ -203,6 +204,8 @@ UPB_INLINE void* _upb_Arena_FastMalloc(upb_Arena* a, size_t size) {
   UPB_ASSERT(UPB_ALIGN_MALLOC(size) == size);
   UPB_UNPOISON_MEMORY_REGION(ret, size);
 
+  printf("_upb_Arena_FastMalloc arena:%p ptr:%p size:%zu\n", a, h->ptr, size);
+
   h->ptr += size;
 
 #if UPB_ASAN
@@ -240,6 +243,8 @@ UPB_INLINE void upb_Arena_ShrinkLast(upb_Arena* a, void* ptr, size_t oldsize,
   size = UPB_ALIGN_MALLOC(size);
   UPB_ASSERT((char*)ptr + oldsize == h->ptr);  // Must be the last alloc.
   UPB_ASSERT(size <= oldsize);
+  printf("_upb_Arena_FastMalloc arena:%p ptr:%p size:%zu\n", a, h->ptr, size);
+  
   h->ptr = (char*)ptr + size;
 }
 
