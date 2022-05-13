@@ -32,7 +32,7 @@
 namespace grpc {
 namespace {
 
-static internal::GrpcLibraryInitializer g_gli_initializer;
+internal::GrpcLibraryInitializer g_gli_initializer;
 
 gpr_once g_once_init_callback_alternative = GPR_ONCE_INIT;
 grpc_core::Mutex* g_callback_alternative_mu;
