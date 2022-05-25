@@ -994,19 +994,20 @@ grpc_cc_library(
         "absl/status",
         "absl/strings",
         "absl/strings:cord",
-        "absl/strings:str_format",
-        "absl/time:time",
+        "absl/time",
         "absl/types:optional",
         "upb_lib",
     ],
     language = "c++",
     tags = ["grpc-autodeps"],
     deps = [
+        "debug_location",
         "google_rpc_status_upb",
-        "gpr",
+        "gpr_base",
         "gpr_platform",
         "percent_encoding",
         "protobuf_any_upb",
+        "slice",
     ],
 )
 
