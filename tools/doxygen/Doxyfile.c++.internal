@@ -774,6 +774,7 @@ doc/connectivity-semantics-and-api.md \
 doc/cpp-style-guide.md \
 doc/cpp/pending_api_cleanups.md \
 doc/cpp/perf_notes.md \
+doc/cpp/static-grpc-object.md \
 doc/environment_variables.md \
 doc/fail_fast.md \
 doc/fork_support.md \
