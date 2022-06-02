@@ -22,6 +22,7 @@
 
 #include <string>
 
+#include "absl/status/status.h"
 #include "absl/strings/str_cat.h"
 
 #include <grpc/support/log.h>
