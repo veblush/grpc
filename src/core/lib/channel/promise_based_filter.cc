@@ -21,6 +21,7 @@
 
 #include "absl/base/attributes.h"
 #include "absl/memory/memory.h"
+#include "absl/status/status.h"
 #include "absl/types/variant.h"
 #include "absl/utility/utility.h"
 

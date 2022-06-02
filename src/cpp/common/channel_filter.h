@@ -27,6 +27,8 @@
 #include <string>
 #include <utility>
 
+#include "absl/status/status.h"
+
 #include <grpc/grpc.h>
 #include <grpc/impl/codegen/grpc_types.h>
 #include <grpc/support/atm.h>
