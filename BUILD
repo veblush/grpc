@@ -1677,6 +1677,7 @@ grpc_cc_library(
     ],
     external_deps = [
         "absl/container:inlined_vector",
+        "absl/status",
         "absl/strings:str_format",
     ],
     language = "c++",
@@ -1746,6 +1747,7 @@ grpc_cc_library(
     external_deps = [
         "absl/base:core_headers",
         "absl/memory",
+        "absl/status",
         "absl/strings",
     ],
     language = "c++",
@@ -1785,6 +1787,7 @@ grpc_cc_library(
     external_deps = [
         "absl/base:core_headers",
         "absl/memory",
+        "absl/status",
         "absl/status:statusor",
     ],
     language = "c++",
@@ -2871,6 +2874,7 @@ grpc_cc_library(
     external_deps = [
         "absl/container:inlined_vector",
         "absl/memory",
+        "absl/status",
         "absl/strings",
     ],
     language = "c++",
@@ -2899,7 +2903,10 @@ grpc_cc_library(
     hdrs = [
         "src/core/lib/service_config/service_config_parser.h",
     ],
-    external_deps = ["absl/strings"],
+    external_deps = [
+        "absl/status",
+        "absl/strings",
+    ],
     language = "c++",
     tags = ["grpc-autodeps"],
     deps = [
@@ -3272,7 +3279,10 @@ grpc_cc_library(
     hdrs = [
         "src/core/ext/filters/deadline/deadline_filter.h",
     ],
-    external_deps = ["absl/types:optional"],
+    external_deps = [
+        "absl/status",
+        "absl/types:optional",
+    ],
     language = "c++",
     tags = ["grpc-autodeps"],
     deps = [
@@ -3339,6 +3349,7 @@ grpc_cc_library(
     ],
     external_deps = [
         "absl/memory",
+        "absl/status",
         "absl/strings",
         "absl/strings:str_format",
         "absl/types:optional",

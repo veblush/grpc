@@ -22,11 +22,13 @@
 
 #include <stdint.h>
 
+#include <vector>
+
 #include "absl/strings/string_view.h"
 
 #include <grpc/support/string_util.h>
 
-#include "src/core/lib/iomgr/error_internal.h"
+#include "src/core/lib/gprpp/status_helper.h"
 #include "src/core/lib/transport/status_conversion.h"
 
 static grpc_error_handle recursively_find_error_with_field(

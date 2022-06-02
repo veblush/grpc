@@ -21,6 +21,8 @@
 #include <new>
 #include <utility>
 
+#include "absl/status/status.h"
+
 #include <grpc/status.h>
 #include <grpc/support/log.h>
 
