@@ -6069,6 +6069,7 @@ grpc_cc_library(
     hdrs = GRPCXX_HDRS,
     external_deps = [
         "absl/base:core_headers",
+        "absl/status",
         "absl/strings",
         "absl/synchronization",
         "absl/memory",
