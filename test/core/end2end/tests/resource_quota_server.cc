@@ -20,6 +20,7 @@
 #include <string.h>
 
 #include <grpc/byte_buffer.h>
+#include <grpc/slice.h>
 #include <grpc/support/alloc.h>
 #include <grpc/support/log.h>
 #include <grpc/support/time.h>
@@ -258,7 +259,9 @@ void resource_quota_server(grpc_end2end_test_config config) {
         case GRPC_STATUS_OK:
           break;
         default:
-          gpr_log(GPR_ERROR, "Unexpected status code: %d", status[call_id]);
+          char* d = grpc_slice_to_c_string(details[call_id]);
+          gpr_log(GPR_ERROR, "Unexpected status code: %d detail: %s",
+                  status[call_id], d);
           abort();
       }
       GPR_ASSERT(pending_client_calls > 0);
