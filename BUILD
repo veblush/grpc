@@ -2726,6 +2726,7 @@ grpc_cc_library(
         "slice_buffer",
         "slice_refcount",
         "sockaddr_utils",
+        "status_helper",
         "table",
         "thread_quota",
         "time",
@@ -4730,6 +4731,7 @@ grpc_cc_library(
     ],
     external_deps = [
         "absl/memory",
+        "absl/status",
         "absl/status:statusor",
         "absl/strings",
     ],
@@ -5863,6 +5865,7 @@ grpc_cc_library(
         "slice",
         "slice_buffer",
         "slice_refcount",
+        "status_helper",
         "time",
         "uri_parser",
         "useful",
@@ -6089,6 +6092,7 @@ grpc_cc_library(
     hdrs = GRPCXX_HDRS,
     external_deps = [
         "absl/base:core_headers",
+        "absl/status",
         "absl/strings",
         "absl/synchronization",
         "absl/memory",
