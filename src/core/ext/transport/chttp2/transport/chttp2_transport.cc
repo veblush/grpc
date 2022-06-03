@@ -1137,6 +1137,9 @@ void grpc_chttp2_add_incoming_goaway(grpc_chttp2_transport* t,
   if (goaway_error != GRPC_HTTP2_NO_ERROR) {
     gpr_log(GPR_INFO, "%s: Got goaway [%d] err=%s", t->peer_string.c_str(),
             goaway_error, grpc_error_std_string(t->goaway_error).c_str());
+  } else {
+    gpr_log(GPR_INFO, "%s: Got goaway [%d] ERR=%s", t->peer_string.c_str(),
+            goaway_error, grpc_error_std_string(t->goaway_error).c_str());
   }
   if (t->is_client) {
     cancel_unstarted_streams(t, GRPC_ERROR_REF(t->goaway_error));
@@ -1911,8 +1914,8 @@ static void send_goaway(grpc_chttp2_transport* t, grpc_error_handle error,
   } else if (t->sent_goaway_state == GRPC_CHTTP2_NO_GOAWAY_SEND ||
              t->sent_goaway_state == GRPC_CHTTP2_GRACEFUL_GOAWAY) {
     // We want to log this irrespective of whether http tracing is enabled
-    gpr_log(GPR_DEBUG, "%s: Sending goaway err=%s", t->peer_string.c_str(),
-            grpc_error_std_string(error).c_str());
+    gpr_log(GPR_DEBUG, "%s: Sending goaway err=%s http_error=%d", t->peer_string.c_str(),
+            grpc_error_std_string(error).c_str(), http_error);
     t->sent_goaway_state = GRPC_CHTTP2_FINAL_GOAWAY_SEND_SCHEDULED;
     grpc_chttp2_goaway_append(
         t->last_new_stream_id, static_cast<uint32_t>(http_error),
