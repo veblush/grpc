@@ -6327,6 +6327,7 @@ grpc_cc_library(
     ],
     external_deps = [
         "absl/base:core_headers",
+        "absl/status",
         "absl/time",
         "absl/types:optional",
         "upb_lib",
