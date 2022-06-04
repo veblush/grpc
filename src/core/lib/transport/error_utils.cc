@@ -85,6 +85,11 @@ void grpc_error_get_status(grpc_error_handle error,
     return;
   }
 
+  if (error.message() == "Stream removed") {
+    gpr_log(GPR_ERROR, "grpc_error_get_status: error = %s",
+            grpc_error_std_string(error).c_str());
+  }
+
   // Start with the parent error and recurse through the tree of children
   // until we find the first one that has a status code.
   grpc_error_handle found_error =
