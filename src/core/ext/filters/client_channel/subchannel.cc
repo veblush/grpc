@@ -920,8 +920,7 @@ void Subchannel::OnRetryAlarm(void* arg, grpc_error_handle error) {
 }
 
 void Subchannel::ContinueConnectingLocked() {
-  gpr_log(GPR_INFO,
-          "subchannel %p %s: start to connect to channel", this,
+  gpr_log(GPR_INFO, "subchannel %p %s: start to connect to channel", this,
           key_.ToString().c_str());
   SubchannelConnector::Args args;
   args.address = &address_for_connect_;
