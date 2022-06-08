@@ -24,7 +24,6 @@
 
 #include "absl/functional/bind_front.h"
 #include "absl/memory/memory.h"
-#include "absl/status/status.h"
 #include "absl/types/optional.h"
 
 #include <grpc/support/log.h>
