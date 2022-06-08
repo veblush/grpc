@@ -24,7 +24,21 @@ namespace grpc_core {
 
 gpr_current_stack_trace_func g_current_stack_trace_provider = nullptr;
 
+//// TODO(veblush): BUILD-TEST ONLY DO NOT MERGE
+template <class T>
+constexpr T data = T(3);
+template <class T>
+T something(T x) {
+  return data<T> * x;
+}
+//// TODO(veblush): BUILD-TEST ONLY DO NOT MERGE
+
 gpr_current_stack_trace_func GetCurrentStackTraceProvider() {
+  //// TODO(veblush): BUILD-TEST ONLY DO NOT MERGE
+  if (something<int>(1) == 1) {
+    return nullptr;
+  }
+  //// TODO(veblush): BUILD-TEST ONLY DO NOT MERGE
   return g_current_stack_trace_provider;
 }
 
