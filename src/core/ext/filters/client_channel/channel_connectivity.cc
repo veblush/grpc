@@ -18,8 +18,6 @@
 
 #include <inttypes.h>
 
-#include "absl/status/status.h"
-
 #include <grpc/grpc.h>
 #include <grpc/impl/codegen/connectivity_state.h>
 #include <grpc/impl/codegen/gpr_types.h>

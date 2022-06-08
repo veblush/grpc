@@ -39,8 +39,6 @@
 #include <grpcpp/support/channel_arguments.h>
 #include <grpcpp/support/slice.h>
 #include <grpcpp/support/status.h>
-// TODO(yashykt): We shouldn't be including "src/core" headers.
-#include "absl/status/status.h"
 
 #include "src/core/lib/gpr/env.h"
 #include "src/core/lib/iomgr/closure.h"

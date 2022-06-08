@@ -20,8 +20,6 @@
 #include <functional>
 #include <utility>
 
-#include "absl/status/status.h"
-
 #include <grpc/impl/codegen/gpr_types.h>
 #include <grpc/impl/codegen/grpc_types.h>
 #include <grpc/support/log.h>

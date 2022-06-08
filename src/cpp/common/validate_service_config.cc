@@ -18,8 +18,6 @@
 
 #include <string>
 
-#include "absl/status/status.h"
-
 #include <grpc/grpc.h>
 #include <grpcpp/support/config.h>
 #include <grpcpp/support/validate_service_config.h>

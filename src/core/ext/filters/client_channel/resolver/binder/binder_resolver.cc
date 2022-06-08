@@ -14,8 +14,6 @@
 
 #include <grpc/support/port_platform.h>
 
-#include "absl/status/status.h"
-
 #include "src/core/lib/iomgr/port.h"  // IWYU pragma: keep
 
 #ifdef GRPC_HAVE_UNIX_SOCKET
