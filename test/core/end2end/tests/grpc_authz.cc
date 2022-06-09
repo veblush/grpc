@@ -203,7 +203,7 @@ static void test_deny_unauthorized_request(grpc_end2end_test_fixture f) {
   grpc_op* op;
   grpc_metadata_array initial_metadata_recv;
   grpc_metadata_array trailing_metadata_recv;
-  grpc_status_code status;
+  grpc_status_code status = GRPC_STATUS__DO_NOT_USE;
   const char* error_string = nullptr;
   grpc_call_error error;
   grpc_slice details = grpc_empty_slice();
@@ -211,6 +211,7 @@ static void test_deny_unauthorized_request(grpc_end2end_test_fixture f) {
   cq_verifier* cqv = cq_verifier_create(f.cq);
 
   gpr_timespec deadline = five_seconds_from_now();
+  gpr_log(GPR_INFO, "grpc_channel_create_call");
   c = grpc_channel_create_call(f.client, nullptr, GRPC_PROPAGATE_DEFAULTS, f.cq,
                                grpc_slice_from_static_string("/foo"), nullptr,
                                deadline, nullptr);
@@ -249,6 +250,7 @@ static void test_deny_unauthorized_request(grpc_end2end_test_fixture f) {
   CQ_EXPECT_COMPLETION(cqv, tag(1), 1);
   cq_verify(cqv);
 
+  gpr_log(GPR_INFO, "status=%d", status);
   GPR_ASSERT(GRPC_STATUS_PERMISSION_DENIED == status);
   GPR_ASSERT(0 ==
              grpc_slice_str_cmp(details, "Unauthorized RPC request rejected."));
