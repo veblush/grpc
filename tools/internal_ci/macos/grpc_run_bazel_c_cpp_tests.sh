@@ -49,7 +49,7 @@ bazel_c_cpp_tests/bazel_wrapper \
   --google_credentials="${KOKORO_GFILE_DIR}/GrpcTesting-d0eeee2db331.json" \
   "${BAZEL_REMOTE_CACHE_ARGS[@]}" \
   $BAZEL_FLAGS \
-  --runs_per_test=200 \
+  --runs_per_test=100 \
   --test_env=GRPC_VERBOSITY=debug \
-  --test_env=GRPC_TRACE=api,http,channel,server_channel \
+  --test_env=GRPC_TRACE=api,http,channel,server_channel,grpc_authz_api \
   -- //test/core/end2end:h2_local_uds_percent_encoded_test@grpc_authz
