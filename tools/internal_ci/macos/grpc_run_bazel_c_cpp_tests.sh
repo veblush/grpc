@@ -51,5 +51,5 @@ bazel_c_cpp_tests/bazel_wrapper \
   $BAZEL_FLAGS \
   --runs_per_test=100 \
   --test_env=GRPC_VERBOSITY=debug \
-  --test_env=GRPC_TRACE=api,http,channel,server_channel,grpc_authz_api \
+  --test_env=GRPC_TRACE=api,http,channel,server_channel,grpc_authz_api,closure \
   -- //test/core/end2end:h2_local_uds_percent_encoded_test@grpc_authz
