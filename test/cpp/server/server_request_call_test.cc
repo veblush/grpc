@@ -135,7 +135,13 @@ TEST(ServerRequestCallTest, ShortDeadlineDoesNotCauseOkayFalse) {
     ctx.set_deadline(std::chrono::system_clock::now() +
                      std::chrono::milliseconds(1));
     grpc::Status status = stub->Echo(&ctx, request, &response);
-    EXPECT_EQ(StatusCode::DEADLINE_EXCEEDED, status.error_code());
+    if (i == 0 && status.error_code() == grpc::OK) {
+      // First call may take more time to trigger a deadline excceded because
+      // code needs various initiations so it can get OK instead of DEADLINE_EXCEEDED
+      // To prevent this case, OK is also accepted for the first call only.
+    } else {
+      EXPECT_EQ(StatusCode::DEADLINE_EXCEEDED, status.error_code());
+    }
     gpr_log(GPR_INFO, "Success.");
   }
   gpr_log(GPR_INFO, "Done sending RPCs.");
