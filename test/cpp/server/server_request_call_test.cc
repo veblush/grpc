@@ -137,8 +137,9 @@ TEST(ServerRequestCallTest, ShortDeadlineDoesNotCauseOkayFalse) {
     grpc::Status status = stub->Echo(&ctx, request, &response);
     if (i == 0 && status.error_code() == grpc::OK) {
       // First call may take more time to trigger a deadline excceded because
-      // code needs various initiations so it can get OK instead of DEADLINE_EXCEEDED
-      // To prevent this case, OK is also accepted for the first call only.
+      // code needs various initiations so it can get OK instead of
+      // DEADLINE_EXCEEDED To prevent this case, OK is also accepted for the
+      // first call only.
     } else {
       EXPECT_EQ(StatusCode::DEADLINE_EXCEEDED, status.error_code());
     }
