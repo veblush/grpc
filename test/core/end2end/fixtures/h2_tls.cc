@@ -376,6 +376,7 @@ static grpc_end2end_test_config configs[] = {
     {"chttp2/simple_ssl_fullstack", kH2TLSFeatureMask, "foo.test.google.fr",
      chttp2_create_fixture_simple_fullstack, chttp2_init_client,
      chttp2_init_server, chttp2_tear_down_secure_fullstack},
+     /*
     // client: static data provider + async external verifier
     // server: static data provider + async external verifier
     // extra: TLS 1.3
@@ -393,7 +394,7 @@ static grpc_end2end_test_config configs[] = {
     // extra: TLS 1.3
     {"chttp2/cert_watcher_provider_async_verifier_tls1_3", kH2TLSFeatureMask,
      "foo.test.google.fr", chttp2_create_fixture_async_verifier_cert_watcher,
-     chttp2_init_client, chttp2_init_server, chttp2_tear_down_secure_fullstack},
+     chttp2_init_client, chttp2_init_server, chttp2_tear_down_secure_fullstack},*/
 };
 
 int main(int argc, char** argv) {

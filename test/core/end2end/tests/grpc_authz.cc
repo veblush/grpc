@@ -713,6 +713,7 @@ static void test_file_watcher_recovers_from_failure(
 }
 
 void grpc_authz(grpc_end2end_test_config config) {
+  /*
   test_static_init_allow_authorized_request(config);
   test_static_init_deny_unauthorized_request(config);
   test_static_init_deny_request_no_match_in_policy(config);
@@ -721,7 +722,8 @@ void grpc_authz(grpc_end2end_test_config config) {
   test_file_watcher_init_deny_request_no_match_in_policy(config);
   test_file_watcher_valid_policy_reload(config);
   test_file_watcher_invalid_policy_skip_reload(config);
-  //test_file_watcher_recovers_from_failure(config);
+  */
+  test_file_watcher_recovers_from_failure(config);
 }
 
 void grpc_authz_pre_init(void) {}
