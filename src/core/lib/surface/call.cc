@@ -522,6 +522,7 @@ void Call::PublishToParent(Call* parent) {
 grpc_error_handle FilterStackCall::Create(grpc_call_create_args* args,
                                           grpc_call** out_call) {
   GPR_TIMER_SCOPE("grpc_call_create", 0);
+  gpr_log(GPR_INFO, "FilterStackCall::Create begin");
 
   Channel* channel = args->channel.get();
 
@@ -533,7 +534,7 @@ grpc_error_handle FilterStackCall::Create(grpc_call_create_args* args,
     }
     *composite = grpc_error_add_child(*composite, new_err);
   };
-
+  gpr_log(GPR_INFO, "FilterStackCall::Create here");
   Arena* arena;
   FilterStackCall* call;
   grpc_error_handle error = GRPC_ERROR_NONE;
@@ -543,7 +544,7 @@ grpc_error_handle FilterStackCall::Create(grpc_call_create_args* args,
   size_t call_alloc_size =
       GPR_ROUND_UP_TO_ALIGNMENT_SIZE(sizeof(FilterStackCall)) +
       channel_stack->call_stack_size;
-
+  gpr_log(GPR_INFO, "FilterStackCall::Create here");
   std::pair<Arena*, void*> arena_with_call = Arena::CreateWithAlloc(
       initial_size, call_alloc_size, channel->allocator());
   arena = arena_with_call.first;
@@ -552,6 +553,7 @@ grpc_error_handle FilterStackCall::Create(grpc_call_create_args* args,
   GPR_DEBUG_ASSERT(FromCallStack(call->call_stack()) == call);
   *out_call = call->c_ptr();
   grpc_slice path = grpc_empty_slice();
+  gpr_log(GPR_INFO, "FilterStackCall::Create here");
   if (call->is_client()) {
     call->final_op_.client.status_details = nullptr;
     call->final_op_.client.status = nullptr;
@@ -569,7 +571,7 @@ grpc_error_handle FilterStackCall::Create(grpc_call_create_args* args,
     call->final_op_.server.cancelled = nullptr;
     call->final_op_.server.core_server = args->server;
   }
-
+  gpr_log(GPR_INFO, "FilterStackCall::Create here");
   Call* parent = Call::FromC(args->parent);
   if (parent != nullptr) {
     add_init_error(&error, absl_status_to_grpc_error(call->InitParent(
@@ -581,16 +583,19 @@ grpc_error_handle FilterStackCall::Create(grpc_call_create_args* args,
       call->context_,     path,
       call->start_time_,  call->send_deadline(),
       call->arena(),      &call->call_combiner_};
+  gpr_log(GPR_INFO, "FilterStackCall::Create here");
   add_init_error(&error, grpc_call_stack_init(channel_stack, 1, DestroyCall,
                                               call, &call_args));
+  gpr_log(GPR_INFO, "FilterStackCall::Create here");
   // Publish this call to parent only after the call stack has been initialized.
   if (parent != nullptr) {
     call->PublishToParent(parent);
   }
-
+  gpr_log(GPR_INFO, "FilterStackCall::Create here");
   if (!GRPC_ERROR_IS_NONE(error)) {
     call->CancelWithError(GRPC_ERROR_REF(error));
   }
+  gpr_log(GPR_INFO, "FilterStackCall::Create here");
   if (args->cq != nullptr) {
     GPR_ASSERT(args->pollset_set_alternative == nullptr &&
                "Only one of 'cq' and 'pollset_set_alternative' should be "
@@ -599,15 +604,17 @@ grpc_error_handle FilterStackCall::Create(grpc_call_create_args* args,
     call->pollent_ =
         grpc_polling_entity_create_from_pollset(grpc_cq_pollset(args->cq));
   }
+  gpr_log(GPR_INFO, "FilterStackCall::Create here");
   if (args->pollset_set_alternative != nullptr) {
     call->pollent_ = grpc_polling_entity_create_from_pollset_set(
         args->pollset_set_alternative);
   }
+  gpr_log(GPR_INFO, "FilterStackCall::Create here");
   if (!grpc_polling_entity_is_empty(&call->pollent_)) {
     grpc_call_stack_set_pollset_or_pollset_set(call->call_stack(),
                                                &call->pollent_);
   }
-
+  gpr_log(GPR_INFO, "FilterStackCall::Create here");
   if (call->is_client()) {
     channelz::ChannelNode* channelz_channel = channel->channelz_node();
     if (channelz_channel != nullptr) {
@@ -620,9 +627,10 @@ grpc_error_handle FilterStackCall::Create(grpc_call_create_args* args,
       channelz_node->RecordCallStarted();
     }
   }
-
+  gpr_log(GPR_INFO, "FilterStackCall::Create here");
   grpc_slice_unref_internal(path);
 
+  gpr_log(GPR_INFO, "FilterStackCall::Create end");
   return error;
 }
 
