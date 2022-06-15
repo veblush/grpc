@@ -55,6 +55,7 @@ static void wait_for_policy_reload(void) {
   // Wait for the provider's refresh thread to read the updated files.
   // TODO(jtattermusch): Refactor the tests to use a more reliable mechanism of
   // detecting that the policy has been reloaded. See b/204329811
+  gpr_log(GPR_INFO, "wait_for_policy_reload");
   gpr_sleep_until(grpc_timeout_seconds_to_deadline(5));
 }
 
