@@ -134,6 +134,7 @@ absl::Status FileWatcherAuthorizationPolicyProvider::ForceUpdate() {
   gpr_log(GPR_INFO, "ForceUpdate");
   absl::StatusOr<std::string> file_contents =
       ReadPolicyFromFile(authz_policy_path_);
+  gpr_log(GPR_INFO, "ForceUpdate ReadPolicyFromFile done");
   if (!file_contents.ok()) {
     return file_contents.status();
   }

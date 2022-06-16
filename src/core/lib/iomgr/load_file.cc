@@ -32,6 +32,7 @@
 
 grpc_error_handle grpc_load_file(const char* filename, int add_null_terminator,
                                  grpc_slice* output) {
+  gpr_log(GPR_INFO, "grpc_load_file: %s (begin)", filename);
   unsigned char* contents = nullptr;
   size_t contents_size = 0;
   grpc_slice result = grpc_empty_slice();
@@ -77,5 +78,6 @@ end:
     error = error_out;
   }
   GRPC_SCHEDULING_END_BLOCKING_REGION_NO_EXEC_CTX;
+  gpr_log(GPR_INFO, "grpc_load_file: %s (end)", filename);
   return error;
 }
