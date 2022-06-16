@@ -287,7 +287,6 @@ static grpc_call* grpc_channel_create_call_internal(
     grpc_completion_queue* cq, grpc_pollset_set* pollset_set_alternative,
     grpc_core::Slice path, absl::optional<grpc_core::Slice> authority,
     grpc_core::Timestamp deadline) {
-  gpr_log(GPR_INFO, "grpc_channel_create_call_internal begin");
   auto channel = grpc_core::Channel::FromC(c_channel)->Ref();
   GPR_ASSERT(channel->is_client());
   GPR_ASSERT(!(cq != nullptr && pollset_set_alternative != nullptr));
@@ -306,7 +305,6 @@ static grpc_call* grpc_channel_create_call_internal(
 
   grpc_call* call;
   GRPC_LOG_IF_ERROR("call_create", grpc_call_create(&args, &call));
-  gpr_log(GPR_INFO, "grpc_channel_create_call_internal end");
   return call;
 }
 
@@ -316,7 +314,6 @@ grpc_call* grpc_channel_create_call(grpc_channel* channel,
                                     grpc_completion_queue* completion_queue,
                                     grpc_slice method, const grpc_slice* host,
                                     gpr_timespec deadline, void* reserved) {
-  gpr_log(GPR_INFO, "grpc_channel_create_call begin");
   GPR_ASSERT(!reserved);
   grpc_core::ApplicationCallbackExecCtx callback_exec_ctx;
   grpc_core::ExecCtx exec_ctx;
@@ -327,7 +324,7 @@ grpc_call* grpc_channel_create_call(grpc_channel* channel,
           ? absl::optional<grpc_core::Slice>(grpc_slice_ref_internal(*host))
           : absl::nullopt,
       grpc_core::Timestamp::FromTimespecRoundUp(deadline));
-  gpr_log(GPR_INFO, "grpc_channel_create_call end");
+
   return call;
 }
 
