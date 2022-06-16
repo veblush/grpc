@@ -376,25 +376,26 @@ static grpc_end2end_test_config configs[] = {
     {"chttp2/simple_ssl_fullstack", kH2TLSFeatureMask, "foo.test.google.fr",
      chttp2_create_fixture_simple_fullstack, chttp2_init_client,
      chttp2_init_server, chttp2_tear_down_secure_fullstack},
-     /*
-    // client: static data provider + async external verifier
-    // server: static data provider + async external verifier
-    // extra: TLS 1.3
-    {"chttp2/static_provider_async_verifier_tls1_3", kH2TLSFeatureMask,
-     "foo.test.google.fr", chttp2_create_fixture_async_verifier,
-     chttp2_init_client, chttp2_init_server, chttp2_tear_down_secure_fullstack},
-    // client: certificate watcher provider + hostname verifier
-    // server: certificate watcher provider + sync external verifier
-    // extra: TLS 1.2
-    {"chttp2/cert_watcher_provider_sync_verifier_tls1_2", kH2TLSFeatureMask,
-     "foo.test.google.fr", chttp2_create_fixture_hostname_verifier_cert_watcher,
-     chttp2_init_client, chttp2_init_server, chttp2_tear_down_secure_fullstack},
-    // client: certificate watcher provider + async external verifier
-    // server: certificate watcher provider + async external verifier
-    // extra: TLS 1.3
-    {"chttp2/cert_watcher_provider_async_verifier_tls1_3", kH2TLSFeatureMask,
-     "foo.test.google.fr", chttp2_create_fixture_async_verifier_cert_watcher,
-     chttp2_init_client, chttp2_init_server, chttp2_tear_down_secure_fullstack},*/
+    /*
+   // client: static data provider + async external verifier
+   // server: static data provider + async external verifier
+   // extra: TLS 1.3
+   {"chttp2/static_provider_async_verifier_tls1_3", kH2TLSFeatureMask,
+    "foo.test.google.fr", chttp2_create_fixture_async_verifier,
+    chttp2_init_client, chttp2_init_server, chttp2_tear_down_secure_fullstack},
+   // client: certificate watcher provider + hostname verifier
+   // server: certificate watcher provider + sync external verifier
+   // extra: TLS 1.2
+   {"chttp2/cert_watcher_provider_sync_verifier_tls1_2", kH2TLSFeatureMask,
+    "foo.test.google.fr", chttp2_create_fixture_hostname_verifier_cert_watcher,
+    chttp2_init_client, chttp2_init_server, chttp2_tear_down_secure_fullstack},
+   // client: certificate watcher provider + async external verifier
+   // server: certificate watcher provider + async external verifier
+   // extra: TLS 1.3
+   {"chttp2/cert_watcher_provider_async_verifier_tls1_3", kH2TLSFeatureMask,
+    "foo.test.google.fr", chttp2_create_fixture_async_verifier_cert_watcher,
+    chttp2_init_client, chttp2_init_server,
+   chttp2_tear_down_secure_fullstack},*/
 };
 
 int main(int argc, char** argv) {
