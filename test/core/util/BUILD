@@ -237,3 +237,12 @@ grpc_cc_library(
         ":grpc_test_util_base",
     ],
 )
+
+# If a test binary has this target as a transitive dependency,
+# it won't treat as a genuine gtest binary so it won't expect it
+# to support gtest parameters such as gtest_list_tests.
+# It just runs it as a simple executable.
+grpc_cc_library(
+    name = "gtest_disable_runner",
+    language = "C++",
+)
