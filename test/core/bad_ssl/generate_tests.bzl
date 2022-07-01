@@ -60,6 +60,7 @@ def grpc_bad_ssl_tests():
                 "//:gpr",
                 "//:grpc",
                 "//test/core/end2end:cq_verifier",
+                "//test/core/util:gtest_disable_runner",
             ],
             tags = ["no_windows"],
         )
