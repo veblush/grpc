@@ -458,7 +458,8 @@ def update_test_metadata_with_transitive_metadata(
             lib_dict['defaults'] = 'benchmark'
 
         if ('//external:gtest' in bazel_rule['_TRANSITIVE_DEPS'] and
-            '//test/core/util:gtest_disable_runner' not in bazel_rule['_TRANSITIVE_DEPS']):
+                '//test/core/util:gtest_disable_runner'
+                not in bazel_rule['_TRANSITIVE_DEPS']):
             lib_dict['gtest'] = True
             lib_dict['language'] = 'c++'
 
