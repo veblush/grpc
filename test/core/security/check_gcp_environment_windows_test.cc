@@ -18,17 +18,16 @@
 
 #include <grpc/support/port_platform.h>
 
-#include <gtest/gtest.h>
-
-#include "src/core/lib/security/credentials/alts/check_gcp_environment.h"
-
 #include <stdio.h>
 #include <string.h>
+
+#include <gtest/gtest.h>
 
 #include <grpc/support/alloc.h>
 #include <grpc/support/log.h>
 
 #include "src/core/lib/gpr/tmpfile.h"
+#include "src/core/lib/security/credentials/alts/check_gcp_environment.h"
 
 #ifdef GPR_WINDOWS
 
@@ -88,4 +87,3 @@ int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
