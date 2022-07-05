@@ -28,14 +28,12 @@ static const int kThreadSmallIter = 100;
 static const int kThreadLargeIter = 10000;
 
 TEST(ThreadpoolTest, TestSizeZero) {
-  gpr_log(GPR_INFO, "test_size_zero");
   grpc_core::ThreadPool* pool_size_zero = new grpc_core::ThreadPool(0);
   ASSERT_EQ(pool_size_zero->pool_capacity(), 1);
   delete pool_size_zero;
 }
 
 TEST(ThreadpoolTest, TestConstructorOption) {
-  gpr_log(GPR_INFO, "test_constructor_option");
   // Tests options
   grpc_core::Thread::Options options;
   options.set_stack_size(192 * 1024);  // Random non-default value
@@ -68,7 +66,6 @@ class SimpleFunctorForAdd : public grpc_completion_queue_functor {
 };
 
 TEST(ThreadpoolTest, TestAdd) {
-  gpr_log(GPR_INFO, "test_add");
   grpc_core::ThreadPool* pool =
       new grpc_core::ThreadPool(kSmallThreadPoolSize, "test_add");
 
@@ -110,7 +107,6 @@ class WorkThread {
 };
 
 TEST(ThreadpoolTest, TestMultiAdd) {
-  gpr_log(GPR_INFO, "test_multi_add");
   const int num_work_thds = 10;
   grpc_core::ThreadPool* pool =
       new grpc_core::ThreadPool(kLargeThreadPoolSize, "test_multi_add");
@@ -158,7 +154,6 @@ class SimpleFunctorCheckForAdd : public grpc_completion_queue_functor {
 };
 
 TEST(ThreadpoolTest, TestOneThreadFifo) {
-  gpr_log(GPR_INFO, "test_one_thread_FIFO");
   int counter = 0;
   grpc_core::ThreadPool* pool =
       new grpc_core::ThreadPool(1, "test_one_thread_FIFO");

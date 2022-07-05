@@ -173,6 +173,8 @@ grpc_cc_test(
         "--resolver=ares",
     ],
     external_deps = [
+        "absl/flags:flag",
+        "absl/flags:parse",
         "absl/strings",
         "gtest",
     ],
@@ -192,6 +194,8 @@ grpc_cc_test(
         "--resolver=native",
     ],
     external_deps = [
+        "absl/flags:flag",
+        "absl/flags:parse",
         "absl/strings",
         "gtest",
     ],

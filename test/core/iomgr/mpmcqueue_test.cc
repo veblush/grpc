@@ -107,7 +107,6 @@ class ConsumerThread {
 };
 
 TEST(MpmcqueueTest, TestFifo) {
-  gpr_log(GPR_INFO, "test_FIFO");
   grpc_core::InfLenFIFOQueue large_queue;
   for (int i = 0; i < TEST_NUM_ITEMS; ++i) {
     large_queue.Put(static_cast<void*>(new WorkItem(i)));
@@ -123,7 +122,6 @@ TEST(MpmcqueueTest, TestFifo) {
 // Test if queue's behavior of expanding is correct. (Only does expansion when
 // it gets full, and each time expands to doubled size).
 TEST(MpmcqueueTest, TestSpaceEfficiency) {
-  gpr_log(GPR_INFO, "test_space_efficiency");
   grpc_core::InfLenFIFOQueue queue;
   for (int i = 0; i < queue.init_num_nodes(); ++i) {
     queue.Put(static_cast<void*>(new WorkItem(i)));
@@ -172,7 +170,6 @@ TEST(MpmcqueueTest, TestSpaceEfficiency) {
 }
 
 TEST(MpmcqueueTest, TestManyThread) {
-  gpr_log(GPR_INFO, "test_many_thread");
   const int num_producer_threads = 10;
   const int num_consumer_threads = 20;
   grpc_core::InfLenFIFOQueue queue;

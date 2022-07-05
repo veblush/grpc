@@ -285,9 +285,7 @@ static void shrink_test(void) {
 }
 
 TEST(TimerHeapTest, MainTest) {
-  int i;
-
-  for (i = 0; i < 5; i++) {
+  for (int i = 0; i < 5; i++) {
     test1();
     test2();
     shrink_test();

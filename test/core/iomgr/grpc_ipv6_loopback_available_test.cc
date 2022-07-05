@@ -31,11 +31,9 @@
 #endif
 
 TEST(GrpcIpv6LoopbackAvailableTest, MainTest) {
-  grpc_init();
   // This test assumes that the ipv6 loopback is available
   // in all environments in which grpc tests run in.
   ASSERT_TRUE(grpc_ipv6_loopback_available());
-  grpc_shutdown();
 }
 
 int main(int argc, char** argv) {

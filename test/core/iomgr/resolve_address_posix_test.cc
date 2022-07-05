@@ -24,6 +24,8 @@
 
 #include <gtest/gtest.h>
 
+#include "absl/flags/flag.h"
+#include "absl/flags/parse.h"
 #include "absl/strings/str_format.h"
 
 #include <grpc/grpc.h>
@@ -175,35 +177,30 @@ static void test_named_and_numeric_scope_ids(void) {
   resolve_address_must_succeed(target_with_numeric_scope_id.c_str());
 }
 
-#if 0
+ABSL_FLAG(std::string, resolver, "", "Resolver type (ares or native)");
 
 TEST(ResolveAddressUsingAresResolverPosixTest, MainTest) {
   // First set the resolver type based off of --resolver
-  const char* resolver_type = nullptr;
-  gpr_cmdline* cl = gpr_cmdline_create("resolve address test");
-  gpr_cmdline_add_string(cl, "resolver", "Resolver type (ares or native)",
-                         &resolver_type);
+  std::string resolver_type = absl::GetFlag(FLAGS_resolver);
   // In case that there are more than one argument on the command line,
   // --resolver will always be the first one, so only parse the first argument
   // (other arguments may be unknown to cl)
-  gpr_cmdline_parse(cl, argc > 2 ? 2 : argc, argv);
   grpc_core::UniquePtr<char> resolver =
       GPR_GLOBAL_CONFIG_GET(grpc_dns_resolver);
   if (strlen(resolver.get()) != 0) {
     gpr_log(GPR_INFO, "Warning: overriding resolver setting of %s",
             resolver.get());
   }
-  if (resolver_type != nullptr && gpr_stricmp(resolver_type, "native") == 0) {
+  if (resolver_type == "native") {
     GPR_GLOBAL_CONFIG_SET(grpc_dns_resolver, "native");
-  } else if (resolver_type != nullptr &&
-             gpr_stricmp(resolver_type, "ares") == 0) {
+  } else if (resolver_type == "ares") {
     GPR_GLOBAL_CONFIG_SET(grpc_dns_resolver, "ares");
   } else {
-    gpr_log(GPR_ERROR, "--resolver_type was not set to ares or native");
-    abort();
+    gpr_log(GPR_ERROR, "--resolver was not set to ares or native");
+    ASSERT_TRUE(false);
   }
-  grpc_init();
 
+  grpc_init();
   {
     grpc_core::ExecCtx exec_ctx;
     test_named_and_numeric_scope_ids();
@@ -213,15 +210,12 @@ TEST(ResolveAddressUsingAresResolverPosixTest, MainTest) {
     grpc_core::UniquePtr<char> resolver =
         GPR_GLOBAL_CONFIG_GET(grpc_dns_resolver);
   }
-  gpr_cmdline_destroy(cl);
-
   grpc_shutdown();
 }
-
-#endif
 
 int main(int argc, char** argv) {
   grpc::testing::TestEnvironment env(&argc, argv);
   ::testing::InitGoogleTest(&argc, argv);
+  absl::ParseCommandLine(argc, argv);
   return RUN_ALL_TESTS();
 }

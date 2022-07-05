@@ -19,6 +19,10 @@
 #include "src/core/lib/gprpp/time.h"
 #include "src/core/lib/iomgr/port.h"
 
+#include <gtest/gtest.h>
+
+#include "test/core/util/test_config.h"
+
 // This test won't work except with posix sockets enabled
 #ifdef GRPC_POSIX_SOCKET_TCP_CLIENT
 
@@ -27,8 +31,6 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
-
-#include <gtest/gtest.h>
 
 #include <grpc/grpc.h>
 #include <grpc/support/alloc.h>
@@ -41,7 +43,6 @@
 #include "src/core/lib/iomgr/tcp_client.h"
 #include "src/core/lib/iomgr/timer.h"
 #include "src/core/lib/resource_quota/api.h"
-#include "test/core/util/test_config.h"
 
 static grpc_pollset_set* g_pollset_set;
 static gpr_mu* g_mu;
@@ -315,14 +316,10 @@ TEST(TcpClientPosixTest, MainTest) {
   gpr_free(g_pollset);
 }
 
+#endif /* GRPC_POSIX_SOCKET_CLIENT */
+
 int main(int argc, char** argv) {
   grpc::testing::TestEnvironment env(&argc, argv);
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
-#else /* GRPC_POSIX_SOCKET_TCP_CLIENT */
-
-int main(int argc, char** argv) { return 1; }
-
-#endif /* GRPC_POSIX_SOCKET_CLIENT */
