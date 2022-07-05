@@ -22,6 +22,8 @@
 
 #include <string>
 
+#include <gtest/gtest.h>
+
 #include "absl/strings/str_format.h"
 
 #include <grpc/grpc.h>
@@ -67,7 +69,7 @@ void args_init(args_struct* args) {
 }
 
 void args_finish(args_struct* args) {
-  GPR_ASSERT(gpr_event_wait(&args->ev, test_deadline()));
+  ASSERT_TRUE(gpr_event_wait(&args->ev, test_deadline()));
   args->thd.Join();
   // Don't need to explicitly destruct args->thd since
   // args is actually going to be destructed, not just freed
@@ -102,7 +104,7 @@ static void actually_poll(void* argsp) {
           deadline - grpc_core::ExecCtx::Get()->Now();
       gpr_log(GPR_DEBUG, "done=%d, time_left=%" PRId64, args->done,
               time_left.millis());
-      GPR_ASSERT(time_left >= grpc_core::Duration::Zero());
+      ASSERT_TRUE(time_left >= grpc_core::Duration::Zero());
       grpc_pollset_worker* worker = nullptr;
       GRPC_LOG_IF_ERROR(
           "pollset_work",
@@ -121,8 +123,8 @@ namespace {
 
 void MustSucceed(args_struct* args,
                  absl::StatusOr<std::vector<grpc_resolved_address>> result) {
-  GPR_ASSERT(result.ok());
-  GPR_ASSERT(!result->empty());
+  ASSERT_TRUE(result.ok());
+  ASSERT_FALSE(result->empty());
   grpc_core::MutexLockForGprMu lock(args->mu);
   args->done = true;
   GRPC_LOG_IF_ERROR("pollset_kick", grpc_pollset_kick(args->pollset, nullptr));
@@ -159,7 +161,7 @@ static void test_named_and_numeric_scope_ids(void) {
       break;
     }
   }
-  GPR_ASSERT(strlen(arbitrary_interface_name) > 0);
+  ASSERT_TRUE(strlen(arbitrary_interface_name) > 0);
   // Test resolution of an ipv6 address with a named scope ID
   gpr_log(GPR_DEBUG, "test resolution with a named scope ID");
   std::string target_with_named_scope_id =
@@ -173,7 +175,9 @@ static void test_named_and_numeric_scope_ids(void) {
   resolve_address_must_succeed(target_with_numeric_scope_id.c_str());
 }
 
-int main(int argc, char** argv) {
+#if 0
+
+TEST(ResolveAddressUsingAresResolverPosixTest, MainTest) {
   // First set the resolver type based off of --resolver
   const char* resolver_type = nullptr;
   gpr_cmdline* cl = gpr_cmdline_create("resolve address test");
@@ -198,7 +202,6 @@ int main(int argc, char** argv) {
     gpr_log(GPR_ERROR, "--resolver_type was not set to ares or native");
     abort();
   }
-  grpc::testing::TestEnvironment env(&argc, argv);
   grpc_init();
 
   {
@@ -213,5 +216,12 @@ int main(int argc, char** argv) {
   gpr_cmdline_destroy(cl);
 
   grpc_shutdown();
-  return 0;
+}
+
+#endif
+
+int main(int argc, char** argv) {
+  grpc::testing::TestEnvironment env(&argc, argv);
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }

@@ -18,6 +18,8 @@
 
 #include "src/core/lib/iomgr/executor/mpmcqueue.h"
 
+#include <gtest/gtest.h>
+
 #include <grpc/grpc.h>
 
 #include "src/core/lib/gprpp/thd.h"
@@ -48,7 +50,7 @@ class ProducerThread {
   }
   ~ProducerThread() {
     for (int i = 0; i < num_items_; ++i) {
-      GPR_ASSERT(items_[i]->done);
+      EXPECT_TRUE(items_[i]->done);
       delete items_[i];
     }
     delete[] items_;
@@ -94,7 +96,7 @@ class ConsumerThread {
     WorkItem* item;
     while ((item = static_cast<WorkItem*>(queue_->Get(nullptr))) != nullptr) {
       count++;
-      GPR_ASSERT(!item->done);
+      ASSERT_FALSE(item->done);
       item->done = true;
     }
 
@@ -104,72 +106,72 @@ class ConsumerThread {
   grpc_core::Thread thd_;
 };
 
-static void test_FIFO(void) {
+TEST(MpmcqueueTest, TestFifo) {
   gpr_log(GPR_INFO, "test_FIFO");
   grpc_core::InfLenFIFOQueue large_queue;
   for (int i = 0; i < TEST_NUM_ITEMS; ++i) {
     large_queue.Put(static_cast<void*>(new WorkItem(i)));
   }
-  GPR_ASSERT(large_queue.count() == TEST_NUM_ITEMS);
+  ASSERT_EQ(large_queue.count(), TEST_NUM_ITEMS);
   for (int i = 0; i < TEST_NUM_ITEMS; ++i) {
     WorkItem* item = static_cast<WorkItem*>(large_queue.Get(nullptr));
-    GPR_ASSERT(i == item->index);
+    ASSERT_EQ(i, item->index);
     delete item;
   }
 }
 
 // Test if queue's behavior of expanding is correct. (Only does expansion when
 // it gets full, and each time expands to doubled size).
-static void test_space_efficiency(void) {
+TEST(MpmcqueueTest, TestSpaceEfficiency) {
   gpr_log(GPR_INFO, "test_space_efficiency");
   grpc_core::InfLenFIFOQueue queue;
   for (int i = 0; i < queue.init_num_nodes(); ++i) {
     queue.Put(static_cast<void*>(new WorkItem(i)));
   }
   // Queue should not have been expanded at this time.
-  GPR_ASSERT(queue.num_nodes() == queue.init_num_nodes());
+  ASSERT_EQ(queue.num_nodes(), queue.init_num_nodes());
   for (int i = 0; i < queue.init_num_nodes(); ++i) {
     WorkItem* item = static_cast<WorkItem*>(queue.Get(nullptr));
     queue.Put(item);
   }
-  GPR_ASSERT(queue.num_nodes() == queue.init_num_nodes());
+  ASSERT_EQ(queue.num_nodes(), queue.init_num_nodes());
   for (int i = 0; i < queue.init_num_nodes(); ++i) {
     WorkItem* item = static_cast<WorkItem*>(queue.Get(nullptr));
     delete item;
   }
   // Queue never shrinks even it is empty.
-  GPR_ASSERT(queue.num_nodes() == queue.init_num_nodes());
-  GPR_ASSERT(queue.count() == 0);
+  ASSERT_EQ(queue.num_nodes(), queue.init_num_nodes());
+  ASSERT_EQ(queue.count(), 0);
   // queue empty now
   for (int i = 0; i < queue.init_num_nodes() * 2; ++i) {
     queue.Put(static_cast<void*>(new WorkItem(i)));
   }
-  GPR_ASSERT(queue.count() == queue.init_num_nodes() * 2);
+  ASSERT_EQ(queue.count(), queue.init_num_nodes() * 2);
   // Queue should have been expanded once.
-  GPR_ASSERT(queue.num_nodes() == queue.init_num_nodes() * 2);
+  ASSERT_EQ(queue.num_nodes(), queue.init_num_nodes() * 2);
   for (int i = 0; i < queue.init_num_nodes(); ++i) {
     WorkItem* item = static_cast<WorkItem*>(queue.Get(nullptr));
     delete item;
   }
-  GPR_ASSERT(queue.count() == queue.init_num_nodes());
+  ASSERT_EQ(queue.count(), queue.init_num_nodes());
   // Queue will never shrink, should keep same number of node as before.
-  GPR_ASSERT(queue.num_nodes() == queue.init_num_nodes() * 2);
+  ASSERT_EQ(queue.num_nodes(), queue.init_num_nodes() * 2);
   for (int i = 0; i < queue.init_num_nodes() + 1; ++i) {
     queue.Put(static_cast<void*>(new WorkItem(i)));
   }
-  GPR_ASSERT(queue.count() == queue.init_num_nodes() * 2 + 1);
+  ASSERT_EQ(queue.count(), queue.init_num_nodes() * 2 + 1);
   // Queue should have been expanded twice.
-  GPR_ASSERT(queue.num_nodes() == queue.init_num_nodes() * 4);
+  ASSERT_EQ(queue.num_nodes(), queue.init_num_nodes() * 4);
   for (int i = 0; i < queue.init_num_nodes() * 2 + 1; ++i) {
     WorkItem* item = static_cast<WorkItem*>(queue.Get(nullptr));
     delete item;
   }
-  GPR_ASSERT(queue.count() == 0);
-  GPR_ASSERT(queue.num_nodes() == queue.init_num_nodes() * 4);
+  ASSERT_EQ(queue.count(), 0);
+  ASSERT_EQ(queue.num_nodes(), queue.init_num_nodes() * 4);
   gpr_log(GPR_DEBUG, "Done.");
 }
 
-static void test_many_thread(void) {
+TEST(MpmcqueueTest, TestManyThread) {
   gpr_log(GPR_INFO, "test_many_thread");
   const int num_producer_threads = 10;
   const int num_consumer_threads = 20;
@@ -218,10 +220,7 @@ static void test_many_thread(void) {
 
 int main(int argc, char** argv) {
   grpc::testing::TestEnvironment env(&argc, argv);
-  grpc_init();
-  test_FIFO();
-  test_space_efficiency();
-  test_many_thread();
-  grpc_shutdown();
-  return 0;
+  ::testing::InitGoogleTest(&argc, argv);
+  grpc::testing::TestGrpcScope grpc_scope;
+  return RUN_ALL_TESTS();
 }
