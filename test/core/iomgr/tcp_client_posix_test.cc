@@ -16,11 +16,10 @@
  *
  */
 
-#include "src/core/lib/gprpp/time.h"
-#include "src/core/lib/iomgr/port.h"
-
 #include <gtest/gtest.h>
 
+#include "src/core/lib/gprpp/time.h"
+#include "src/core/lib/iomgr/port.h"
 #include "test/core/util/test_config.h"
 
 // This test won't work except with posix sockets enabled

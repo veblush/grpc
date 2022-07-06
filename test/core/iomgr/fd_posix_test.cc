@@ -16,10 +16,9 @@
  *
  */
 
-#include "src/core/lib/iomgr/port.h"
-
 #include <gtest/gtest.h>
 
+#include "src/core/lib/iomgr/port.h"
 #include "test/core/util/test_config.h"
 
 // This test won't work except with posix sockets enabled
@@ -539,4 +538,3 @@ int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
