@@ -14465,6 +14465,8 @@ if(_gRPC_PLATFORM_LINUX OR _gRPC_PLATFORM_MAC OR _gRPC_PLATFORM_POSIX)
   target_link_libraries(resolve_address_using_ares_resolver_posix_test
     ${_gRPC_PROTOBUF_LIBRARIES}
     ${_gRPC_ALLTARGETS_LIBRARIES}
+    absl::flags
+    absl::flags_parse
     grpc_test_util
   )
 
@@ -14539,6 +14541,8 @@ if(_gRPC_PLATFORM_LINUX OR _gRPC_PLATFORM_MAC OR _gRPC_PLATFORM_POSIX)
   target_link_libraries(resolve_address_using_native_resolver_posix_test
     ${_gRPC_PROTOBUF_LIBRARIES}
     ${_gRPC_ALLTARGETS_LIBRARIES}
+    absl::flags
+    absl::flags_parse
     grpc_test_util
   )
 

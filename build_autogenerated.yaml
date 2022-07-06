@@ -7524,6 +7524,8 @@ targets:
   src:
   - test/core/iomgr/resolve_address_posix_test.cc
   deps:
+  - absl/flags:flag
+  - absl/flags:parse
   - grpc_test_util
   args:
   - --resolver=ares
@@ -7551,6 +7553,8 @@ targets:
   src:
   - test/core/iomgr/resolve_address_posix_test.cc
   deps:
+  - absl/flags:flag
+  - absl/flags:parse
   - grpc_test_util
   args:
   - --resolver=native
