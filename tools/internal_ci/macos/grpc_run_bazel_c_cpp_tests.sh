@@ -57,14 +57,16 @@ tools/bazel \
   --google_credentials="${KOKORO_GFILE_DIR}/GrpcTesting-d0eeee2db331.json" \
   "${BAZEL_REMOTE_CACHE_ARGS[@]}" \
   $BAZEL_FLAGS \
-  -- //test/... || FAILED="true"
+  --runs_per_test=1000 \
+  --test_env=GRPC_VERBOSITY=debug \
+  -- //test/core/end2end:h2_ssl_test@bad_ping || FAILED="true"
 
-if [ "$UPLOAD_TEST_RESULTS" != "" ]
-then
-  # Sleep to let ResultStore finish writing results before querying
-  sleep 60
-  PYTHONHTTPSVERIFY=0 python3 ./tools/run_tests/python_utils/upload_rbe_results.py
-fi
+#if [ "$UPLOAD_TEST_RESULTS" != "" ]
+#then
+#  # Sleep to let ResultStore finish writing results before querying
+#  sleep 60
+#  PYTHONHTTPSVERIFY=0 python3 ./tools/run_tests/python_utils/upload_rbe_results.py
+#fi
 
 if [ "$FAILED" != "" ]
 then
