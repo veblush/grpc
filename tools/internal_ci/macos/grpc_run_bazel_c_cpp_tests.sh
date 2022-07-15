@@ -49,4 +49,6 @@ bazel_c_cpp_tests/bazel_wrapper \
   --google_credentials="${KOKORO_GFILE_DIR}/GrpcTesting-d0eeee2db331.json" \
   "${BAZEL_REMOTE_CACHE_ARGS[@]}" \
   $BAZEL_FLAGS \
-  -- //test/...
+  --runs_per_test=1000 \
+  --test_env=GRPC_VERBOSITY=debug \
+  -- //test/core/end2end:h2_ssl_test@bad_ping
