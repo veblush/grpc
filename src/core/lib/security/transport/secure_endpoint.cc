@@ -64,7 +64,7 @@
 
 #define STAGING_BUFFER_SIZE 8192
 
-static void on_read(void* user_data, grpc_error_handle error);
+static void on_read(void* user_data, absl::Status error);
 
 namespace {
 struct secure_endpoint {
@@ -237,7 +237,7 @@ static void flush_read_staging_buffer(secure_endpoint* ep, uint8_t** cur,
   *end = GRPC_SLICE_END_PTR(ep->read_staging_buffer);
 }
 
-static void call_read_cb(secure_endpoint* ep, grpc_error_handle error) {
+static void call_read_cb(secure_endpoint* ep, absl::Status error) {
   if (GRPC_TRACE_FLAG_ENABLED(grpc_trace_secure_endpoint)) {
     size_t i;
     for (i = 0; i < ep->read_buffer->count; i++) {
@@ -252,7 +252,7 @@ static void call_read_cb(secure_endpoint* ep, grpc_error_handle error) {
   SECURE_ENDPOINT_UNREF(ep, "read");
 }
 
-static void on_read(void* user_data, grpc_error_handle error) {
+static void on_read(void* user_data, absl::Status error) {
   unsigned i;
   uint8_t keep_looping = 0;
   tsi_result result = TSI_OK;
@@ -499,7 +499,7 @@ static void endpoint_write(grpc_endpoint* secure_ep, grpc_slice_buffer* slices,
                       max_frame_size);
 }
 
-static void endpoint_shutdown(grpc_endpoint* secure_ep, grpc_error_handle why) {
+static void endpoint_shutdown(grpc_endpoint* secure_ep, absl::Status why) {
   secure_endpoint* ep = reinterpret_cast<secure_endpoint*>(secure_ep);
   grpc_endpoint_shutdown(ep->wrapped_ep, why);
 }

@@ -245,7 +245,7 @@ static void test_request(grpc_end2end_test_config config) {
  * Test latency filter
  */
 
-static grpc_error_handle init_call_elem(
+static absl::Status init_call_elem(
     grpc_call_element* /*elem*/, const grpc_call_element_args* /*args*/) {
   return GRPC_ERROR_NONE;
 }
@@ -266,7 +266,7 @@ static void server_destroy_call_elem(grpc_call_element* /*elem*/,
   gpr_mu_unlock(&g_mu);
 }
 
-static grpc_error_handle init_channel_elem(
+static absl::Status init_channel_elem(
     grpc_channel_element* /*elem*/, grpc_channel_element_args* /*args*/) {
   return GRPC_ERROR_NONE;
 }

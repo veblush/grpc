@@ -42,7 +42,7 @@ const uint32_t kByteOffset = 123;
 void* PhonyArgsCopier(void* arg) { return arg; }
 
 void TestExecuteFlushesListVerifier(void* arg, Timestamps* ts,
-                                    grpc_error_handle error) {
+                                    absl::Status error) {
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(error, GRPC_ERROR_NONE);
   if (ts) {

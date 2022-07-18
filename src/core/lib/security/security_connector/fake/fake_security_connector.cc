@@ -86,7 +86,7 @@ class grpc_fake_channel_security_connector final
                   grpc_closure* on_peer_checked) override;
 
   void cancel_check_peer(grpc_closure* /*on_peer_checked*/,
-                         grpc_error_handle error) override {}
+                         absl::Status error) override {}
 
   int cmp(const grpc_security_connector* other_sc) const override {
     auto* other =
@@ -210,7 +210,7 @@ void fake_check_peer(grpc_security_connector* /*sc*/, tsi_peer peer,
                      grpc_core::RefCountedPtr<grpc_auth_context>* auth_context,
                      grpc_closure* on_peer_checked) {
   const char* prop_name;
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   *auth_context = nullptr;
   if (peer.property_count != 2) {
     error = GRPC_ERROR_CREATE_FROM_STATIC_STRING(
@@ -282,7 +282,7 @@ class grpc_fake_server_security_connector
   }
 
   void cancel_check_peer(grpc_closure* /*on_peer_checked*/,
-                         grpc_error_handle error) override {}
+                         absl::Status error) override {}
 
   void add_handshakers(const grpc_core::ChannelArgs& args,
                        grpc_pollset_set* /*interested_parties*/,

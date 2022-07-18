@@ -91,7 +91,7 @@ grpc_slice grpc_chttp2_settings_ack_create(void) {
   return output;
 }
 
-grpc_error_handle grpc_chttp2_settings_parser_begin_frame(
+absl::Status grpc_chttp2_settings_parser_begin_frame(
     grpc_chttp2_settings_parser* parser, uint32_t length, uint8_t flags,
     uint32_t* settings) {
   parser->target_settings = settings;
@@ -117,7 +117,7 @@ grpc_error_handle grpc_chttp2_settings_parser_begin_frame(
   }
 }
 
-grpc_error_handle grpc_chttp2_settings_parser_parse(void* p,
+absl::Status grpc_chttp2_settings_parser_parse(void* p,
                                                     grpc_chttp2_transport* t,
                                                     grpc_chttp2_stream* /*s*/,
                                                     const grpc_slice& slice,

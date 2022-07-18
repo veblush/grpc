@@ -71,10 +71,10 @@ class ServiceConfigImpl final : public ServiceConfig {
   /// Returns null on parse error.
   static RefCountedPtr<ServiceConfig> Create(const ChannelArgs& args,
                                              absl::string_view json_string,
-                                             grpc_error_handle* error);
+                                             absl::Status* error);
 
   ServiceConfigImpl(const ChannelArgs& args, std::string json_string, Json json,
-                    grpc_error_handle* error);
+                    absl::Status* error);
   ~ServiceConfigImpl() override;
 
   absl::string_view json_string() const override { return json_string_; }
@@ -96,14 +96,14 @@ class ServiceConfigImpl final : public ServiceConfig {
 
  private:
   // Helper functions for parsing the method configs.
-  grpc_error_handle ParsePerMethodParams(const ChannelArgs& args);
-  grpc_error_handle ParseJsonMethodConfig(const ChannelArgs& args,
+  absl::Status ParsePerMethodParams(const ChannelArgs& args);
+  absl::Status ParseJsonMethodConfig(const ChannelArgs& args,
                                           const Json& json);
 
   // Returns a path string for the JSON name object specified by json.
   // Sets *error on error.
   static std::string ParseJsonMethodName(const Json& json,
-                                         grpc_error_handle* error);
+                                         absl::Status* error);
 
   std::string json_string_;
   Json json_;

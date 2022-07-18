@@ -37,9 +37,9 @@ struct grpc_chttp2_window_update_parser {
 grpc_slice grpc_chttp2_window_update_create(
     uint32_t id, uint32_t window_delta, grpc_transport_one_way_stats* stats);
 
-grpc_error_handle grpc_chttp2_window_update_parser_begin_frame(
+absl::Status grpc_chttp2_window_update_parser_begin_frame(
     grpc_chttp2_window_update_parser* parser, uint32_t length, uint8_t flags);
-grpc_error_handle grpc_chttp2_window_update_parser_parse(
+absl::Status grpc_chttp2_window_update_parser_parse(
     void* parser, grpc_chttp2_transport* t, grpc_chttp2_stream* s,
     const grpc_slice& slice, int is_last);
 

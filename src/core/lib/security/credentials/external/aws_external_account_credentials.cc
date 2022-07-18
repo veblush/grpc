@@ -79,7 +79,7 @@ std::string UrlEncode(const absl::string_view& s) {
 RefCountedPtr<AwsExternalAccountCredentials>
 AwsExternalAccountCredentials::Create(Options options,
                                       std::vector<std::string> scopes,
-                                      grpc_error_handle* error) {
+                                      absl::Status* error) {
   auto creds = MakeRefCounted<AwsExternalAccountCredentials>(
       std::move(options), std::move(scopes), error);
   if (error->ok()) {
@@ -90,7 +90,7 @@ AwsExternalAccountCredentials::Create(Options options,
 }
 
 AwsExternalAccountCredentials::AwsExternalAccountCredentials(
-    Options options, std::vector<std::string> scopes, grpc_error_handle* error)
+    Options options, std::vector<std::string> scopes, absl::Status* error)
     : ExternalAccountCredentials(options, std::move(scopes)) {
   audience_ = options.audience;
   auto it = options.credential_source.object_value().find("environment_id");
@@ -149,7 +149,7 @@ AwsExternalAccountCredentials::AwsExternalAccountCredentials(
 
 void AwsExternalAccountCredentials::RetrieveSubjectToken(
     HTTPRequestContext* ctx, const Options& /*options*/,
-    std::function<void(std::string, grpc_error_handle)> cb) {
+    std::function<void(std::string, absl::Status)> cb) {
   if (ctx == nullptr) {
     FinishRetrieveSubjectToken(
         "",
@@ -201,14 +201,14 @@ void AwsExternalAccountCredentials::RetrieveImdsV2SessionToken() {
 }
 
 void AwsExternalAccountCredentials::OnRetrieveImdsV2SessionToken(
-    void* arg, grpc_error_handle error) {
+    void* arg, absl::Status error) {
   AwsExternalAccountCredentials* self =
       static_cast<AwsExternalAccountCredentials*>(arg);
   self->OnRetrieveImdsV2SessionTokenInternal(error);
 }
 
 void AwsExternalAccountCredentials::OnRetrieveImdsV2SessionTokenInternal(
-    grpc_error_handle error) {
+    absl::Status error) {
   if (!error.ok()) {
     FinishRetrieveSubjectToken("", error);
     return;
@@ -279,14 +279,14 @@ void AwsExternalAccountCredentials::RetrieveRegion() {
 }
 
 void AwsExternalAccountCredentials::OnRetrieveRegion(void* arg,
-                                                     grpc_error_handle error) {
+                                                     absl::Status error) {
   AwsExternalAccountCredentials* self =
       static_cast<AwsExternalAccountCredentials*>(arg);
   self->OnRetrieveRegionInternal(error);
 }
 
 void AwsExternalAccountCredentials::OnRetrieveRegionInternal(
-    grpc_error_handle error) {
+    absl::Status error) {
   if (!error.ok()) {
     FinishRetrieveSubjectToken("", error);
     return;
@@ -333,14 +333,14 @@ void AwsExternalAccountCredentials::RetrieveRoleName() {
 }
 
 void AwsExternalAccountCredentials::OnRetrieveRoleName(
-    void* arg, grpc_error_handle error) {
+    void* arg, absl::Status error) {
   AwsExternalAccountCredentials* self =
       static_cast<AwsExternalAccountCredentials*>(arg);
   self->OnRetrieveRoleNameInternal(error);
 }
 
 void AwsExternalAccountCredentials::OnRetrieveRoleNameInternal(
-    grpc_error_handle error) {
+    absl::Status error) {
   if (!error.ok()) {
     FinishRetrieveSubjectToken("", error);
     return;
@@ -399,14 +399,14 @@ void AwsExternalAccountCredentials::RetrieveSigningKeys() {
 }
 
 void AwsExternalAccountCredentials::OnRetrieveSigningKeys(
-    void* arg, grpc_error_handle error) {
+    void* arg, absl::Status error) {
   AwsExternalAccountCredentials* self =
       static_cast<AwsExternalAccountCredentials*>(arg);
   self->OnRetrieveSigningKeysInternal(error);
 }
 
 void AwsExternalAccountCredentials::OnRetrieveSigningKeysInternal(
-    grpc_error_handle error) {
+    absl::Status error) {
   if (!error.ok()) {
     FinishRetrieveSubjectToken("", error);
     return;
@@ -454,7 +454,7 @@ void AwsExternalAccountCredentials::OnRetrieveSigningKeysInternal(
 }
 
 void AwsExternalAccountCredentials::BuildSubjectToken() {
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   if (signer_ == nullptr) {
     cred_verification_url_ = absl::StrReplaceAll(
         regional_cred_verification_url_, {{"{region}", region_}});
@@ -498,7 +498,7 @@ void AwsExternalAccountCredentials::BuildSubjectToken() {
 }
 
 void AwsExternalAccountCredentials::FinishRetrieveSubjectToken(
-    std::string subject_token, grpc_error_handle error) {
+    std::string subject_token, absl::Status error) {
   // Reset context
   ctx_ = nullptr;
   // Move object state into local variables.

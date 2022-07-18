@@ -83,7 +83,7 @@ UniqueTypeName RequestHashAttributeName() {
 // Helper Parser method
 void ParseRingHashLbConfig(const Json& json, size_t* min_ring_size,
                            size_t* max_ring_size,
-                           std::vector<grpc_error_handle>* error_list) {
+                           std::vector<absl::Status>* error_list) {
   *min_ring_size = 1024;
   *max_ring_size = 8388608;
   if (json.type() != Json::Type::OBJECT) {
@@ -325,7 +325,7 @@ class RingHash : public LoadBalancingPolicy {
       }
 
      private:
-      static void RunInExecCtx(void* arg, grpc_error_handle /*error*/) {
+      static void RunInExecCtx(void* arg, absl::Status /*error*/) {
         auto* self = static_cast<SubchannelConnectionAttempter*>(arg);
         self->ring_hash_lb_->work_serializer()->Run(
             [self]() {
@@ -878,10 +878,10 @@ class RingHashFactory : public LoadBalancingPolicyFactory {
   const char* name() const override { return kRingHash; }
 
   RefCountedPtr<LoadBalancingPolicy::Config> ParseLoadBalancingConfig(
-      const Json& json, grpc_error_handle* error) const override {
+      const Json& json, absl::Status* error) const override {
     size_t min_ring_size;
     size_t max_ring_size;
-    std::vector<grpc_error_handle> error_list;
+    std::vector<absl::Status> error_list;
     ParseRingHashLbConfig(json, &min_ring_size, &max_ring_size, &error_list);
     if (error_list.empty()) {
       return MakeRefCounted<RingHashLbConfig>(min_ring_size, max_ring_size);

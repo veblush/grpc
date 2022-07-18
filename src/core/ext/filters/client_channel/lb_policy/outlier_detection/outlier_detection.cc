@@ -371,8 +371,8 @@ class OutlierDetectionLb : public LoadBalancingPolicy {
     Timestamp StartTime() const { return start_time_; }
 
    private:
-    static void OnTimer(void* arg, grpc_error_handle error);
-    void OnTimerLocked(grpc_error_handle);
+    static void OnTimer(void* arg, absl::Status error);
+    void OnTimerLocked(absl::Status);
 
     RefCountedPtr<OutlierDetectionLb> parent_;
     grpc_timer timer_;
@@ -802,13 +802,13 @@ void OutlierDetectionLb::EjectionTimer::Orphan() {
 }
 
 void OutlierDetectionLb::EjectionTimer::OnTimer(void* arg,
-                                                grpc_error_handle error) {
+                                                absl::Status error) {
   auto* self = static_cast<EjectionTimer*>(arg);
   self->parent_->work_serializer()->Run(
       [self, error]() { self->OnTimerLocked(error); }, DEBUG_LOCATION);
 }
 
-void OutlierDetectionLb::EjectionTimer::OnTimerLocked(grpc_error_handle error) {
+void OutlierDetectionLb::EjectionTimer::OnTimerLocked(absl::Status error) {
   if (error.ok() && timer_pending_) {
     if (GRPC_TRACE_FLAG_ENABLED(grpc_outlier_detection_lb_trace)) {
       gpr_log(GPR_INFO, "[outlier_detection_lb %p] ejection timer running",
@@ -1008,7 +1008,7 @@ class OutlierDetectionLbFactory : public LoadBalancingPolicyFactory {
   const char* name() const override { return kOutlierDetection; }
 
   RefCountedPtr<LoadBalancingPolicy::Config> ParseLoadBalancingConfig(
-      const Json& json, grpc_error_handle* error) const override {
+      const Json& json, absl::Status* error) const override {
     GPR_DEBUG_ASSERT(error != nullptr && error->ok());
     if (json.type() == Json::Type::JSON_NULL) {
       // This policy was configured in the deprecated loadBalancingPolicy
@@ -1019,7 +1019,7 @@ class OutlierDetectionLbFactory : public LoadBalancingPolicyFactory {
           "config instead.");
       return nullptr;
     }
-    std::vector<grpc_error_handle> error_list;
+    std::vector<absl::Status> error_list;
     // Outlier detection config
     OutlierDetectionConfig outlier_detection_config;
     auto it = json.object_value().find("successRateEjection");
@@ -1089,12 +1089,12 @@ class OutlierDetectionLbFactory : public LoadBalancingPolicyFactory {
       error_list.push_back(GRPC_ERROR_CREATE_FROM_STATIC_STRING(
           "field:childPolicy error:required field missing"));
     } else {
-      grpc_error_handle parse_error = GRPC_ERROR_NONE;
+      absl::Status parse_error = GRPC_ERROR_NONE;
       child_policy = LoadBalancingPolicyRegistry::ParseLoadBalancingConfig(
           it->second, &parse_error);
       if (child_policy == nullptr) {
         GPR_DEBUG_ASSERT(!parse_error.ok());
-        std::vector<grpc_error_handle> child_errors;
+        std::vector<absl::Status> child_errors;
         child_errors.push_back(parse_error);
         error_list.push_back(
             GRPC_ERROR_CREATE_FROM_VECTOR("field:childPolicy", &child_errors));

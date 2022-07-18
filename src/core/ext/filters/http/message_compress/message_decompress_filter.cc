@@ -96,20 +96,20 @@ class CallData {
       grpc_call_element* elem, grpc_transport_stream_op_batch* batch);
 
  private:
-  static void OnRecvInitialMetadataReady(void* arg, grpc_error_handle error);
+  static void OnRecvInitialMetadataReady(void* arg, absl::Status error);
 
   // Methods for processing a receive message event
   void MaybeResumeOnRecvMessageReady();
-  static void OnRecvMessageReady(void* arg, grpc_error_handle error);
-  void ContinueRecvMessageReadyCallback(grpc_error_handle error);
+  static void OnRecvMessageReady(void* arg, absl::Status error);
+  void ContinueRecvMessageReadyCallback(absl::Status error);
 
   // Methods for processing a recv_trailing_metadata event
   void MaybeResumeOnRecvTrailingMetadataReady();
-  static void OnRecvTrailingMetadataReady(void* arg, grpc_error_handle error);
+  static void OnRecvTrailingMetadataReady(void* arg, absl::Status error);
 
   CallCombiner* call_combiner_;
   // Overall error for the call
-  grpc_error_handle error_ = GRPC_ERROR_NONE;
+  absl::Status error_ = GRPC_ERROR_NONE;
   // Fields for handling recv_initial_metadata_ready callback
   grpc_closure on_recv_initial_metadata_ready_;
   grpc_closure* original_recv_initial_metadata_ready_ = nullptr;
@@ -126,10 +126,10 @@ class CallData {
   bool seen_recv_trailing_metadata_ready_ = false;
   grpc_closure on_recv_trailing_metadata_ready_;
   grpc_closure* original_recv_trailing_metadata_ready_ = nullptr;
-  grpc_error_handle on_recv_trailing_metadata_ready_error_ = GRPC_ERROR_NONE;
+  absl::Status on_recv_trailing_metadata_ready_error_ = GRPC_ERROR_NONE;
 };
 
-void CallData::OnRecvInitialMetadataReady(void* arg, grpc_error_handle error) {
+void CallData::OnRecvInitialMetadataReady(void* arg, absl::Status error) {
   CallData* calld = static_cast<CallData*>(arg);
   if (error.ok()) {
     calld->algorithm_ =
@@ -152,7 +152,7 @@ void CallData::MaybeResumeOnRecvMessageReady() {
   }
 }
 
-void CallData::OnRecvMessageReady(void* arg, grpc_error_handle error) {
+void CallData::OnRecvMessageReady(void* arg, absl::Status error) {
   CallData* calld = static_cast<CallData*>(arg);
   if (error.ok()) {
     if (calld->original_recv_initial_metadata_ready_ != nullptr) {
@@ -203,7 +203,7 @@ void CallData::OnRecvMessageReady(void* arg, grpc_error_handle error) {
   calld->ContinueRecvMessageReadyCallback(error);
 }
 
-void CallData::ContinueRecvMessageReadyCallback(grpc_error_handle error) {
+void CallData::ContinueRecvMessageReadyCallback(absl::Status error) {
   MaybeResumeOnRecvTrailingMetadataReady();
   // The surface will clean up the receiving stream if there is an error.
   grpc_closure* closure = original_recv_message_ready_;
@@ -214,14 +214,14 @@ void CallData::ContinueRecvMessageReadyCallback(grpc_error_handle error) {
 void CallData::MaybeResumeOnRecvTrailingMetadataReady() {
   if (seen_recv_trailing_metadata_ready_) {
     seen_recv_trailing_metadata_ready_ = false;
-    grpc_error_handle error = on_recv_trailing_metadata_ready_error_;
+    absl::Status error = on_recv_trailing_metadata_ready_error_;
     on_recv_trailing_metadata_ready_error_ = GRPC_ERROR_NONE;
     GRPC_CALL_COMBINER_START(call_combiner_, &on_recv_trailing_metadata_ready_,
                              error, "Continuing OnRecvTrailingMetadataReady");
   }
 }
 
-void CallData::OnRecvTrailingMetadataReady(void* arg, grpc_error_handle error) {
+void CallData::OnRecvTrailingMetadataReady(void* arg, absl::Status error) {
   CallData* calld = static_cast<CallData*>(arg);
   if (calld->original_recv_initial_metadata_ready_ != nullptr ||
       calld->original_recv_message_ready_ != nullptr) {
@@ -277,7 +277,7 @@ void DecompressStartTransportStreamOpBatch(
   calld->DecompressStartTransportStreamOpBatch(elem, batch);
 }
 
-grpc_error_handle DecompressInitCallElem(grpc_call_element* elem,
+absl::Status DecompressInitCallElem(grpc_call_element* elem,
                                          const grpc_call_element_args* args) {
   ChannelData* chand = static_cast<ChannelData*>(elem->channel_data);
   new (elem->call_data) CallData(*args, chand);
@@ -291,7 +291,7 @@ void DecompressDestroyCallElem(grpc_call_element* elem,
   calld->~CallData();
 }
 
-grpc_error_handle DecompressInitChannelElem(grpc_channel_element* elem,
+absl::Status DecompressInitChannelElem(grpc_channel_element* elem,
                                             grpc_channel_element_args* args) {
   ChannelData* chand = static_cast<ChannelData*>(elem->channel_data);
   new (chand) ChannelData(args);

@@ -138,7 +138,7 @@ tsi_tls_version grpc_get_tsi_tls_version(grpc_tls_version tls_version) {
   }
 }
 
-grpc_error_handle grpc_ssl_check_alpn(const tsi_peer* peer) {
+absl::Status grpc_ssl_check_alpn(const tsi_peer* peer) {
 #if TSI_OPENSSL_ALPN_SUPPORT
   /* Check the ALPN if ALPN is supported. */
   const tsi_peer_property* p =
@@ -155,7 +155,7 @@ grpc_error_handle grpc_ssl_check_alpn(const tsi_peer* peer) {
   return GRPC_ERROR_NONE;
 }
 
-grpc_error_handle grpc_ssl_check_peer_name(absl::string_view peer_name,
+absl::Status grpc_ssl_check_peer_name(absl::string_view peer_name,
                                            const tsi_peer* peer) {
   /* Check the peer name if specified. */
   if (!peer_name.empty() && !grpc_ssl_host_matches_name(peer, peer_name)) {

@@ -27,7 +27,7 @@
 
 static void TestShutdownFlushesListVerifier(void* arg,
                                             grpc_core::Timestamps* /*ts*/,
-                                            grpc_error_handle error) {
+                                            absl::Status error) {
   GPR_ASSERT(error.ok());
   GPR_ASSERT(arg != nullptr);
   gpr_atm* done = reinterpret_cast<gpr_atm*>(arg);
@@ -59,7 +59,7 @@ static void TestShutdownFlushesList() {
 
 static void TestVerifierCalledOnAckVerifier(void* arg,
                                             grpc_core::Timestamps* ts,
-                                            grpc_error_handle error) {
+                                            absl::Status error) {
   GPR_ASSERT(error.ok());
   GPR_ASSERT(arg != nullptr);
   GPR_ASSERT(ts->acked_time.time.clock_type == GPR_CLOCK_REALTIME);

@@ -80,7 +80,7 @@ static int get_max_accept_queue_size(void) {
   return s_max_accept_queue_size;
 }
 
-static grpc_error_handle add_socket_to_server(grpc_tcp_server* s, int fd,
+static absl::Status add_socket_to_server(grpc_tcp_server* s, int fd,
                                               const grpc_resolved_address* addr,
                                               unsigned port_index,
                                               unsigned fd_index,
@@ -88,7 +88,7 @@ static grpc_error_handle add_socket_to_server(grpc_tcp_server* s, int fd,
   *listener = nullptr;
   int port = -1;
 
-  grpc_error_handle err =
+  absl::Status err =
       grpc_tcp_server_prepare_socket(s, fd, addr, s->so_reuseport, &port);
   if (!err.ok()) return err;
   GPR_ASSERT(port > 0);
@@ -127,7 +127,7 @@ static grpc_error_handle add_socket_to_server(grpc_tcp_server* s, int fd,
 
 /* If successful, add a listener to s for addr, set *dsmode for the socket, and
    return the *listener. */
-grpc_error_handle grpc_tcp_server_add_addr(grpc_tcp_server* s,
+absl::Status grpc_tcp_server_add_addr(grpc_tcp_server* s,
                                            const grpc_resolved_address* addr,
                                            unsigned port_index,
                                            unsigned fd_index,
@@ -135,7 +135,7 @@ grpc_error_handle grpc_tcp_server_add_addr(grpc_tcp_server* s,
                                            grpc_tcp_listener** listener) {
   grpc_resolved_address addr4_copy;
   int fd;
-  grpc_error_handle err =
+  absl::Status err =
       grpc_create_dualstack_socket(addr, SOCK_STREAM, 0, dsmode, &fd);
   if (!err.ok()) {
     return err;
@@ -148,11 +148,11 @@ grpc_error_handle grpc_tcp_server_add_addr(grpc_tcp_server* s,
 }
 
 /* Prepare a recently-created socket for listening. */
-grpc_error_handle grpc_tcp_server_prepare_socket(
+absl::Status grpc_tcp_server_prepare_socket(
     grpc_tcp_server* s, int fd, const grpc_resolved_address* addr,
     bool so_reuseport, int* port) {
   grpc_resolved_address sockname_temp;
-  grpc_error_handle err = GRPC_ERROR_NONE;
+  absl::Status err = GRPC_ERROR_NONE;
 
   GPR_ASSERT(fd >= 0);
 
@@ -215,7 +215,7 @@ error:
   if (fd >= 0) {
     close(fd);
   }
-  grpc_error_handle ret =
+  absl::Status ret =
       grpc_error_set_int(GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
                              "Unable to configure socket", &err, 1),
                          GRPC_ERROR_INT_FD, fd);

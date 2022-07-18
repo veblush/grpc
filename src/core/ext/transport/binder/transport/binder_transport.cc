@@ -95,7 +95,7 @@ static void grpc_binder_unref_transport(grpc_binder_transport* t) {
 #define GRPC_BINDER_UNREF_TRANSPORT(t, r) grpc_binder_unref_transport(t)
 #endif
 
-static void register_stream_locked(void* arg, grpc_error_handle /*error*/) {
+static void register_stream_locked(void* arg, absl::Status /*error*/) {
   RegisterStreamArgs* args = static_cast<RegisterStreamArgs*>(arg);
   args->gbt->registered_stream[args->gbs->GetTxCode()] = args->gbs;
 }
@@ -148,7 +148,7 @@ static void AssignMetadata(grpc_metadata_batch* mb,
 
 static void cancel_stream_locked(grpc_binder_transport* gbt,
                                  grpc_binder_stream* gbs,
-                                 grpc_error_handle error) {
+                                 absl::Status error) {
   gpr_log(GPR_INFO, "cancel_stream_locked");
   if (!gbs->is_closed) {
     GPR_ASSERT(gbs->cancel_self_error.ok());
@@ -194,7 +194,7 @@ static bool ContainsAuthorityAndPath(const grpc_binder::Metadata& metadata) {
 }
 
 static void recv_initial_metadata_locked(void* arg,
-                                         grpc_error_handle /*error*/) {
+                                         absl::Status /*error*/) {
   RecvInitialMetadataArgs* args = static_cast<RecvInitialMetadataArgs*>(arg);
   grpc_binder_stream* gbs = args->gbs;
 
@@ -203,7 +203,7 @@ static void recv_initial_metadata_locked(void* arg,
           gbs->is_client, gbs->is_closed);
 
   if (!gbs->is_closed) {
-    grpc_error_handle error = [&] {
+    absl::Status error = [&] {
       GPR_ASSERT(gbs->recv_initial_metadata);
       GPR_ASSERT(gbs->recv_initial_metadata_ready);
       if (!args->initial_metadata.ok()) {
@@ -229,7 +229,7 @@ static void recv_initial_metadata_locked(void* arg,
   GRPC_BINDER_STREAM_UNREF(gbs, "recv_initial_metadata");
 }
 
-static void recv_message_locked(void* arg, grpc_error_handle /*error*/) {
+static void recv_message_locked(void* arg, absl::Status /*error*/) {
   RecvMessageArgs* args = static_cast<RecvMessageArgs*>(arg);
   grpc_binder_stream* gbs = args->gbs;
 
@@ -237,7 +237,7 @@ static void recv_message_locked(void* arg, grpc_error_handle /*error*/) {
           gbs->is_client, gbs->is_closed);
 
   if (!gbs->is_closed) {
-    grpc_error_handle error = [&] {
+    absl::Status error = [&] {
       GPR_ASSERT(gbs->recv_message);
       GPR_ASSERT(gbs->recv_message_ready);
       if (!args->message.ok()) {
@@ -272,7 +272,7 @@ static void recv_message_locked(void* arg, grpc_error_handle /*error*/) {
 }
 
 static void recv_trailing_metadata_locked(void* arg,
-                                          grpc_error_handle /*error*/) {
+                                          absl::Status /*error*/) {
   RecvTrailingMetadataArgs* args = static_cast<RecvTrailingMetadataArgs*>(arg);
   grpc_binder_stream* gbs = args->gbs;
 
@@ -281,7 +281,7 @@ static void recv_trailing_metadata_locked(void* arg,
           gbs->is_client, gbs->is_closed);
 
   if (!gbs->is_closed) {
-    grpc_error_handle error = [&] {
+    absl::Status error = [&] {
       GPR_ASSERT(gbs->recv_trailing_metadata);
       GPR_ASSERT(gbs->recv_trailing_metadata_finished);
       if (!args->trailing_metadata.ok()) {
@@ -372,7 +372,7 @@ class MetadataEncoder {
 }  // namespace grpc_binder
 
 static void perform_stream_op_locked(void* stream_op,
-                                     grpc_error_handle /*error*/) {
+                                     absl::Status /*error*/) {
   grpc_transport_stream_op_batch* op =
       static_cast<grpc_transport_stream_op_batch*>(stream_op);
   grpc_binder_stream* gbs =
@@ -584,7 +584,7 @@ static void close_transport_locked(grpc_binder_transport* gbt) {
 }
 
 static void perform_transport_op_locked(void* transport_op,
-                                        grpc_error_handle /*error*/) {
+                                        absl::Status /*error*/) {
   grpc_transport_op* op = static_cast<grpc_transport_op*>(transport_op);
   grpc_binder_transport* gbt =
       static_cast<grpc_binder_transport*>(op->handler_private.extra_arg);
@@ -627,7 +627,7 @@ static void perform_transport_op(grpc_transport* gt, grpc_transport_op* op) {
       GRPC_ERROR_NONE);
 }
 
-static void destroy_stream_locked(void* sp, grpc_error_handle /*error*/) {
+static void destroy_stream_locked(void* sp, absl::Status /*error*/) {
   grpc_binder_stream* gbs = static_cast<grpc_binder_stream*>(sp);
   grpc_binder_transport* gbt = gbs->t;
   cancel_stream_locked(
@@ -647,7 +647,7 @@ static void destroy_stream(grpc_transport* /*gt*/, grpc_stream* gs,
                         GRPC_ERROR_NONE);
 }
 
-static void destroy_transport_locked(void* gt, grpc_error_handle /*error*/) {
+static void destroy_transport_locked(void* gt, absl::Status /*error*/) {
   grpc_binder_transport* gbt = static_cast<grpc_binder_transport*>(gt);
   close_transport_locked(gbt);
   // Release the references held by the transport.
@@ -685,7 +685,7 @@ static const grpc_transport_vtable vtable = {sizeof(grpc_binder_stream),
 
 static const grpc_transport_vtable* get_vtable() { return &vtable; }
 
-static void accept_stream_locked(void* gt, grpc_error_handle /*error*/) {
+static void accept_stream_locked(void* gt, absl::Status /*error*/) {
   grpc_binder_transport* gbt = static_cast<grpc_binder_transport*>(gt);
   if (gbt->accept_stream_fn) {
     // must pass in a non-null value.

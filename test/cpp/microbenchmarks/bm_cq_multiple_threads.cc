@@ -58,7 +58,7 @@ static void pollset_init(grpc_pollset* ps, gpr_mu** mu) {
 
 static void pollset_destroy(grpc_pollset* ps) { gpr_mu_destroy(&ps->mu); }
 
-static grpc_error_handle pollset_kick(grpc_pollset* /*p*/,
+static absl::Status pollset_kick(grpc_pollset* /*p*/,
                                       grpc_pollset_worker* /*worker*/) {
   return GRPC_ERROR_NONE;
 }
@@ -70,7 +70,7 @@ static void cq_done_cb(void* /*done_arg*/, grpc_cq_completion* cq_completion) {
 
 /* Queues a completion tag if deadline is > 0.
  * Does nothing if deadline is 0 (i.e gpr_time_0(GPR_CLOCK_MONOTONIC)) */
-static grpc_error_handle pollset_work(grpc_pollset* ps,
+static absl::Status pollset_work(grpc_pollset* ps,
                                       grpc_pollset_worker** /*worker*/,
                                       grpc_core::Timestamp deadline) {
   if (deadline == grpc_core::Timestamp::ProcessEpoch()) {
@@ -102,7 +102,7 @@ static grpc_event_engine_vtable make_engine_vtable(const char* name) {
   vtable.pollset_kick = pollset_kick;
   vtable.is_any_background_poller_thread = [] { return false; };
   vtable.add_closure_to_background_poller = [](grpc_closure* /*closure*/,
-                                               grpc_error_handle /*error*/) {
+                                               absl::Status /*error*/) {
     return false;
   };
   vtable.shutdown_background_closure = [] {};

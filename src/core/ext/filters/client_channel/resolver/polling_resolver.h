@@ -77,8 +77,8 @@ class PollingResolver : public Resolver {
 
   void OnRequestCompleteLocked(Result result);
 
-  static void OnNextResolution(void* arg, grpc_error_handle error);
-  void OnNextResolutionLocked(grpc_error_handle error);
+  static void OnNextResolution(void* arg, absl::Status error);
+  void OnNextResolutionLocked(absl::Status error);
 
   /// authority
   std::string authority_;

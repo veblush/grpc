@@ -50,11 +50,11 @@ void ServiceConfigParser::Builder::RegisterParser(
 ServiceConfigParser::ParsedConfigVector
 ServiceConfigParser::ParseGlobalParameters(const ChannelArgs& args,
                                            const Json& json,
-                                           grpc_error_handle* error) const {
+                                           absl::Status* error) const {
   ParsedConfigVector parsed_global_configs;
-  std::vector<grpc_error_handle> error_list;
+  std::vector<absl::Status> error_list;
   for (size_t i = 0; i < registered_parsers_.size(); i++) {
-    grpc_error_handle parser_error = GRPC_ERROR_NONE;
+    absl::Status parser_error = GRPC_ERROR_NONE;
     auto parsed_config =
         registered_parsers_[i]->ParseGlobalParams(args, json, &parser_error);
     if (!parser_error.ok()) {
@@ -71,11 +71,11 @@ ServiceConfigParser::ParseGlobalParameters(const ChannelArgs& args,
 ServiceConfigParser::ParsedConfigVector
 ServiceConfigParser::ParsePerMethodParameters(const ChannelArgs& args,
                                               const Json& json,
-                                              grpc_error_handle* error) const {
+                                              absl::Status* error) const {
   ParsedConfigVector parsed_method_configs;
-  std::vector<grpc_error_handle> error_list;
+  std::vector<absl::Status> error_list;
   for (size_t i = 0; i < registered_parsers_.size(); ++i) {
-    grpc_error_handle parser_error = GRPC_ERROR_NONE;
+    absl::Status parser_error = GRPC_ERROR_NONE;
     auto parsed_config =
         registered_parsers_[i]->ParsePerMethodParams(args, json, &parser_error);
     if (!parser_error.ok()) {

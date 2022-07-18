@@ -20,7 +20,7 @@
 
 #include "src/core/lib/security/transport/tsi_error.h"
 
-grpc_error_handle grpc_set_tsi_error_result(grpc_error_handle error,
+absl::Status grpc_set_tsi_error_result(absl::Status error,
                                             tsi_result result) {
   return grpc_error_set_int(grpc_error_set_str(error, GRPC_ERROR_STR_TSI_ERROR,
                                                tsi_result_to_string(result)),

@@ -29,7 +29,7 @@ class MyChannelData : public ChannelData {
  public:
   MyChannelData() {}
 
-  grpc_error_handle Init(grpc_channel_element* /*elem*/,
+  absl::Status Init(grpc_channel_element* /*elem*/,
                          grpc_channel_element_args* args) override {
     (void)args->channel_args;  // Make sure field is available.
     return GRPC_ERROR_NONE;
@@ -40,7 +40,7 @@ class MyCallData : public CallData {
  public:
   MyCallData() {}
 
-  grpc_error_handle Init(grpc_call_element* /*elem*/,
+  absl::Status Init(grpc_call_element* /*elem*/,
                          const grpc_call_element_args* args) override {
     (void)args->path;  // Make sure field is available.
     return GRPC_ERROR_NONE;

@@ -91,13 +91,13 @@ void PollingResolver::ShutdownLocked() {
   request_.reset();
 }
 
-void PollingResolver::OnNextResolution(void* arg, grpc_error_handle error) {
+void PollingResolver::OnNextResolution(void* arg, absl::Status error) {
   auto* self = static_cast<PollingResolver*>(arg);
   self->work_serializer_->Run(
       [self, error]() { self->OnNextResolutionLocked(error); }, DEBUG_LOCATION);
 }
 
-void PollingResolver::OnNextResolutionLocked(grpc_error_handle error) {
+void PollingResolver::OnNextResolutionLocked(absl::Status error) {
   if (GPR_UNLIKELY(tracer_ != nullptr && tracer_->enabled())) {
     gpr_log(GPR_INFO,
             "[polling resolver %p] re-resolution timer fired: error=\"%s\", "

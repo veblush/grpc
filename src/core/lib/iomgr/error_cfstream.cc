@@ -31,7 +31,7 @@
 
 #define MAX_ERROR_DESCRIPTION 256
 
-grpc_error_handle grpc_error_create_from_cferror(const char* file, int line,
+absl::Status grpc_error_create_from_cferror(const char* file, int line,
                                                  void* arg,
                                                  const char* custom_desc) {
   CFErrorRef error = static_cast<CFErrorRef>(arg);

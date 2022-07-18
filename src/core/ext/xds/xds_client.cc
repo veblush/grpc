@@ -283,7 +283,7 @@ class XdsClient::ChannelState::AdsCallState
 
     // Nonce and error for this resource type.
     std::string nonce;
-    grpc_error_handle error = GRPC_ERROR_NONE;
+    absl::Status error = GRPC_ERROR_NONE;
 
     // Subscribed resources of this type.
     std::map<std::string /*authority*/,
@@ -1288,7 +1288,7 @@ void XdsClient::ChannelState::LrsCallState::OnRecvMessage(
   bool send_all_clusters = false;
   std::set<std::string> new_cluster_names;
   Duration new_load_reporting_interval;
-  grpc_error_handle parse_error = xds_client()->api_.ParseLrsResponse(
+  absl::Status parse_error = xds_client()->api_.ParseLrsResponse(
       payload, &send_all_clusters, &new_cluster_names,
       &new_load_reporting_interval);
   if (!parse_error.ok()) {

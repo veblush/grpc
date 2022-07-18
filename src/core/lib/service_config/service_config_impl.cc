@@ -40,7 +40,7 @@ namespace grpc_core {
 
 RefCountedPtr<ServiceConfig> ServiceConfigImpl::Create(
     const ChannelArgs& args, absl::string_view json_string,
-    grpc_error_handle* error) {
+    absl::Status* error) {
   GPR_DEBUG_ASSERT(error != nullptr);
   Json json = Json::Parse(json_string, error);
   if (!error->ok()) return nullptr;
@@ -50,7 +50,7 @@ RefCountedPtr<ServiceConfig> ServiceConfigImpl::Create(
 
 ServiceConfigImpl::ServiceConfigImpl(const ChannelArgs& args,
                                      std::string json_string, Json json,
-                                     grpc_error_handle* error)
+                                     absl::Status* error)
     : json_string_(std::move(json_string)), json_(std::move(json)) {
   GPR_DEBUG_ASSERT(error != nullptr);
   if (json_.type() != Json::Type::OBJECT) {
@@ -58,13 +58,13 @@ ServiceConfigImpl::ServiceConfigImpl(const ChannelArgs& args,
         GRPC_ERROR_CREATE_FROM_STATIC_STRING("JSON value is not an object");
     return;
   }
-  std::vector<grpc_error_handle> error_list;
-  grpc_error_handle global_error = GRPC_ERROR_NONE;
+  std::vector<absl::Status> error_list;
+  absl::Status global_error = GRPC_ERROR_NONE;
   parsed_global_configs_ =
       CoreConfiguration::Get().service_config_parser().ParseGlobalParameters(
           args, json_, &global_error);
   if (!global_error.ok()) error_list.push_back(global_error);
-  grpc_error_handle local_error = ParsePerMethodParams(args);
+  absl::Status local_error = ParsePerMethodParams(args);
   if (!local_error.ok()) error_list.push_back(local_error);
   if (!error_list.empty()) {
     *error = GRPC_ERROR_CREATE_FROM_VECTOR("Service config parsing error",
@@ -78,13 +78,13 @@ ServiceConfigImpl::~ServiceConfigImpl() {
   }
 }
 
-grpc_error_handle ServiceConfigImpl::ParseJsonMethodConfig(
+absl::Status ServiceConfigImpl::ParseJsonMethodConfig(
     const ChannelArgs& args, const Json& json) {
-  std::vector<grpc_error_handle> error_list;
+  std::vector<absl::Status> error_list;
   // Parse method config with each registered parser.
   auto parsed_configs =
       absl::make_unique<ServiceConfigParser::ParsedConfigVector>();
-  grpc_error_handle parser_error = GRPC_ERROR_NONE;
+  absl::Status parser_error = GRPC_ERROR_NONE;
   *parsed_configs =
       CoreConfiguration::Get().service_config_parser().ParsePerMethodParameters(
           args, json, &parser_error);
@@ -104,7 +104,7 @@ grpc_error_handle ServiceConfigImpl::ParseJsonMethodConfig(
     }
     const Json::Array& name_array = it->second.array_value();
     for (const Json& name : name_array) {
-      grpc_error_handle parse_error = GRPC_ERROR_NONE;
+      absl::Status parse_error = GRPC_ERROR_NONE;
       std::string path = ParseJsonMethodName(name, &parse_error);
       if (!parse_error.ok()) {
         error_list.push_back(parse_error);
@@ -140,9 +140,9 @@ grpc_error_handle ServiceConfigImpl::ParseJsonMethodConfig(
   return GRPC_ERROR_CREATE_FROM_VECTOR("methodConfig", &error_list);
 }
 
-grpc_error_handle ServiceConfigImpl::ParsePerMethodParams(
+absl::Status ServiceConfigImpl::ParsePerMethodParams(
     const ChannelArgs& args) {
-  std::vector<grpc_error_handle> error_list;
+  std::vector<absl::Status> error_list;
   auto it = json_.object_value().find("methodConfig");
   if (it != json_.object_value().end()) {
     if (it->second.type() != Json::Type::ARRAY) {
@@ -155,7 +155,7 @@ grpc_error_handle ServiceConfigImpl::ParsePerMethodParams(
             "field:methodConfig error:not of type Object"));
         continue;
       }
-      grpc_error_handle error = ParseJsonMethodConfig(args, method_config);
+      absl::Status error = ParseJsonMethodConfig(args, method_config);
       if (!error.ok()) {
         error_list.push_back(error);
       }
@@ -165,7 +165,7 @@ grpc_error_handle ServiceConfigImpl::ParsePerMethodParams(
 }
 
 std::string ServiceConfigImpl::ParseJsonMethodName(const Json& json,
-                                                   grpc_error_handle* error) {
+                                                   absl::Status* error) {
   if (json.type() != Json::Type::OBJECT) {
     *error = GRPC_ERROR_CREATE_FROM_STATIC_STRING(
         "field:name error:type is not object");

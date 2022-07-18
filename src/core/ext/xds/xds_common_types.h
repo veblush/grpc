@@ -83,7 +83,7 @@ struct CommonTlsContext {
   std::string ToString() const;
   bool Empty() const;
 
-  static grpc_error_handle Parse(
+  static absl::Status Parse(
       const XdsEncodingContext& context,
       const envoy_extensions_transport_sockets_tls_v3_CommonTlsContext*
           common_tls_context_proto,

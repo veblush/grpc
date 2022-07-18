@@ -53,7 +53,7 @@ class GrpcPolledFd {
       ABSL_EXCLUSIVE_LOCKS_REQUIRED(&grpc_ares_request::mu) = 0;
   /* Called once and only once. Must cause cancellation of any pending
    * read/write callbacks. */
-  virtual void ShutdownLocked(grpc_error_handle error)
+  virtual void ShutdownLocked(absl::Status error)
       ABSL_EXCLUSIVE_LOCKS_REQUIRED(&grpc_ares_request::mu) = 0;
   /* Get the underlying ares_socket_t that this was created from */
   virtual ares_socket_t GetWrappedAresSocketLocked()

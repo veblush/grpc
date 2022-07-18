@@ -34,7 +34,7 @@ namespace grpc_core {
 RefCountedPtr<FileExternalAccountCredentials>
 FileExternalAccountCredentials::Create(Options options,
                                        std::vector<std::string> scopes,
-                                       grpc_error_handle* error) {
+                                       absl::Status* error) {
   auto creds = MakeRefCounted<FileExternalAccountCredentials>(
       std::move(options), std::move(scopes), error);
   if (error->ok()) {
@@ -45,7 +45,7 @@ FileExternalAccountCredentials::Create(Options options,
 }
 
 FileExternalAccountCredentials::FileExternalAccountCredentials(
-    Options options, std::vector<std::string> scopes, grpc_error_handle* error)
+    Options options, std::vector<std::string> scopes, absl::Status* error)
     : ExternalAccountCredentials(options, std::move(scopes)) {
   auto it = options.credential_source.object_value().find("file");
   if (it == options.credential_source.object_value().end()) {
@@ -98,7 +98,7 @@ FileExternalAccountCredentials::FileExternalAccountCredentials(
 
 void FileExternalAccountCredentials::RetrieveSubjectToken(
     HTTPRequestContext* /*ctx*/, const Options& /*options*/,
-    std::function<void(std::string, grpc_error_handle)> cb) {
+    std::function<void(std::string, absl::Status)> cb) {
   struct SliceWrapper {
     ~SliceWrapper() { grpc_slice_unref_internal(slice); }
     grpc_slice slice = grpc_empty_slice();
@@ -106,7 +106,7 @@ void FileExternalAccountCredentials::RetrieveSubjectToken(
   SliceWrapper content_slice;
   // To retrieve the subject token, we read the file every time we make a
   // request because it may have changed since the last request.
-  grpc_error_handle error =
+  absl::Status error =
       grpc_load_file(file_.c_str(), 0, &content_slice.slice);
   if (!error.ok()) {
     cb("", error);

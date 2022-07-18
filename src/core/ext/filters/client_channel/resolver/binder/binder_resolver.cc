@@ -91,7 +91,7 @@ class BinderResolverFactory : public ResolverFactory {
   }
 
  private:
-  static grpc_error_handle BinderAddrPopulate(
+  static absl::Status BinderAddrPopulate(
       absl::string_view path, grpc_resolved_address* resolved_addr) {
     path = absl::StripPrefix(path, "/");
     if (path.empty()) {
@@ -124,7 +124,7 @@ class BinderResolverFactory : public ResolverFactory {
         gpr_log(GPR_ERROR, "authority is not supported in binder scheme");
         return false;
       }
-      grpc_error_handle error = BinderAddrPopulate(uri.path(), &addr);
+      absl::Status error = BinderAddrPopulate(uri.path(), &addr);
       if (!error.ok()) {
         gpr_log(GPR_ERROR, "%s", grpc_error_std_string(error).c_str());
         return false;

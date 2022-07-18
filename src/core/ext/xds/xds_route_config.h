@@ -195,7 +195,7 @@ struct XdsRouteConfigResource {
   }
   std::string ToString() const;
 
-  static grpc_error_handle Parse(
+  static absl::Status Parse(
       const XdsEncodingContext& context,
       const envoy_config_route_v3_RouteConfiguration* route_config,
       XdsRouteConfigResource* rds_update);

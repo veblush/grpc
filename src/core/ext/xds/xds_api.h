@@ -153,7 +153,7 @@ class XdsApi {
                                absl::string_view version,
                                absl::string_view nonce,
                                const std::vector<std::string>& resource_names,
-                               grpc_error_handle error, bool populate_node);
+                               absl::Status error, bool populate_node);
 
   // Returns non-OK when failing to deserialize response message.
   // Otherwise, all events are reported to the parser.
@@ -170,7 +170,7 @@ class XdsApi {
   // Parses the LRS response and returns \a
   // load_reporting_interval for client-side load reporting. If there is any
   // error, the output config is invalid.
-  grpc_error_handle ParseLrsResponse(absl::string_view encoded_response,
+  absl::Status ParseLrsResponse(absl::string_view encoded_response,
                                      bool* send_all_clusters,
                                      std::set<std::string>* cluster_names,
                                      Duration* load_reporting_interval);

@@ -75,8 +75,8 @@ struct grpc_tls_certificate_distributor
     // certificates.
     // @param identity_cert_error the error occurred while reloading identity
     // certificates.
-    virtual void OnError(grpc_error_handle root_cert_error,
-                         grpc_error_handle identity_cert_error) = 0;
+    virtual void OnError(absl::Status root_cert_error,
+                         absl::Status identity_cert_error) = 0;
   };
 
   // Sets the key materials based on their certificate name.
@@ -102,14 +102,14 @@ struct grpc_tls_certificate_distributor
   // @param identity_cert_error The error that the caller encounters when
   // reloading identity certs.
   void SetErrorForCert(const std::string& cert_name,
-                       absl::optional<grpc_error_handle> root_cert_error,
-                       absl::optional<grpc_error_handle> identity_cert_error);
+                       absl::optional<absl::Status> root_cert_error,
+                       absl::optional<absl::Status> identity_cert_error);
 
   // Propagates the error that the caller (e.g. Producer) encounters to all
   // watchers.
   //
   // @param error The error that the caller encounters.
-  void SetError(grpc_error_handle error);
+  void SetError(absl::Status error);
 
   // Sets the TLS certificate watch status callback function. The
   // grpc_tls_certificate_distributor will invoke this callback when a new
@@ -176,9 +176,9 @@ struct grpc_tls_certificate_distributor
     // The contents of the identity key-certificate pairs.
     grpc_core::PemKeyCertPairList pem_key_cert_pairs;
     // The root cert reloading error propagated by the caller.
-    grpc_error_handle root_cert_error = GRPC_ERROR_NONE;
+    absl::Status root_cert_error = GRPC_ERROR_NONE;
     // The identity cert reloading error propagated by the caller.
-    grpc_error_handle identity_cert_error = GRPC_ERROR_NONE;
+    absl::Status identity_cert_error = GRPC_ERROR_NONE;
     // The set of watchers watching root certificates.
     // This is mainly used for quickly looking up the affected watchers while
     // performing a credential reloading.
@@ -189,8 +189,8 @@ struct grpc_tls_certificate_distributor
     std::set<TlsCertificatesWatcherInterface*> identity_cert_watchers;
 
     ~CertificateInfo() {}
-    void SetRootError(grpc_error_handle error) { root_cert_error = error; }
-    void SetIdentityError(grpc_error_handle error) {
+    void SetRootError(absl::Status error) { root_cert_error = error; }
+    void SetIdentityError(absl::Status error) {
       identity_cert_error = error;
     }
   };

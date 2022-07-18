@@ -72,7 +72,7 @@ void FilterInitialMetadata(grpc_metadata_batch* b,
 }  // namespace
 
 void CensusServerCallData::OnDoneRecvMessageCb(void* user_data,
-                                               grpc_error_handle error) {
+                                               absl::Status error) {
   grpc_call_element* elem = reinterpret_cast<grpc_call_element*>(user_data);
   CensusServerCallData* calld =
       reinterpret_cast<CensusServerCallData*>(elem->call_data);
@@ -89,7 +89,7 @@ void CensusServerCallData::OnDoneRecvMessageCb(void* user_data,
 }
 
 void CensusServerCallData::OnDoneRecvInitialMetadataCb(
-    void* user_data, grpc_error_handle error) {
+    void* user_data, absl::Status error) {
   grpc_call_element* elem = reinterpret_cast<grpc_call_element*>(user_data);
   CensusServerCallData* calld =
       reinterpret_cast<CensusServerCallData*>(elem->call_data);
@@ -144,7 +144,7 @@ void CensusServerCallData::StartTransportStreamOpBatch(
   grpc_call_next_op(elem, op->op());
 }
 
-grpc_error_handle CensusServerCallData::Init(
+absl::Status CensusServerCallData::Init(
     grpc_call_element* elem, const grpc_call_element_args* args) {
   start_time_ = absl::Now();
   gc_ =

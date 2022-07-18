@@ -516,7 +516,7 @@ void CdsLb::OnClusterChanged(const std::string& name,
       gpr_log(GPR_INFO, "[cdslb %p] generated config for child policy: %s",
               this, json_str.c_str());
     }
-    grpc_error_handle error = GRPC_ERROR_NONE;
+    absl::Status error = GRPC_ERROR_NONE;
     RefCountedPtr<LoadBalancingPolicy::Config> config =
         LoadBalancingPolicyRegistry::ParseLoadBalancingConfig(json, &error);
     if (!error.ok()) {
@@ -726,7 +726,7 @@ class CdsLbFactory : public LoadBalancingPolicyFactory {
   const char* name() const override { return kCds; }
 
   RefCountedPtr<LoadBalancingPolicy::Config> ParseLoadBalancingConfig(
-      const Json& json, grpc_error_handle* error) const override {
+      const Json& json, absl::Status* error) const override {
     GPR_DEBUG_ASSERT(error != nullptr && error->ok());
     if (json.type() == Json::Type::JSON_NULL) {
       // xds was mentioned as a policy in the deprecated loadBalancingPolicy
@@ -736,7 +736,7 @@ class CdsLbFactory : public LoadBalancingPolicyFactory {
           "Please use loadBalancingConfig field of service config instead.");
       return nullptr;
     }
-    std::vector<grpc_error_handle> error_list;
+    std::vector<absl::Status> error_list;
     // cluster name.
     std::string cluster;
     auto it = json.object_value().find("cluster");

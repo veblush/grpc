@@ -41,7 +41,7 @@ class GrpcXdsClient : public XdsClient {
   // If *error is not GRPC_ERROR_NONE upon return, then there was
   // an error initializing the client.
   static RefCountedPtr<XdsClient> GetOrCreate(const ChannelArgs& args,
-                                              grpc_error_handle* error);
+                                              absl::Status* error);
 
   // Do not instantiate directly -- use GetOrCreate() instead.
   GrpcXdsClient(std::unique_ptr<XdsBootstrap> bootstrap,

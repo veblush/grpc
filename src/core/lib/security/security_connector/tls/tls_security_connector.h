@@ -83,7 +83,7 @@ class TlsChannelSecurityConnector final
                   grpc_closure* on_peer_checked) override;
 
   void cancel_check_peer(grpc_closure* on_peer_checked,
-                         grpc_error_handle error) override;
+                         absl::Status error) override;
 
   int cmp(const grpc_security_connector* other_sc) const override;
 
@@ -118,8 +118,8 @@ class TlsChannelSecurityConnector final
     void OnCertificatesChanged(
         absl::optional<absl::string_view> root_certs,
         absl::optional<PemKeyCertPairList> key_cert_pairs) override;
-    void OnError(grpc_error_handle root_cert_error,
-                 grpc_error_handle identity_cert_error) override;
+    void OnError(absl::Status root_cert_error,
+                 absl::Status identity_cert_error) override;
 
    private:
     TlsChannelSecurityConnector* security_connector_ = nullptr;
@@ -196,7 +196,7 @@ class TlsServerSecurityConnector final : public grpc_server_security_connector {
                   grpc_closure* on_peer_checked) override;
 
   void cancel_check_peer(grpc_closure* /*on_peer_checked*/,
-                         grpc_error_handle error) override;
+                         absl::Status error) override;
 
   int cmp(const grpc_security_connector* other) const override;
 
@@ -229,8 +229,8 @@ class TlsServerSecurityConnector final : public grpc_server_security_connector {
         absl::optional<absl::string_view> root_certs,
         absl::optional<PemKeyCertPairList> key_cert_pairs) override;
 
-    void OnError(grpc_error_handle root_cert_error,
-                 grpc_error_handle identity_cert_error) override;
+    void OnError(absl::Status root_cert_error,
+                 absl::Status identity_cert_error) override;
 
    private:
     TlsServerSecurityConnector* security_connector_ = nullptr;

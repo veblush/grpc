@@ -64,7 +64,7 @@
 
 static std::atomic<int64_t> num_dropped_connections{0};
 
-static grpc_error_handle tcp_server_create(grpc_closure* shutdown_complete,
+static absl::Status tcp_server_create(grpc_closure* shutdown_complete,
                                            const grpc_channel_args* args,
                                            grpc_tcp_server** server) {
   grpc_tcp_server* s = new grpc_tcp_server;
@@ -131,7 +131,7 @@ static void finish_shutdown(grpc_tcp_server* s) {
   delete s;
 }
 
-static void destroyed_port(void* server, grpc_error_handle /*error*/) {
+static void destroyed_port(void* server, absl::Status /*error*/) {
   grpc_tcp_server* s = static_cast<grpc_tcp_server*>(server);
   gpr_mu_lock(&s->mu);
   s->destroyed_ports++;
@@ -188,7 +188,7 @@ static void tcp_server_destroy(grpc_tcp_server* s) {
 }
 
 /* event manager callback when reads are ready */
-static void on_read(void* arg, grpc_error_handle err) {
+static void on_read(void* arg, absl::Status err) {
   grpc_tcp_listener* sp = static_cast<grpc_tcp_listener*>(arg);
   grpc_pollset* read_notifier_pollset;
   if (!err.ok()) {
@@ -304,7 +304,7 @@ error:
 }
 
 /* Treat :: or 0.0.0.0 as a family-agnostic wildcard. */
-static grpc_error_handle add_wildcard_addrs_to_server(grpc_tcp_server* s,
+static absl::Status add_wildcard_addrs_to_server(grpc_tcp_server* s,
                                                       unsigned port_index,
                                                       int requested_port,
                                                       int* out_port) {
@@ -314,8 +314,8 @@ static grpc_error_handle add_wildcard_addrs_to_server(grpc_tcp_server* s,
   grpc_dualstack_mode dsmode;
   grpc_tcp_listener* sp = nullptr;
   grpc_tcp_listener* sp2 = nullptr;
-  grpc_error_handle v6_err = GRPC_ERROR_NONE;
-  grpc_error_handle v4_err = GRPC_ERROR_NONE;
+  absl::Status v6_err = GRPC_ERROR_NONE;
+  absl::Status v4_err = GRPC_ERROR_NONE;
   *out_port = -1;
 
   if (grpc_tcp_server_have_ifaddrs() && s->expand_wildcard_addrs) {
@@ -358,7 +358,7 @@ static grpc_error_handle add_wildcard_addrs_to_server(grpc_tcp_server* s,
     }
     return GRPC_ERROR_NONE;
   } else {
-    grpc_error_handle root_err = GRPC_ERROR_CREATE_FROM_STATIC_STRING(
+    absl::Status root_err = GRPC_ERROR_CREATE_FROM_STATIC_STRING(
         "Failed to add any wildcard listeners");
     GPR_ASSERT(!v6_err.ok() && !v4_err.ok());
     root_err = grpc_error_add_child(root_err, v6_err);
@@ -367,11 +367,11 @@ static grpc_error_handle add_wildcard_addrs_to_server(grpc_tcp_server* s,
   }
 }
 
-static grpc_error_handle clone_port(grpc_tcp_listener* listener,
+static absl::Status clone_port(grpc_tcp_listener* listener,
                                     unsigned count) {
   grpc_tcp_listener* sp = nullptr;
   absl::StatusOr<std::string> addr_str;
-  grpc_error_handle err;
+  absl::Status err;
 
   for (grpc_tcp_listener* l = listener->next; l && l->is_sibling; l = l->next) {
     l->fd_index += count;
@@ -420,7 +420,7 @@ static grpc_error_handle clone_port(grpc_tcp_listener* listener,
   return GRPC_ERROR_NONE;
 }
 
-static grpc_error_handle tcp_server_add_port(grpc_tcp_server* s,
+static absl::Status tcp_server_add_port(grpc_tcp_server* s,
                                              const grpc_resolved_address* addr,
                                              int* out_port) {
   GPR_ASSERT(addr->len <= GRPC_MAX_SOCKADDR_SIZE);
@@ -430,7 +430,7 @@ static grpc_error_handle tcp_server_add_port(grpc_tcp_server* s,
   int requested_port = grpc_sockaddr_get_port(addr);
   unsigned port_index = 0;
   grpc_dualstack_mode dsmode;
-  grpc_error_handle err;
+  absl::Status err;
   *out_port = -1;
   if (s->tail != nullptr) {
     port_index = s->tail->port_index + 1;

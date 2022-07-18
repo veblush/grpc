@@ -101,9 +101,9 @@ class GrpcXdsTransportFactory::GrpcXdsTransport::GrpcStreamingCall
   void SendMessage(std::string payload) override;
 
  private:
-  static void OnRequestSent(void* arg, grpc_error_handle error);
-  static void OnResponseReceived(void* arg, grpc_error_handle /*error*/);
-  static void OnStatusReceived(void* arg, grpc_error_handle /*error*/);
+  static void OnRequestSent(void* arg, absl::Status error);
+  static void OnResponseReceived(void* arg, absl::Status /*error*/);
+  static void OnStatusReceived(void* arg, absl::Status /*error*/);
 
   RefCountedPtr<GrpcXdsTransportFactory> factory_;
 

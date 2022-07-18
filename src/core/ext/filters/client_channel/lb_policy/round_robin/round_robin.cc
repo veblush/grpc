@@ -512,7 +512,7 @@ class RoundRobinFactory : public LoadBalancingPolicyFactory {
   const char* name() const override { return kRoundRobin; }
 
   RefCountedPtr<LoadBalancingPolicy::Config> ParseLoadBalancingConfig(
-      const Json& /*json*/, grpc_error_handle* /*error*/) const override {
+      const Json& /*json*/, absl::Status* /*error*/) const override {
     return MakeRefCounted<RoundRobinConfig>();
   }
 };

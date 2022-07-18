@@ -158,7 +158,7 @@ static void test_fails(grpc_slice_split_mode split_mode,
   size_t num_slices;
   size_t i;
   grpc_slice* slices;
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   grpc_http_response response;
   response = {};
 
@@ -190,7 +190,7 @@ static void test_request_fails(grpc_slice_split_mode split_mode,
   size_t num_slices;
   size_t i;
   grpc_slice* slices;
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   grpc_http_request request;
   memset(&request, 0, sizeof(request));
 

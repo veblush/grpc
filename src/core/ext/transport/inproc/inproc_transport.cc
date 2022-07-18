@@ -77,9 +77,9 @@
 
 namespace {
 struct inproc_stream;
-bool cancel_stream_locked(inproc_stream* s, grpc_error_handle error);
-void maybe_process_ops_locked(inproc_stream* s, grpc_error_handle error);
-void op_state_machine_locked(inproc_stream* s, grpc_error_handle error);
+bool cancel_stream_locked(inproc_stream* s, absl::Status error);
+void maybe_process_ops_locked(inproc_stream* s, absl::Status error);
+void op_state_machine_locked(inproc_stream* s, absl::Status error);
 void log_metadata(const grpc_metadata_batch* md_batch, bool is_client,
                   bool is_initial);
 void fill_in_metadata(inproc_stream* s, const grpc_metadata_batch* metadata,
@@ -259,7 +259,7 @@ struct inproc_stream {
       grpc_core::Timestamp::InfFuture();
   grpc_metadata_batch write_buffer_trailing_md{arena};
   bool write_buffer_trailing_md_filled = false;
-  grpc_error_handle write_buffer_cancel_error = GRPC_ERROR_NONE;
+  absl::Status write_buffer_cancel_error = GRPC_ERROR_NONE;
 
   struct inproc_stream* other_side;
   bool other_side_closed = false;               // won't talk anymore
@@ -283,8 +283,8 @@ struct inproc_stream {
 
   bool closed = false;
 
-  grpc_error_handle cancel_self_error = GRPC_ERROR_NONE;
-  grpc_error_handle cancel_other_error = GRPC_ERROR_NONE;
+  absl::Status cancel_self_error = GRPC_ERROR_NONE;
+  absl::Status cancel_other_error = GRPC_ERROR_NONE;
 
   grpc_core::Timestamp deadline = grpc_core::Timestamp::InfFuture();
 
@@ -404,7 +404,7 @@ void close_other_side_locked(inproc_stream* s, const char* reason) {
 // this stream_op_batch is only one of the pending operations for this
 // stream. This is called when one of the pending operations for the stream
 // is done and about to be NULLed out
-void complete_if_batch_end_locked(inproc_stream* s, grpc_error_handle error,
+void complete_if_batch_end_locked(inproc_stream* s, absl::Status error,
                                   grpc_transport_stream_op_batch* op,
                                   const char* msg) {
   int is_sm = static_cast<int>(op == s->send_message_op);
@@ -424,14 +424,14 @@ void complete_if_batch_end_locked(inproc_stream* s, grpc_error_handle error,
   }
 }
 
-void maybe_process_ops_locked(inproc_stream* s, grpc_error_handle error) {
+void maybe_process_ops_locked(inproc_stream* s, absl::Status error) {
   if (s && (!error.ok() || s->ops_needed)) {
     s->ops_needed = false;
     op_state_machine_locked(s, error);
   }
 }
 
-void fail_helper_locked(inproc_stream* s, grpc_error_handle error) {
+void fail_helper_locked(inproc_stream* s, absl::Status error) {
   INPROC_LOG(GPR_INFO, "op_state_machine %p fail_helper", s);
   // If we're failing this side, we need to make sure that
   // we also send or have already sent trailing metadata
@@ -458,7 +458,7 @@ void fail_helper_locked(inproc_stream* s, grpc_error_handle error) {
     }
   }
   if (s->recv_initial_md_op) {
-    grpc_error_handle err;
+    absl::Status err;
     if (!s->t->is_client) {
       // If this is a server, provide initial metadata with a path and
       // authority since it expects that as well as no error yet
@@ -581,13 +581,13 @@ void message_transfer_locked(inproc_stream* sender, inproc_stream* receiver) {
   sender->send_message_op = nullptr;
 }
 
-void op_state_machine_locked(inproc_stream* s, grpc_error_handle error) {
+void op_state_machine_locked(inproc_stream* s, absl::Status error) {
   // This function gets called when we have contents in the unprocessed reads
   // Get what we want based on our ops wanted
   // Schedule our appropriate closures
   // and then return to ops_needed state if still needed
 
-  grpc_error_handle new_err = GRPC_ERROR_NONE;
+  absl::Status new_err = GRPC_ERROR_NONE;
 
   bool needs_close = false;
 
@@ -869,7 +869,7 @@ done:
   }
 }
 
-bool cancel_stream_locked(inproc_stream* s, grpc_error_handle error) {
+bool cancel_stream_locked(inproc_stream* s, absl::Status error) {
   bool ret = false;  // was the cancel accepted
   INPROC_LOG(GPR_INFO, "cancel_stream %p with %s", s,
              grpc_error_std_string(error).c_str());
@@ -922,7 +922,7 @@ bool cancel_stream_locked(inproc_stream* s, grpc_error_handle error) {
   return ret;
 }
 
-void do_nothing(void* /*arg*/, grpc_error_handle /*error*/) {}
+void do_nothing(void* /*arg*/, absl::Status /*error*/) {}
 
 void perform_stream_op(grpc_transport* gt, grpc_stream* gs,
                        grpc_transport_stream_op_batch* op) {
@@ -941,7 +941,7 @@ void perform_stream_op(grpc_transport* gt, grpc_stream* gs,
                    s->t->is_client, false);
     }
   }
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   grpc_closure* on_complete = op->on_complete;
   // TODO(roth): This is a hack needed because we use data inside of the
   // closure itself to do the barrier calculation (i.e., to ensure that
@@ -1250,7 +1250,7 @@ grpc_channel* grpc_inproc_channel_create(grpc_server* server,
   inproc_transports_create(&server_transport, &client_transport);
 
   // TODO(ncteisen): design and support channelz GetSocket for inproc.
-  grpc_error_handle error = core_server->SetupTransport(
+  absl::Status error = core_server->SetupTransport(
       server_transport, nullptr, server_args, nullptr);
   grpc_channel* channel = nullptr;
   if (error.ok()) {

@@ -46,7 +46,7 @@ static void finish_connection() {
   gpr_mu_unlock(&g_mu);
 }
 
-static void must_succeed(void* arg, grpc_error_handle error) {
+static void must_succeed(void* arg, absl::Status error) {
   GPR_ASSERT(g_connecting != nullptr);
   GPR_ASSERT(error.ok());
   grpc_endpoint_shutdown(g_connecting, GRPC_ERROR_CREATE_FROM_STATIC_STRING("must_succeed called"));
@@ -55,7 +55,7 @@ static void must_succeed(void* arg, grpc_error_handle error) {
   finish_connection();
 }
 
-static void must_fail(void* arg, grpc_error_handle error) {
+static void must_fail(void* arg, absl::Status error) {
   GPR_ASSERT(g_connecting == nullptr);
   GPR_ASSERT(!error.ok());
   NSLog(@"%s", grpc_error_std_string(error).c_str());

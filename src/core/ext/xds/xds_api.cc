@@ -271,7 +271,7 @@ std::string SerializeDiscoveryRequest(
 std::string XdsApi::CreateAdsRequest(
     const XdsBootstrap::XdsServer& server, absl::string_view type_url,
     absl::string_view version, absl::string_view nonce,
-    const std::vector<std::string>& resource_names, grpc_error_handle error,
+    const std::vector<std::string>& resource_names, absl::Status error,
     bool populate_node) {
   upb::Arena arena;
   const XdsEncodingContext context = {client_,
@@ -594,7 +594,7 @@ std::string XdsApi::CreateLrsRequest(
   return SerializeLrsRequest(context, request);
 }
 
-grpc_error_handle XdsApi::ParseLrsResponse(absl::string_view encoded_response,
+absl::Status XdsApi::ParseLrsResponse(absl::string_view encoded_response,
                                            bool* send_all_clusters,
                                            std::set<std::string>* cluster_names,
                                            Duration* load_reporting_interval) {

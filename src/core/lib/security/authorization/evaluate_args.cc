@@ -54,7 +54,7 @@ EvaluateArgs::PerChannelArgs::Address ParseEndpointUri(
             std::string(port_view).c_str());
   }
   address.address_str = std::string(host_view);
-  grpc_error_handle error = grpc_string_to_sockaddr(
+  absl::Status error = grpc_string_to_sockaddr(
       &address.address, address.address_str.c_str(), address.port);
   if (!error.ok()) {
     gpr_log(GPR_DEBUG, "Address %s is not IPv4/IPv6. Error: %s",

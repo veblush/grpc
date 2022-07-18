@@ -102,7 +102,7 @@ void HPackTable::SetMaxBytes(uint32_t max_bytes) {
   max_bytes_ = max_bytes;
 }
 
-grpc_error_handle HPackTable::SetCurrentTableSize(uint32_t bytes) {
+absl::Status HPackTable::SetCurrentTableSize(uint32_t bytes) {
   if (current_table_bytes_ == bytes) {
     return GRPC_ERROR_NONE;
   }
@@ -124,7 +124,7 @@ grpc_error_handle HPackTable::SetCurrentTableSize(uint32_t bytes) {
   return GRPC_ERROR_NONE;
 }
 
-grpc_error_handle HPackTable::Add(Memento md) {
+absl::Status HPackTable::Add(Memento md) {
   if (current_table_bytes_ > max_bytes_) {
     return GRPC_ERROR_CREATE_FROM_CPP_STRING(absl::StrFormat(
         "HPACK max table size reduced to %d but not reflected by hpack "

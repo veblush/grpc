@@ -42,7 +42,7 @@ class LoadBalancingPolicyFactory {
   virtual const char* name() const = 0;
 
   virtual RefCountedPtr<LoadBalancingPolicy::Config> ParseLoadBalancingConfig(
-      const Json& json, grpc_error_handle* error) const = 0;
+      const Json& json, absl::Status* error) const = 0;
 };
 
 }  // namespace grpc_core

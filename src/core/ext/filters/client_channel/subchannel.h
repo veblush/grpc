@@ -106,7 +106,7 @@ class SubchannelCall {
     CallCombiner* call_combiner;
   };
   static RefCountedPtr<SubchannelCall> Create(Args args,
-                                              grpc_error_handle* error);
+                                              absl::Status* error);
 
   // Continues processing a transport stream op batch.
   void StartTransportStreamOpBatch(grpc_transport_stream_op_batch* batch);
@@ -132,20 +132,20 @@ class SubchannelCall {
   template <typename T>
   friend class RefCountedPtr;
 
-  SubchannelCall(Args args, grpc_error_handle* error);
+  SubchannelCall(Args args, absl::Status* error);
 
   // If channelz is enabled, intercepts recv_trailing so that we may check the
   // status and associate it to a subchannel.
   void MaybeInterceptRecvTrailingMetadata(
       grpc_transport_stream_op_batch* batch);
 
-  static void RecvTrailingMetadataReady(void* arg, grpc_error_handle error);
+  static void RecvTrailingMetadataReady(void* arg, absl::Status error);
 
   // Interface of RefCounted<>.
   void IncrementRefCount();
   void IncrementRefCount(const DebugLocation& location, const char* reason);
 
-  static void Destroy(void* arg, grpc_error_handle error);
+  static void Destroy(void* arg, absl::Status error);
 
   RefCountedPtr<ConnectedSubchannel> connected_subchannel_;
   grpc_closure* after_call_stack_destroy_ = nullptr;
@@ -358,9 +358,9 @@ class Subchannel : public DualRefCounted<Subchannel> {
   void OnRetryTimer() ABSL_LOCKS_EXCLUDED(mu_);
   void OnRetryTimerLocked() ABSL_EXCLUSIVE_LOCKS_REQUIRED(mu_);
   void StartConnectingLocked() ABSL_EXCLUSIVE_LOCKS_REQUIRED(mu_);
-  static void OnConnectingFinished(void* arg, grpc_error_handle error)
+  static void OnConnectingFinished(void* arg, absl::Status error)
       ABSL_LOCKS_EXCLUDED(mu_);
-  void OnConnectingFinishedLocked(grpc_error_handle error)
+  void OnConnectingFinishedLocked(absl::Status error)
       ABSL_EXCLUSIVE_LOCKS_REQUIRED(mu_);
   bool PublishTransportLocked() ABSL_EXCLUSIVE_LOCKS_REQUIRED(mu_);
 

@@ -76,7 +76,7 @@ AwsRequestSigner::AwsRequestSigner(
     std::string method, std::string url, std::string region,
     std::string request_payload,
     std::map<std::string, std::string> additional_headers,
-    grpc_error_handle* error)
+    absl::Status* error)
     : access_key_id_(std::move(access_key_id)),
       secret_access_key_(std::move(secret_access_key)),
       token_(std::move(token)),

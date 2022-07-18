@@ -39,7 +39,7 @@ void ServerCallbackCall::ScheduleOnDone(bool inline_ondone) {
       explicit ClosureWithArg(ServerCallbackCall* call_arg) : call(call_arg) {
         GRPC_CLOSURE_INIT(
             &closure,
-            [](void* void_arg, grpc_error_handle) {
+            [](void* void_arg, absl::Status) {
               ClosureWithArg* arg = static_cast<ClosureWithArg*>(void_arg);
               arg->call->CallOnDone();
               delete arg;
@@ -68,7 +68,7 @@ void ServerCallbackCall::CallOnCancel(ServerReactor* reactor) {
           : call(call_arg), reactor(reactor_arg) {
         GRPC_CLOSURE_INIT(
             &closure,
-            [](void* void_arg, grpc_error_handle) {
+            [](void* void_arg, absl::Status) {
               ClosureWithArg* arg = static_cast<ClosureWithArg*>(void_arg);
               arg->reactor->OnCancel();
               arg->call->MaybeDone();

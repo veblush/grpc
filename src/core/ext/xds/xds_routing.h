@@ -84,7 +84,7 @@ class XdsRouting {
   struct GeneratePerHttpFilterConfigsResult {
     // Map of field name to list of elements for that field
     std::map<std::string, std::vector<std::string>> per_filter_configs;
-    grpc_error_handle error = GRPC_ERROR_NONE;
+    absl::Status error = GRPC_ERROR_NONE;
     // Guaranteed to be empty if error is not GRPC_ERROR_NONE
     ChannelArgs args;
   };

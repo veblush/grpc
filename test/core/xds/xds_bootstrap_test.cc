@@ -117,7 +117,7 @@ TEST(XdsBootstrapTest, Basic) {
       "  \"server_listener_resource_name_template\": \"example/resource\","
       "  \"ignore\": {}"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -183,7 +183,7 @@ TEST(XdsBootstrapTest, ValidWithoutNode) {
       "    }"
       "  ]"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -203,7 +203,7 @@ TEST(XdsBootstrapTest, InsecureCreds) {
       "    }"
       "  ]"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -239,7 +239,7 @@ TEST(XdsBootstrapTest, GoogleDefaultCreds) {
       "    }"
       "  ]"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -258,7 +258,7 @@ TEST(XdsBootstrapTest, MissingChannelCreds) {
       "    }"
       "  ]"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -277,7 +277,7 @@ TEST(XdsBootstrapTest, NoKnownChannelCreds) {
       "    }"
       "  ]"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -287,7 +287,7 @@ TEST(XdsBootstrapTest, NoKnownChannelCreds) {
 }
 
 TEST(XdsBootstrapTest, MissingXdsServers) {
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse("{}", &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -303,7 +303,7 @@ TEST(XdsBootstrapTest, TopFieldsWrongTypes) {
       "  \"server_listener_resource_name_template\":1,"
       "  \"certificate_providers\":1"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -322,7 +322,7 @@ TEST(XdsBootstrapTest, XdsServerMissingServerUri) {
       "{"
       "  \"xds_servers\":[{}]"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -344,7 +344,7 @@ TEST(XdsBootstrapTest, XdsServerUriAndCredsWrongTypes) {
       "    }"
       "  ]"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -372,7 +372,7 @@ TEST(XdsBootstrapTest, ChannelCredsFieldsWrongTypes) {
       "    }"
       "  ]"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -397,7 +397,7 @@ TEST(XdsBootstrapTest, NodeFieldsWrongTypes) {
       "    \"metadata\":0"
       "  }"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -420,7 +420,7 @@ TEST(XdsBootstrapTest, LocalityFieldsWrongType) {
       "    }"
       "  }"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -445,7 +445,7 @@ TEST(XdsBootstrapTest, CertificateProvidersElementWrongType) {
       "    \"plugin\":1"
       "  }"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -470,7 +470,7 @@ TEST(XdsBootstrapTest, CertificateProvidersPluginNameWrongType) {
       "    }"
       "  }"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -496,7 +496,7 @@ TEST(XdsBootstrapTest, CertificateProvidersUnrecognizedPluginName) {
       "    }"
       "  }"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -536,7 +536,7 @@ TEST(XdsBootstrapTest, AuthorityXdsServerInvalidResourceTemplate) {
       "    }"
       "  }"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -567,7 +567,7 @@ TEST(XdsBootstrapTest, AuthorityXdsServerMissingServerUri) {
       "    }"
       "  }"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -608,8 +608,8 @@ class FakeCertificateProviderFactory : public CertificateProviderFactory {
 
   RefCountedPtr<CertificateProviderFactory::Config>
   CreateCertificateProviderConfig(const Json& config_json,
-                                  grpc_error_handle* error) override {
-    std::vector<grpc_error_handle> error_list;
+                                  absl::Status* error) override {
+    std::vector<absl::Status> error_list;
     EXPECT_EQ(config_json.type(), Json::Type::OBJECT);
     auto it = config_json.object_value().find("value");
     if (it == config_json.object_value().end()) {
@@ -649,7 +649,7 @@ TEST(XdsBootstrapTest, CertificateProvidersFakePluginParsingError) {
       "    }"
       "  }"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -678,7 +678,7 @@ TEST(XdsBootstrapTest, CertificateProvidersFakePluginParsingSuccess) {
       "    }"
       "  }"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -708,7 +708,7 @@ TEST(XdsBootstrapTest, CertificateProvidersFakePluginEmptyConfig) {
       "    }"
       "  }"
       "}";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap bootstrap(std::move(json), &error);
@@ -736,7 +736,7 @@ TEST(XdsBootstrapTest, XdsServerToJsonAndParse) {
       "      ],"
       "      \"ignore\": 0"
       "    }";
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_str, &error);
   ASSERT_EQ(error, GRPC_ERROR_NONE) << grpc_error_std_string(error);
   XdsBootstrap::XdsServer xds_server =

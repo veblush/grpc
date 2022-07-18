@@ -82,7 +82,7 @@ typedef struct addr_req {
   std::unique_ptr<grpc_core::ServerAddressList>* addresses;
 } addr_req;
 
-static void finish_resolve(void* arg, grpc_error_handle error) {
+static void finish_resolve(void* arg, absl::Status error) {
   addr_req* r = static_cast<addr_req*>(arg);
 
   if (error.ok() && 0 == strcmp(r->addr, "server")) {
@@ -123,7 +123,7 @@ class FuzzerDNSResolver : public grpc_core::DNSResolver {
     }
 
    private:
-    static void FinishResolve(void* arg, grpc_error_handle error) {
+    static void FinishResolve(void* arg, absl::Status error) {
       FuzzerDNSRequest* self = static_cast<FuzzerDNSRequest*>(arg);
       if (error.ok() && self->name_ == "server") {
         std::vector<grpc_resolved_address> addrs;
@@ -231,7 +231,7 @@ typedef struct {
   gpr_timespec deadline;
 } future_connect;
 
-static void do_connect(void* arg, grpc_error_handle error) {
+static void do_connect(void* arg, absl::Status error) {
   future_connect* fc = static_cast<future_connect*>(arg);
   if (!error.ok()) {
     *fc->ep = nullptr;

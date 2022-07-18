@@ -920,7 +920,7 @@ XdsClusterResolverLb::CreateChildPolicyConfigLocked() {
         "[xds_cluster_resolver_lb %p] generated config for child policy: %s",
         this, json_str.c_str());
   }
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   RefCountedPtr<LoadBalancingPolicy::Config> config =
       LoadBalancingPolicyRegistry::ParseLoadBalancingConfig(json, &error);
   if (!error.ok()) {
@@ -1016,7 +1016,7 @@ class XdsClusterResolverLbFactory : public LoadBalancingPolicyFactory {
   const char* name() const override { return kXdsClusterResolver; }
 
   RefCountedPtr<LoadBalancingPolicy::Config> ParseLoadBalancingConfig(
-      const Json& json, grpc_error_handle* error) const override {
+      const Json& json, absl::Status* error) const override {
     GPR_DEBUG_ASSERT(error != nullptr && error->ok());
     if (json.type() == Json::Type::JSON_NULL) {
       // xds_cluster_resolver was mentioned as a policy in the deprecated
@@ -1027,7 +1027,7 @@ class XdsClusterResolverLbFactory : public LoadBalancingPolicyFactory {
           "Please use loadBalancingConfig field of service config instead.");
       return nullptr;
     }
-    std::vector<grpc_error_handle> error_list;
+    std::vector<absl::Status> error_list;
     std::vector<XdsClusterResolverLbConfig::DiscoveryMechanism>
         discovery_mechanisms;
     auto it = json.object_value().find("discoveryMechanisms");
@@ -1041,12 +1041,12 @@ class XdsClusterResolverLbFactory : public LoadBalancingPolicyFactory {
       const Json::Array& array = it->second.array_value();
       for (size_t i = 0; i < array.size(); ++i) {
         XdsClusterResolverLbConfig::DiscoveryMechanism discovery_mechanism;
-        std::vector<grpc_error_handle> discovery_mechanism_errors =
+        std::vector<absl::Status> discovery_mechanism_errors =
             ParseDiscoveryMechanism(array[i], &discovery_mechanism);
         if (!discovery_mechanism_errors.empty()) {
-          grpc_error_handle error = GRPC_ERROR_CREATE_FROM_CPP_STRING(
+          absl::Status error = GRPC_ERROR_CREATE_FROM_CPP_STRING(
               absl::StrCat("field:discovery_mechanism element: ", i, " error"));
-          for (const grpc_error_handle& discovery_mechanism_error :
+          for (const absl::Status& discovery_mechanism_error :
                discovery_mechanism_errors) {
             error = grpc_error_add_child(error, discovery_mechanism_error);
           }
@@ -1107,10 +1107,10 @@ class XdsClusterResolverLbFactory : public LoadBalancingPolicyFactory {
   }
 
  private:
-  static std::vector<grpc_error_handle> ParseDiscoveryMechanism(
+  static std::vector<absl::Status> ParseDiscoveryMechanism(
       const Json& json,
       XdsClusterResolverLbConfig::DiscoveryMechanism* discovery_mechanism) {
-    std::vector<grpc_error_handle> error_list;
+    std::vector<absl::Status> error_list;
     if (json.type() != Json::Type::OBJECT) {
       error_list.push_back(GRPC_ERROR_CREATE_FROM_STATIC_STRING(
           "value should be of type object"));
@@ -1134,7 +1134,7 @@ class XdsClusterResolverLbFactory : public LoadBalancingPolicyFactory {
         error_list.push_back(GRPC_ERROR_CREATE_FROM_STATIC_STRING(
             "field:lrsLoadReportingServer error:type should be object"));
       } else {
-        grpc_error_handle parse_error;
+        absl::Status parse_error;
         discovery_mechanism->lrs_load_reporting_server.emplace(
             XdsBootstrap::XdsServer::Parse(it->second, &parse_error));
         if (!parse_error.ok()) {

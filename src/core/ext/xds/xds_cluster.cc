@@ -104,7 +104,7 @@ std::string XdsClusterResource::ToString() const {
 
 namespace {
 
-grpc_error_handle UpstreamTlsContextParse(
+absl::Status UpstreamTlsContextParse(
     const XdsEncodingContext& context,
     const envoy_config_core_v3_TransportSocket* transport_socket,
     CommonTlsContext* common_tls_context) {
@@ -132,7 +132,7 @@ grpc_error_handle UpstreamTlsContextParse(
         envoy_extensions_transport_sockets_tls_v3_UpstreamTlsContext_common_tls_context(
             upstream_tls_context);
     if (common_tls_context_proto != nullptr) {
-      grpc_error_handle error = CommonTlsContext::Parse(
+      absl::Status error = CommonTlsContext::Parse(
           context, common_tls_context_proto, common_tls_context);
       if (!error.ok()) {
         return grpc_error_add_child(GRPC_ERROR_CREATE_FROM_STATIC_STRING(
@@ -150,7 +150,7 @@ grpc_error_handle UpstreamTlsContextParse(
   return GRPC_ERROR_NONE;
 }
 
-grpc_error_handle CdsLogicalDnsParse(
+absl::Status CdsLogicalDnsParse(
     const envoy_config_cluster_v3_Cluster* cluster,
     XdsClusterResource* cds_update) {
   const auto* load_assignment =
@@ -217,11 +217,11 @@ grpc_error_handle CdsLogicalDnsParse(
   return GRPC_ERROR_NONE;
 }
 
-grpc_error_handle CdsResourceParse(
+absl::Status CdsResourceParse(
     const XdsEncodingContext& context,
     const envoy_config_cluster_v3_Cluster* cluster, bool /*is_v2*/,
     XdsClusterResource* cds_update) {
-  std::vector<grpc_error_handle> errors;
+  std::vector<absl::Status> errors;
   // Check the cluster_discovery_type.
   if (!envoy_config_cluster_v3_Cluster_has_type(cluster) &&
       !envoy_config_cluster_v3_Cluster_has_cluster_type(cluster)) {
@@ -251,7 +251,7 @@ grpc_error_handle CdsResourceParse(
   } else if (envoy_config_cluster_v3_Cluster_type(cluster) ==
              envoy_config_cluster_v3_Cluster_LOGICAL_DNS) {
     cds_update->cluster_type = XdsClusterResource::ClusterType::LOGICAL_DNS;
-    grpc_error_handle error = CdsLogicalDnsParse(cluster, cds_update);
+    absl::Status error = CdsLogicalDnsParse(cluster, cds_update);
     if (!error.ok()) errors.push_back(error);
   } else {
     if (!envoy_config_cluster_v3_Cluster_has_cluster_type(cluster)) {
@@ -351,7 +351,7 @@ grpc_error_handle CdsResourceParse(
   auto* transport_socket =
       envoy_config_cluster_v3_Cluster_transport_socket(cluster);
   if (transport_socket != nullptr) {
-    grpc_error_handle error = UpstreamTlsContextParse(
+    absl::Status error = UpstreamTlsContextParse(
         context, transport_socket, &cds_update->common_tls_context);
     if (!error.ok()) {
       errors.push_back(
@@ -531,7 +531,7 @@ absl::StatusOr<XdsResourceType::DecodeResult> XdsClusterResourceType::Decode(
   result.name =
       UpbStringToStdString(envoy_config_cluster_v3_Cluster_name(resource));
   auto cluster_data = absl::make_unique<ResourceDataSubclass>();
-  grpc_error_handle error =
+  absl::Status error =
       CdsResourceParse(context, resource, is_v2, &cluster_data->resource);
   if (!error.ok()) {
     std::string error_str = grpc_error_std_string(error);

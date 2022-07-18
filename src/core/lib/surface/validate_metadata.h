@@ -30,8 +30,8 @@
 
 #include "src/core/lib/iomgr/error.h"
 
-grpc_error_handle grpc_validate_header_key_is_legal(const grpc_slice& slice);
-grpc_error_handle grpc_validate_header_nonbin_value_is_legal(
+absl::Status grpc_validate_header_key_is_legal(const grpc_slice& slice);
+absl::Status grpc_validate_header_nonbin_value_is_legal(
     const grpc_slice& slice);
 
 int grpc_is_binary_header_internal(const grpc_slice& slice);

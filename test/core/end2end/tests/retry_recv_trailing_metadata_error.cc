@@ -268,7 +268,7 @@ class InjectStatusFilter {
  private:
   class CallData {
    public:
-    static grpc_error_handle Init(grpc_call_element* elem,
+    static absl::Status Init(grpc_call_element* elem,
                                   const grpc_call_element_args* /*args*/) {
       new (elem->call_data) CallData();
       return GRPC_ERROR_NONE;
@@ -300,7 +300,7 @@ class InjectStatusFilter {
     }
 
     static void RecvTrailingMetadataReady(void* arg,
-                                          grpc_error_handle /*error*/) {
+                                          absl::Status /*error*/) {
       auto* calld = static_cast<CallData*>(arg);
       grpc_core::Closure::Run(
           DEBUG_LOCATION, calld->original_recv_trailing_metadata_ready_,
@@ -313,7 +313,7 @@ class InjectStatusFilter {
     grpc_closure* original_recv_trailing_metadata_ready_ = nullptr;
   };
 
-  static grpc_error_handle Init(grpc_channel_element* /*elem*/,
+  static absl::Status Init(grpc_channel_element* /*elem*/,
                                 grpc_channel_element_args* /*args*/) {
     return GRPC_ERROR_NONE;
   }

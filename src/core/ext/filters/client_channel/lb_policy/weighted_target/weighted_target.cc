@@ -682,7 +682,7 @@ class WeightedTargetLbFactory : public LoadBalancingPolicyFactory {
   const char* name() const override { return kWeightedTarget; }
 
   RefCountedPtr<LoadBalancingPolicy::Config> ParseLoadBalancingConfig(
-      const Json& json, grpc_error_handle* error) const override {
+      const Json& json, absl::Status* error) const override {
     GPR_DEBUG_ASSERT(error != nullptr && error->ok());
     if (json.type() == Json::Type::JSON_NULL) {
       // weighted_target was mentioned as a policy in the deprecated
@@ -693,7 +693,7 @@ class WeightedTargetLbFactory : public LoadBalancingPolicyFactory {
           "config instead.");
       return nullptr;
     }
-    std::vector<grpc_error_handle> error_list;
+    std::vector<absl::Status> error_list;
     // Weight map.
     WeightedTargetLbConfig::TargetMap target_map;
     auto it = json.object_value().find("targets");
@@ -706,7 +706,7 @@ class WeightedTargetLbFactory : public LoadBalancingPolicyFactory {
     } else {
       for (const auto& p : it->second.object_value()) {
         WeightedTargetLbConfig::ChildConfig child_config;
-        std::vector<grpc_error_handle> child_errors =
+        std::vector<absl::Status> child_errors =
             ParseChildConfig(p.second, &child_config);
         if (!child_errors.empty()) {
           error_list.push_back(GRPC_ERROR_CREATE_FROM_VECTOR_AND_CPP_STRING(
@@ -725,9 +725,9 @@ class WeightedTargetLbFactory : public LoadBalancingPolicyFactory {
   }
 
  private:
-  static std::vector<grpc_error_handle> ParseChildConfig(
+  static std::vector<absl::Status> ParseChildConfig(
       const Json& json, WeightedTargetLbConfig::ChildConfig* child_config) {
-    std::vector<grpc_error_handle> error_list;
+    std::vector<absl::Status> error_list;
     if (json.type() != Json::Type::OBJECT) {
       error_list.push_back(GRPC_ERROR_CREATE_FROM_STATIC_STRING(
           "value should be of type object"));
@@ -756,13 +756,13 @@ class WeightedTargetLbFactory : public LoadBalancingPolicyFactory {
     // Child policy.
     it = json.object_value().find("childPolicy");
     if (it != json.object_value().end()) {
-      grpc_error_handle parse_error = GRPC_ERROR_NONE;
+      absl::Status parse_error = GRPC_ERROR_NONE;
       child_config->config =
           LoadBalancingPolicyRegistry::ParseLoadBalancingConfig(it->second,
                                                                 &parse_error);
       if (child_config->config == nullptr) {
         GPR_DEBUG_ASSERT(!parse_error.ok());
-        std::vector<grpc_error_handle> child_errors;
+        std::vector<absl::Status> child_errors;
         child_errors.push_back(parse_error);
         error_list.push_back(
             GRPC_ERROR_CREATE_FROM_VECTOR("field:childPolicy", &child_errors));

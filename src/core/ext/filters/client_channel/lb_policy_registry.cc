@@ -114,7 +114,7 @@ bool LoadBalancingPolicyRegistry::LoadBalancingPolicyExists(
     return false;
   }
   if (requires_config != nullptr) {
-    grpc_error_handle error = GRPC_ERROR_NONE;
+    absl::Status error = GRPC_ERROR_NONE;
     // Check if the load balancing policy allows an empty config
     *requires_config =
         factory->ParseLoadBalancingConfig(Json(), &error) == nullptr;
@@ -126,7 +126,7 @@ namespace {
 
 // Returns the JSON node of policy (with both policy name and config content)
 // given the JSON node of a LoadBalancingConfig array.
-grpc_error_handle ParseLoadBalancingConfigHelper(
+absl::Status ParseLoadBalancingConfigHelper(
     const Json& lb_config_array, Json::Object::const_iterator* result) {
   if (lb_config_array.type() != Json::Type::ARRAY) {
     return GRPC_ERROR_CREATE_FROM_STATIC_STRING("type should be array");
@@ -166,7 +166,7 @@ grpc_error_handle ParseLoadBalancingConfigHelper(
 
 RefCountedPtr<LoadBalancingPolicy::Config>
 LoadBalancingPolicyRegistry::ParseLoadBalancingConfig(
-    const Json& json, grpc_error_handle* error) {
+    const Json& json, absl::Status* error) {
   GPR_DEBUG_ASSERT(error != nullptr && error->ok());
   GPR_ASSERT(g_state != nullptr);
   Json::Object::const_iterator policy;

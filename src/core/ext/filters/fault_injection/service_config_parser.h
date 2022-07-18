@@ -90,7 +90,7 @@ class FaultInjectionServiceConfigParser final
   // Parses the per-method service config for fault injection filter.
   std::unique_ptr<ServiceConfigParser::ParsedConfig> ParsePerMethodParams(
       const ChannelArgs& args, const Json& json,
-      grpc_error_handle* error) override;
+      absl::Status* error) override;
   // Returns the parser index for FaultInjectionServiceConfigParser.
   static size_t ParserIndex();
   // Registers FaultInjectionServiceConfigParser to ServiceConfigParser.

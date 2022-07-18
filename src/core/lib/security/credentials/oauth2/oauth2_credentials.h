@@ -119,7 +119,7 @@ class grpc_oauth2_token_fetcher_credentials : public grpc_call_credentials {
                      const GetRequestMetadataArgs* args) override;
 
   void on_http_response(grpc_credentials_metadata_request* r,
-                        grpc_error_handle error);
+                        absl::Status error);
   std::string debug_string() override;
 
   grpc_core::UniqueTypeName type() const override;

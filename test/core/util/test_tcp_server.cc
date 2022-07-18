@@ -35,7 +35,7 @@
 #include "test/core/util/port.h"
 #include "test/core/util/test_config.h"
 
-static void on_server_destroyed(void* data, grpc_error_handle /*error*/) {
+static void on_server_destroyed(void* data, absl::Status /*error*/) {
   test_tcp_server* server = static_cast<test_tcp_server*>(data);
   server->shutdown = true;
 }
@@ -70,7 +70,7 @@ void test_tcp_server_start(test_tcp_server* server, int port) {
                   .channel_args_preconditioning()
                   .PreconditionChannelArgs(nullptr)
                   .ToC();
-  grpc_error_handle error = grpc_tcp_server_create(
+  absl::Status error = grpc_tcp_server_create(
       &server->shutdown_complete, args.get(), &server->tcp_server);
   GPR_ASSERT(error.ok());
   error =
@@ -94,8 +94,8 @@ void test_tcp_server_poll(test_tcp_server* server, int milliseconds) {
   gpr_mu_unlock(server->mu);
 }
 
-static void do_nothing(void* /*arg*/, grpc_error_handle /*error*/) {}
-static void finish_pollset(void* arg, grpc_error_handle /*error*/) {
+static void do_nothing(void* /*arg*/, absl::Status /*error*/) {}
+static void finish_pollset(void* arg, absl::Status /*error*/) {
   grpc_pollset_destroy(static_cast<grpc_pollset*>(arg));
 }
 

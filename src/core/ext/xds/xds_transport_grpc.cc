@@ -168,7 +168,7 @@ void GrpcXdsTransportFactory::GrpcXdsTransport::GrpcStreamingCall::SendMessage(
 }
 
 void GrpcXdsTransportFactory::GrpcXdsTransport::GrpcStreamingCall::
-    OnRequestSent(void* arg, grpc_error_handle error) {
+    OnRequestSent(void* arg, absl::Status error) {
   auto* self = static_cast<GrpcStreamingCall*>(arg);
   // Clean up the sent message.
   grpc_byte_buffer_destroy(self->send_message_payload_);
@@ -180,7 +180,7 @@ void GrpcXdsTransportFactory::GrpcXdsTransport::GrpcStreamingCall::
 }
 
 void GrpcXdsTransportFactory::GrpcXdsTransport::GrpcStreamingCall::
-    OnResponseReceived(void* arg, grpc_error_handle /*error*/) {
+    OnResponseReceived(void* arg, absl::Status /*error*/) {
   auto* self = static_cast<GrpcStreamingCall*>(arg);
   // If there was no payload, then we received status before we received
   // another message, so we stop reading.
@@ -210,7 +210,7 @@ void GrpcXdsTransportFactory::GrpcXdsTransport::GrpcStreamingCall::
 }
 
 void GrpcXdsTransportFactory::GrpcXdsTransport::GrpcStreamingCall::
-    OnStatusReceived(void* arg, grpc_error_handle /*error*/) {
+    OnStatusReceived(void* arg, absl::Status /*error*/) {
   auto* self = static_cast<GrpcStreamingCall*>(arg);
   self->event_handler_->OnStatusReceived(
       absl::Status(static_cast<absl::StatusCode>(self->status_code_),

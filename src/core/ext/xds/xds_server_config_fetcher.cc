@@ -946,7 +946,7 @@ const XdsListenerResource::FilterChainData* FindFilterChainDataForSourceType(
     return nullptr;
   }
   grpc_resolved_address source_addr;
-  grpc_error_handle error = grpc_string_to_sockaddr(
+  absl::Status error = grpc_string_to_sockaddr(
       &source_addr, host.c_str(), 0 /* port doesn't matter here */);
   if (!error.ok()) {
     gpr_log(GPR_DEBUG, "Could not parse string to socket address: %s",
@@ -996,7 +996,7 @@ const XdsListenerResource::FilterChainData* FindFilterChainDataForDestinationIp(
     return nullptr;
   }
   grpc_resolved_address destination_addr;
-  grpc_error_handle error = grpc_string_to_sockaddr(
+  absl::Status error = grpc_string_to_sockaddr(
       &destination_addr, host.c_str(), 0 /* port doesn't matter here */);
   if (!error.ok()) {
     gpr_log(GPR_DEBUG, "Could not parse string to socket address: %s",
@@ -1154,7 +1154,7 @@ XdsServerConfigFetcher::ListenerWatcher::FilterChainMatchManager::
             absl::StrJoin(fields, ",\n"),
             "\n  } ]\n"
             "}");
-        grpc_error_handle error = GRPC_ERROR_NONE;
+        absl::Status error = GRPC_ERROR_NONE;
         config_selector_route.method_config =
             ServiceConfigImpl::Create(result.args, json.c_str(), &error);
         GPR_ASSERT(error.ok());
@@ -1328,7 +1328,7 @@ grpc_server_config_fetcher* grpc_server_config_fetcher_xds_create(
       "grpc_server_config_fetcher_xds_create(notifier={on_serving_status_"
       "update=%p, user_data=%p}, args=%p)",
       3, (notifier.on_serving_status_update, notifier.user_data, args));
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   grpc_core::RefCountedPtr<grpc_core::XdsClient> xds_client =
       grpc_core::GrpcXdsClient::GetOrCreate(channel_args, &error);
   if (!error.ok()) {

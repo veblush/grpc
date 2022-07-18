@@ -37,7 +37,7 @@ static void exec_ctx_run(grpc_closure* closure) {
             closure->line_initiated);
   }
 #endif
-  grpc_error_handle error =
+  absl::Status error =
       grpc_core::internal::StatusMoveFromHeapPtr(closure->error_data.error);
   closure->error_data.error = 0;
   closure->cb(closure->cb_arg, std::move(error));
@@ -88,7 +88,7 @@ Timestamp ExecCtx::Now() {
 }
 
 void ExecCtx::Run(const DebugLocation& location, grpc_closure* closure,
-                  grpc_error_handle error) {
+                  absl::Status error) {
   (void)location;
   if (closure == nullptr) {
     return;

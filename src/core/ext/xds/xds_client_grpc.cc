@@ -83,7 +83,7 @@ void XdsClientGlobalShutdown() ABSL_NO_THREAD_SAFETY_ANALYSIS {
 namespace {
 
 std::string GetBootstrapContents(const char* fallback_config,
-                                 grpc_error_handle* error) {
+                                 absl::Status* error) {
   // First, try GRPC_XDS_BOOTSTRAP env var.
   UniquePtr<char> path(gpr_getenv("GRPC_XDS_BOOTSTRAP"));
   if (path != nullptr) {
@@ -128,7 +128,7 @@ std::string GetBootstrapContents(const char* fallback_config,
 }  // namespace
 
 RefCountedPtr<XdsClient> GrpcXdsClient::GetOrCreate(const ChannelArgs& args,
-                                                    grpc_error_handle* error) {
+                                                    absl::Status* error) {
   RefCountedPtr<XdsClient> xds_client;
   // If getting bootstrap from channel args, create a local XdsClient
   // instance for the channel or server instead of using the global instance.
@@ -217,7 +217,7 @@ void SetXdsFallbackBootstrapConfig(const char* config) {
 grpc_slice grpc_dump_xds_configs(void) {
   grpc_core::ApplicationCallbackExecCtx callback_exec_ctx;
   grpc_core::ExecCtx exec_ctx;
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   auto xds_client =
       grpc_core::GrpcXdsClient::GetOrCreate(grpc_core::ChannelArgs(), &error);
   if (!error.ok()) {

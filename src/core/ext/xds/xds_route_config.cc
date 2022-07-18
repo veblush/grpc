@@ -337,7 +337,7 @@ std::string XdsRouteConfigResource::ToString() const {
 
 namespace {
 
-grpc_error_handle ClusterSpecifierPluginParse(
+absl::Status ClusterSpecifierPluginParse(
     const XdsEncodingContext& context,
     const envoy_config_route_v3_RouteConfiguration* route_config,
     XdsRouteConfigResource* rds_update) {
@@ -393,7 +393,7 @@ grpc_error_handle ClusterSpecifierPluginParse(
   return GRPC_ERROR_NONE;
 }
 
-grpc_error_handle RoutePathMatchParse(
+absl::Status RoutePathMatchParse(
     const envoy_config_route_v3_RouteMatch* match,
     XdsRouteConfigResource::Route* route, bool* ignore_route) {
   auto* case_sensitive_ptr =
@@ -485,7 +485,7 @@ grpc_error_handle RoutePathMatchParse(
   return GRPC_ERROR_NONE;
 }
 
-grpc_error_handle RouteHeaderMatchersParse(
+absl::Status RouteHeaderMatchersParse(
     const envoy_config_route_v3_RouteMatch* match,
     XdsRouteConfigResource::Route* route) {
   size_t size;
@@ -552,7 +552,7 @@ grpc_error_handle RouteHeaderMatchersParse(
   return GRPC_ERROR_NONE;
 }
 
-grpc_error_handle RouteRuntimeFractionParse(
+absl::Status RouteRuntimeFractionParse(
     const envoy_config_route_v3_RouteMatch* match,
     XdsRouteConfigResource::Route* route) {
   const envoy_config_core_v3_RuntimeFractionalPercent* runtime_fraction =
@@ -587,7 +587,7 @@ grpc_error_handle RouteRuntimeFractionParse(
 }
 
 template <typename ParentType, typename EntryType>
-grpc_error_handle ParseTypedPerFilterConfig(
+absl::Status ParseTypedPerFilterConfig(
     const XdsEncodingContext& context, const ParentType* parent,
     const EntryType* (*entry_func)(const ParentType*, size_t*),
     upb_StringView (*key_func)(const EntryType*),
@@ -652,11 +652,11 @@ grpc_error_handle ParseTypedPerFilterConfig(
   return GRPC_ERROR_NONE;
 }
 
-grpc_error_handle RetryPolicyParse(
+absl::Status RetryPolicyParse(
     const XdsEncodingContext& context,
     const envoy_config_route_v3_RetryPolicy* retry_policy,
     absl::optional<XdsRouteConfigResource::RetryPolicy>* retry) {
-  std::vector<grpc_error_handle> errors;
+  std::vector<absl::Status> errors;
   XdsRouteConfigResource::RetryPolicy retry_to_return;
   auto retry_on = UpbStringToStdString(
       envoy_config_route_v3_RetryPolicy_retry_on(retry_policy));
@@ -727,7 +727,7 @@ grpc_error_handle RetryPolicyParse(
   }
 }
 
-grpc_error_handle RouteActionParse(
+absl::Status RouteActionParse(
     const XdsEncodingContext& context,
     const envoy_config_route_v3_Route* route_msg,
     const std::map<std::string /*cluster_specifier_plugin_name*/,
@@ -787,7 +787,7 @@ grpc_error_handle RouteActionParse(
       if (cluster.weight == 0) continue;
       sum_of_weights += cluster.weight;
       if (context.use_v3) {
-        grpc_error_handle error = ParseTypedPerFilterConfig<
+        absl::Status error = ParseTypedPerFilterConfig<
             envoy_config_route_v3_WeightedCluster_ClusterWeight,
             envoy_config_route_v3_WeightedCluster_ClusterWeight_TypedPerFilterConfigEntry>(
             context, cluster_weight,
@@ -933,7 +933,7 @@ grpc_error_handle RouteActionParse(
       envoy_config_route_v3_RouteAction_retry_policy(route_action);
   if (retry_policy != nullptr) {
     absl::optional<XdsRouteConfigResource::RetryPolicy> retry;
-    grpc_error_handle error = RetryPolicyParse(context, retry_policy, &retry);
+    absl::Status error = RetryPolicyParse(context, retry_policy, &retry);
     if (!error.ok()) return error;
     route->retry_policy = retry;
   }
@@ -942,13 +942,13 @@ grpc_error_handle RouteActionParse(
 
 }  // namespace
 
-grpc_error_handle XdsRouteConfigResource::Parse(
+absl::Status XdsRouteConfigResource::Parse(
     const XdsEncodingContext& context,
     const envoy_config_route_v3_RouteConfiguration* route_config,
     XdsRouteConfigResource* rds_update) {
   // Get the cluster spcifier plugins
   if (XdsRlsEnabled()) {
-    grpc_error_handle error =
+    absl::Status error =
         ClusterSpecifierPluginParse(context, route_config, rds_update);
     if (!error.ok()) return error;
   }
@@ -978,7 +978,7 @@ grpc_error_handle XdsRouteConfigResource::Parse(
     }
     // Parse typed_per_filter_config.
     if (context.use_v3) {
-      grpc_error_handle error = ParseTypedPerFilterConfig<
+      absl::Status error = ParseTypedPerFilterConfig<
           envoy_config_route_v3_VirtualHost,
           envoy_config_route_v3_VirtualHost_TypedPerFilterConfigEntry>(
           context, virtual_hosts[i],
@@ -994,7 +994,7 @@ grpc_error_handle XdsRouteConfigResource::Parse(
     const envoy_config_route_v3_RetryPolicy* retry_policy =
         envoy_config_route_v3_VirtualHost_retry_policy(virtual_hosts[i]);
     if (retry_policy != nullptr) {
-      grpc_error_handle error =
+      absl::Status error =
           RetryPolicyParse(context, retry_policy, &virtual_host_retry_policy);
       if (!error.ok()) return error;
     }
@@ -1027,7 +1027,7 @@ grpc_error_handle XdsRouteConfigResource::Parse(
       }
       XdsRouteConfigResource::Route route;
       bool ignore_route = false;
-      grpc_error_handle error =
+      absl::Status error =
           RoutePathMatchParse(match, &route, &ignore_route);
       if (!error.ok()) return error;
       if (ignore_route) continue;
@@ -1062,7 +1062,7 @@ grpc_error_handle XdsRouteConfigResource::Parse(
             .emplace<XdsRouteConfigResource::Route::NonForwardingAction>();
       }
       if (context.use_v3) {
-        grpc_error_handle error = ParseTypedPerFilterConfig<
+        absl::Status error = ParseTypedPerFilterConfig<
             envoy_config_route_v3_Route,
             envoy_config_route_v3_Route_TypedPerFilterConfigEntry>(
             context, routes[j],
@@ -1126,7 +1126,7 @@ XdsRouteConfigResourceType::Decode(const XdsEncodingContext& context,
   result.name = UpbStringToStdString(
       envoy_config_route_v3_RouteConfiguration_name(resource));
   auto route_config_data = absl::make_unique<ResourceDataSubclass>();
-  grpc_error_handle error = XdsRouteConfigResource::Parse(
+  absl::Status error = XdsRouteConfigResource::Parse(
       context, resource, &route_config_data->resource);
   if (!error.ok()) {
     std::string error_str = grpc_error_std_string(error);

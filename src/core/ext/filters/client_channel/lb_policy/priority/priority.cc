@@ -196,8 +196,8 @@ class PriorityLb : public LoadBalancingPolicy {
       void Orphan() override;
 
      private:
-      static void OnTimer(void* arg, grpc_error_handle error);
-      void OnTimerLocked(grpc_error_handle);
+      static void OnTimer(void* arg, absl::Status error);
+      void OnTimerLocked(absl::Status);
 
       RefCountedPtr<ChildPriority> child_priority_;
       grpc_timer timer_;
@@ -212,8 +212,8 @@ class PriorityLb : public LoadBalancingPolicy {
       void Orphan() override;
 
      private:
-      static void OnTimer(void* arg, grpc_error_handle error);
-      void OnTimerLocked(grpc_error_handle);
+      static void OnTimer(void* arg, absl::Status error);
+      void OnTimerLocked(absl::Status);
 
       RefCountedPtr<ChildPriority> child_priority_;
       grpc_timer timer_;
@@ -632,14 +632,14 @@ void PriorityLb::ChildPriority::DeactivationTimer::Orphan() {
 }
 
 void PriorityLb::ChildPriority::DeactivationTimer::OnTimer(
-    void* arg, grpc_error_handle error) {
+    void* arg, absl::Status error) {
   auto* self = static_cast<DeactivationTimer*>(arg);
   self->child_priority_->priority_policy_->work_serializer()->Run(
       [self, error]() { self->OnTimerLocked(error); }, DEBUG_LOCATION);
 }
 
 void PriorityLb::ChildPriority::DeactivationTimer::OnTimerLocked(
-    grpc_error_handle error) {
+    absl::Status error) {
   if (error.ok() && timer_pending_) {
     if (GRPC_TRACE_FLAG_ENABLED(grpc_lb_priority_trace)) {
       gpr_log(GPR_INFO,
@@ -694,14 +694,14 @@ void PriorityLb::ChildPriority::FailoverTimer::Orphan() {
 }
 
 void PriorityLb::ChildPriority::FailoverTimer::OnTimer(
-    void* arg, grpc_error_handle error) {
+    void* arg, absl::Status error) {
   auto* self = static_cast<FailoverTimer*>(arg);
   self->child_priority_->priority_policy_->work_serializer()->Run(
       [self, error]() { self->OnTimerLocked(error); }, DEBUG_LOCATION);
 }
 
 void PriorityLb::ChildPriority::FailoverTimer::OnTimerLocked(
-    grpc_error_handle error) {
+    absl::Status error) {
   if (error.ok() && timer_pending_) {
     if (GRPC_TRACE_FLAG_ENABLED(grpc_lb_priority_trace)) {
       gpr_log(GPR_INFO,
@@ -922,7 +922,7 @@ class PriorityLbFactory : public LoadBalancingPolicyFactory {
   const char* name() const override { return kPriority; }
 
   RefCountedPtr<LoadBalancingPolicy::Config> ParseLoadBalancingConfig(
-      const Json& json, grpc_error_handle* error) const override {
+      const Json& json, absl::Status* error) const override {
     GPR_DEBUG_ASSERT(error != nullptr && error->ok());
     if (json.type() == Json::Type::JSON_NULL) {
       // priority was mentioned as a policy in the deprecated
@@ -933,7 +933,7 @@ class PriorityLbFactory : public LoadBalancingPolicyFactory {
           "config instead.");
       return nullptr;
     }
-    std::vector<grpc_error_handle> error_list;
+    std::vector<absl::Status> error_list;
     // Children.
     std::map<std::string, PriorityLbConfig::PriorityLbChild> children;
     auto it = json.object_value().find("children");
@@ -959,7 +959,7 @@ class PriorityLbFactory : public LoadBalancingPolicyFactory {
                 absl::StrCat("field:children key:", child_name,
                              " error:missing 'config' field")));
           } else {
-            grpc_error_handle parse_error = GRPC_ERROR_NONE;
+            absl::Status parse_error = GRPC_ERROR_NONE;
             auto config = LoadBalancingPolicyRegistry::ParseLoadBalancingConfig(
                 it2->second, &parse_error);
             bool ignore_resolution_requests = false;

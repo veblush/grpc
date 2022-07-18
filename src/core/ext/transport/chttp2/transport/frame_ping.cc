@@ -61,7 +61,7 @@ grpc_slice grpc_chttp2_ping_create(uint8_t ack, uint64_t opaque_8bytes) {
   return slice;
 }
 
-grpc_error_handle grpc_chttp2_ping_parser_begin_frame(
+absl::Status grpc_chttp2_ping_parser_begin_frame(
     grpc_chttp2_ping_parser* parser, uint32_t length, uint8_t flags) {
   if (flags & 0xfe || length != 8) {
     return GRPC_ERROR_CREATE_FROM_CPP_STRING(
@@ -73,7 +73,7 @@ grpc_error_handle grpc_chttp2_ping_parser_begin_frame(
   return GRPC_ERROR_NONE;
 }
 
-grpc_error_handle grpc_chttp2_ping_parser_parse(void* parser,
+absl::Status grpc_chttp2_ping_parser_parse(void* parser,
                                                 grpc_chttp2_transport* t,
                                                 grpc_chttp2_stream* /*s*/,
                                                 const grpc_slice& slice,

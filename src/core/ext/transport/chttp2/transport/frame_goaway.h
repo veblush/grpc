@@ -50,9 +50,9 @@ struct grpc_chttp2_goaway_parser {
 };
 void grpc_chttp2_goaway_parser_init(grpc_chttp2_goaway_parser* p);
 void grpc_chttp2_goaway_parser_destroy(grpc_chttp2_goaway_parser* p);
-grpc_error_handle grpc_chttp2_goaway_parser_begin_frame(
+absl::Status grpc_chttp2_goaway_parser_begin_frame(
     grpc_chttp2_goaway_parser* parser, uint32_t length, uint8_t flags);
-grpc_error_handle grpc_chttp2_goaway_parser_parse(void* parser,
+absl::Status grpc_chttp2_goaway_parser_parse(void* parser,
                                                   grpc_chttp2_transport* t,
                                                   grpc_chttp2_stream* s,
                                                   const grpc_slice& slice,

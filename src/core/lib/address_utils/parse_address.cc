@@ -50,7 +50,7 @@ bool grpc_parse_unix(const grpc_core::URI& uri,
             uri.scheme().c_str());
     return false;
   }
-  grpc_error_handle error =
+  absl::Status error =
       grpc_core::UnixSockaddrPopulate(uri.path(), resolved_addr);
   if (!error.ok()) {
     gpr_log(GPR_ERROR, "%s", grpc_error_std_string(error).c_str());
@@ -66,7 +66,7 @@ bool grpc_parse_unix_abstract(const grpc_core::URI& uri,
             uri.scheme().c_str());
     return false;
   }
-  grpc_error_handle error =
+  absl::Status error =
       grpc_core::UnixAbstractSockaddrPopulate(uri.path(), resolved_addr);
   if (!error.ok()) {
     gpr_log(GPR_ERROR, "%s", grpc_error_std_string(error).c_str());
@@ -77,7 +77,7 @@ bool grpc_parse_unix_abstract(const grpc_core::URI& uri,
 
 namespace grpc_core {
 
-grpc_error_handle UnixSockaddrPopulate(absl::string_view path,
+absl::Status UnixSockaddrPopulate(absl::string_view path,
                                        grpc_resolved_address* resolved_addr) {
   memset(resolved_addr, 0, sizeof(*resolved_addr));
   struct sockaddr_un* un =
@@ -94,7 +94,7 @@ grpc_error_handle UnixSockaddrPopulate(absl::string_view path,
   return GRPC_ERROR_NONE;
 }
 
-grpc_error_handle UnixAbstractSockaddrPopulate(
+absl::Status UnixAbstractSockaddrPopulate(
     absl::string_view path, grpc_resolved_address* resolved_addr) {
   memset(resolved_addr, 0, sizeof(*resolved_addr));
   struct sockaddr_un* un =
@@ -128,12 +128,12 @@ bool grpc_parse_unix_abstract(const grpc_core::URI& /* uri */,
 
 namespace grpc_core {
 
-grpc_error_handle UnixSockaddrPopulate(
+absl::Status UnixSockaddrPopulate(
     absl::string_view /* path */, grpc_resolved_address* /* resolved_addr */) {
   abort();
 }
 
-grpc_error_handle UnixAbstractSockaddrPopulate(
+absl::Status UnixAbstractSockaddrPopulate(
     absl::string_view /* path */, grpc_resolved_address* /* resolved_addr */) {
   abort();
 }
@@ -315,7 +315,7 @@ uint16_t grpc_strhtons(const char* port) {
   return htons(static_cast<unsigned short>(atoi(port)));
 }
 
-grpc_error_handle grpc_string_to_sockaddr(grpc_resolved_address* out,
+absl::Status grpc_string_to_sockaddr(grpc_resolved_address* out,
                                           const char* addr, int port) {
   memset(out, 0, sizeof(grpc_resolved_address));
   grpc_sockaddr_in6* addr6 = reinterpret_cast<grpc_sockaddr_in6*>(out->addr);

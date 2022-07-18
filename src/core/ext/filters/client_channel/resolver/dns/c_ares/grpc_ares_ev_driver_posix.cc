@@ -78,7 +78,7 @@ class GrpcPolledFdPosix : public GrpcPolledFd {
            bytes_available > 0;
   }
 
-  void ShutdownLocked(grpc_error_handle error)
+  void ShutdownLocked(absl::Status error)
       ABSL_EXCLUSIVE_LOCKS_REQUIRED(&grpc_ares_request::mu) override {
     grpc_fd_shutdown(fd_, error);
   }

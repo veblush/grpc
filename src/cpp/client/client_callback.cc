@@ -42,7 +42,7 @@ void ClientReactor::InternalScheduleOnDone(grpc::Status s) {
         : reactor(reactor_arg), status(std::move(s)) {
       GRPC_CLOSURE_INIT(
           &closure,
-          [](void* void_arg, grpc_error_handle) {
+          [](void* void_arg, absl::Status) {
             ClosureWithArg* arg = static_cast<ClosureWithArg*>(void_arg);
             arg->reactor->OnDone(arg->status);
             delete arg;

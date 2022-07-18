@@ -55,7 +55,7 @@ class ServiceConfigChannelArgChannelData {
     const char* service_config_str = grpc_channel_args_find_string(
         args->channel_args, GRPC_ARG_SERVICE_CONFIG);
     if (service_config_str != nullptr) {
-      grpc_error_handle service_config_error = GRPC_ERROR_NONE;
+      absl::Status service_config_error = GRPC_ERROR_NONE;
       auto service_config =
           ServiceConfigImpl::Create(ChannelArgs::FromC(args->channel_args),
                                     service_config_str, &service_config_error);
@@ -103,7 +103,7 @@ class ServiceConfigChannelArgCallData {
   ServiceConfigCallData service_config_call_data_;
 };
 
-grpc_error_handle ServiceConfigChannelArgInitCallElem(
+absl::Status ServiceConfigChannelArgInitCallElem(
     grpc_call_element* elem, const grpc_call_element_args* args) {
   auto* chand =
       static_cast<ServiceConfigChannelArgChannelData*>(elem->channel_data);
@@ -126,7 +126,7 @@ void ServiceConfigChannelArgDestroyCallElem(
   calld->~ServiceConfigChannelArgCallData();
 }
 
-grpc_error_handle ServiceConfigChannelArgInitChannelElem(
+absl::Status ServiceConfigChannelArgInitChannelElem(
     grpc_channel_element* elem, grpc_channel_element_args* args) {
   ServiceConfigChannelArgChannelData* chand =
       static_cast<ServiceConfigChannelArgChannelData*>(elem->channel_data);

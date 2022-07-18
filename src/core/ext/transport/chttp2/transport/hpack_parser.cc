@@ -584,15 +584,15 @@ class HPackParser::Input {
   bool eof_error() const { return eof_error_; }
 
   // Extract the parse error, leaving the current error as NONE.
-  grpc_error_handle TakeError() {
-    grpc_error_handle out = error_;
+  absl::Status TakeError() {
+    absl::Status out = error_;
     error_ = GRPC_ERROR_NONE;
     return out;
   }
 
   // Set the current error - allows the rest of the code not to need to pass
   // around StatusOr<> which would be prohibitive here.
-  GPR_ATTRIBUTE_NOINLINE void SetError(grpc_error_handle error) {
+  GPR_ATTRIBUTE_NOINLINE void SetError(absl::Status error) {
     if (!error_.ok() || eof_error_) {
       return;
     }
@@ -649,7 +649,7 @@ class HPackParser::Input {
   // Frontier denotes the first byte past successfully processed input
   const uint8_t* frontier_;
   // Current error
-  grpc_error_handle error_ = GRPC_ERROR_NONE;
+  absl::Status error_ = GRPC_ERROR_NONE;
   // If the error was EOF, we flag it here..
   bool eof_error_ = false;
 };
@@ -1080,7 +1080,7 @@ class HPackParser::Parser {
     // Emit whilst we own the metadata.
     auto r = EmitHeader(*md);
     // Add to the hpack table
-    grpc_error_handle err = table_->Add(std::move(*md));
+    absl::Status err = table_->Add(std::move(*md));
     if (GPR_UNLIKELY(!err.ok())) {
       input_->SetError(err);
       return false;
@@ -1176,7 +1176,7 @@ class HPackParser::Parser {
           false);
     }
     (*dynamic_table_updates_allowed_)--;
-    grpc_error_handle err = table_->SetCurrentTableSize(*size);
+    absl::Status err = table_->SetCurrentTableSize(*size);
     if (!err.ok()) {
       input_->SetError(err);
       return false;
@@ -1265,7 +1265,7 @@ void HPackParser::BeginFrame(grpc_metadata_batch* metadata_buffer,
   log_info_ = log_info;
 }
 
-grpc_error_handle HPackParser::Parse(const grpc_slice& slice, bool is_last) {
+absl::Status HPackParser::Parse(const grpc_slice& slice, bool is_last) {
   if (GPR_UNLIKELY(!unparsed_bytes_.empty())) {
     std::vector<uint8_t> buffer = std::move(unparsed_bytes_);
     buffer.insert(buffer.end(), GRPC_SLICE_START_PTR(slice),
@@ -1278,7 +1278,7 @@ grpc_error_handle HPackParser::Parse(const grpc_slice& slice, bool is_last) {
                     is_last);
 }
 
-grpc_error_handle HPackParser::ParseInput(Input input, bool is_last) {
+absl::Status HPackParser::ParseInput(Input input, bool is_last) {
   if (ParseInputInner(&input)) {
     return GRPC_ERROR_NONE;
   }
@@ -1329,7 +1329,7 @@ static const maybe_complete_func_type maybe_complete_funcs[] = {
     grpc_chttp2_maybe_complete_recv_initial_metadata,
     grpc_chttp2_maybe_complete_recv_trailing_metadata};
 
-static void force_client_rst_stream(void* sp, grpc_error_handle /*error*/) {
+static void force_client_rst_stream(void* sp, absl::Status /*error*/) {
   grpc_chttp2_stream* s = static_cast<grpc_chttp2_stream*>(sp);
   grpc_chttp2_transport* t = s->t;
   if (!s->write_closed) {
@@ -1341,7 +1341,7 @@ static void force_client_rst_stream(void* sp, grpc_error_handle /*error*/) {
   GRPC_CHTTP2_STREAM_UNREF(s, "final_rst");
 }
 
-grpc_error_handle grpc_chttp2_header_parser_parse(void* hpack_parser,
+absl::Status grpc_chttp2_header_parser_parse(void* hpack_parser,
                                                   grpc_chttp2_transport* t,
                                                   grpc_chttp2_stream* s,
                                                   const grpc_slice& slice,
@@ -1351,7 +1351,7 @@ grpc_error_handle grpc_chttp2_header_parser_parse(void* hpack_parser,
   if (s != nullptr) {
     s->stats.incoming.header_bytes += GRPC_SLICE_LENGTH(slice);
   }
-  grpc_error_handle error = parser->Parse(slice, is_last != 0);
+  absl::Status error = parser->Parse(slice, is_last != 0);
   if (!error.ok()) {
     return error;
   }

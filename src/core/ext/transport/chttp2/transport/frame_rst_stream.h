@@ -43,9 +43,9 @@ void grpc_chttp2_add_rst_stream_to_next_write(
     grpc_chttp2_transport* t, uint32_t id, uint32_t code,
     grpc_transport_one_way_stats* stats);
 
-grpc_error_handle grpc_chttp2_rst_stream_parser_begin_frame(
+absl::Status grpc_chttp2_rst_stream_parser_begin_frame(
     grpc_chttp2_rst_stream_parser* parser, uint32_t length, uint8_t flags);
-grpc_error_handle grpc_chttp2_rst_stream_parser_parse(void* parser,
+absl::Status grpc_chttp2_rst_stream_parser_parse(void* parser,
                                                       grpc_chttp2_transport* t,
                                                       grpc_chttp2_stream* s,
                                                       const grpc_slice& slice,

@@ -35,7 +35,7 @@ UniqueTypeName RequestHashAttributeName();
 // hash size validity.
 void ParseRingHashLbConfig(const Json& json, size_t* min_ring_size,
                            size_t* max_ring_size,
-                           std::vector<grpc_error_handle>* error_list);
+                           std::vector<absl::Status>* error_list);
 
 }  // namespace grpc_core
 

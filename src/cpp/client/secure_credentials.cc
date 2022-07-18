@@ -166,7 +166,7 @@ grpc::Status StsCredentialsOptionsFromJson(const std::string& json_string,
                         "options cannot be nullptr.");
   }
   ClearStsCredentialsOptions(options);
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   grpc_core::Json json = grpc_core::Json::Parse(json_string.c_str(), &error);
   if (!error.ok() || json.type() != grpc_core::Json::Type::OBJECT) {
     return grpc::Status(grpc::StatusCode::INVALID_ARGUMENT, "Invalid json.");
@@ -222,7 +222,7 @@ grpc::Status StsCredentialsOptionsFromEnv(StsCredentialsOptions* options) {
   ClearStsCredentialsOptions(options);
   grpc_slice json_string = grpc_empty_slice();
   char* sts_creds_path = gpr_getenv("STS_CREDENTIALS");
-  grpc_error_handle error = GRPC_ERROR_NONE;
+  absl::Status error = GRPC_ERROR_NONE;
   grpc::Status status;
   // NOLINTNEXTLINE(clang-diagnostic-unused-lambda-capture)
   auto cleanup = [&json_string, &sts_creds_path, &status]() {
@@ -413,7 +413,7 @@ std::shared_ptr<CallCredentials> MetadataCredentialsFromPlugin(
 }
 
 namespace {
-void DeleteWrapper(void* wrapper, grpc_error_handle /*ignored*/) {
+void DeleteWrapper(void* wrapper, absl::Status /*ignored*/) {
   MetadataCredentialsPluginWrapper* w =
       static_cast<MetadataCredentialsPluginWrapper*>(wrapper);
   delete w;

@@ -42,7 +42,7 @@ class HPackTable {
   HPackTable& operator=(const HPackTable&) = delete;
 
   void SetMaxBytes(uint32_t max_bytes);
-  grpc_error_handle SetCurrentTableSize(uint32_t bytes);
+  absl::Status SetCurrentTableSize(uint32_t bytes);
 
   using Memento = ParsedMetadata<grpc_metadata_batch>;
 
@@ -62,7 +62,7 @@ class HPackTable {
   }
 
   // add a table entry to the index
-  grpc_error_handle Add(Memento md) GRPC_MUST_USE_RESULT;
+  absl::Status Add(Memento md) GRPC_MUST_USE_RESULT;
 
   // Current entry count in the table.
   uint32_t num_entries() const { return entries_.num_entries(); }

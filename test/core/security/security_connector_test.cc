@@ -719,7 +719,7 @@ static void test_peer_alpn_check(void) {
       tsi_construct_string_peer_property("wrong peer property name", alpn,
                                          strlen(alpn), &peer.properties[0]),
       TSI_OK);
-  grpc_error_handle error = grpc_ssl_check_alpn(&peer);
+  absl::Status error = grpc_ssl_check_alpn(&peer);
   ASSERT_FALSE(error.ok());
   tsi_peer_destruct(&peer);
   // peer has a TSI_SSL_ALPN_SELECTED_PROTOCOL property but with an incorrect

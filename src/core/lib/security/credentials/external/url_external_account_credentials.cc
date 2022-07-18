@@ -47,7 +47,7 @@ namespace grpc_core {
 RefCountedPtr<UrlExternalAccountCredentials>
 UrlExternalAccountCredentials::Create(Options options,
                                       std::vector<std::string> scopes,
-                                      grpc_error_handle* error) {
+                                      absl::Status* error) {
   auto creds = MakeRefCounted<UrlExternalAccountCredentials>(
       std::move(options), std::move(scopes), error);
   if (error->ok()) {
@@ -58,7 +58,7 @@ UrlExternalAccountCredentials::Create(Options options,
 }
 
 UrlExternalAccountCredentials::UrlExternalAccountCredentials(
-    Options options, std::vector<std::string> scopes, grpc_error_handle* error)
+    Options options, std::vector<std::string> scopes, absl::Status* error)
     : ExternalAccountCredentials(options, std::move(scopes)) {
   auto it = options.credential_source.object_value().find("url");
   if (it == options.credential_source.object_value().end()) {
@@ -133,7 +133,7 @@ UrlExternalAccountCredentials::UrlExternalAccountCredentials(
 
 void UrlExternalAccountCredentials::RetrieveSubjectToken(
     HTTPRequestContext* ctx, const Options& /*options*/,
-    std::function<void(std::string, grpc_error_handle)> cb) {
+    std::function<void(std::string, absl::Status)> cb) {
   if (ctx == nullptr) {
     FinishRetrieveSubjectToken(
         "",
@@ -186,14 +186,14 @@ void UrlExternalAccountCredentials::RetrieveSubjectToken(
 }
 
 void UrlExternalAccountCredentials::OnRetrieveSubjectToken(
-    void* arg, grpc_error_handle error) {
+    void* arg, absl::Status error) {
   UrlExternalAccountCredentials* self =
       static_cast<UrlExternalAccountCredentials*>(arg);
   self->OnRetrieveSubjectTokenInternal(error);
 }
 
 void UrlExternalAccountCredentials::OnRetrieveSubjectTokenInternal(
-    grpc_error_handle error) {
+    absl::Status error) {
   http_request_.reset();
   if (!error.ok()) {
     FinishRetrieveSubjectToken("", error);
@@ -202,7 +202,7 @@ void UrlExternalAccountCredentials::OnRetrieveSubjectTokenInternal(
   absl::string_view response_body(ctx_->response.body,
                                   ctx_->response.body_length);
   if (format_type_ == "json") {
-    grpc_error_handle error = GRPC_ERROR_NONE;
+    absl::Status error = GRPC_ERROR_NONE;
     Json response_json = Json::Parse(response_body, &error);
     if (!error.ok() || response_json.type() != Json::Type::OBJECT) {
       FinishRetrieveSubjectToken(
@@ -230,7 +230,7 @@ void UrlExternalAccountCredentials::OnRetrieveSubjectTokenInternal(
 }
 
 void UrlExternalAccountCredentials::FinishRetrieveSubjectToken(
-    std::string subject_token, grpc_error_handle error) {
+    std::string subject_token, absl::Status error) {
   // Reset context
   ctx_ = nullptr;
   // Move object state into local variables.
