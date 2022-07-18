@@ -91,7 +91,6 @@ void ExecCtx::Run(const DebugLocation& location, grpc_closure* closure,
                   grpc_error_handle error) {
   (void)location;
   if (closure == nullptr) {
-    GRPC_ERROR_UNREF(error);
     return;
   }
 #ifndef NDEBUG

@@ -397,7 +397,6 @@ static void fd_shutdown_internal(grpc_fd* fd, grpc_error_handle why,
     fd->write_closure->SetShutdown(why);
     fd->error_closure->SetShutdown(why);
   }
-  GRPC_ERROR_UNREF(why);
 }
 
 /* Might be called multiple times */

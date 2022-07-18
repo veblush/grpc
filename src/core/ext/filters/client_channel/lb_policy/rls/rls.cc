@@ -805,7 +805,6 @@ void RlsLb::ChildPolicyWrapper::StartUpdate() {
     pending_config_.reset();
     picker_ = absl::make_unique<TransientFailurePicker>(
         grpc_error_to_absl_status(error));
-    GRPC_ERROR_UNREF(error);
     child_policy_.reset();
   }
 }
@@ -2504,7 +2503,6 @@ class RlsLbFactory : public LoadBalancingPolicyFactory {
       if (!child_error.ok()) {
         error_list.push_back(GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
             "field:routeLookupChannelServiceConfig", &child_error, 1));
-        GRPC_ERROR_UNREF(child_error);
       }
     }
     // Parse childPolicyConfigTargetFieldName.
@@ -2536,7 +2534,6 @@ class RlsLbFactory : public LoadBalancingPolicyFactory {
       if (!child_error.ok()) {
         error_list.push_back(GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
             "field:childPolicy", &child_error, 1));
-        GRPC_ERROR_UNREF(child_error);
       }
     }
     // Return result.

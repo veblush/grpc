@@ -738,7 +738,6 @@ static void cq_end_op_for_next(
         if (!kick_error.ok()) {
           gpr_log(GPR_ERROR, "Kick failed: %s",
                   grpc_error_std_string(kick_error).c_str());
-          GRPC_ERROR_UNREF(kick_error);
         }
       }
       if (cqd->pending_events.fetch_sub(1, std::memory_order_acq_rel) == 1) {
@@ -757,8 +756,6 @@ static void cq_end_op_for_next(
       GRPC_CQ_INTERNAL_UNREF(cq, "shutting_down");
     }
   }
-
-  GRPC_ERROR_UNREF(error);
 }
 
 /* Queue a GRPC_OP_COMPLETED operation to a completion queue (with a
@@ -819,11 +816,8 @@ static void cq_end_op_for_pluck(
     if (!kick_error.ok()) {
       gpr_log(GPR_ERROR, "Kick failed: %s",
               grpc_error_std_string(kick_error).c_str());
-      GRPC_ERROR_UNREF(kick_error);
     }
   }
-
-  GRPC_ERROR_UNREF(error);
 }
 
 static void functor_callback(void* arg, grpc_error_handle error) {
@@ -874,7 +868,6 @@ static void cq_end_op_for_callback(
        grpc_core::ApplicationCallbackExecCtx::Available()) ||
       grpc_iomgr_is_any_background_poller_thread()) {
     grpc_core::ApplicationCallbackExecCtx::Enqueue(functor, (error.ok()));
-    GRPC_ERROR_UNREF(error);
     return;
   }
 
@@ -1053,7 +1046,6 @@ static grpc_event cq_next(grpc_completion_queue* cq, gpr_timespec deadline,
     if (!err.ok()) {
       gpr_log(GPR_ERROR, "Completion queue next failed: %s",
               grpc_error_std_string(err).c_str());
-      GRPC_ERROR_UNREF(err);
       if (err == GRPC_ERROR_CANCELLED) {
         ret.type = GRPC_QUEUE_SHUTDOWN;
       } else {
@@ -1300,7 +1292,6 @@ static grpc_event cq_pluck(grpc_completion_queue* cq, void* tag,
       gpr_mu_unlock(cq->mu);
       gpr_log(GPR_ERROR, "Completion queue pluck failed: %s",
               grpc_error_std_string(err).c_str());
-      GRPC_ERROR_UNREF(err);
       ret.type = GRPC_QUEUE_TIMEOUT;
       ret.success = 0;
       dump_pending_tags(cq);

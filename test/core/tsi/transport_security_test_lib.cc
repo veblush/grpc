@@ -71,7 +71,6 @@ static handshaker_args* handshaker_args_create(tsi_test_fixture* fixture,
 
 static void handshaker_args_destroy(handshaker_args* args) {
   gpr_free(args->handshake_buffer);
-  GRPC_ERROR_UNREF(args->error);
   delete args;
 }
 

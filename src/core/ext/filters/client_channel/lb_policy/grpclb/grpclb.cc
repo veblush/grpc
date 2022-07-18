@@ -1084,7 +1084,6 @@ void GrpcLb::BalancerCallState::ClientLoadReportDoneLocked(
   send_message_payload_ = nullptr;
   if (!error.ok() || this != grpclb_policy()->lb_calld_.get()) {
     Unref(DEBUG_LOCATION, "client_load_report");
-    GRPC_ERROR_UNREF(error);
     return;
   }
   ScheduleNextClientLoadReportLocked();
@@ -1294,7 +1293,6 @@ void GrpcLb::BalancerCallState::OnBalancerStatusReceivedLocked(
             grpc_error_std_string(error).c_str());
     gpr_free(status_details);
   }
-  GRPC_ERROR_UNREF(error);
   // If this lb_calld is still in use, this call ended because of a failure so
   // we want to retry connecting. Otherwise, we have deliberately ended this
   // call and no further action is required.
@@ -1656,7 +1654,6 @@ void GrpcLb::OnBalancerCallRetryTimerLocked(grpc_error_handle error) {
     StartBalancerCallLocked();
   }
   Unref(DEBUG_LOCATION, "on_balancer_call_retry_timer");
-  GRPC_ERROR_UNREF(error);
 }
 
 //
@@ -1702,7 +1699,6 @@ void GrpcLb::OnFallbackTimerLocked(grpc_error_handle error) {
     CreateOrUpdateChildPolicyLocked();
   }
   Unref(DEBUG_LOCATION, "on_fallback_timer");
-  GRPC_ERROR_UNREF(error);
 }
 
 //
@@ -1825,7 +1821,6 @@ void GrpcLb::OnSubchannelCacheTimerLocked(grpc_error_handle error) {
     subchannel_cache_timer_pending_ = false;
   }
   Unref(DEBUG_LOCATION, "OnSubchannelCacheTimer");
-  GRPC_ERROR_UNREF(error);
 }
 
 //

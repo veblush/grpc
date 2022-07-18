@@ -536,7 +536,6 @@ void XdsClusterManagerLb::ClusterChild::OnDelayedRemovalTimerLocked(
     xds_cluster_manager_policy_->children_.erase(name_);
   }
   Unref(DEBUG_LOCATION, "ClusterChild+timer");
-  GRPC_ERROR_UNREF(error);
 }
 
 //

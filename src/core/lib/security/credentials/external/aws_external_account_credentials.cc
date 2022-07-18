@@ -418,7 +418,6 @@ void AwsExternalAccountCredentials::OnRetrieveSigningKeysInternal(
     FinishRetrieveSubjectToken(
         "", GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
                 "Invalid retrieve signing keys response.", &error, 1));
-    GRPC_ERROR_UNREF(error);
     return;
   }
   auto it = json.object_value().find("AccessKeyId");
@@ -467,7 +466,6 @@ void AwsExternalAccountCredentials::BuildSubjectToken() {
       FinishRetrieveSubjectToken(
           "", GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
                   "Creating aws request signer failed.", &error, 1));
-      GRPC_ERROR_UNREF(error);
       return;
     }
   }
@@ -478,7 +476,6 @@ void AwsExternalAccountCredentials::BuildSubjectToken() {
                                    "Invalid getting signed request"
                                    "headers.",
                                    &error, 1));
-    GRPC_ERROR_UNREF(error);
     return;
   }
   // Construct subject token

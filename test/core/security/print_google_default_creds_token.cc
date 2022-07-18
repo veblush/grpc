@@ -103,7 +103,6 @@ int main(int argc, char** argv) {
                                  &sync.on_request_metadata, &error)) {
     // Synchronous response.  Invoke callback directly.
     on_metadata_response(&sync, error);
-    GRPC_ERROR_UNREF(error);
   }
 
   gpr_mu_lock(sync.mu);

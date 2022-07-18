@@ -383,7 +383,6 @@ void TlsChannelSecurityConnector::cancel_check_peer(
     gpr_log(GPR_ERROR,
             "TlsChannelSecurityConnector::cancel_check_peer error: %s",
             grpc_error_std_string(error).c_str());
-    GRPC_ERROR_UNREF(error);
     return;
   }
   auto* verifier = options_->certificate_verifier();
@@ -467,8 +466,6 @@ void TlsChannelSecurityConnector::TlsChannelCertificateWatcher::OnError(
             "TlsChannelCertificateWatcher getting identity_cert_error: %s",
             grpc_error_std_string(identity_cert_error).c_str());
   }
-  GRPC_ERROR_UNREF(root_cert_error);
-  GRPC_ERROR_UNREF(identity_cert_error);
 }
 
 TlsChannelSecurityConnector::ChannelPendingVerifierRequest::
@@ -671,7 +668,6 @@ void TlsServerSecurityConnector::cancel_check_peer(
     gpr_log(GPR_ERROR,
             "TlsServerSecurityConnector::cancel_check_peer error: %s",
             grpc_error_std_string(error).c_str());
-    GRPC_ERROR_UNREF(error);
     return;
   }
   auto* verifier = options_->certificate_verifier();
@@ -745,8 +741,6 @@ void TlsServerSecurityConnector::TlsServerCertificateWatcher::OnError(
             "TlsServerCertificateWatcher getting identity_cert_error: %s",
             grpc_error_std_string(identity_cert_error).c_str());
   }
-  GRPC_ERROR_UNREF(root_cert_error);
-  GRPC_ERROR_UNREF(identity_cert_error);
 }
 
 TlsServerSecurityConnector::ServerPendingVerifierRequest::

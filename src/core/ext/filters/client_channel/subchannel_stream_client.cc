@@ -225,7 +225,6 @@ void SubchannelStreamClient::CallState::StartCallLocked() {
             "stream on subchannel (%s); will retry",
             subchannel_stream_client_.get(), this,
             grpc_error_std_string(error).c_str());
-    GRPC_ERROR_UNREF(error);
     CallEndedLocked(/*retry=*/true);
     return;
   }

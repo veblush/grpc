@@ -275,9 +275,6 @@ finish:
   // between the core shutdown mu and the connector mu (b/188239051)
   if (!connect_cancelled) {
     grpc_core::Executor::Run(closure, error);
-  } else if (!error.ok()) {
-    // Unref the error here because it is not used.
-    (void)GRPC_ERROR_UNREF(error);
   }
 }
 

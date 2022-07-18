@@ -147,7 +147,6 @@ grpc_error_handle grpc_channel_stack_init(
       if (first_error.ok()) {
         first_error = error;
       } else {
-        GRPC_ERROR_UNREF(error);
       }
     }
     user_data +=
@@ -209,7 +208,6 @@ grpc_error_handle grpc_call_stack_init(
       if (first_error.ok()) {
         first_error = error;
       } else {
-        GRPC_ERROR_UNREF(error);
       }
     }
   }

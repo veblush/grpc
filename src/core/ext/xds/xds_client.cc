@@ -279,7 +279,7 @@ class XdsClient::ChannelState::AdsCallState
   };
 
   struct ResourceTypeState {
-    ~ResourceTypeState() { GRPC_ERROR_UNREF(error); }
+    ~ResourceTypeState() {}
 
     // Nonce and error for this resource type.
     std::string nonce;
@@ -897,7 +897,6 @@ void XdsClient::ChannelState::AdsCallState::SendMessageLocked(
             chand()->resource_type_version_map_[type].c_str(),
             state.nonce.c_str(), grpc_error_std_string(state.error).c_str());
   }
-  GRPC_ERROR_UNREF(state.error);
   state.error = GRPC_ERROR_NONE;
   call_->SendMessage(std::move(serialized_message));
   send_message_pending_ = true;
@@ -984,7 +983,6 @@ void XdsClient::ChannelState::AdsCallState::OnRecvMessage(
                 xds_client(), chand()->server_.server_uri.c_str(),
                 result.type_url.c_str(), result.version.c_str(),
                 state.nonce.c_str(), error.c_str());
-        GRPC_ERROR_UNREF(state.error);
         state.error = grpc_error_set_int(
             GRPC_ERROR_CREATE_FROM_CPP_STRING(error),
             GRPC_ERROR_INT_GRPC_STATUS, GRPC_STATUS_UNAVAILABLE);
@@ -1298,7 +1296,6 @@ void XdsClient::ChannelState::LrsCallState::OnRecvMessage(
             "[xds_client %p] xds server %s: LRS response parsing failed: %s",
             xds_client(), chand()->server_.server_uri.c_str(),
             grpc_error_std_string(parse_error).c_str());
-    GRPC_ERROR_UNREF(parse_error);
     return;
   }
   seen_response_ = true;

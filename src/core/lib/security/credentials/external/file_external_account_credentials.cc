@@ -118,7 +118,6 @@ void FileExternalAccountCredentials::RetrieveSubjectToken(
     if (!error.ok() || content_json.type() != Json::Type::OBJECT) {
       cb("", GRPC_ERROR_CREATE_FROM_STATIC_STRING(
                  "The content of the file is not a valid json object."));
-      GRPC_ERROR_UNREF(error);
       return;
     }
     auto content_it =

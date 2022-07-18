@@ -177,7 +177,6 @@ static void test_fails(grpc_slice_split_mode split_mode,
     error = grpc_http_parser_eof(&parser);
   }
   ASSERT_FALSE(error.ok());
-  GRPC_ERROR_UNREF(error);
 
   grpc_http_response_destroy(&response);
   grpc_http_parser_destroy(&parser);
@@ -210,7 +209,6 @@ static void test_request_fails(grpc_slice_split_mode split_mode,
     error = grpc_http_parser_eof(&parser);
   }
   ASSERT_FALSE(error.ok());
-  GRPC_ERROR_UNREF(error);
 
   grpc_http_request_destroy(&request);
   grpc_http_parser_destroy(&parser);

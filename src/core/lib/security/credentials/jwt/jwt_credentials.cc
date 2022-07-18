@@ -144,7 +144,6 @@ static char* redact_private_key(const char* json_key) {
   grpc_error_handle error = GRPC_ERROR_NONE;
   Json json = Json::Parse(json_key, &error);
   if (!error.ok() || json.type() != Json::Type::OBJECT) {
-    GRPC_ERROR_UNREF(error);
     return gpr_strdup("<Json failed to parse.>");
   }
   (*json.mutable_object())["private_key"] = "<redacted>";

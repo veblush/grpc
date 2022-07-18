@@ -652,7 +652,6 @@ void PriorityLb::ChildPriority::DeactivationTimer::OnTimerLocked(
     child_priority_->priority_policy_->DeleteChild(child_priority_.get());
   }
   Unref(DEBUG_LOCATION, "Timer");
-  GRPC_ERROR_UNREF(error);
 }
 
 //
@@ -718,7 +717,6 @@ void PriorityLb::ChildPriority::FailoverTimer::OnTimerLocked(
         nullptr);
   }
   Unref(DEBUG_LOCATION, "Timer");
-  GRPC_ERROR_UNREF(error);
 }
 
 //
@@ -985,7 +983,6 @@ class PriorityLbFactory : public LoadBalancingPolicyFactory {
                   GRPC_ERROR_CREATE_REFERENCING_FROM_COPIED_STRING(
                       absl::StrCat("field:children key:", child_name).c_str(),
                       &parse_error, 1));
-              GRPC_ERROR_UNREF(parse_error);
             }
             children[child_name].config = std::move(config);
             children[child_name].ignore_reresolution_requests =

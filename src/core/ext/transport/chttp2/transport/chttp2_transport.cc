@@ -248,7 +248,6 @@ grpc_chttp2_transport::~grpc_chttp2_transport() {
   // ContextList::Execute follows semantics of a callback function and does not
   // take a ref on error
   grpc_core::ContextList::Execute(cl, nullptr, error);
-  GRPC_ERROR_UNREF(error);
   cl = nullptr;
 
   grpc_slice_buffer_destroy_internal(&read_buffer);
@@ -258,8 +257,6 @@ grpc_chttp2_transport::~grpc_chttp2_transport() {
     GPR_ASSERT(lists[i].head == nullptr);
     GPR_ASSERT(lists[i].tail == nullptr);
   }
-
-  GRPC_ERROR_UNREF(goaway_error);
 
   GPR_ASSERT(grpc_chttp2_stream_map_size(&stream_map) == 0);
 
@@ -275,8 +272,6 @@ grpc_chttp2_transport::~grpc_chttp2_transport() {
     gpr_free(write_cb_pool);
     write_cb_pool = next;
   }
-
-  GRPC_ERROR_UNREF(closed_with_error);
   gpr_free(ping_acks);
   if (grpc_core::test_only_destruct_callback != nullptr) {
     grpc_core::test_only_destruct_callback();
@@ -626,7 +621,6 @@ static void close_transport_locked(grpc_chttp2_transport* t,
     grpc_core::ExecCtx::Run(DEBUG_LOCATION, t->notify_on_close, error);
     t->notify_on_close = nullptr;
   }
-  GRPC_ERROR_UNREF(error);
 }
 
 #ifndef NDEBUG
@@ -707,8 +701,6 @@ grpc_chttp2_stream::~grpc_chttp2_stream() {
   GPR_ASSERT(recv_message_ready == nullptr);
   GPR_ASSERT(recv_trailing_metadata_finished == nullptr);
   grpc_slice_buffer_destroy_internal(&flow_controlled_buffer);
-  GRPC_ERROR_UNREF(read_closed_error);
-  GRPC_ERROR_UNREF(write_closed_error);
   GRPC_CHTTP2_UNREF_TRANSPORT(t, "stream");
   grpc_core::ExecCtx::Run(DEBUG_LOCATION, destroy_stream_arg, GRPC_ERROR_NONE);
 }
@@ -1069,17 +1061,12 @@ static void cancel_unstarted_streams(grpc_chttp2_transport* t,
         grpc_core::GrpcStreamNetworkState::kNotSentOnWire);
     grpc_chttp2_cancel_stream(t, s, error);
   }
-  GRPC_ERROR_UNREF(error);
 }
 
 void grpc_chttp2_add_incoming_goaway(grpc_chttp2_transport* t,
                                      uint32_t goaway_error,
                                      uint32_t last_stream_id,
                                      absl::string_view goaway_text) {
-  // Discard the error from a previous goaway frame (if any)
-  if (!t->goaway_error.ok()) {
-    GRPC_ERROR_UNREF(t->goaway_error);
-  }
   t->goaway_error = grpc_error_set_str(
       grpc_error_set_int(
           grpc_error_set_int(
@@ -1227,7 +1214,6 @@ void grpc_chttp2_complete_closure_step(grpc_chttp2_transport* t,
   grpc_closure* closure = *pclosure;
   *pclosure = nullptr;
   if (closure == nullptr) {
-    GRPC_ERROR_UNREF(error);
     return;
   }
   closure->next_data.scratch -= CLOSURE_BARRIER_FIRST_REF_BIT;
@@ -1588,7 +1574,6 @@ static void cancel_pings(grpc_chttp2_transport* t, grpc_error_handle error) {
     grpc_closure_list_fail_all(&pq->lists[j], error);
     grpc_core::ExecCtx::RunList(DEBUG_LOCATION, &pq->lists[j]);
   }
-  GRPC_ERROR_UNREF(error);
 }
 
 static void send_ping_locked(grpc_chttp2_transport* t,
@@ -1798,7 +1783,6 @@ static void send_goaway(grpc_chttp2_transport* t, grpc_error_handle error,
     // Final GOAWAY has already been sent.
   }
   grpc_chttp2_initiate_write(t, GRPC_CHTTP2_INITIATE_WRITE_GOAWAY_SENT);
-  GRPC_ERROR_UNREF(error);
 }
 
 void grpc_chttp2_add_ping_strike(grpc_chttp2_transport* t) {
@@ -1974,7 +1958,6 @@ void grpc_chttp2_maybe_complete_recv_message(grpc_chttp2_transport* t,
       }
       null_then_sched_closure(&s->recv_message_ready);
     }
-    GRPC_ERROR_UNREF(error);
   }();
 
   upd.SetPendingSize(s->frame_storage.length);
@@ -2023,8 +2006,6 @@ static void remove_stream(grpc_chttp2_transport* t, uint32_t id,
   }
   grpc_chttp2_list_remove_stalled_by_stream(t, s);
   grpc_chttp2_list_remove_stalled_by_transport(t, s);
-
-  GRPC_ERROR_UNREF(error);
 
   maybe_start_some_streams(t);
 }
@@ -2079,8 +2060,6 @@ void grpc_chttp2_fake_status(grpc_chttp2_transport* t, grpc_chttp2_stream* s,
     s->published_metadata[1] = GRPC_METADATA_SYNTHESIZED_FROM_FAKE;
     grpc_chttp2_maybe_complete_recv_trailing_metadata(t, s);
   }
-
-  GRPC_ERROR_UNREF(error);
 }
 
 static void add_error(grpc_error_handle error, grpc_error_handle* refs,
@@ -2108,7 +2087,6 @@ static grpc_error_handle removal_error(grpc_error_handle extra_error,
     error = GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(main_error_msg,
                                                              refs, nrefs);
   }
-  GRPC_ERROR_UNREF(extra_error);
   return error;
 }
 
@@ -2123,7 +2101,6 @@ static void flush_write_list(grpc_chttp2_transport* t, grpc_chttp2_stream* s,
     cb->next = t->write_cb_pool;
     t->write_cb_pool = cb;
   }
-  GRPC_ERROR_UNREF(error);
 }
 
 void grpc_chttp2_fail_pending_writes(grpc_chttp2_transport* t,
@@ -2196,7 +2173,6 @@ void grpc_chttp2_mark_stream_closed(grpc_chttp2_transport* t,
     grpc_chttp2_maybe_complete_recv_trailing_metadata(t, s);
     GRPC_CHTTP2_STREAM_UNREF(s, "chttp2");
   }
-  GRPC_ERROR_UNREF(error);
 }
 
 static void close_from_api(grpc_chttp2_transport* t, grpc_chttp2_stream* s,
@@ -2381,7 +2357,6 @@ static void end_all_the_calls(grpc_chttp2_transport* t,
   cancel_unstarted_streams(t, error);
   cancel_stream_cb_args args = {error, t};
   grpc_chttp2_stream_map_for_each(&t->stream_map, cancel_stream_cb, &args);
-  GRPC_ERROR_UNREF(error);
 }
 
 //
@@ -2450,7 +2425,6 @@ static grpc_error_handle try_http_parsing(grpc_chttp2_transport* t) {
         GRPC_ERROR_INT_GRPC_STATUS,
         grpc_http2_status_to_grpc_status(response.status));
   }
-  GRPC_ERROR_UNREF(parse_error);
 
   grpc_http_parser_destroy(&parser);
   grpc_http_response_destroy(&response);
@@ -2477,7 +2451,6 @@ static void read_action_locked(void* tp, grpc_error_handle error) {
                              t->write_state);
   }
   std::swap(err, error);
-  GRPC_ERROR_UNREF(err);
   if (t->closed_with_error.ok()) {
     GPR_TIMER_SCOPE("reading_action.parse", 0);
     size_t i = 0;
@@ -2487,12 +2460,10 @@ static void read_action_locked(void* tp, grpc_error_handle error) {
     }
     if (errors[1] != GRPC_ERROR_NONE) {
       errors[2] = try_http_parsing(t);
-      GRPC_ERROR_UNREF(error);
       error = GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
           "Failed parsing HTTP/2", errors, GPR_ARRAY_SIZE(errors));
     }
     for (i = 0; i < GPR_ARRAY_SIZE(errors); i++) {
-      GRPC_ERROR_UNREF(errors[i]);
     }
 
     GPR_TIMER_SCOPE("post_parse_locked", 0);
@@ -2547,8 +2518,6 @@ static void read_action_locked(void* tp, grpc_error_handle error) {
   } else {
     GRPC_CHTTP2_UNREF_TRANSPORT(t, "reading_action");
   }
-
-  GRPC_ERROR_UNREF(error);
 }
 
 static void continue_read_action_locked(grpc_chttp2_transport* t) {

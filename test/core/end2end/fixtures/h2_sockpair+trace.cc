@@ -62,7 +62,6 @@ static void server_setup_transport(void* ts, grpc_transport* transport) {
   if (error.ok()) {
     grpc_chttp2_transport_start_reading(transport, nullptr, nullptr, nullptr);
   } else {
-    GRPC_ERROR_UNREF(error);
     grpc_transport_destroy(transport);
   }
 }

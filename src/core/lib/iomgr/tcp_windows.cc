@@ -131,7 +131,6 @@ static void tcp_free(grpc_tcp* tcp) {
   grpc_winsocket_destroy(tcp->socket);
   gpr_mu_destroy(&tcp->mu);
   grpc_slice_buffer_destroy_internal(&tcp->last_read_buffer);
-  if (tcp->shutting_down) GRPC_ERROR_UNREF(tcp->shutdown_error);
   delete tcp;
 }
 
@@ -462,7 +461,6 @@ static void win_shutdown(grpc_endpoint* ep, grpc_error_handle why) {
     tcp->shutting_down = 1;
     tcp->shutdown_error = why;
   } else {
-    GRPC_ERROR_UNREF(why);
   }
   grpc_winsocket_shutdown(tcp->socket);
   gpr_mu_unlock(&tcp->mu);

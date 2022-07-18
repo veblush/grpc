@@ -765,7 +765,6 @@ static void done_termination(void* arg, grpc_error_handle /*error*/) {
 
 void FilterStackCall::CancelWithError(grpc_error_handle error) {
   if (!gpr_atm_rel_cas(&cancelled_with_error_, 0, 1)) {
-    GRPC_ERROR_UNREF(error);
     return;
   }
   InternalRef("termination");
@@ -807,7 +806,6 @@ void FilterStackCall::SetFinalStatus(grpc_error_handle error) {
     *final_op_.client.status_details =
         grpc_slice_from_cpp_string(std::move(status_details));
     status_error_.set(error);
-    GRPC_ERROR_UNREF(error);
     channelz::ChannelNode* channelz_channel = channel_->channelz_node();
     if (channelz_channel != nullptr) {
       if (*final_op_.client.status != GRPC_STATUS_OK) {
@@ -828,7 +826,6 @@ void FilterStackCall::SetFinalStatus(grpc_error_handle error) {
         channelz_node->RecordCallSucceeded();
       }
     }
-    GRPC_ERROR_UNREF(error);
   }
 }
 
@@ -976,7 +973,6 @@ void FilterStackCall::RecvTrailingFilter(grpc_metadata_batch* b,
         error = grpc_error_set_str(error, GRPC_ERROR_STR_GRPC_MESSAGE, "");
       }
       SetFinalStatus(error);
-      GRPC_ERROR_UNREF(error);
     } else if (!is_client()) {
       SetFinalStatus(GRPC_ERROR_NONE);
     } else {
@@ -1091,7 +1087,6 @@ void FilterStackCall::BatchControl::PostCompletion() {
     /* propagate cancellation to any interested children */
     gpr_atm_rel_store(&call->received_final_op_atm_, 1);
     call->PropagateCancellationToChildren();
-    GRPC_ERROR_UNREF(error);
     error = GRPC_ERROR_NONE;
   }
   if (!error.ok() && op_.recv_message && *call->receiving_buffer_ != nullptr) {
@@ -1527,7 +1522,6 @@ grpc_call_error FilterStackCall::StartBatch(const grpc_op* ops, size_t nops,
         }
 
         status_error_.set(status_error);
-        GRPC_ERROR_UNREF(status_error);
 
         send_trailing_metadata_.Set(GrpcStatusMetadata(),
                                     op->data.send_status_from_server.status);

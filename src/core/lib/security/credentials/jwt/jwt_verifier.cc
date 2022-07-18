@@ -116,7 +116,6 @@ static Json parse_json_part_from_jwt(const char* str, size_t len) {
   if (!error.ok()) {
     gpr_log(GPR_ERROR, "JSON parse error: %s",
             grpc_error_std_string(error).c_str());
-    GRPC_ERROR_UNREF(error);
     json = Json();  // JSON null
   }
   grpc_slice_unref_internal(slice);

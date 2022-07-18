@@ -566,8 +566,8 @@ static void BM_IsolatedFilter(benchmark::State& state) {
       nullptr};
   while (state.KeepRunning()) {
     GPR_TIMER_SCOPE("BenchmarkCycle", 0);
-    GRPC_ERROR_UNREF(
-        grpc_call_stack_init(channel_stack, 1, DoNothing, nullptr, &call_args));
+    (void)grpc_call_stack_init(channel_stack, 1, DoNothing, nullptr,
+                               &call_args);
     typename TestOp::Op op(&test_op_data, call_stack, call_args.arena);
     grpc_call_stack_destroy(call_stack, &final_info, nullptr);
     op.Finish();
@@ -666,7 +666,6 @@ static void StartTransportStreamOp(grpc_call_element* elem,
 static void StartTransportOp(grpc_channel_element* /*elem*/,
                              grpc_transport_op* op) {
   if (!op->disconnect_with_error.ok()) {
-    GRPC_ERROR_UNREF(op->disconnect_with_error);
   }
   grpc_core::ExecCtx::Run(DEBUG_LOCATION, op->on_consumed, GRPC_ERROR_NONE);
 }

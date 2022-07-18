@@ -992,7 +992,6 @@ void OutlierDetectionLb::EjectionTimer::OnTimerLocked(grpc_error_handle error) {
         MakeOrphanable<EjectionTimer>(parent_, ExecCtx::Get()->Now());
   }
   Unref(DEBUG_LOCATION, "Timer");
-  GRPC_ERROR_UNREF(error);
 }
 
 //

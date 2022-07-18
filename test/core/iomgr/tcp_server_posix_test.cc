@@ -402,7 +402,6 @@ static void test_connect(size_t num_connects,
                 grpc_error_std_string(err).c_str());
         GPR_ASSERT(test_dst_addrs);
         dst_addrs->addrs[dst_idx].addr.len = 0;
-        GRPC_ERROR_UNREF(err);
       }
       GPR_ASSERT(num_tested > 0);
     }

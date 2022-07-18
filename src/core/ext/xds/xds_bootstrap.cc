@@ -184,7 +184,6 @@ std::unique_ptr<XdsBootstrap> XdsBootstrap::Create(
     grpc_error_handle error_out =
         GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
             "Failed to parse bootstrap JSON string", error, 1);
-    GRPC_ERROR_UNREF(*error);
     *error = error_out;
     return nullptr;
   }

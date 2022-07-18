@@ -146,8 +146,6 @@ class GrpcTlsCertificateDistributorTest : public ::testing::Test {
       }
       state_->error_queue.emplace_back(std::move(root_error_str),
                                        std::move(identity_error_str));
-      GRPC_ERROR_UNREF(root_cert_error);
-      GRPC_ERROR_UNREF(identity_cert_error);
     }
 
    private:

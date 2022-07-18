@@ -263,7 +263,7 @@ class AtomicError {
     lock_ = GPR_SPINLOCK_STATIC_INITIALIZER;
   }
   explicit AtomicError(grpc_error_handle error) { error_ = error; }
-  ~AtomicError() { GRPC_ERROR_UNREF(error_); }
+  ~AtomicError() {}
 
   AtomicError(const AtomicError&) = delete;
   AtomicError& operator=(const AtomicError&) = delete;
@@ -285,7 +285,6 @@ class AtomicError {
 
   void set(grpc_error_handle error) {
     gpr_spinlock_lock(&lock_);
-    GRPC_ERROR_UNREF(error_);
     error_ = error;
     gpr_spinlock_unlock(&lock_);
   }

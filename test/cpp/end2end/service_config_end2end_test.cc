@@ -222,7 +222,6 @@ class ServiceConfigEnd2endTest : public ::testing::Test {
         grpc_core::ChannelArgs(), svc_cfg, &error);
     if (!error.ok()) {
       result.service_config = grpc_error_to_absl_status(error);
-      GRPC_ERROR_UNREF(error);
     }
     response_generator_->SetResponse(result);
   }

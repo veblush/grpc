@@ -117,7 +117,6 @@ void TCPConnectHandshaker::Shutdown(grpc_error_handle why) {
       }
     }
   }
-  GRPC_ERROR_UNREF(why);
 }
 
 void TCPConnectHandshaker::DoHandshake(grpc_tcp_server_acceptor* /*acceptor*/,
@@ -178,7 +177,6 @@ void TCPConnectHandshaker::Connected(void* arg, grpc_error_handle error) {
       } else {
         // The on_handshake_done_ is already as part of shutdown when connecting
         // So nothing to be done here other than unrefing the error.
-        GRPC_ERROR_UNREF(error);
       }
       return;
     }

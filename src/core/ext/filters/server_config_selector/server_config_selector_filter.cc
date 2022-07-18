@@ -140,7 +140,6 @@ ArenaPromise<ServerMetadataHandle> ServerConfigSelectorFilter::MakeCallPromise(
   if (!call_config.error.ok()) {
     auto r = Immediate(ServerMetadataHandle(
         absl::UnavailableError(grpc_error_std_string(call_config.error))));
-    GRPC_ERROR_UNREF(call_config.error);
     return std::move(r);
   }
   auto& ctx = GetContext<

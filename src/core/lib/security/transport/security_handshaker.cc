@@ -552,7 +552,6 @@ void SecurityHandshaker::Shutdown(grpc_error_handle why) {
     grpc_endpoint_shutdown(args_->endpoint, why);
     CleanupArgsForFailureLocked();
   }
-  GRPC_ERROR_UNREF(why);
 }
 
 void SecurityHandshaker::DoHandshake(grpc_tcp_server_acceptor* /*acceptor*/,
@@ -579,7 +578,7 @@ void SecurityHandshaker::DoHandshake(grpc_tcp_server_acceptor* /*acceptor*/,
 class FailHandshaker : public Handshaker {
  public:
   const char* name() const override { return "security_fail"; }
-  void Shutdown(grpc_error_handle why) override { GRPC_ERROR_UNREF(why); }
+  void Shutdown(grpc_error_handle why) override {}
   void DoHandshake(grpc_tcp_server_acceptor* /*acceptor*/,
                    grpc_closure* on_handshake_done,
                    HandshakerArgs* args) override {

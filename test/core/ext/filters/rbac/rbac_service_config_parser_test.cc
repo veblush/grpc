@@ -149,7 +149,6 @@ TEST(RbacServiceConfigParsingTest, BadRbacPolicyType) {
       grpc_error_std_string(error),
       ::testing::ContainsRegex("Rbac parser" CHILD_ERROR_TAG
                                "field:rbacPolicy error:type should be ARRAY"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(RbacServiceConfigParsingTest, BadRulesType) {
@@ -170,7 +169,6 @@ TEST(RbacServiceConfigParsingTest, BadRulesType) {
       ::testing::ContainsRegex("Rbac parser" CHILD_ERROR_TAG
                                "rbacPolicy\\[0\\]" CHILD_ERROR_TAG
                                "field:rules error:type should be OBJECT"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(RbacServiceConfigParsingTest, BadActionAndPolicyType) {
@@ -197,7 +195,6 @@ TEST(RbacServiceConfigParsingTest, BadActionAndPolicyType) {
                                "rbacPolicy\\[0\\]" CHILD_ERROR_TAG
                                "field:action error:type should be NUMBER.*"
                                "field:policies error:type should be OBJECT"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(RbacServiceConfigParsingTest, MissingPermissionAndPrincipals) {
@@ -228,7 +225,6 @@ TEST(RbacServiceConfigParsingTest, MissingPermissionAndPrincipals) {
                                "policies key:'policy'" CHILD_ERROR_TAG
                                "field:permissions error:does not exist.*"
                                "field:principals error:does not exist"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(RbacServiceConfigParsingTest, EmptyPrincipalAndPermission) {
@@ -261,7 +257,6 @@ TEST(RbacServiceConfigParsingTest, EmptyPrincipalAndPermission) {
           "policies key:'policy'" CHILD_ERROR_TAG
           "permissions\\[0\\]" CHILD_ERROR_TAG "No valid rule found.*"
           "principals\\[0\\]" CHILD_ERROR_TAG "No valid id found"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(RbacServiceConfigParsingTest, VariousPermissionsAndPrincipalsTypes) {
@@ -415,7 +410,6 @@ TEST(RbacServiceConfigParsingTest, VariousPermissionsAndPrincipalsBadTypes) {
           "field:metadata error:type should be OBJECT.*"
           "principals\\[10\\]" CHILD_ERROR_TAG
           "field:notId error:type should be OBJECT.*"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(RbacServiceConfigParsingTest, HeaderMatcherVariousTypes) {
@@ -515,7 +509,6 @@ TEST(RbacServiceConfigParsingTest, HeaderMatcherBadTypes) {
           "field:suffixMatch error:type should be STRING.*"
           "permissions\\[6\\]" CHILD_ERROR_TAG "header" CHILD_ERROR_TAG
           "field:containsMatch error:type should be STRING.*"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(RbacServiceConfigParsingTest, StringMatcherVariousTypes) {
@@ -611,7 +604,6 @@ TEST(RbacServiceConfigParsingTest, StringMatcherBadTypes) {
                                "permissions\\[4\\]" CHILD_ERROR_TAG
                                "requestedServerName" CHILD_ERROR_TAG
                                "field:contains error:type should be STRING.*"));
-  GRPC_ERROR_UNREF(error);
 }
 
 }  // namespace

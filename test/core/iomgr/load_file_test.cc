@@ -79,7 +79,6 @@ static void test_load_failure(void) {
 
   error = grpc_load_file(tmp_name, 0, &slice);
   GPR_ASSERT(!error.ok());
-  GRPC_ERROR_UNREF(error);
   GPR_ASSERT(GRPC_SLICE_LENGTH(slice) == 0);
   gpr_free(tmp_name);
   grpc_slice_unref(slice);

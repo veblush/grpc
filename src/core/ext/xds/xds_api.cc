@@ -314,7 +314,6 @@ std::string XdsApi::CreateAdsRequest(
     upb_StringView error_description =
         StdStringToUpbString(error_string_storage);
     google_rpc_Status_set_message(error_detail, error_description);
-    GRPC_ERROR_UNREF(error);
   }
   // Populate node.
   if (populate_node) {

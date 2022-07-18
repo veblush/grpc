@@ -135,7 +135,6 @@ void Chttp2Connector::Shutdown(grpc_error_handle error) {
     // Handshaker will also shutdown the endpoint if it exists
     handshake_mgr_->Shutdown(error);
   }
-  GRPC_ERROR_UNREF(error);
 }
 
 void Chttp2Connector::OnHandshakeDone(void* arg, grpc_error_handle error) {
@@ -242,7 +241,6 @@ void Chttp2Connector::OnTimeout(void* arg, grpc_error_handle /*error*/) {
 
 void Chttp2Connector::MaybeNotify(grpc_error_handle error) {
   if (notify_error_.has_value()) {
-    GRPC_ERROR_UNREF(error);
     NullThenSchedClosure(DEBUG_LOCATION, &notify_, notify_error_.value());
     // Clear state for a new Connect().
     // Clear out the endpoint_, since it is the responsibility of
@@ -368,7 +366,6 @@ grpc_channel* grpc_channel_create(const char* target,
     if (grpc_error_get_int(error, GRPC_ERROR_INT_GRPC_STATUS, &integer)) {
       status = static_cast<grpc_status_code>(integer);
     }
-    GRPC_ERROR_UNREF(error);
     channel = grpc_lame_client_channel_create(
         target, status, "Failed to create secure client channel");
   }

@@ -358,7 +358,6 @@ static void unref_by(grpc_fd* fd, int n) {
     grpc_iomgr_unregister_object(&fd->iomgr_object);
     fork_fd_list_remove_node(fd->fork_fd_list);
     if (fd->shutdown) {
-      GRPC_ERROR_UNREF(fd->shutdown_error);
     }
     fd->shutdown_error.~Status();
     gpr_free(fd);
@@ -552,7 +551,6 @@ static void fd_shutdown(grpc_fd* fd, grpc_error_handle why) {
     set_ready_locked(fd, &fd->read_closure);
     set_ready_locked(fd, &fd->write_closure);
   } else {
-    GRPC_ERROR_UNREF(why);
   }
   gpr_mu_unlock(&fd->mu);
 }

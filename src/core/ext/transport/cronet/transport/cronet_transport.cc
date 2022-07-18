@@ -1393,10 +1393,7 @@ inline stream_obj::stream_obj(grpc_transport* gt, grpc_stream* gs,
   gpr_mu_init(&mu);
 }
 
-inline stream_obj::~stream_obj() {
-  null_and_maybe_free_read_buffer(this);
-  GRPC_ERROR_UNREF(state.cancel_error);
-}
+inline stream_obj::~stream_obj() { null_and_maybe_free_read_buffer(this); }
 
 static int init_stream(grpc_transport* gt, grpc_stream* gs,
                        grpc_stream_refcount* refcount,

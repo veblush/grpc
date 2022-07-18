@@ -222,7 +222,6 @@ grpc_slice grpc_dump_xds_configs(void) {
       grpc_core::GrpcXdsClient::GetOrCreate(grpc_core::ChannelArgs(), &error);
   if (!error.ok()) {
     // If we aren't using xDS, just return an empty string.
-    GRPC_ERROR_UNREF(error);
     return grpc_empty_slice();
   }
   return grpc_slice_from_cpp_string(xds_client->DumpClientConfigBinary());

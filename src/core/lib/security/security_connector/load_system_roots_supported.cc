@@ -76,7 +76,6 @@ grpc_slice GetSystemRootCerts() {
     if (error.ok()) {
       return valid_bundle_slice;
     } else {
-      GRPC_ERROR_UNREF(error);
     }
   }
   return grpc_empty_slice();

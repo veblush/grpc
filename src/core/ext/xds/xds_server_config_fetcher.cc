@@ -951,7 +951,6 @@ const XdsListenerResource::FilterChainData* FindFilterChainDataForSourceType(
   if (!error.ok()) {
     gpr_log(GPR_DEBUG, "Could not parse string to socket address: %s",
             host.c_str());
-    GRPC_ERROR_UNREF(error);
     return nullptr;
   }
   // Use kAny only if kSameIporLoopback and kExternal are empty
@@ -1002,7 +1001,6 @@ const XdsListenerResource::FilterChainData* FindFilterChainDataForDestinationIp(
   if (!error.ok()) {
     gpr_log(GPR_DEBUG, "Could not parse string to socket address: %s",
             host.c_str());
-    GRPC_ERROR_UNREF(error);
     return nullptr;
   }
   const XdsListenerResource::FilterChainMap::DestinationIp* best_match =
@@ -1336,7 +1334,6 @@ grpc_server_config_fetcher* grpc_server_config_fetcher_xds_create(
   if (!error.ok()) {
     gpr_log(GPR_ERROR, "Failed to create xds client: %s",
             grpc_error_std_string(error).c_str());
-    GRPC_ERROR_UNREF(error);
     return nullptr;
   }
   if (xds_client->bootstrap()

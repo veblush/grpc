@@ -336,7 +336,6 @@ absl::StatusOr<RbacPolicies> GenerateRbacPolicies(
     absl::Status status = absl::InvalidArgumentError(
         absl::StrCat("Failed to parse gRPC authorization policy. Error: ",
                      grpc_error_std_string(error)));
-    GRPC_ERROR_UNREF(error);
     return status;
   }
   if (json.type() != Json::Type::OBJECT) {

@@ -104,7 +104,7 @@ class CallData {
                       ForwardSendMessageBatch, elem, grpc_schedule_on_exec_ctx);
   }
 
-  ~CallData() { GRPC_ERROR_UNREF(cancel_error_); }
+  ~CallData() {}
 
   void CompressStartTransportStreamOpBatch(
       grpc_call_element* elem, grpc_transport_stream_op_batch* batch);
@@ -229,7 +229,6 @@ void CallData::CompressStartTransportStreamOpBatch(
   GPR_TIMER_SCOPE("compress_start_transport_stream_op_batch", 0);
   // Handle cancel_stream.
   if (batch->cancel_stream) {
-    GRPC_ERROR_UNREF(cancel_error_);
     cancel_error_ = batch->payload->cancel_stream.cancel_error;
     if (send_message_batch_ != nullptr) {
       if (!seen_initial_metadata_) {

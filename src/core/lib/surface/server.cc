@@ -225,7 +225,6 @@ class Server::RealRequestMatcher : public RequestMatcherInterface {
         server_->FailCall(i, rc, error);
       }
     }
-    GRPC_ERROR_UNREF(error);
   }
 
   size_t request_queue_count() const override {
@@ -342,9 +341,7 @@ class Server::AllocatingRequestMatcherBase : public RequestMatcherInterface {
 
   void ZombifyPending() override {}
 
-  void KillRequests(grpc_error_handle error) override {
-    GRPC_ERROR_UNREF(error);
-  }
+  void KillRequests(grpc_error_handle error) override {}
 
   size_t request_queue_count() const override { return 0; }
 
@@ -457,7 +454,6 @@ class ChannelBroadcaster {
       SendShutdown(channel->c_ptr(), send_goaway, force_disconnect);
     }
     channels_.clear();  // just for safety against double broadcast
-    GRPC_ERROR_UNREF(force_disconnect);
   }
 
  private:
@@ -752,7 +748,6 @@ void Server::KillPendingWorkLocked(grpc_error_handle error) {
       rm->matcher->ZombifyPending();
     }
   }
-  GRPC_ERROR_UNREF(error);
 }
 
 std::vector<RefCountedPtr<Channel>> Server::GetChannelsLocked() const {
@@ -1121,7 +1116,6 @@ void Server::ChannelData::AcceptStream(void* arg, grpc_transport* /*transport*/,
       grpc_call_stack_element(grpc_call_get_call_stack(call), 0);
   auto* calld = static_cast<Server::CallData*>(elem->call_data);
   if (!error.ok()) {
-    GRPC_ERROR_UNREF(error);
     calld->FailCallCreation();
     return;
   }
@@ -1191,7 +1185,6 @@ Server::CallData::CallData(grpc_call_element* elem,
 
 Server::CallData::~CallData() {
   GPR_ASSERT(state_.load(std::memory_order_relaxed) != CallState::PENDING);
-  GRPC_ERROR_UNREF(recv_initial_metadata_error_);
   grpc_metadata_array_destroy(&initial_metadata_);
   grpc_byte_buffer_destroy(payload_);
 }
@@ -1388,7 +1381,6 @@ void Server::CallData::RecvInitialMetadataReady(void* arg,
     grpc_error_handle src_error = error;
     error = GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
         "Missing :authority or :path", &src_error, 1);
-    GRPC_ERROR_UNREF(src_error);
     calld->recv_initial_metadata_error_ = error;
   }
   grpc_closure* closure = calld->original_recv_initial_metadata_ready_;

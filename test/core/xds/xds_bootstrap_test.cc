@@ -265,7 +265,6 @@ TEST(XdsBootstrapTest, MissingChannelCreds) {
   EXPECT_THAT(
       grpc_error_std_string(error),
       ::testing::ContainsRegex("field:channel_creds error:does not exist."));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(XdsBootstrapTest, NoKnownChannelCreds) {
@@ -285,7 +284,6 @@ TEST(XdsBootstrapTest, NoKnownChannelCreds) {
   EXPECT_THAT(grpc_error_std_string(error),
               ::testing::ContainsRegex(
                   "no known creds type found in \"channel_creds\""));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(XdsBootstrapTest, MissingXdsServers) {
@@ -295,7 +293,6 @@ TEST(XdsBootstrapTest, MissingXdsServers) {
   XdsBootstrap bootstrap(std::move(json), &error);
   EXPECT_THAT(grpc_error_std_string(error),
               ::testing::ContainsRegex("\"xds_servers\" field not present"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(XdsBootstrapTest, TopFieldsWrongTypes) {
@@ -318,7 +315,6 @@ TEST(XdsBootstrapTest, TopFieldsWrongTypes) {
   EXPECT_THAT(grpc_error_std_string(error),
               ::testing::ContainsRegex(
                   "\"certificate_providers\" field is not an object"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(XdsBootstrapTest, XdsServerMissingServerUri) {
@@ -336,7 +332,6 @@ TEST(XdsBootstrapTest, XdsServerMissingServerUri) {
                                "errors parsing index 0.*"
                                "errors parsing xds server.*"
                                "field:server_uri error:does not exist."));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(XdsBootstrapTest, XdsServerUriAndCredsWrongTypes) {
@@ -360,7 +355,6 @@ TEST(XdsBootstrapTest, XdsServerUriAndCredsWrongTypes) {
                   "errors parsing xds server.*"
                   "field:server_uri error:type should be STRING.*"
                   "field:channel_creds error:type should be ARRAY"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(XdsBootstrapTest, ChannelCredsFieldsWrongTypes) {
@@ -391,7 +385,6 @@ TEST(XdsBootstrapTest, ChannelCredsFieldsWrongTypes) {
                                "errors parsing index 0.*"
                                "field:type error:type should be STRING.*"
                                "field:config error:type should be OBJECT"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(XdsBootstrapTest, NodeFieldsWrongTypes) {
@@ -414,7 +407,6 @@ TEST(XdsBootstrapTest, NodeFieldsWrongTypes) {
                                        "\"cluster\" field is not a string.*"
                                        "\"locality\" field is not an object.*"
                                        "\"metadata\" field is not an object"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(XdsBootstrapTest, LocalityFieldsWrongType) {
@@ -438,7 +430,6 @@ TEST(XdsBootstrapTest, LocalityFieldsWrongType) {
                                        "\"region\" field is not a string.*"
                                        "\"zone\" field is not a string.*"
                                        "\"sub_zone\" field is not a string"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(XdsBootstrapTest, CertificateProvidersElementWrongType) {
@@ -462,7 +453,6 @@ TEST(XdsBootstrapTest, CertificateProvidersElementWrongType) {
               ::testing::ContainsRegex(
                   "errors parsing \"certificate_providers\" object.*"
                   "element \"plugin\" is not an object"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(XdsBootstrapTest, CertificateProvidersPluginNameWrongType) {
@@ -489,7 +479,6 @@ TEST(XdsBootstrapTest, CertificateProvidersPluginNameWrongType) {
                   "errors parsing \"certificate_providers\" object.*"
                   "errors parsing element \"plugin\".*"
                   "\"plugin_name\" field is not a string"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(XdsBootstrapTest, CertificateProvidersUnrecognizedPluginName) {
@@ -516,7 +505,6 @@ TEST(XdsBootstrapTest, CertificateProvidersUnrecognizedPluginName) {
                   "errors parsing \"certificate_providers\" object.*"
                   "errors parsing element \"plugin\".*"
                   "Unrecognized plugin name: unknown"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(XdsBootstrapTest, AuthorityXdsServerInvalidResourceTemplate) {
@@ -557,7 +545,6 @@ TEST(XdsBootstrapTest, AuthorityXdsServerInvalidResourceTemplate) {
                   "errors parsing \"authorities\".*"
                   "errors parsing authority xds.example.com.*"
                   "field must begin with \"xdstp://xds.example.com/\""));
-  GRPC_ERROR_UNREF(error);
   gpr_unsetenv("GRPC_EXPERIMENTAL_XDS_FEDERATION");
 }
 
@@ -592,7 +579,6 @@ TEST(XdsBootstrapTest, AuthorityXdsServerMissingServerUri) {
                                "errors parsing index 0.*"
                                "errors parsing xds server.*"
                                "field:server_uri error:does not exist."));
-  GRPC_ERROR_UNREF(error);
   gpr_unsetenv("GRPC_EXPERIMENTAL_XDS_FEDERATION");
 }
 
@@ -672,7 +658,6 @@ TEST(XdsBootstrapTest, CertificateProvidersFakePluginParsingError) {
                   "errors parsing \"certificate_providers\" object.*"
                   "errors parsing element \"fake_plugin\".*"
                   "field:config field:value not of type number"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(XdsBootstrapTest, CertificateProvidersFakePluginParsingSuccess) {

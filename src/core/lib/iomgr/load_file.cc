@@ -73,7 +73,6 @@ end:
                            GRPC_ERROR_STR_FILENAME,
 
                            filename);
-    GRPC_ERROR_UNREF(error);
     error = error_out;
   }
   GRPC_SCHEDULING_END_BLOCKING_REGION_NO_EXEC_CTX;

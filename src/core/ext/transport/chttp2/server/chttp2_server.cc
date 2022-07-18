@@ -323,7 +323,6 @@ void Chttp2ServerListener::ConfigFetcherWatcher::UpdateConnectionManager(
   grpc_error_handle error = grpc_tcp_server_add_port(
       listener_->tcp_server_, &listener_->resolved_address_, &port_temp);
   if (!error.ok()) {
-    GRPC_ERROR_UNREF(error);
     gpr_log(GPR_ERROR, "Error adding port to server: %s",
             grpc_error_std_string(error).c_str());
     // TODO(yashykt): We wouldn't need to assert here if we bound to the
@@ -512,7 +511,6 @@ void Chttp2ServerListener::ActiveConnection::HandshakingState::OnHandshakeDone(
           // Failed to create channel from transport. Clean up.
           gpr_log(GPR_ERROR, "Failed to create channel: %s",
                   grpc_error_std_string(channel_init_err).c_str());
-          GRPC_ERROR_UNREF(channel_init_err);
           grpc_transport_destroy(transport);
           grpc_slice_buffer_destroy_internal(args->read_buffer);
           gpr_free(args->read_buffer);
@@ -865,7 +863,6 @@ void Chttp2ServerListener::TcpServerShutdownComplete(void* arg,
                                                      grpc_error_handle error) {
   Chttp2ServerListener* self = static_cast<Chttp2ServerListener*>(arg);
   self->channelz_listen_socket_.reset();
-  GRPC_ERROR_UNREF(error);
   delete self;
 }
 
@@ -970,14 +967,10 @@ grpc_error_handle Chttp2ServerAddPort(Server* server, const char* addr,
       error = GRPC_ERROR_CREATE_REFERENCING_FROM_COPIED_STRING(
           msg.c_str(), error_list.data(), error_list.size());
       gpr_log(GPR_INFO, "WARNING: %s", grpc_error_std_string(error).c_str());
-      GRPC_ERROR_UNREF(error);
       // we managed to bind some addresses: continue without error
     }
     return GRPC_ERROR_NONE;
   }();  // lambda end
-  for (const grpc_error_handle& error : error_list) {
-    GRPC_ERROR_UNREF(error);
-  }
   if (!error.ok()) *port_num = 0;
   return error;
 }
@@ -1051,8 +1044,6 @@ done:
   sc.reset(DEBUG_LOCATION, "server");
   if (!err.ok()) {
     gpr_log(GPR_ERROR, "%s", grpc_error_std_string(err).c_str());
-
-    GRPC_ERROR_UNREF(err);
   }
   return port_num;
 }
@@ -1088,7 +1079,6 @@ void grpc_server_add_channel_from_fd(grpc_server* server, int fd,
   } else {
     gpr_log(GPR_ERROR, "Failed to create channel: %s",
             grpc_error_std_string(error).c_str());
-    GRPC_ERROR_UNREF(error);
     grpc_transport_destroy(transport);
   }
 }

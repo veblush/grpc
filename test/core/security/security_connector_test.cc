@@ -722,7 +722,6 @@ static void test_peer_alpn_check(void) {
   grpc_error_handle error = grpc_ssl_check_alpn(&peer);
   ASSERT_FALSE(error.ok());
   tsi_peer_destruct(&peer);
-  GRPC_ERROR_UNREF(error);
   // peer has a TSI_SSL_ALPN_SELECTED_PROTOCOL property but with an incorrect
   // property value.
   ASSERT_EQ(tsi_construct_peer(1, &peer), TSI_OK);
@@ -733,7 +732,6 @@ static void test_peer_alpn_check(void) {
   error = grpc_ssl_check_alpn(&peer);
   ASSERT_FALSE(error.ok());
   tsi_peer_destruct(&peer);
-  GRPC_ERROR_UNREF(error);
   // peer has a TSI_SSL_ALPN_SELECTED_PROTOCOL property with a correct property
   // value.
   ASSERT_EQ(tsi_construct_peer(1, &peer), TSI_OK);

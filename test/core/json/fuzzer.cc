@@ -38,6 +38,5 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
     GPR_ASSERT(error.ok());
     GPR_ASSERT(json == json2);
   }
-  GRPC_ERROR_UNREF(error);
   return 0;
 }

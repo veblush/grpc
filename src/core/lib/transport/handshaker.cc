@@ -81,7 +81,6 @@ void HandshakeManager::Shutdown(grpc_error_handle why) {
       handshakers_[index_ - 1]->Shutdown(why);
     }
   }
-  GRPC_ERROR_UNREF(why);
 }
 
 // Helper function to call either the next handshaker or the

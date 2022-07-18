@@ -420,7 +420,6 @@ AresClientChannelDNSResolver::AresRequestWrapper::OnResolvedLocked(
         result.service_config = absl::UnavailableError(
             absl::StrCat("failed to parse service config: ",
                          grpc_error_std_string(service_config_error)));
-        GRPC_ERROR_UNREF(service_config_error);
       } else {
         result.service_config = std::move(service_config);
       }

@@ -65,7 +65,6 @@ class ServiceConfigChannelArgChannelData {
         gpr_log(GPR_ERROR, "%s",
                 grpc_error_std_string(service_config_error).c_str());
       }
-      GRPC_ERROR_UNREF(service_config_error);
     }
   }
 

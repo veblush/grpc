@@ -169,7 +169,6 @@ grpc::Status StsCredentialsOptionsFromJson(const std::string& json_string,
   grpc_error_handle error = GRPC_ERROR_NONE;
   grpc_core::Json json = grpc_core::Json::Parse(json_string.c_str(), &error);
   if (!error.ok() || json.type() != grpc_core::Json::Type::OBJECT) {
-    GRPC_ERROR_UNREF(error);
     return grpc::Status(grpc::StatusCode::INVALID_ARGUMENT, "Invalid json.");
   }
 
@@ -226,10 +225,9 @@ grpc::Status StsCredentialsOptionsFromEnv(StsCredentialsOptions* options) {
   grpc_error_handle error = GRPC_ERROR_NONE;
   grpc::Status status;
   // NOLINTNEXTLINE(clang-diagnostic-unused-lambda-capture)
-  auto cleanup = [&json_string, &sts_creds_path, &error, &status]() {
+  auto cleanup = [&json_string, &sts_creds_path, &status]() {
     grpc_slice_unref_internal(json_string);
     gpr_free(sts_creds_path);
-    GRPC_ERROR_UNREF(error);
     return status;
   };
 

@@ -1130,7 +1130,6 @@ XdsRouteConfigResourceType::Decode(const XdsEncodingContext& context,
       context, resource, &route_config_data->resource);
   if (!error.ok()) {
     std::string error_str = grpc_error_std_string(error);
-    GRPC_ERROR_UNREF(error);
     if (GRPC_TRACE_FLAG_ENABLED(*context.tracer)) {
       gpr_log(GPR_ERROR, "[xds_client %p] invalid RouteConfiguration %s: %s",
               context.client, result.name.c_str(), error_str.c_str());

@@ -166,7 +166,6 @@ grpc_error_handle grpc_tcp_server_prepare_socket(
   if (!err.ok()) {
     /* it's not fatal, so just log it. */
     gpr_log(GPR_DEBUG, "Node does not support SO_ZEROCOPY, continuing.");
-    GRPC_ERROR_UNREF(err);
   }
 #endif
   err = grpc_set_socket_nonblocking(fd, 1);
@@ -220,7 +219,6 @@ error:
       grpc_error_set_int(GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
                              "Unable to configure socket", &err, 1),
                          GRPC_ERROR_INT_FD, fd);
-  GRPC_ERROR_UNREF(err);
   return ret;
 }
 

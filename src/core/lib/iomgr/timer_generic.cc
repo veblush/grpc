@@ -657,8 +657,6 @@ static grpc_timer_check_result run_some_expired_timers(
     gpr_spinlock_unlock(&g_shared_mutables.checker_mu);
   }
 
-  GRPC_ERROR_UNREF(error);
-
   return result;
 }
 

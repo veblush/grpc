@@ -106,7 +106,6 @@ XdsRouteLookupClusterSpecifierPlugin::GenerateLoadBalancingPolicyConfig(
         kXdsRouteLookupClusterSpecifierPluginConfigName,
         " ClusterSpecifierPlugin returned invalid LB policy config: ",
         grpc_error_std_string(parse_error)));
-    GRPC_ERROR_UNREF(parse_error);
     return status;
   }
   return lb_policy_config.Dump();

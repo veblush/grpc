@@ -130,7 +130,6 @@ static void test_with_vtable(const grpc_socket_mutator_vtable* vtable) {
       sock, GRPC_FD_CLIENT_CONNECTION_USAGE,
       reinterpret_cast<grpc_socket_mutator*>(&mutator));
   GPR_ASSERT(!err.ok());
-  GRPC_ERROR_UNREF(err);
 }
 
 int main(int argc, char** argv) {

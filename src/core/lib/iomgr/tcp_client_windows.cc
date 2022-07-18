@@ -223,7 +223,6 @@ failure:
                                                        &error, 1),
       GRPC_ERROR_STR_TARGET_ADDRESS,
       addr_uri.ok() ? *addr_uri : addr_uri.status().ToString());
-  GRPC_ERROR_UNREF(error);
   if (socket != NULL) {
     grpc_winsocket_destroy(socket);
   } else if (sock != INVALID_SOCKET) {

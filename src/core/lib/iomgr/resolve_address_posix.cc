@@ -173,7 +173,6 @@ done:
     return addresses;
   }
   auto error_result = grpc_error_to_absl_status(err);
-  GRPC_ERROR_UNREF(err);
   return error_result;
 }
 

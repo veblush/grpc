@@ -49,7 +49,6 @@ grpc_resolve_unix_domain_address(absl::string_view name) {
     return std::vector<grpc_resolved_address>({addr});
   }
   auto result = grpc_error_to_absl_status(error);
-  GRPC_ERROR_UNREF(error);
   return result;
 }
 
@@ -62,7 +61,6 @@ grpc_resolve_unix_abstract_domain_address(const absl::string_view name) {
     return std::vector<grpc_resolved_address>({addr});
   }
   auto result = grpc_error_to_absl_status(error);
-  GRPC_ERROR_UNREF(error);
   return result;
 }
 

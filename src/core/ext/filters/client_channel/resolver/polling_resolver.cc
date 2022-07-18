@@ -109,7 +109,6 @@ void PollingResolver::OnNextResolutionLocked(grpc_error_handle error) {
     StartResolvingLocked();
   }
   Unref(DEBUG_LOCATION, "retry-timer");
-  GRPC_ERROR_UNREF(error);
 }
 
 void PollingResolver::OnRequestComplete(Result result) {

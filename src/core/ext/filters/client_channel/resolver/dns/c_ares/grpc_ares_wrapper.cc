@@ -603,7 +603,6 @@ void grpc_ares_complete_request_locked(grpc_ares_request* r)
   r->ev_driver = nullptr;
   if (r->addresses_out != nullptr && *r->addresses_out != nullptr) {
     grpc_cares_wrapper_address_sorting_sort(r, r->addresses_out->get());
-    GRPC_ERROR_UNREF(r->error);
     r->error = GRPC_ERROR_NONE;
     // TODO(apolcyn): allow c-ares to return a service config
     // with no addresses along side it

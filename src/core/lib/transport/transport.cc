@@ -162,7 +162,6 @@ void grpc_transport_stream_op_batch_queue_finish_with_failure(
     grpc_transport_stream_op_batch* batch, grpc_error_handle error,
     grpc_core::CallCombinerClosureList* closures) {
   if (batch->cancel_stream) {
-    GRPC_ERROR_UNREF(batch->payload->cancel_stream.cancel_error);
   }
   // Construct a list of closures to execute.
   if (batch->recv_initial_metadata) {
@@ -182,7 +181,6 @@ void grpc_transport_stream_op_batch_queue_finish_with_failure(
   if (batch->on_complete != nullptr) {
     closures->Add(batch->on_complete, error, "failing on_complete");
   }
-  GRPC_ERROR_UNREF(error);
 }
 
 struct made_transport_op {

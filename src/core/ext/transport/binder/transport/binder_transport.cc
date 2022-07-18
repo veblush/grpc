@@ -177,7 +177,6 @@ static void cancel_stream_locked(grpc_binder_transport* gbt,
       gbs->recv_trailing_metadata = nullptr;
     }
   }
-  GRPC_ERROR_UNREF(error);
 }
 
 static bool ContainsAuthorityAndPath(const grpc_binder::Metadata& metadata) {
@@ -607,11 +606,9 @@ static void perform_transport_op_locked(void* transport_op,
   bool do_close = false;
   if (!op->disconnect_with_error.ok()) {
     do_close = true;
-    GRPC_ERROR_UNREF(op->disconnect_with_error);
   }
   if (!op->goaway_error.ok()) {
     do_close = true;
-    GRPC_ERROR_UNREF(op->goaway_error);
   }
   if (do_close) {
     close_transport_locked(gbt);

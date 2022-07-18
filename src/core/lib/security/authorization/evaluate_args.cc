@@ -60,7 +60,6 @@ EvaluateArgs::PerChannelArgs::Address ParseEndpointUri(
     gpr_log(GPR_DEBUG, "Address %s is not IPv4/IPv6. Error: %s",
             address.address_str.c_str(), grpc_error_std_string(error).c_str());
   }
-  GRPC_ERROR_UNREF(error);
   return address;
 }
 

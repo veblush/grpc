@@ -200,7 +200,6 @@ static bool update_list(grpc_chttp2_transport* t, grpc_chttp2_stream* s,
     }
     cb = next;
   }
-  GRPC_ERROR_UNREF(error);
   return sched_any;
 }
 
@@ -690,5 +689,4 @@ void grpc_chttp2_end_write(grpc_chttp2_transport* t, grpc_error_handle error) {
     GRPC_CHTTP2_STREAM_UNREF(s, "chttp2_writing:end");
   }
   grpc_slice_buffer_reset_and_unref_internal(&t->outbuf);
-  GRPC_ERROR_UNREF(error);
 }

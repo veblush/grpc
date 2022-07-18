@@ -159,7 +159,6 @@ IpAuthorizationMatcher::IpAuthorizationMatcher(Type type, Rbac::CidrRange range)
     gpr_log(GPR_DEBUG, "CidrRange address %s is not IPv4/IPv6. Error: %s",
             range.address_prefix.c_str(), grpc_error_std_string(error).c_str());
   }
-  GRPC_ERROR_UNREF(error);
 }
 
 bool IpAuthorizationMatcher::Matches(const EvaluateArgs& args) const {

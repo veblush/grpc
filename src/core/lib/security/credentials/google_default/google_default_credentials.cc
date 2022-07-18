@@ -457,7 +457,6 @@ grpc_channel_credentials* grpc_google_default_credentials_create(
     gpr_log(GPR_ERROR, "Could not create google default credentials: %s",
             grpc_error_std_string(error).c_str());
   }
-  GRPC_ERROR_UNREF(error);
   return result;
 }
 

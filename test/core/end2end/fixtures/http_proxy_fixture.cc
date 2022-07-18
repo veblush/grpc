@@ -205,7 +205,6 @@ static void proxy_connection_failed(proxy_connection* conn,
   }
   // Unref the connection.
   proxy_connection_unref(conn, "conn_failed");
-  GRPC_ERROR_UNREF(error);
 }
 
 // Callback for writing proxy data to the client.
@@ -480,7 +479,6 @@ static void on_read_request_done_locked(void* arg, grpc_error_handle error) {
       if (!error.ok()) {
         proxy_connection_failed(conn, SETUP_FAILED, "HTTP proxy request parse",
                                 error);
-        GRPC_ERROR_UNREF(error);
         return;
       }
     }
@@ -501,7 +499,6 @@ static void on_read_request_done_locked(void* arg, grpc_error_handle error) {
         "HTTP proxy got request method ", conn->http_request.method));
     proxy_connection_failed(conn, SETUP_FAILED, "HTTP proxy read request",
                             error);
-    GRPC_ERROR_UNREF(error);
     return;
   }
   // If proxy auth is being used, check if the header is present and as expected
@@ -522,7 +519,6 @@ static void on_read_request_done_locked(void* arg, grpc_error_handle error) {
       error = GRPC_ERROR_CREATE_FROM_STATIC_STRING(msg);
       proxy_connection_failed(conn, SETUP_FAILED, "HTTP proxy read request",
                               error);
-      GRPC_ERROR_UNREF(error);
       return;
     }
   }

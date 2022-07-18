@@ -1064,7 +1064,6 @@ ClientChannel::~ClientChannel() {
   // Stop backup polling.
   grpc_client_channel_stop_backup_polling(interested_parties_);
   grpc_pollset_set_destroy(interested_parties_);
-  GRPC_ERROR_UNREF(disconnect_error_);
 }
 
 OrphanablePtr<ClientChannel::LoadBalancedCall>
@@ -1291,7 +1290,6 @@ void ClientChannel::OnResolverErrorLocked(absl::Status status) {
         }
       }
     }
-    GRPC_ERROR_UNREF(error);
     // Update connectivity state.
     UpdateStateAndPickerLocked(
         GRPC_CHANNEL_TRANSIENT_FAILURE, status, "resolver failure",
@@ -1672,7 +1670,6 @@ void ClientChannel::StartTransportOpLocked(grpc_transport_op* op) {
         UpdateStateAndPickerLocked(GRPC_CHANNEL_IDLE, absl::Status(),
                                    "channel entering IDLE", nullptr);
       }
-      GRPC_ERROR_UNREF(op->disconnect_with_error);
     } else {
       // Disconnect.
       GPR_ASSERT(disconnect_error_.ok());
@@ -1802,7 +1799,6 @@ ClientChannel::CallData::CallData(grpc_call_element* elem,
 
 ClientChannel::CallData::~CallData() {
   grpc_slice_unref_internal(path_);
-  GRPC_ERROR_UNREF(cancel_error_);
   // Make sure there are no remaining pending batches.
   for (size_t i = 0; i < GPR_ARRAY_SIZE(pending_batches_); ++i) {
     GPR_ASSERT(pending_batches_[i] == nullptr);
@@ -1888,7 +1884,6 @@ void ClientChannel::CallData::StartTransportStreamOpBatch(
     // cancelled before any batches are passed down (e.g., if the deadline
     // is in the past when the call starts), we can return the right
     // error to the caller when the first batch does get passed down.
-    GRPC_ERROR_UNREF(calld->cancel_error_);
     calld->cancel_error_ = batch->payload->cancel_stream.cancel_error;
     if (GRPC_TRACE_FLAG_ENABLED(grpc_client_channel_call_trace)) {
       gpr_log(GPR_INFO, "chand=%p calld=%p: recording cancel_error=%s", chand,
@@ -2009,7 +2004,6 @@ void ClientChannel::CallData::PendingBatchesFail(
   } else {
     closures.RunClosuresWithoutYielding(call_combiner_);
   }
-  GRPC_ERROR_UNREF(error);
 }
 
 // This is called via the call combiner, so access to calld is synchronized.
@@ -2251,7 +2245,6 @@ void ClientChannel::CallData::CheckResolution(void* arg,
   }
   if (resolution_complete) {
     ResolutionDone(elem, error);
-    GRPC_ERROR_UNREF(error);
   }
 }
 
@@ -2534,8 +2527,6 @@ ClientChannel::LoadBalancedCall::LoadBalancedCall(
 }
 
 ClientChannel::LoadBalancedCall::~LoadBalancedCall() {
-  GRPC_ERROR_UNREF(cancel_error_);
-  GRPC_ERROR_UNREF(failure_error_);
   if (backend_metric_data_ != nullptr) {
     backend_metric_data_->BackendMetricData::~BackendMetricData();
   }
@@ -2607,7 +2598,6 @@ void ClientChannel::LoadBalancedCall::PendingBatchesFail(
     grpc_error_handle error,
     YieldCallCombinerPredicate yield_call_combiner_predicate) {
   GPR_ASSERT(!error.ok());
-  GRPC_ERROR_UNREF(failure_error_);
   failure_error_ = error;
   if (GRPC_TRACE_FLAG_ENABLED(grpc_client_channel_lb_call_trace)) {
     size_t num_batches = 0;
@@ -2779,7 +2769,6 @@ void ClientChannel::LoadBalancedCall::StartTransportStreamOpBatch(
     // cancelled before any batches are passed down (e.g., if the deadline
     // is in the past when the call starts), we can return the right
     // error to the caller when the first batch does get passed down.
-    GRPC_ERROR_UNREF(cancel_error_);
     cancel_error_ = batch->payload->cancel_stream.cancel_error;
     if (GRPC_TRACE_FLAG_ENABLED(grpc_client_channel_lb_call_trace)) {
       gpr_log(GPR_INFO, "chand=%p lb_call=%p: recording cancel_error=%s",
@@ -3056,7 +3045,6 @@ void ClientChannel::LoadBalancedCall::PickSubchannel(void* arg,
   }
   if (pick_complete) {
     PickDone(self, error);
-    GRPC_ERROR_UNREF(error);
   }
 }
 
@@ -3143,7 +3131,6 @@ bool ClientChannel::LoadBalancedCall::PickSubchannelLocked(
                   absl_status_to_grpc_error(fail_pick->status);
               *error = GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
                   "Failed to pick subchannel", &lb_error, 1);
-              GRPC_ERROR_UNREF(lb_error);
               MaybeRemoveCallFromLbQueuedCallsLocked();
               return true;
             }

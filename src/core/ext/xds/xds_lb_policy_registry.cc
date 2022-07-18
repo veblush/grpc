@@ -175,7 +175,6 @@ absl::StatusOr<Json> ParseStructToJson(const XdsEncodingContext& context,
         absl::StrCat("Error parsing JSON form of google::Protobuf::Struct "
                      "produced by upb library: ",
                      grpc_error_std_string(error)));
-    GRPC_ERROR_UNREF(error);
     return ret_status;
   }
   return json;

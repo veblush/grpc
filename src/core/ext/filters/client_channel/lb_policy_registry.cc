@@ -118,7 +118,6 @@ bool LoadBalancingPolicyRegistry::LoadBalancingPolicyExists(
     // Check if the load balancing policy allows an empty config
     *requires_config =
         factory->ParseLoadBalancingConfig(Json(), &error) == nullptr;
-    GRPC_ERROR_UNREF(error);
   }
   return true;
 }

@@ -169,7 +169,6 @@ void RunParseFailureTest(const char* input) {
   Json json = Json::Parse(input, &error);
   gpr_log(GPR_INFO, "error: %s", grpc_error_std_string(error).c_str());
   EXPECT_NE(error, GRPC_ERROR_NONE);
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(Json, InvalidInput) {

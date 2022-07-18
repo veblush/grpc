@@ -36,7 +36,6 @@ std::string ValidateServiceConfigJSON(const std::string& service_config_json) {
   std::string return_value;
   if (!error.ok()) {
     return_value = grpc_error_std_string(error);
-    GRPC_ERROR_UNREF(error);
   }
   grpc_shutdown();
   return return_value;

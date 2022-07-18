@@ -448,7 +448,6 @@ void PopulateSocketAddressJson(Json::Object* json, const char* name,
       (*json)[name] = std::move(data);
       return;
     }
-    GRPC_ERROR_UNREF(error);
   }
   if (uri.ok() && uri->scheme() == "unix") {
     data["uds_address"] = Json::Object{

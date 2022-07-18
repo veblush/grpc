@@ -594,7 +594,6 @@ class HPackParser::Input {
   // around StatusOr<> which would be prohibitive here.
   GPR_ATTRIBUTE_NOINLINE void SetError(grpc_error_handle error) {
     if (!error_.ok() || eof_error_) {
-      GRPC_ERROR_UNREF(error);
       return;
     }
     error_ = error;

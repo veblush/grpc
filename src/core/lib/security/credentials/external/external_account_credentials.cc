@@ -400,7 +400,6 @@ void ExternalAccountCredentials::ImpersenateServiceAccount() {
   if (!error.ok() || json.type() != Json::Type::OBJECT) {
     FinishTokenFetch(GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
         "Invalid token exchange response.", &error, 1));
-    GRPC_ERROR_UNREF(error);
     return;
   }
   auto it = json.object_value().find("access_token");
@@ -474,7 +473,6 @@ void ExternalAccountCredentials::OnImpersenateServiceAccountInternal(
   if (!error.ok() || json.type() != Json::Type::OBJECT) {
     FinishTokenFetch(GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
         "Invalid service account impersonation response.", &error, 1));
-    GRPC_ERROR_UNREF(error);
     return;
   }
   auto it = json.object_value().find("accessToken");
@@ -530,7 +528,6 @@ void ExternalAccountCredentials::FinishTokenFetch(grpc_error_handle error) {
   cb(metadata_req, error);
   // Delete context.
   delete ctx;
-  GRPC_ERROR_UNREF(error);
 }
 
 }  // namespace grpc_core
@@ -543,7 +540,6 @@ grpc_call_credentials* grpc_external_account_credentials_create(
     gpr_log(GPR_ERROR,
             "External account credentials creation failed. Error: %s.",
             grpc_error_std_string(error).c_str());
-    GRPC_ERROR_UNREF(error);
     return nullptr;
   }
   std::vector<std::string> scopes = absl::StrSplit(scopes_string, ',');
@@ -554,7 +550,6 @@ grpc_call_credentials* grpc_external_account_credentials_create(
     gpr_log(GPR_ERROR,
             "External account credentials creation failed. Error: %s.",
             grpc_error_std_string(error).c_str());
-    GRPC_ERROR_UNREF(error);
     return nullptr;
   }
   return creds;

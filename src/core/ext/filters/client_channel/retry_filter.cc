@@ -925,7 +925,6 @@ void RetryFilter::CallData::CallAttempt::
 void RetryFilter::CallData::CallAttempt::MaybeAddBatchForCancelOp(
     grpc_error_handle error, CallCombinerClosureList* closures) {
   if (sent_cancel_stream_) {
-    GRPC_ERROR_UNREF(error);
     return;
   }
   sent_cancel_stream_ = true;
@@ -1019,7 +1018,6 @@ void RetryFilter::CallData::CallAttempt::AddBatchesForPendingBatches(
                 DEBUG_LOCATION,
                 "internally started recv_trailing_metadata batch pending and "
                 "recv_trailing_metadata started from surface");
-            GRPC_ERROR_UNREF(recv_trailing_metadata_error_);
           }
           recv_trailing_metadata_error_ = GRPC_ERROR_NONE;
         }
@@ -1237,22 +1235,18 @@ void RetryFilter::CallData::CallAttempt::Abandon() {
         DEBUG_LOCATION,
         "unref internal recv_trailing_metadata_ready batch; attempt abandoned");
   }
-  GRPC_ERROR_UNREF(recv_trailing_metadata_error_);
   recv_trailing_metadata_error_ = GRPC_ERROR_NONE;
   recv_initial_metadata_ready_deferred_batch_.reset(
       DEBUG_LOCATION,
       "unref deferred recv_initial_metadata_ready batch; attempt abandoned");
-  GRPC_ERROR_UNREF(recv_initial_metadata_error_);
   recv_initial_metadata_error_ = GRPC_ERROR_NONE;
   recv_message_ready_deferred_batch_.reset(
       DEBUG_LOCATION,
       "unref deferred recv_message_ready batch; attempt abandoned");
-  GRPC_ERROR_UNREF(recv_message_error_);
   recv_message_error_ = GRPC_ERROR_NONE;
   for (auto& on_complete_deferred_batch : on_complete_deferred_batches_) {
     on_complete_deferred_batch.batch.reset(
         DEBUG_LOCATION, "unref deferred on_complete batch; attempt abandoned");
-    GRPC_ERROR_UNREF(on_complete_deferred_batch.error);
   }
   on_complete_deferred_batches_.clear();
 }
@@ -1398,7 +1392,6 @@ void RetryFilter::CallData::CallAttempt::BatchData::
                        .recv_initial_metadata_ready != nullptr;
       });
   if (pending == nullptr) {
-    GRPC_ERROR_UNREF(error);
     return;
   }
   // Return metadata.
@@ -1501,7 +1494,6 @@ void RetryFilter::CallData::CallAttempt::BatchData::
                batch->payload->recv_message.recv_message_ready != nullptr;
       });
   if (pending == nullptr) {
-    GRPC_ERROR_UNREF(error);
     return;
   }
   // Return payload.
@@ -1613,7 +1605,6 @@ void GetCallStatus(
   }
   *server_pushback = md_batch->get(GrpcRetryPushbackMsMetadata());
   *stream_network_state = md_batch->get(GrpcStreamNetworkState());
-  GRPC_ERROR_UNREF(error);
 }
 
 }  // namespace
@@ -1699,7 +1690,6 @@ void RetryFilter::CallData::CallAttempt::BatchData::
       calld->MaybeClearPendingBatch(pending);
     }
   }
-  GRPC_ERROR_UNREF(error);
 }
 
 void RetryFilter::CallData::CallAttempt::BatchData::RunClosuresForCompletedCall(
@@ -1715,7 +1705,6 @@ void RetryFilter::CallData::CallAttempt::BatchData::RunClosuresForCompletedCall(
   // Schedule all of the closures identified above.
   // Note: This will release the call combiner.
   closures.RunClosures(call_attempt_->calld_->call_combiner_);
-  GRPC_ERROR_UNREF(error);
 }
 
 void RetryFilter::CallData::CallAttempt::BatchData::RecvTrailingMetadataReady(
@@ -1846,7 +1835,6 @@ void RetryFilter::CallData::CallAttempt::BatchData::
   // If batch_data is a replay batch, then there will be no pending
   // batch to complete.
   if (pending == nullptr) {
-    GRPC_ERROR_UNREF(error);
     return;
   }
   // Propagate payload.
@@ -2195,7 +2183,6 @@ RetryFilter::CallData::~CallData() {
   for (size_t i = 0; i < GPR_ARRAY_SIZE(pending_batches_); ++i) {
     GPR_ASSERT(pending_batches_[i].batch == nullptr);
   }
-  GRPC_ERROR_UNREF(cancelled_from_surface_);
 }
 
 void RetryFilter::CallData::StartTransportStreamOpBatch(
@@ -2222,7 +2209,6 @@ void RetryFilter::CallData::StartTransportStreamOpBatch(
   // Handle cancellation.
   if (GPR_UNLIKELY(batch->cancel_stream)) {
     // Save cancel_error in case subsequent batches are started.
-    GRPC_ERROR_UNREF(cancelled_from_surface_);
     cancelled_from_surface_ = batch->payload->cancel_stream.cancel_error;
     if (GRPC_TRACE_FLAG_ENABLED(grpc_retry_trace)) {
       gpr_log(GPR_INFO, "chand=%p calld=%p: cancelled from surface: %s", chand_,
@@ -2550,7 +2536,6 @@ void RetryFilter::CallData::PendingBatchesFail(grpc_error_handle error) {
     }
   }
   closures.RunClosuresWithoutYielding(call_combiner_);
-  GRPC_ERROR_UNREF(error);
 }
 
 template <typename Predicate>

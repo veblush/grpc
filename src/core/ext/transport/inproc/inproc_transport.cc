@@ -219,13 +219,7 @@ struct inproc_stream {
     }
   }
 
-  ~inproc_stream() {
-    GRPC_ERROR_UNREF(write_buffer_cancel_error);
-    GRPC_ERROR_UNREF(cancel_self_error);
-    GRPC_ERROR_UNREF(cancel_other_error);
-
-    t->unref();
-  }
+  ~inproc_stream() { t->unref(); }
 
 #ifndef NDEBUG
 #define STREAM_REF(refs, reason) grpc_stream_ref(refs, reason)
@@ -554,8 +548,6 @@ void fail_helper_locked(inproc_stream* s, grpc_error_handle error) {
   }
   close_other_side_locked(s, "fail_helper:other_side");
   close_stream_locked(s);
-
-  GRPC_ERROR_UNREF(error);
 }
 
 // TODO(vjpai): It should not be necessary to drain the incoming byte
@@ -875,7 +867,6 @@ done:
     close_other_side_locked(s, "op_state_machine");
     close_stream_locked(s);
   }
-  GRPC_ERROR_UNREF(new_err);
 }
 
 bool cancel_stream_locked(inproc_stream* s, grpc_error_handle error) {
@@ -928,8 +919,6 @@ bool cancel_stream_locked(inproc_stream* s, grpc_error_handle error) {
 
   close_other_side_locked(s, "cancel_stream:other_side");
   close_stream_locked(s);
-
-  GRPC_ERROR_UNREF(error);
   return ret;
 }
 
@@ -1116,7 +1105,6 @@ void perform_stream_op(grpc_transport* gt, grpc_stream* gs,
     grpc_core::ExecCtx::Run(DEBUG_LOCATION, on_complete, error);
   }
   gpr_mu_unlock(mu);
-  GRPC_ERROR_UNREF(error);
 }
 
 void close_transport_locked(inproc_transport* t) {
@@ -1159,11 +1147,9 @@ void perform_transport_op(grpc_transport* gt, grpc_transport_op* op) {
   bool do_close = false;
   if (!op->goaway_error.ok()) {
     do_close = true;
-    GRPC_ERROR_UNREF(op->goaway_error);
   }
   if (!op->disconnect_with_error.ok()) {
     do_close = true;
-    GRPC_ERROR_UNREF(op->disconnect_with_error);
   }
 
   if (do_close) {
@@ -1279,7 +1265,6 @@ grpc_channel* grpc_inproc_channel_create(grpc_server* server,
       if (grpc_error_get_int(error, GRPC_ERROR_INT_GRPC_STATUS, &integer)) {
         status = static_cast<grpc_status_code>(integer);
       }
-      GRPC_ERROR_UNREF(error);
       // client_transport was destroyed when grpc_channel_create_internal saw an
       // error.
       grpc_transport_destroy(server_transport);
@@ -1297,7 +1282,6 @@ grpc_channel* grpc_inproc_channel_create(grpc_server* server,
     if (grpc_error_get_int(error, GRPC_ERROR_INT_GRPC_STATUS, &integer)) {
       status = static_cast<grpc_status_code>(integer);
     }
-    GRPC_ERROR_UNREF(error);
     grpc_transport_destroy(client_transport);
     grpc_transport_destroy(server_transport);
     channel = grpc_lame_client_channel_create(

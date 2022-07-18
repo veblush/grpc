@@ -181,7 +181,7 @@ struct call_data {
     }
   }
 
-  ~call_data() { GRPC_ERROR_UNREF(error); }
+  ~call_data() {}
 
   grpc_core::CallCombiner* call_combiner;
   grpc_core::MessageSizeParsedConfig::message_size_limits limits;
@@ -218,7 +218,6 @@ static void recv_message_ready(void* user_data, grpc_error_handle error) {
             (*calld->recv_message)->Length(), calld->limits.max_recv_size)),
         GRPC_ERROR_INT_GRPC_STATUS, GRPC_STATUS_RESOURCE_EXHAUSTED);
     error = grpc_error_add_child(error, new_error);
-    GRPC_ERROR_UNREF(calld->error);
     calld->error = error;
   }
   // Invoke the next callback.

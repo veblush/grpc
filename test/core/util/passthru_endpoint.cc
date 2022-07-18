@@ -333,7 +333,6 @@ static void me_shutdown(grpc_endpoint* ep, grpc_error_handle why) {
   gpr_mu_lock(&m->parent->mu);
   shutdown_locked(m, why);
   gpr_mu_unlock(&m->parent->mu);
-  GRPC_ERROR_UNREF(why);
 }
 
 void grpc_passthru_endpoint_destroy(passthru_endpoint* p) {
@@ -481,7 +480,6 @@ static void sched_next_channel_action_locked(half* m) {
     grpc_error_handle err =
         GRPC_ERROR_CREATE_FROM_STATIC_STRING("Channel actions complete");
     shutdown_locked(m, err);
-    GRPC_ERROR_UNREF(err);
     return;
   }
   grpc_timer_init(&m->parent->channel_effects->timer,

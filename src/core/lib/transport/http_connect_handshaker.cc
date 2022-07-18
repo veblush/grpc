@@ -288,7 +288,6 @@ void HttpConnectHandshaker::Shutdown(grpc_error_handle why) {
       CleanupArgsForFailureLocked();
     }
   }
-  GRPC_ERROR_UNREF(why);
 }
 
 void HttpConnectHandshaker::DoHandshake(grpc_tcp_server_acceptor* /*acceptor*/,

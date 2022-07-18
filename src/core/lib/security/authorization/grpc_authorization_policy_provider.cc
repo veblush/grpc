@@ -67,7 +67,6 @@ absl::StatusOr<std::string> ReadPolicyFromFile(absl::string_view policy_path) {
   if (!error.ok()) {
     absl::Status status =
         absl::InvalidArgumentError(grpc_error_std_string(error));
-    GRPC_ERROR_UNREF(error);
     return status;
   }
   std::string policy_contents(StringViewFromSlice(policy_slice));

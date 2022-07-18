@@ -166,7 +166,6 @@ void grpc_tls_certificate_distributor::SetError(grpc_error_handle error) {
     cert_info.SetRootError(error);
     cert_info.SetIdentityError(error);
   }
-  GRPC_ERROR_UNREF(error);
 };
 
 void grpc_tls_certificate_distributor::WatchTlsCertificates(
@@ -230,8 +229,6 @@ void grpc_tls_certificate_distributor::WatchTlsCertificates(
     if (!root_error.ok() || !identity_error.ok()) {
       watcher_ptr->OnError(root_error, identity_error);
     }
-    GRPC_ERROR_UNREF(root_error);
-    GRPC_ERROR_UNREF(identity_error);
   }
   // Invoke watch status callback if needed.
   {

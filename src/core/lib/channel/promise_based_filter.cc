@@ -160,7 +160,6 @@ void BaseCallData::CapturedBatch::CancelWith(grpc_error_handle error,
   uintptr_t& refcnt = *RefCountField(batch);
   if (refcnt == 0) {
     // refcnt==0 ==> cancelled
-    GRPC_ERROR_UNREF(error);
     return;
   }
   refcnt = 0;
@@ -353,7 +352,6 @@ class ClientCallData::PollContext {
               error = grpc_error_set_str(error, GRPC_ERROR_STR_GRPC_MESSAGE,
                                          message->as_string_view());
             }
-            GRPC_ERROR_UNREF(self_->cancelled_error_);
             self_->cancelled_error_ = error;
             if (self_->recv_initial_metadata_ != nullptr) {
               switch (self_->recv_initial_metadata_->state) {
@@ -483,7 +481,6 @@ ClientCallData::ClientCallData(grpc_call_element* elem,
 
 ClientCallData::~ClientCallData() {
   GPR_ASSERT(poll_ctx_ == nullptr);
-  GRPC_ERROR_UNREF(cancelled_error_);
   if (recv_initial_metadata_ != nullptr) {
     recv_initial_metadata_->~RecvInitialMetadata();
   }
@@ -511,7 +508,6 @@ void ClientCallData::StartBatch(grpc_transport_stream_op_batch* b) {
                !batch->recv_trailing_metadata);
     Cancel(batch->payload->cancel_stream.cancel_error);
     if (is_last()) {
-      GRPC_ERROR_UNREF(batch->payload->cancel_stream.cancel_error);
       batch.CompleteWith(&flusher);
     } else {
       batch.ResumeWith(&flusher);
@@ -603,7 +599,6 @@ void ClientCallData::StartBatch(grpc_transport_stream_op_batch* b) {
 // Handle cancellation.
 void ClientCallData::Cancel(grpc_error_handle error) {
   // Track the latest reason for cancellation.
-  GRPC_ERROR_UNREF(cancelled_error_);
   cancelled_error_ = error;
   // Stop running the promise.
   promise_ = ArenaPromise<ServerMetadataHandle>();
@@ -948,10 +943,7 @@ ServerCallData::ServerCallData(grpc_call_element* elem,
                     grpc_schedule_on_exec_ctx);
 }
 
-ServerCallData::~ServerCallData() {
-  GPR_ASSERT(poll_ctx_ == nullptr);
-  GRPC_ERROR_UNREF(cancelled_error_);
-}
+ServerCallData::~ServerCallData() { GPR_ASSERT(poll_ctx_ == nullptr); }
 
 // Activity implementation.
 void ServerCallData::ForceImmediateRepoll() {
@@ -976,7 +968,6 @@ void ServerCallData::StartBatch(grpc_transport_stream_op_batch* b) {
                !batch->recv_trailing_metadata);
     Cancel(batch->payload->cancel_stream.cancel_error, &flusher);
     if (is_last()) {
-      GRPC_ERROR_UNREF(batch->payload->cancel_stream.cancel_error);
       batch.CompleteWith(&flusher);
     } else {
       batch.ResumeWith(&flusher);
@@ -1050,7 +1041,6 @@ void ServerCallData::StartBatch(grpc_transport_stream_op_batch* b) {
 // Handle cancellation.
 void ServerCallData::Cancel(grpc_error_handle error, Flusher* flusher) {
   // Track the latest reason for cancellation.
-  GRPC_ERROR_UNREF(cancelled_error_);
   cancelled_error_ = error;
   // Stop running the promise.
   promise_ = ArenaPromise<ServerMetadataHandle>();

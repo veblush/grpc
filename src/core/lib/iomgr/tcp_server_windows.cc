@@ -233,7 +233,6 @@ failure:
           GRPC_ERROR_STR_TARGET_ADDRESS,
           addr_uri.ok() ? *addr_uri : addr_uri.status().ToString()),
       GRPC_ERROR_INT_FD, (intptr_t)sock);
-  GRPC_ERROR_UNREF(error);
   if (sock != INVALID_SOCKET) closesocket(sock);
   return error;
 }
@@ -515,7 +514,6 @@ done:
     grpc_error_handle error_out =
         GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
             "Failed to add port to server", &error, 1);
-    GRPC_ERROR_UNREF(error);
     error = error_out;
     *port = -1;
   } else {

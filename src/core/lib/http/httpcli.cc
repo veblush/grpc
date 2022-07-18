@@ -198,7 +198,6 @@ HttpRequest::~HttpRequest() {
   grpc_iomgr_unregister_object(&iomgr_obj_);
   grpc_slice_buffer_destroy_internal(&incoming_);
   grpc_slice_buffer_destroy_internal(&outgoing_);
-  GRPC_ERROR_UNREF(overall_error_);
   grpc_pollset_set_destroy(pollset_set_);
 }
 

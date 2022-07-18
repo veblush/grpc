@@ -521,7 +521,6 @@ void CdsLb::OnClusterChanged(const std::string& name,
         LoadBalancingPolicyRegistry::ParseLoadBalancingConfig(json, &error);
     if (!error.ok()) {
       OnError(name, absl::UnavailableError(grpc_error_std_string(error)));
-      GRPC_ERROR_UNREF(error);
       return;
     }
     // Create child policy if not already present.

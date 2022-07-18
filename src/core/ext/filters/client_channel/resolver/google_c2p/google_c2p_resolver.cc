@@ -238,7 +238,6 @@ void GoogleCloud2ProdResolver::ZoneQuery::OnDone(
   } else {
     resolver->ZoneQueryDone(std::move(*zone));
   }
-  GRPC_ERROR_UNREF(error);
 }
 
 //
@@ -260,7 +259,6 @@ void GoogleCloud2ProdResolver::IPv6Query::OnDone(
             grpc_error_std_string(error).c_str());
   }
   resolver->IPv6QueryDone(error.ok() && response->status == 200);
-  GRPC_ERROR_UNREF(error);
 }
 
 //

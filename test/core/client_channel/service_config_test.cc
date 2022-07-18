@@ -192,7 +192,6 @@ TEST_F(ServiceConfigTest, ErrorCheck1) {
   auto svc_cfg = ServiceConfigImpl::Create(ChannelArgs(), test_json, &error);
   EXPECT_THAT(grpc_error_std_string(error),
               ::testing::ContainsRegex("JSON parse error"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ServiceConfigTest, BasicTest1) {
@@ -232,7 +231,6 @@ TEST_F(ServiceConfigTest, ErrorDuplicateMethodConfigNames) {
                   "Service config parsing error" CHILD_ERROR_TAG
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "multiple method configs with same name"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ServiceConfigTest, ErrorDuplicateMethodConfigNamesWithNullMethod) {
@@ -248,7 +246,6 @@ TEST_F(ServiceConfigTest, ErrorDuplicateMethodConfigNamesWithNullMethod) {
                   "Service config parsing error" CHILD_ERROR_TAG
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "multiple method configs with same name"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ServiceConfigTest, ErrorDuplicateMethodConfigNamesWithEmptyMethod) {
@@ -264,7 +261,6 @@ TEST_F(ServiceConfigTest, ErrorDuplicateMethodConfigNamesWithEmptyMethod) {
                   "Service config parsing error" CHILD_ERROR_TAG
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "multiple method configs with same name"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ServiceConfigTest, ErrorDuplicateDefaultMethodConfigs) {
@@ -280,7 +276,6 @@ TEST_F(ServiceConfigTest, ErrorDuplicateDefaultMethodConfigs) {
                   "Service config parsing error" CHILD_ERROR_TAG
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "multiple default method configs"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ServiceConfigTest, ErrorDuplicateDefaultMethodConfigsWithNullService) {
@@ -296,7 +291,6 @@ TEST_F(ServiceConfigTest, ErrorDuplicateDefaultMethodConfigsWithNullService) {
                   "Service config parsing error" CHILD_ERROR_TAG
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "multiple default method configs"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ServiceConfigTest, ErrorDuplicateDefaultMethodConfigsWithEmptyService) {
@@ -312,7 +306,6 @@ TEST_F(ServiceConfigTest, ErrorDuplicateDefaultMethodConfigsWithEmptyService) {
                   "Service config parsing error" CHILD_ERROR_TAG
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "multiple default method configs"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ServiceConfigTest, ValidMethodConfig) {
@@ -367,7 +360,6 @@ TEST_F(ServiceConfigTest, Parser1ErrorInvalidType) {
                   absl::StrCat("Service config parsing error" CHILD_ERROR_TAG
                                "Global Params" CHILD_ERROR_TAG,
                                TestParser1::InvalidTypeErrorMessage())));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ServiceConfigTest, Parser1ErrorInvalidValue) {
@@ -379,7 +371,6 @@ TEST_F(ServiceConfigTest, Parser1ErrorInvalidValue) {
                   absl::StrCat("Service config parsing error" CHILD_ERROR_TAG
                                "Global Params" CHILD_ERROR_TAG,
                                TestParser1::InvalidValueErrorMessage())));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ServiceConfigTest, Parser2BasicTest) {
@@ -426,7 +417,6 @@ TEST_F(ServiceConfigTest, Parser2ErrorInvalidType) {
           "Service config parsing error" CHILD_ERROR_TAG
           "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG,
           TestParser2::InvalidTypeErrorMessage())));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ServiceConfigTest, Parser2ErrorInvalidValue) {
@@ -441,7 +431,6 @@ TEST_F(ServiceConfigTest, Parser2ErrorInvalidValue) {
           "Service config parsing error" CHILD_ERROR_TAG
           "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG,
           TestParser2::InvalidValueErrorMessage())));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(ServiceConfigParserTest, DoubleRegistration) {
@@ -488,7 +477,6 @@ TEST_F(ErroredParsersScopingTest, GlobalParams) {
           "Service config parsing error" CHILD_ERROR_TAG
           "Global Params" CHILD_ERROR_TAG,
           ErrorParser::GlobalError(), ".*", ErrorParser::GlobalError())));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ErroredParsersScopingTest, MethodParams) {
@@ -503,7 +491,6 @@ TEST_F(ErroredParsersScopingTest, MethodParams) {
           ErrorParser::GlobalError(), ".*", ErrorParser::GlobalError(),
           ".*Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG,
           ErrorParser::MethodError(), ".*", ErrorParser::MethodError())));
-  GRPC_ERROR_UNREF(error);
 }
 
 //
@@ -597,7 +584,6 @@ TEST_F(ClientChannelParserTest, UnknownLoadBalancingConfig) {
                                "Client channel global parser" CHILD_ERROR_TAG
                                "field:loadBalancingConfig" CHILD_ERROR_TAG
                                "No known policies in list: unknown"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ClientChannelParserTest, InvalidGrpclbLoadBalancingConfig) {
@@ -616,7 +602,6 @@ TEST_F(ClientChannelParserTest, InvalidGrpclbLoadBalancingConfig) {
                   "field:loadBalancingConfig" CHILD_ERROR_TAG
                   "GrpcLb Parser" CHILD_ERROR_TAG
                   "field:childPolicy" CHILD_ERROR_TAG "type should be array"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ClientChannelParserTest, ValidLoadBalancingPolicy) {
@@ -651,7 +636,6 @@ TEST_F(ClientChannelParserTest, UnknownLoadBalancingPolicy) {
                   "Global Params" CHILD_ERROR_TAG
                   "Client channel global parser" CHILD_ERROR_TAG
                   "field:loadBalancingPolicy error:Unknown lb policy"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ClientChannelParserTest, LoadBalancingPolicyXdsNotAllowed) {
@@ -667,7 +651,6 @@ TEST_F(ClientChannelParserTest, LoadBalancingPolicyXdsNotAllowed) {
                   "field:loadBalancingPolicy "
                   "error:xds_cluster_resolver_experimental requires "
                   "a config. Please use loadBalancingConfig instead."));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ClientChannelParserTest, ValidTimeout) {
@@ -712,7 +695,6 @@ TEST_F(ClientChannelParserTest, InvalidTimeout) {
                   "Client channel parser" CHILD_ERROR_TAG
                   "field:timeout error:type should be STRING of the form given "
                   "by google.proto.Duration"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ClientChannelParserTest, ValidWaitForReady) {
@@ -760,7 +742,6 @@ TEST_F(ClientChannelParserTest, InvalidWaitForReady) {
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "Client channel parser" CHILD_ERROR_TAG
                   "field:waitForReady error:Type should be true/false"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(ClientChannelParserTest, ValidHealthCheck) {
@@ -797,7 +778,6 @@ TEST_F(ClientChannelParserTest, InvalidHealthCheckMultipleEntries) {
               ::testing::ContainsRegex(
                   "JSON parsing failed" CHILD_ERROR_TAG
                   "duplicate key \"healthCheckConfig\" at index 104"));
-  GRPC_ERROR_UNREF(error);
 }
 
 //
@@ -852,7 +832,6 @@ TEST_F(RetryParserTest, RetryThrottlingMissingFields) {
           "Global Params" CHILD_ERROR_TAG "retryThrottling" CHILD_ERROR_TAG
           "field:retryThrottling field:maxTokens error:Not found"
           ".*field:retryThrottling field:tokenRatio error:Not found"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryThrottlingNegativeMaxTokens) {
@@ -872,7 +851,6 @@ TEST_F(RetryParserTest, InvalidRetryThrottlingNegativeMaxTokens) {
           "Global Params" CHILD_ERROR_TAG "retryThrottling" CHILD_ERROR_TAG
           "field:retryThrottling field:maxTokens error:should "
           "be greater than zero"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryThrottlingInvalidTokenRatio) {
@@ -892,7 +870,6 @@ TEST_F(RetryParserTest, InvalidRetryThrottlingInvalidTokenRatio) {
                                "retryThrottling" CHILD_ERROR_TAG
                                "field:retryThrottling field:tokenRatio "
                                "error:Failed parsing"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, ValidRetryPolicy) {
@@ -946,7 +923,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyWrongType) {
                   "Service config parsing error" CHILD_ERROR_TAG
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "field:retryPolicy error:should be of type object"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyRequiredFieldsMissing) {
@@ -972,7 +948,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyRequiredFieldsMissing) {
                   ".*field:initialBackoff error:does not exist"
                   ".*field:maxBackoff error:does not exist"
                   ".*field:backoffMultiplier error:required field missing"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyMaxAttemptsWrongType) {
@@ -999,7 +974,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyMaxAttemptsWrongType) {
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "retryPolicy" CHILD_ERROR_TAG
                   "field:maxAttempts error:should be of type number"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyMaxAttemptsBadValue) {
@@ -1026,7 +1000,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyMaxAttemptsBadValue) {
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "retryPolicy" CHILD_ERROR_TAG
                   "field:maxAttempts error:should be at least 2"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyInitialBackoffWrongType) {
@@ -1054,7 +1027,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyInitialBackoffWrongType) {
                   "retryPolicy" CHILD_ERROR_TAG
                   "field:initialBackoff error:type should be STRING of the "
                   "form given by google.proto.Duration"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyInitialBackoffBadValue) {
@@ -1081,7 +1053,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyInitialBackoffBadValue) {
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "retryPolicy" CHILD_ERROR_TAG
                   "field:initialBackoff error:must be greater than 0"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyMaxBackoffWrongType) {
@@ -1109,7 +1080,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyMaxBackoffWrongType) {
                   "retryPolicy" CHILD_ERROR_TAG
                   "field:maxBackoff error:type should be STRING of the form "
                   "given by google.proto.Duration"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyMaxBackoffBadValue) {
@@ -1136,7 +1106,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyMaxBackoffBadValue) {
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "retryPolicy" CHILD_ERROR_TAG
                   "field:maxBackoff error:must be greater than 0"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyBackoffMultiplierWrongType) {
@@ -1163,7 +1132,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyBackoffMultiplierWrongType) {
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "retryPolicy" CHILD_ERROR_TAG
                   "field:backoffMultiplier error:should be of type number"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyBackoffMultiplierBadValue) {
@@ -1190,7 +1158,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyBackoffMultiplierBadValue) {
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "retryPolicy" CHILD_ERROR_TAG
                   "field:backoffMultiplier error:must be greater than 0"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyEmptyRetryableStatusCodes) {
@@ -1217,7 +1184,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyEmptyRetryableStatusCodes) {
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "retryPolicy" CHILD_ERROR_TAG
                   "field:retryableStatusCodes error:must be non-empty"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyRetryableStatusCodesWrongType) {
@@ -1244,7 +1210,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyRetryableStatusCodesWrongType) {
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "retryPolicy" CHILD_ERROR_TAG
                   "field:retryableStatusCodes error:must be of type array"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyUnparseableRetryableStatusCodes) {
@@ -1273,7 +1238,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyUnparseableRetryableStatusCodes) {
                   "error:failed to parse status code"
                   ".*field:retryableStatusCodes "
                   "error:status codes should be of type string"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, ValidRetryPolicyWithPerAttemptRecvTimeout) {
@@ -1419,7 +1383,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyPerAttemptRecvTimeoutUnparseable) {
                   "retryPolicy" CHILD_ERROR_TAG
                   "field:perAttemptRecvTimeout error:type must be STRING "
                   "of the form given by google.proto.Duration."));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyPerAttemptRecvTimeoutWrongType) {
@@ -1452,7 +1415,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyPerAttemptRecvTimeoutWrongType) {
                   "retryPolicy" CHILD_ERROR_TAG
                   "field:perAttemptRecvTimeout error:type must be STRING "
                   "of the form given by google.proto.Duration."));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(RetryParserTest, InvalidRetryPolicyPerAttemptRecvTimeoutBadValue) {
@@ -1484,7 +1446,6 @@ TEST_F(RetryParserTest, InvalidRetryPolicyPerAttemptRecvTimeoutBadValue) {
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "retryPolicy" CHILD_ERROR_TAG
                   "field:perAttemptRecvTimeout error:must be greater than 0"));
-  GRPC_ERROR_UNREF(error);
 }
 
 //
@@ -1548,7 +1509,6 @@ TEST_F(MessageSizeParserTest, InvalidMaxRequestMessageBytes) {
                   "Method Params" CHILD_ERROR_TAG "methodConfig" CHILD_ERROR_TAG
                   "Message size parser" CHILD_ERROR_TAG
                   "field:maxRequestMessageBytes error:should be non-negative"));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST_F(MessageSizeParserTest, InvalidMaxResponseMessageBytes) {
@@ -1570,7 +1530,6 @@ TEST_F(MessageSizeParserTest, InvalidMaxResponseMessageBytes) {
                   "Message size parser" CHILD_ERROR_TAG
                   "field:maxResponseMessageBytes error:should be of type "
                   "number"));
-  GRPC_ERROR_UNREF(error);
 }
 
 }  // namespace testing

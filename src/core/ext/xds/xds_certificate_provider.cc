@@ -64,7 +64,6 @@ class RootCertificatesWatcher
       parent_->SetErrorForCert(cert_name_, root_cert_error /* pass the ref */,
                                absl::nullopt);
     }
-    GRPC_ERROR_UNREF(identity_cert_error);
   }
 
  private:
@@ -99,7 +98,6 @@ class IdentityCertificatesWatcher
       parent_->SetErrorForCert(cert_name_, absl::nullopt,
                                identity_cert_error /* pass the ref */);
     }
-    GRPC_ERROR_UNREF(root_cert_error);
   }
 
  private:

@@ -680,7 +680,6 @@ static grpc_error_handle parse_frame_slice(grpc_chttp2_transport* t,
                                                GRPC_HTTP2_PROTOCOL_ERROR,
                                                &s->stats.outgoing);
     } else {
-      GRPC_ERROR_UNREF(err);
     }
   }
   return err;

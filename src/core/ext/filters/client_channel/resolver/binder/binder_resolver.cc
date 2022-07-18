@@ -127,7 +127,6 @@ class BinderResolverFactory : public ResolverFactory {
       grpc_error_handle error = BinderAddrPopulate(uri.path(), &addr);
       if (!error.ok()) {
         gpr_log(GPR_ERROR, "%s", grpc_error_std_string(error).c_str());
-        GRPC_ERROR_UNREF(error);
         return false;
       }
     }

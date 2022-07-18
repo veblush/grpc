@@ -119,7 +119,6 @@ grpc_auth_refresh_token grpc_auth_refresh_token_create_from_string(
   if (!error.ok()) {
     gpr_log(GPR_ERROR, "JSON parsing failed: %s",
             grpc_error_std_string(error).c_str());
-    GRPC_ERROR_UNREF(error);
   }
   return grpc_auth_refresh_token_create_from_json(json);
 }
@@ -189,7 +188,6 @@ grpc_oauth2_token_fetcher_credentials_parse_server_response(
     if (!error.ok()) {
       gpr_log(GPR_ERROR, "Could not parse JSON from %s: %s",
               null_terminated_body, grpc_error_std_string(error).c_str());
-      GRPC_ERROR_UNREF(error);
       status = GRPC_CREDENTIALS_ERROR;
       goto end;
     }
@@ -279,7 +277,6 @@ void grpc_oauth2_token_fetcher_credentials::on_http_response(
       auto err = GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
           "Error occurred when fetching oauth2 token.", &error, 1);
       pending_request->result = grpc_error_to_absl_status(err);
-      GRPC_ERROR_UNREF(err);
     }
     pending_request->done.store(true, std::memory_order_release);
     pending_request->waker.Wakeup();
@@ -575,7 +572,6 @@ class StsTokenFetcherCredentials
     grpc_error_handle err = FillBody(&request.body, &request.body_length);
     if (!err.ok()) {
       response_cb(metadata_req, err);
-      GRPC_ERROR_UNREF(err);
       return;
     }
     grpc_http_header header = {
@@ -691,7 +687,6 @@ absl::StatusOr<URI> ValidateStsCredentialsOptions(
       "Invalid STS Credentials Options", &error_list);
   auto retval =
       absl::InvalidArgumentError(grpc_error_std_string(grpc_error_vec));
-  GRPC_ERROR_UNREF(grpc_error_vec);
   return retval;
 }
 

@@ -1047,7 +1047,6 @@ absl::StatusOr<XdsResourceType::DecodeResult> XdsListenerResourceType::Decode(
       LdsResourceParse(context, resource, is_v2, &listener_data->resource);
   if (!error.ok()) {
     std::string error_str = grpc_error_std_string(error);
-    GRPC_ERROR_UNREF(error);
     if (GRPC_TRACE_FLAG_ENABLED(*context.tracer)) {
       gpr_log(GPR_ERROR, "[xds_client %p] invalid Listener %s: %s",
               context.client, result.name.c_str(), error_str.c_str());

@@ -802,7 +802,6 @@ void XdsResolver::StartLocked() {
     result.service_config = std::move(status);
     result.args = args_;
     result_handler_->ReportResult(std::move(result));
-    GRPC_ERROR_UNREF(error);
     return;
   }
   std::string resource_name_fragment(absl::StripPrefix(uri_.path(), "/"));
@@ -1040,7 +1039,6 @@ XdsResolver::CreateServiceConfig() {
       ServiceConfigImpl::Create(args_, json.c_str(), &error);
   if (!error.ok()) {
     result = grpc_error_to_absl_status(error);
-    GRPC_ERROR_UNREF(error);
   }
   return result;
 }
@@ -1054,7 +1052,6 @@ void XdsResolver::GenerateResult() {
   if (!error.ok()) {
     OnError("could not create ConfigSelector",
             absl::UnavailableError(grpc_error_std_string(error)));
-    GRPC_ERROR_UNREF(error);
     return;
   }
   Result result;

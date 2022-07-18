@@ -528,14 +528,12 @@ class RequestMetadataState : public RefCounted<RequestMetadataState> {
       GPR_ASSERT(
           grpc_error_get_str(error, GRPC_ERROR_STR_DESCRIPTION, &actual_error));
       GPR_ASSERT(expected_error == actual_error);
-      GRPC_ERROR_UNREF(expected_error_);
     }
     md_.Remove(HttpAuthorityMetadata());
     md_.Remove(HttpPathMetadata());
     gpr_log(GPR_INFO, "expected metadata: %s", expected_.c_str());
     gpr_log(GPR_INFO, "actual metadata: %s", md_.DebugString().c_str());
     GPR_ASSERT(md_.DebugString() == expected_);
-    GRPC_ERROR_UNREF(error);
   }
 
  private:
@@ -2541,7 +2539,6 @@ TEST(CredentialsTest, TestExternalAccountCredsFailureInvalidTokenUrl) {
   auto state = RequestMetadataState::NewInstance(expected_error, {});
   state->RunRequestMetadataTest(&creds, kTestUrlScheme, kTestAuthority,
                                 kTestPath);
-  GRPC_ERROR_UNREF(error);
   ExecCtx::Get()->Flush();
   HttpRequest::SetOverride(nullptr, nullptr, nullptr);
 }
@@ -2576,7 +2573,6 @@ TEST(CredentialsTest,
   auto state = RequestMetadataState::NewInstance(expected_error, {});
   state->RunRequestMetadataTest(&creds, kTestUrlScheme, kTestAuthority,
                                 kTestPath);
-  GRPC_ERROR_UNREF(error);
   ExecCtx::Get()->Flush();
   HttpRequest::SetOverride(nullptr, nullptr, nullptr);
 }
@@ -2613,7 +2609,6 @@ TEST(CredentialsTest,
   auto state = RequestMetadataState::NewInstance(expected_error, {});
   state->RunRequestMetadataTest(&creds, kTestUrlScheme, kTestAuthority,
                                 kTestPath);
-  GRPC_ERROR_UNREF(error);
   ExecCtx::Get()->Flush();
   HttpRequest::SetOverride(nullptr, nullptr, nullptr);
 }
@@ -2751,7 +2746,6 @@ TEST(CredentialsTest,
   GPR_ASSERT(
       grpc_error_get_str(error, GRPC_ERROR_STR_DESCRIPTION, &actual_error));
   GPR_ASSERT(absl::StartsWith(actual_error, "Invalid credential source url."));
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(CredentialsTest, TestFileExternalAccountCredsSuccessFormatText) {
@@ -2790,7 +2784,6 @@ TEST(CredentialsTest, TestFileExternalAccountCredsSuccessFormatText) {
                                 kTestPath);
   ExecCtx::Get()->Flush();
   HttpRequest::SetOverride(nullptr, nullptr, nullptr);
-  GRPC_ERROR_UNREF(error);
   gpr_free(subject_token_path);
 }
 
@@ -2838,7 +2831,6 @@ TEST(CredentialsTest, TestFileExternalAccountCredsSuccessFormatJson) {
                                 kTestPath);
   ExecCtx::Get()->Flush();
   HttpRequest::SetOverride(nullptr, nullptr, nullptr);
-  GRPC_ERROR_UNREF(error);
   gpr_free(subject_token_path);
 }
 
@@ -2876,7 +2868,6 @@ TEST(CredentialsTest, TestFileExternalAccountCredsFailureFileNotFound) {
                                 kTestPath);
   ExecCtx::Get()->Flush();
   HttpRequest::SetOverride(nullptr, nullptr, nullptr);
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(CredentialsTest, TestFileExternalAccountCredsFailureInvalidJsonContent) {
@@ -2925,7 +2916,6 @@ TEST(CredentialsTest, TestFileExternalAccountCredsFailureInvalidJsonContent) {
                                 kTestPath);
   ExecCtx::Get()->Flush();
   HttpRequest::SetOverride(nullptr, nullptr, nullptr);
-  GRPC_ERROR_UNREF(error);
   gpr_free(subject_token_path);
 }
 
@@ -3312,7 +3302,6 @@ TEST(CredentialsTest,
   GPR_ASSERT(
       grpc_error_get_str(error, GRPC_ERROR_STR_DESCRIPTION, &actual_error));
   GPR_ASSERT(expected_error == actual_error);
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(CredentialsTest, TestAwsExternalAccountCredsFailureInvalidRegionUrl) {
@@ -3352,7 +3341,6 @@ TEST(CredentialsTest, TestAwsExternalAccountCredsFailureInvalidRegionUrl) {
                                 kTestPath);
   ExecCtx::Get()->Flush();
   HttpRequest::SetOverride(nullptr, nullptr, nullptr);
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(CredentialsTest, TestAwsExternalAccountCredsFailureInvalidUrl) {
@@ -3391,7 +3379,6 @@ TEST(CredentialsTest, TestAwsExternalAccountCredsFailureInvalidUrl) {
                                 kTestPath);
   ExecCtx::Get()->Flush();
   HttpRequest::SetOverride(nullptr, nullptr, nullptr);
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(CredentialsTest, TestAwsExternalAccountCredsFailureMissingRoleName) {
@@ -3431,7 +3418,6 @@ TEST(CredentialsTest, TestAwsExternalAccountCredsFailureMissingRoleName) {
                                 kTestPath);
   ExecCtx::Get()->Flush();
   HttpRequest::SetOverride(nullptr, nullptr, nullptr);
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(CredentialsTest,
@@ -3472,7 +3458,6 @@ TEST(CredentialsTest,
                                 kTestPath);
   ExecCtx::Get()->Flush();
   HttpRequest::SetOverride(nullptr, nullptr, nullptr);
-  GRPC_ERROR_UNREF(error);
 }
 
 TEST(CredentialsTest, TestExternalAccountCredentialsCreateSuccess) {

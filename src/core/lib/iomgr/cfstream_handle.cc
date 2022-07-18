@@ -86,7 +86,6 @@ void CFStreamHandle::ReadCallback(CFReadStreamRef stream,
       handle->open_event_.SetShutdown(error);
       handle->write_event_.SetShutdown(error);
       handle->read_event_.SetShutdown(error);
-      GRPC_ERROR_UNREF(error);
       break;
     default:
       GPR_UNREACHABLE_CODE(return );
@@ -121,7 +120,6 @@ void CFStreamHandle::WriteCallback(CFWriteStreamRef stream,
       handle->open_event_.SetShutdown(error);
       handle->write_event_.SetShutdown(error);
       handle->read_event_.SetShutdown(error);
-      GRPC_ERROR_UNREF(error);
       break;
     default:
       GPR_UNREACHABLE_CODE(return );
@@ -175,7 +173,6 @@ void CFStreamHandle::Shutdown(grpc_error_handle error) {
   open_event_.SetShutdown(error);
   read_event_.SetShutdown(error);
   write_event_.SetShutdown(error);
-  GRPC_ERROR_UNREF(error);
 }
 
 void CFStreamHandle::Ref(const char* file, int line, const char* reason) {
