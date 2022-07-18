@@ -204,7 +204,7 @@ void AwsExternalAccountCredentials::OnRetrieveImdsV2SessionToken(
     void* arg, grpc_error_handle error) {
   AwsExternalAccountCredentials* self =
       static_cast<AwsExternalAccountCredentials*>(arg);
-  self->OnRetrieveImdsV2SessionTokenInternal(GRPC_ERROR_REF(error));
+  self->OnRetrieveImdsV2SessionTokenInternal(error);
 }
 
 void AwsExternalAccountCredentials::OnRetrieveImdsV2SessionTokenInternal(
@@ -282,7 +282,7 @@ void AwsExternalAccountCredentials::OnRetrieveRegion(void* arg,
                                                      grpc_error_handle error) {
   AwsExternalAccountCredentials* self =
       static_cast<AwsExternalAccountCredentials*>(arg);
-  self->OnRetrieveRegionInternal(GRPC_ERROR_REF(error));
+  self->OnRetrieveRegionInternal(error);
 }
 
 void AwsExternalAccountCredentials::OnRetrieveRegionInternal(
@@ -336,7 +336,7 @@ void AwsExternalAccountCredentials::OnRetrieveRoleName(
     void* arg, grpc_error_handle error) {
   AwsExternalAccountCredentials* self =
       static_cast<AwsExternalAccountCredentials*>(arg);
-  self->OnRetrieveRoleNameInternal(GRPC_ERROR_REF(error));
+  self->OnRetrieveRoleNameInternal(error);
 }
 
 void AwsExternalAccountCredentials::OnRetrieveRoleNameInternal(
@@ -402,7 +402,7 @@ void AwsExternalAccountCredentials::OnRetrieveSigningKeys(
     void* arg, grpc_error_handle error) {
   AwsExternalAccountCredentials* self =
       static_cast<AwsExternalAccountCredentials*>(arg);
-  self->OnRetrieveSigningKeysInternal(GRPC_ERROR_REF(error));
+  self->OnRetrieveSigningKeysInternal(error);
 }
 
 void AwsExternalAccountCredentials::OnRetrieveSigningKeysInternal(

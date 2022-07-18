@@ -82,7 +82,7 @@ void CallCombiner::TsanClosure(void* arg, grpc_error_handle error) {
   } else {
     lock.reset();
   }
-  Closure::Run(DEBUG_LOCATION, self->original_closure_, GRPC_ERROR_REF(error));
+  Closure::Run(DEBUG_LOCATION, self->original_closure_, error);
   if (lock != nullptr) {
     TSAN_ANNOTATE_RWLOCK_RELEASED(&lock->taken, true);
     bool prev = true;
@@ -206,7 +206,7 @@ void CallCombiner::SetNotifyOnCancel(grpc_closure* closure) {
                 "for pre-existing cancellation",
                 this, closure);
       }
-      ExecCtx::Run(DEBUG_LOCATION, closure, GRPC_ERROR_REF(original_error));
+      ExecCtx::Run(DEBUG_LOCATION, closure, original_error);
       break;
     } else {
       if (gpr_atm_full_cas(&cancel_state_, original_state,
@@ -254,7 +254,7 @@ void CallCombiner::Cancel(grpc_error_handle error) {
                   "call_combiner=%p: scheduling notify_on_cancel callback=%p",
                   this, notify_on_cancel);
         }
-        ExecCtx::Run(DEBUG_LOCATION, notify_on_cancel, GRPC_ERROR_REF(error));
+        ExecCtx::Run(DEBUG_LOCATION, notify_on_cancel, error);
       }
       break;
     }

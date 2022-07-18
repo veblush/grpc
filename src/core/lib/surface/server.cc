@@ -222,7 +222,7 @@ class Server::RealRequestMatcher : public RequestMatcherInterface {
       RequestedCall* rc;
       while ((rc = reinterpret_cast<RequestedCall*>(
                   requests_per_cq_[i].Pop())) != nullptr) {
-        server_->FailCall(i, rc, GRPC_ERROR_REF(error));
+        server_->FailCall(i, rc, error);
       }
     }
     GRPC_ERROR_UNREF(error);
@@ -454,8 +454,7 @@ class ChannelBroadcaster {
   // Broadcasts a shutdown on each channel.
   void BroadcastShutdown(bool send_goaway, grpc_error_handle force_disconnect) {
     for (const RefCountedPtr<Channel>& channel : channels_) {
-      SendShutdown(channel->c_ptr(), send_goaway,
-                   GRPC_ERROR_REF(force_disconnect));
+      SendShutdown(channel->c_ptr(), send_goaway, force_disconnect);
     }
     channels_.clear();  // just for safety against double broadcast
     GRPC_ERROR_UNREF(force_disconnect);
@@ -746,10 +745,10 @@ void Server::MaybeFinishShutdown() {
 
 void Server::KillPendingWorkLocked(grpc_error_handle error) {
   if (started_) {
-    unregistered_request_matcher_->KillRequests(GRPC_ERROR_REF(error));
+    unregistered_request_matcher_->KillRequests(error);
     unregistered_request_matcher_->ZombifyPending();
     for (std::unique_ptr<RegisteredMethod>& rm : registered_methods_) {
-      rm->matcher->KillRequests(GRPC_ERROR_REF(error));
+      rm->matcher->KillRequests(error);
       rm->matcher->ZombifyPending();
     }
   }
@@ -1377,8 +1376,6 @@ void Server::CallData::RecvInitialMetadataReady(void* arg,
     auto* host =
         calld->recv_initial_metadata_->get_pointer(HttpAuthorityMetadata());
     if (host != nullptr) calld->host_.emplace(host->Ref());
-  } else {
-    (void)GRPC_ERROR_REF(error);
   }
   auto op_deadline = calld->recv_initial_metadata_->get(GrpcTimeoutMetadata());
   if (op_deadline.has_value()) {
@@ -1392,7 +1389,7 @@ void Server::CallData::RecvInitialMetadataReady(void* arg,
     error = GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
         "Missing :authority or :path", &src_error, 1);
     GRPC_ERROR_UNREF(src_error);
-    calld->recv_initial_metadata_error_ = GRPC_ERROR_REF(error);
+    calld->recv_initial_metadata_error_ = error;
   }
   grpc_closure* closure = calld->original_recv_initial_metadata_ready_;
   calld->original_recv_initial_metadata_ready_ = nullptr;
@@ -1410,7 +1407,7 @@ void Server::CallData::RecvTrailingMetadataReady(void* arg,
   grpc_call_element* elem = static_cast<grpc_call_element*>(arg);
   CallData* calld = static_cast<CallData*>(elem->call_data);
   if (calld->original_recv_initial_metadata_ready_ != nullptr) {
-    calld->recv_trailing_metadata_error_ = GRPC_ERROR_REF(error);
+    calld->recv_trailing_metadata_error_ = error;
     calld->seen_recv_trailing_metadata_ready_ = true;
     GRPC_CLOSURE_INIT(&calld->recv_trailing_metadata_ready_,
                       RecvTrailingMetadataReady, elem,
@@ -1420,9 +1417,7 @@ void Server::CallData::RecvTrailingMetadataReady(void* arg,
                             "until after recv_initial_metadata_ready");
     return;
   }
-  error =
-      grpc_error_add_child(GRPC_ERROR_REF(error),
-                           GRPC_ERROR_REF(calld->recv_initial_metadata_error_));
+  error = grpc_error_add_child(error, calld->recv_initial_metadata_error_);
   Closure::Run(DEBUG_LOCATION, calld->original_recv_trailing_metadata_ready_,
                error);
 }

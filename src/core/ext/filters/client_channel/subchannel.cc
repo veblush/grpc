@@ -274,8 +274,7 @@ void SubchannelCall::RecvTrailingMetadataReady(void* arg,
   SubchannelCall* call = static_cast<SubchannelCall*>(arg);
   GPR_ASSERT(call->recv_trailing_metadata_ != nullptr);
   grpc_status_code status = GRPC_STATUS_OK;
-  GetCallStatus(&status, call->deadline_, call->recv_trailing_metadata_,
-                GRPC_ERROR_REF(error));
+  GetCallStatus(&status, call->deadline_, call->recv_trailing_metadata_, error);
   channelz::SubchannelNode* channelz_subchannel =
       call->connected_subchannel_->channelz_subchannel();
   GPR_ASSERT(channelz_subchannel != nullptr);
@@ -284,8 +283,7 @@ void SubchannelCall::RecvTrailingMetadataReady(void* arg,
   } else {
     channelz_subchannel->RecordCallFailed();
   }
-  Closure::Run(DEBUG_LOCATION, call->original_recv_trailing_metadata_,
-               GRPC_ERROR_REF(error));
+  Closure::Run(DEBUG_LOCATION, call->original_recv_trailing_metadata_, error);
 }
 
 void SubchannelCall::IncrementRefCount() {
@@ -884,7 +882,7 @@ void Subchannel::OnConnectingFinished(void* arg, grpc_error_handle error) {
   WeakRefCountedPtr<Subchannel> c(static_cast<Subchannel*>(arg));
   {
     MutexLock lock(&c->mu_);
-    c->OnConnectingFinishedLocked(GRPC_ERROR_REF(error));
+    c->OnConnectingFinishedLocked(error);
   }
   c.reset(DEBUG_LOCATION, "Connect");
 }

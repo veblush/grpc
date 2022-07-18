@@ -140,7 +140,7 @@ void CallData::OnRecvInitialMetadataReady(void* arg, grpc_error_handle error) {
   calld->MaybeResumeOnRecvTrailingMetadataReady();
   grpc_closure* closure = calld->original_recv_initial_metadata_ready_;
   calld->original_recv_initial_metadata_ready_ = nullptr;
-  Closure::Run(DEBUG_LOCATION, closure, GRPC_ERROR_REF(error));
+  Closure::Run(DEBUG_LOCATION, closure, error);
 }
 
 void CallData::MaybeResumeOnRecvMessageReady() {
@@ -180,8 +180,7 @@ void CallData::OnRecvMessageReady(void* arg, grpc_error_handle error) {
                                 (*calld->recv_message_)->Length(),
                                 calld->max_recv_message_length_)),
             GRPC_ERROR_INT_GRPC_STATUS, GRPC_STATUS_RESOURCE_EXHAUSTED);
-        return calld->ContinueRecvMessageReadyCallback(
-            GRPC_ERROR_REF(calld->error_));
+        return calld->ContinueRecvMessageReadyCallback(calld->error_);
       }
       SliceBuffer decompressed_slices;
       if (grpc_msg_decompress(calld->algorithm_,
@@ -198,11 +197,10 @@ void CallData::OnRecvMessageReady(void* arg, grpc_error_handle error) {
             GRPC_WRITE_INTERNAL_TEST_ONLY_WAS_COMPRESSED;
         (*calld->recv_message_)->Swap(&decompressed_slices);
       }
-      return calld->ContinueRecvMessageReadyCallback(
-          GRPC_ERROR_REF(calld->error_));
+      return calld->ContinueRecvMessageReadyCallback(calld->error_);
     }
   }
-  calld->ContinueRecvMessageReadyCallback(GRPC_ERROR_REF(error));
+  calld->ContinueRecvMessageReadyCallback(error);
 }
 
 void CallData::ContinueRecvMessageReadyCallback(grpc_error_handle error) {
@@ -228,14 +226,14 @@ void CallData::OnRecvTrailingMetadataReady(void* arg, grpc_error_handle error) {
   if (calld->original_recv_initial_metadata_ready_ != nullptr ||
       calld->original_recv_message_ready_ != nullptr) {
     calld->seen_recv_trailing_metadata_ready_ = true;
-    calld->on_recv_trailing_metadata_ready_error_ = GRPC_ERROR_REF(error);
+    calld->on_recv_trailing_metadata_ready_error_ = error;
     GRPC_CALL_COMBINER_STOP(
         calld->call_combiner_,
         "Deferring OnRecvTrailingMetadataReady until after "
         "OnRecvInitialMetadataReady and OnRecvMessageReady");
     return;
   }
-  error = grpc_error_add_child(GRPC_ERROR_REF(error), calld->error_);
+  error = grpc_error_add_child(error, calld->error_);
   calld->error_ = GRPC_ERROR_NONE;
   grpc_closure* closure = calld->original_recv_trailing_metadata_ready_;
   calld->original_recv_trailing_metadata_ready_ = nullptr;

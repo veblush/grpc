@@ -174,8 +174,7 @@ class FakeCertificateProvider final : public grpc_tls_certificate_provider {
         grpc_error_handle error =
             GRPC_ERROR_CREATE_FROM_CPP_STRING(absl::StrCat(
                 "No certificates available for cert_name \"", cert_name, "\""));
-        distributor_->SetErrorForCert(cert_name, GRPC_ERROR_REF(error),
-                                      GRPC_ERROR_REF(error));
+        distributor_->SetErrorForCert(cert_name, error, error);
         GRPC_ERROR_UNREF(error);
       } else {
         absl::optional<std::string> root_certificate;

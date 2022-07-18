@@ -133,7 +133,7 @@ void Chttp2Connector::Shutdown(grpc_error_handle error) {
   shutdown_ = true;
   if (handshake_mgr_ != nullptr) {
     // Handshaker will also shutdown the endpoint if it exists
-    handshake_mgr_->Shutdown(GRPC_ERROR_REF(error));
+    handshake_mgr_->Shutdown(error);
   }
   GRPC_ERROR_UNREF(error);
 }
@@ -153,13 +153,11 @@ void Chttp2Connector::OnHandshakeDone(void* arg, grpc_error_handle error) {
           // before destroying them, even if we know that there are no
           // pending read/write callbacks.  This should be fixed, at which
           // point this can be removed.
-          grpc_endpoint_shutdown(args->endpoint, GRPC_ERROR_REF(error));
+          grpc_endpoint_shutdown(args->endpoint, error);
           grpc_endpoint_destroy(args->endpoint);
           grpc_slice_buffer_destroy_internal(args->read_buffer);
           gpr_free(args->read_buffer);
         }
-      } else {
-        error = GRPC_ERROR_REF(error);
       }
       self->result_->Reset();
       NullThenSchedClosure(DEBUG_LOCATION, &self->notify_, error);
@@ -207,7 +205,7 @@ void Chttp2Connector::OnReceiveSettings(void* arg, grpc_error_handle error) {
         grpc_transport_destroy(self->result_->transport);
         self->result_->Reset();
       }
-      self->MaybeNotify(GRPC_ERROR_REF(error));
+      self->MaybeNotify(error);
       grpc_timer_cancel(&self->timer_);
     } else {
       // OnTimeout() was already invoked. Call Notify() again so that notify_

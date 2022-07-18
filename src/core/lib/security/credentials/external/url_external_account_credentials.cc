@@ -189,7 +189,7 @@ void UrlExternalAccountCredentials::OnRetrieveSubjectToken(
     void* arg, grpc_error_handle error) {
   UrlExternalAccountCredentials* self =
       static_cast<UrlExternalAccountCredentials*>(arg);
-  self->OnRetrieveSubjectTokenInternal(GRPC_ERROR_REF(error));
+  self->OnRetrieveSubjectTokenInternal(error);
 }
 
 void UrlExternalAccountCredentials::OnRetrieveSubjectTokenInternal(

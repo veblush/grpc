@@ -383,7 +383,7 @@ static int fd_wrapped_fd(grpc_fd* fd) { return fd->fd; }
  * shutdown() syscall on that fd) */
 static void fd_shutdown_internal(grpc_fd* fd, grpc_error_handle why,
                                  bool releasing_fd) {
-  if (fd->read_closure->SetShutdown(GRPC_ERROR_REF(why))) {
+  if (fd->read_closure->SetShutdown(why)) {
     if (!releasing_fd) {
       shutdown(fd->fd, SHUT_RDWR);
     } else {
@@ -394,8 +394,8 @@ static void fd_shutdown_internal(grpc_fd* fd, grpc_error_handle why,
         gpr_log(GPR_ERROR, "epoll_ctl failed: %s", strerror(errno));
       }
     }
-    fd->write_closure->SetShutdown(GRPC_ERROR_REF(why));
-    fd->error_closure->SetShutdown(GRPC_ERROR_REF(why));
+    fd->write_closure->SetShutdown(why);
+    fd->error_closure->SetShutdown(why);
   }
   GRPC_ERROR_UNREF(why);
 }
@@ -423,7 +423,7 @@ static void fd_orphan(grpc_fd* fd, grpc_closure* on_done, int* release_fd,
     close(fd->fd);
   }
 
-  grpc_core::ExecCtx::Run(DEBUG_LOCATION, on_done, GRPC_ERROR_REF(error));
+  grpc_core::ExecCtx::Run(DEBUG_LOCATION, on_done, error);
 
   grpc_iomgr_unregister_object(&fd->iomgr_object);
   fork_fd_list_remove_grpc_fd(fd);

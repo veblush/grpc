@@ -153,19 +153,18 @@ static void cancel_stream_locked(grpc_binder_transport* gbt,
   if (!gbs->is_closed) {
     GPR_ASSERT(gbs->cancel_self_error.ok());
     gbs->is_closed = true;
-    gbs->cancel_self_error = GRPC_ERROR_REF(error);
+    gbs->cancel_self_error = error;
     gbt->transport_stream_receiver->CancelStream(gbs->tx_code);
     gbt->registered_stream.erase(gbs->tx_code);
     if (gbs->recv_initial_metadata_ready != nullptr) {
       grpc_core::ExecCtx::Run(DEBUG_LOCATION, gbs->recv_initial_metadata_ready,
-                              GRPC_ERROR_REF(error));
+                              error);
       gbs->recv_initial_metadata_ready = nullptr;
       gbs->recv_initial_metadata = nullptr;
       gbs->trailing_metadata_available = nullptr;
     }
     if (gbs->recv_message_ready != nullptr) {
-      grpc_core::ExecCtx::Run(DEBUG_LOCATION, gbs->recv_message_ready,
-                              GRPC_ERROR_REF(error));
+      grpc_core::ExecCtx::Run(DEBUG_LOCATION, gbs->recv_message_ready, error);
       gbs->recv_message_ready = nullptr;
       gbs->recv_message->reset();
       gbs->recv_message = nullptr;
@@ -173,8 +172,7 @@ static void cancel_stream_locked(grpc_binder_transport* gbt,
     }
     if (gbs->recv_trailing_metadata_finished != nullptr) {
       grpc_core::ExecCtx::Run(DEBUG_LOCATION,
-                              gbs->recv_trailing_metadata_finished,
-                              GRPC_ERROR_REF(error));
+                              gbs->recv_trailing_metadata_finished, error);
       gbs->recv_trailing_metadata_finished = nullptr;
       gbs->recv_trailing_metadata = nullptr;
     }
@@ -413,22 +411,22 @@ static void perform_stream_op_locked(void* stream_op,
       grpc_core::ExecCtx::Run(
           DEBUG_LOCATION,
           op->payload->recv_initial_metadata.recv_initial_metadata_ready,
-          GRPC_ERROR_REF(gbs->cancel_self_error));
+          gbs->cancel_self_error);
     }
     if (op->recv_message) {
       grpc_core::ExecCtx::Run(DEBUG_LOCATION,
                               op->payload->recv_message.recv_message_ready,
-                              GRPC_ERROR_REF(gbs->cancel_self_error));
+                              gbs->cancel_self_error);
     }
     if (op->recv_trailing_metadata) {
       grpc_core::ExecCtx::Run(
           DEBUG_LOCATION,
           op->payload->recv_trailing_metadata.recv_trailing_metadata_ready,
-          GRPC_ERROR_REF(gbs->cancel_self_error));
+          gbs->cancel_self_error);
     }
     if (op->on_complete != nullptr) {
       grpc_core::ExecCtx::Run(DEBUG_LOCATION, op->on_complete,
-                              GRPC_ERROR_REF(gbs->cancel_self_error));
+                              gbs->cancel_self_error);
     }
     GRPC_BINDER_STREAM_UNREF(gbs, "perform_stream_op");
     return;

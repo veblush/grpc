@@ -78,7 +78,7 @@ void HandshakeManager::Shutdown(grpc_error_handle why) {
     // Shutdown the handshaker that's currently in progress, if any.
     if (!is_shutdown_ && index_ > 0) {
       is_shutdown_ = true;
-      handshakers_[index_ - 1]->Shutdown(GRPC_ERROR_REF(why));
+      handshakers_[index_ - 1]->Shutdown(why);
     }
   }
   GRPC_ERROR_UNREF(why);
@@ -111,7 +111,7 @@ bool HandshakeManager::CallNextHandshakerLocked(grpc_error_handle error) {
         // before destroying then, even when we know that there are no
         // pending read/write callbacks.  This should be fixed, at which
         // point this can be removed.
-        grpc_endpoint_shutdown(args_.endpoint, GRPC_ERROR_REF(error));
+        grpc_endpoint_shutdown(args_.endpoint, error);
         grpc_endpoint_destroy(args_.endpoint);
         args_.endpoint = nullptr;
         args_.args = ChannelArgs();
@@ -151,7 +151,7 @@ void HandshakeManager::CallNextHandshakerFn(void* arg,
   bool done;
   {
     MutexLock lock(&mgr->mu_);
-    done = mgr->CallNextHandshakerLocked(GRPC_ERROR_REF(error));
+    done = mgr->CallNextHandshakerLocked(error);
   }
   // If we're invoked the final callback, we won't be coming back
   // to this function, so we can release our reference to the

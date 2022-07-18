@@ -268,11 +268,8 @@ void FileWatcherCertificateProvider::ForceUpdate() {
           info.identity_being_watched && pem_key_cert_pairs_.empty();
       if (report_root_error || report_identity_error) {
         distributor_->SetErrorForCert(
-            cert_name,
-            report_root_error ? GRPC_ERROR_REF(root_cert_error)
-                              : GRPC_ERROR_NONE,
-            report_identity_error ? GRPC_ERROR_REF(identity_cert_error)
-                                  : GRPC_ERROR_NONE);
+            cert_name, report_root_error ? root_cert_error : GRPC_ERROR_NONE,
+            report_identity_error ? identity_cert_error : GRPC_ERROR_NONE);
       }
     }
     GRPC_ERROR_UNREF(root_cert_error);

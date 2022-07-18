@@ -235,7 +235,7 @@ static void do_connect(void* arg, grpc_error_handle error) {
   future_connect* fc = static_cast<future_connect*>(arg);
   if (!error.ok()) {
     *fc->ep = nullptr;
-    grpc_core::ExecCtx::Run(DEBUG_LOCATION, fc->closure, GRPC_ERROR_REF(error));
+    grpc_core::ExecCtx::Run(DEBUG_LOCATION, fc->closure, error);
   } else if (g_server != nullptr) {
     grpc_endpoint* client;
     grpc_endpoint* server;

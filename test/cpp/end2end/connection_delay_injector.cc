@@ -196,7 +196,7 @@ void ConnectionHoldInjector::Hold::OnComplete(void* arg,
     self->original_on_complete_ = nullptr;
     self->complete_cv_.Signal();
   }
-  grpc_core::Closure::Run(DEBUG_LOCATION, on_complete, GRPC_ERROR_REF(error));
+  grpc_core::Closure::Run(DEBUG_LOCATION, on_complete, error);
 }
 
 //

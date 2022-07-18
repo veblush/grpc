@@ -551,8 +551,7 @@ static size_t pop_timers(timer_shard* shard, grpc_core::Timestamp now,
   gpr_mu_lock(&shard->mu);
   while ((timer = pop_one(shard, now))) {
     REMOVE_FROM_HASH_TABLE(timer);
-    grpc_core::ExecCtx::Run(DEBUG_LOCATION, timer->closure,
-                            GRPC_ERROR_REF(error));
+    grpc_core::ExecCtx::Run(DEBUG_LOCATION, timer->closure, error);
     n++;
   }
   *new_min_deadline = compute_min_deadline(shard);

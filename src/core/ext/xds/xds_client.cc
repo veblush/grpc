@@ -886,8 +886,7 @@ void XdsClient::ChannelState::AdsCallState::SendMessageLocked(
       chand()->server_,
       chand()->server_.ShouldUseV3() ? type->type_url() : type->v2_type_url(),
       chand()->resource_type_version_map_[type], state.nonce,
-      ResourceNamesForRequest(type), GRPC_ERROR_REF(state.error),
-      !sent_initial_message_);
+      ResourceNamesForRequest(type), state.error, !sent_initial_message_);
   sent_initial_message_ = true;
   if (GRPC_TRACE_FLAG_ENABLED(grpc_xds_client_trace)) {
     gpr_log(GPR_INFO,

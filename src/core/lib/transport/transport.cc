@@ -168,20 +168,19 @@ void grpc_transport_stream_op_batch_queue_finish_with_failure(
   if (batch->recv_initial_metadata) {
     closures->Add(
         batch->payload->recv_initial_metadata.recv_initial_metadata_ready,
-        GRPC_ERROR_REF(error), "failing recv_initial_metadata_ready");
+        error, "failing recv_initial_metadata_ready");
   }
   if (batch->recv_message) {
-    closures->Add(batch->payload->recv_message.recv_message_ready,
-                  GRPC_ERROR_REF(error), "failing recv_message_ready");
+    closures->Add(batch->payload->recv_message.recv_message_ready, error,
+                  "failing recv_message_ready");
   }
   if (batch->recv_trailing_metadata) {
     closures->Add(
         batch->payload->recv_trailing_metadata.recv_trailing_metadata_ready,
-        GRPC_ERROR_REF(error), "failing recv_trailing_metadata_ready");
+        error, "failing recv_trailing_metadata_ready");
   }
   if (batch->on_complete != nullptr) {
-    closures->Add(batch->on_complete, GRPC_ERROR_REF(error),
-                  "failing on_complete");
+    closures->Add(batch->on_complete, error, "failing on_complete");
   }
   GRPC_ERROR_UNREF(error);
 }
@@ -197,8 +196,7 @@ struct made_transport_op {
 
 static void destroy_made_transport_op(void* arg, grpc_error_handle error) {
   made_transport_op* op = static_cast<made_transport_op*>(arg);
-  grpc_core::ExecCtx::Run(DEBUG_LOCATION, op->inner_on_complete,
-                          GRPC_ERROR_REF(error));
+  grpc_core::ExecCtx::Run(DEBUG_LOCATION, op->inner_on_complete, error);
   delete op;
 }
 
@@ -223,7 +221,7 @@ static void destroy_made_transport_stream_op(void* arg,
   grpc_closure* c = op->inner_on_complete;
   delete op;
   if (c != nullptr) {
-    grpc_core::Closure::Run(DEBUG_LOCATION, c, GRPC_ERROR_REF(error));
+    grpc_core::Closure::Run(DEBUG_LOCATION, c, error);
   }
 }
 

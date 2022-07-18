@@ -167,12 +167,9 @@ void TCPConnectHandshaker::Connected(void* arg, grpc_error_handle error) {
     if (!error.ok() || self->shutdown_) {
       if (error.ok()) {
         error = GRPC_ERROR_CREATE_FROM_STATIC_STRING("tcp handshaker shutdown");
-      } else {
-        error = GRPC_ERROR_REF(error);
       }
       if (self->endpoint_to_destroy_ != nullptr) {
-        grpc_endpoint_shutdown(self->endpoint_to_destroy_,
-                               GRPC_ERROR_REF(error));
+        grpc_endpoint_shutdown(self->endpoint_to_destroy_, error);
       }
       if (!self->shutdown_) {
         self->CleanupArgsForFailureLocked();

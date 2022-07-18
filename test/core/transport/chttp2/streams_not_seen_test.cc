@@ -126,7 +126,7 @@ class TrailingMetadataRecordingFilter {
       TrailingMetadataRecordingFilter::trailing_metadata_available_ =
           *calld->trailing_metadata_available_;
       Closure::Run(DEBUG_LOCATION, calld->original_recv_initial_metadata_ready_,
-                   GRPC_ERROR_REF(error));
+                   error);
     }
 
     static void RecvTrailingMetadataReady(void* arg, grpc_error_handle error) {
@@ -134,8 +134,7 @@ class TrailingMetadataRecordingFilter {
       stream_network_state_ =
           calld->recv_trailing_metadata_->get(GrpcStreamNetworkState());
       Closure::Run(DEBUG_LOCATION,
-                   calld->original_recv_trailing_metadata_ready_,
-                   GRPC_ERROR_REF(error));
+                   calld->original_recv_trailing_metadata_ready_, error);
     }
 
     bool* trailing_metadata_available_ = nullptr;

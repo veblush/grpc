@@ -272,7 +272,7 @@ void HttpRequest::OnReadInternal(grpc_error_handle error) {
   } else if (error.ok()) {
     DoRead();
   } else if (!have_read_byte_) {
-    NextAddress(GRPC_ERROR_REF(error));
+    NextAddress(error);
   } else {
     Finish(grpc_http_parser_eof(&parser_));
   }
@@ -285,7 +285,7 @@ void HttpRequest::ContinueDoneWriteAfterScheduleOnExecCtx(
   if (error.ok() && !req->cancelled_) {
     req->OnWritten();
   } else {
-    req->NextAddress(GRPC_ERROR_REF(error));
+    req->NextAddress(error);
   }
 }
 
@@ -309,7 +309,7 @@ void HttpRequest::OnHandshakeDone(void* arg, grpc_error_handle error) {
   req->own_endpoint_ = true;
   if (!error.ok()) {
     req->handshake_mgr_.reset();
-    req->NextAddress(GRPC_ERROR_REF(error));
+    req->NextAddress(error);
     return;
   }
   // Handshake completed, so we own fields in args

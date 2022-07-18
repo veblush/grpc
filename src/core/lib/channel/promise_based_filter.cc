@@ -354,7 +354,7 @@ class ClientCallData::PollContext {
                                          message->as_string_view());
             }
             GRPC_ERROR_UNREF(self_->cancelled_error_);
-            self_->cancelled_error_ = GRPC_ERROR_REF(error);
+            self_->cancelled_error_ = error;
             if (self_->recv_initial_metadata_ != nullptr) {
               switch (self_->recv_initial_metadata_->state) {
                 case RecvInitialMetadata::kInitial:
@@ -379,7 +379,7 @@ class ClientCallData::PollContext {
                       absl::exchange(
                           self_->recv_initial_metadata_->original_on_ready,
                           nullptr),
-                      GRPC_ERROR_REF(error),
+                      error,
                       "wake_inside_combiner:recv_initial_metadata_ready");
               }
             }
@@ -390,7 +390,7 @@ class ClientCallData::PollContext {
               GPR_ASSERT(
                   self_->recv_trailing_state_ == RecvTrailingState::kInitial ||
                   self_->recv_trailing_state_ == RecvTrailingState::kForwarded);
-              self_->call_combiner()->Cancel(GRPC_ERROR_REF(error));
+              self_->call_combiner()->Cancel(error);
               CapturedBatch b(grpc_make_transport_stream_op(GRPC_CLOSURE_CREATE(
                   [](void* p, grpc_error_handle) {
                     GRPC_CALL_COMBINER_STOP(static_cast<CallCombiner*>(p),
@@ -561,7 +561,7 @@ void ClientCallData::StartBatch(grpc_transport_stream_op_batch* b) {
     // If we're already cancelled, just terminate the batch.
     if (send_initial_state_ == SendInitialState::kCancelled ||
         recv_trailing_state_ == RecvTrailingState::kCancelled) {
-      batch.CancelWith(GRPC_ERROR_REF(cancelled_error_), &flusher);
+      batch.CancelWith(cancelled_error_, &flusher);
     } else {
       // Otherwise, we should not have seen a send_initial_metadata op yet.
       GPR_ASSERT(send_initial_state_ == SendInitialState::kInitial);
@@ -581,14 +581,14 @@ void ClientCallData::StartBatch(grpc_transport_stream_op_batch* b) {
     // recv_trailing_metadata *without* send_initial_metadata: hook it so we
     // can respond to it, and push it down.
     if (recv_trailing_state_ == RecvTrailingState::kCancelled) {
-      batch.CancelWith(GRPC_ERROR_REF(cancelled_error_), &flusher);
+      batch.CancelWith(cancelled_error_, &flusher);
     } else {
       GPR_ASSERT(recv_trailing_state_ == RecvTrailingState::kInitial);
       recv_trailing_state_ = RecvTrailingState::kForwarded;
       HookRecvTrailingMetadata(batch);
     }
   } else if (!cancelled_error_.ok()) {
-    batch.CancelWith(GRPC_ERROR_REF(cancelled_error_), &flusher);
+    batch.CancelWith(cancelled_error_, &flusher);
   }
 
   if (batch.is_captured()) {
@@ -604,7 +604,7 @@ void ClientCallData::StartBatch(grpc_transport_stream_op_batch* b) {
 void ClientCallData::Cancel(grpc_error_handle error) {
   // Track the latest reason for cancellation.
   GRPC_ERROR_UNREF(cancelled_error_);
-  cancelled_error_ = GRPC_ERROR_REF(error);
+  cancelled_error_ = error;
   // Stop running the promise.
   promise_ = ArenaPromise<ServerMetadataHandle>();
   // If we have an op queued, fail that op.
@@ -622,7 +622,7 @@ void ClientCallData::Cancel(grpc_error_handle error) {
       auto* f = static_cast<FailBatch*>(p);
       {
         Flusher flusher(f->call);
-        f->batch.CancelWith(GRPC_ERROR_REF(error), &flusher);
+        f->batch.CancelWith(error, &flusher);
         GRPC_CALL_STACK_UNREF(f->call->call_stack(), "cancel pending batch");
       }
       delete f;
@@ -632,8 +632,7 @@ void ClientCallData::Cancel(grpc_error_handle error) {
     b->batch = std::move(send_initial_metadata_batch_);
     b->call = this;
     GRPC_CALL_STACK_REF(call_stack(), "cancel pending batch");
-    GRPC_CALL_COMBINER_START(call_combiner(), b,
-                             GRPC_ERROR_REF(cancelled_error_),
+    GRPC_CALL_COMBINER_START(call_combiner(), b, cancelled_error_,
                              "cancel pending batch");
   } else {
     send_initial_state_ = SendInitialState::kCancelled;
@@ -647,7 +646,7 @@ void ClientCallData::Cancel(grpc_error_handle error) {
         GRPC_CALL_COMBINER_START(
             call_combiner(),
             absl::exchange(recv_initial_metadata_->original_on_ready, nullptr),
-            GRPC_ERROR_REF(error), "propagate cancellation");
+            error, "propagate cancellation");
         break;
       case RecvInitialMetadata::kInitial:
       case RecvInitialMetadata::kGotLatch:
@@ -702,13 +701,13 @@ void ClientCallData::RecvInitialMetadataReady(grpc_error_handle error) {
     recv_initial_metadata_->state = RecvInitialMetadata::kResponded;
     flusher.AddClosure(
         absl::exchange(recv_initial_metadata_->original_on_ready, nullptr),
-        GRPC_ERROR_REF(error), "propagate cancellation");
+        error, "propagate cancellation");
   } else if (send_initial_state_ == SendInitialState::kCancelled ||
              recv_trailing_state_ == RecvTrailingState::kResponded) {
     recv_initial_metadata_->state = RecvInitialMetadata::kResponded;
     flusher.AddClosure(
         absl::exchange(recv_initial_metadata_->original_on_ready, nullptr),
-        GRPC_ERROR_REF(cancelled_error_), "propagate cancellation");
+        cancelled_error_, "propagate cancellation");
   }
   WakeInsideCombiner(&flusher);
 }
@@ -828,8 +827,7 @@ void ClientCallData::RecvTrailingMetadataReady(grpc_error_handle error) {
   if (recv_trailing_state_ == RecvTrailingState::kCancelled) {
     if (grpc_closure* call_closure =
             absl::exchange(original_recv_trailing_metadata_ready_, nullptr)) {
-      flusher.AddClosure(call_closure, GRPC_ERROR_REF(error),
-                         "propagate failure");
+      flusher.AddClosure(call_closure, error, "propagate failure");
     }
     return;
   }
@@ -976,8 +974,7 @@ void ServerCallData::StartBatch(grpc_transport_stream_op_batch* b) {
                !batch->send_trailing_metadata && !batch->send_message &&
                !batch->recv_initial_metadata && !batch->recv_message &&
                !batch->recv_trailing_metadata);
-    Cancel(GRPC_ERROR_REF(batch->payload->cancel_stream.cancel_error),
-           &flusher);
+    Cancel(batch->payload->cancel_stream.cancel_error, &flusher);
     if (is_last()) {
       GRPC_ERROR_UNREF(batch->payload->cancel_stream.cancel_error);
       batch.CompleteWith(&flusher);
@@ -1016,7 +1013,7 @@ void ServerCallData::StartBatch(grpc_transport_stream_op_batch* b) {
         send_initial_metadata_->state = SendInitialMetadata::kQueuedAndGotLatch;
         break;
       case SendInitialMetadata::kCancelled:
-        batch.CancelWith(GRPC_ERROR_REF(cancelled_error_), &flusher);
+        batch.CancelWith(cancelled_error_, &flusher);
         break;
       case SendInitialMetadata::kQueuedAndGotLatch:
       case SendInitialMetadata::kQueuedWaitingForLatch:
@@ -1041,7 +1038,7 @@ void ServerCallData::StartBatch(grpc_transport_stream_op_batch* b) {
         abort();  // unreachable
         break;
       case SendTrailingState::kCancelled:
-        batch.CancelWith(GRPC_ERROR_REF(cancelled_error_), &flusher);
+        batch.CancelWith(cancelled_error_, &flusher);
         break;
     }
   }
@@ -1059,7 +1056,7 @@ void ServerCallData::Cancel(grpc_error_handle error, Flusher* flusher) {
   promise_ = ArenaPromise<ServerMetadataHandle>();
   if (send_trailing_state_ == SendTrailingState::kQueued) {
     send_trailing_state_ = SendTrailingState::kCancelled;
-    send_trailing_metadata_batch_.CancelWith(GRPC_ERROR_REF(error), flusher);
+    send_trailing_metadata_batch_.CancelWith(error, flusher);
   } else {
     send_trailing_state_ = SendTrailingState::kCancelled;
   }
@@ -1073,16 +1070,14 @@ void ServerCallData::Cancel(grpc_error_handle error, Flusher* flusher) {
       case SendInitialMetadata::kQueuedWaitingForLatch:
       case SendInitialMetadata::kQueuedAndGotLatch:
       case SendInitialMetadata::kQueuedAndSetLatch:
-        send_initial_metadata_->batch.CancelWith(GRPC_ERROR_REF(error),
-                                                 flusher);
+        send_initial_metadata_->batch.CancelWith(error, flusher);
         break;
     }
     send_initial_metadata_->state = SendInitialMetadata::kCancelled;
   }
   if (auto* closure =
           absl::exchange(original_recv_initial_metadata_ready_, nullptr)) {
-    flusher->AddClosure(closure, GRPC_ERROR_REF(error),
-                        "original_recv_initial_metadata");
+    flusher->AddClosure(closure, error, "original_recv_initial_metadata");
   }
 }
 
@@ -1158,8 +1153,8 @@ void ServerCallData::RecvInitialMetadataReady(grpc_error_handle error) {
   if (!error.ok()) {
     recv_initial_state_ = RecvInitialState::kResponded;
     flusher.AddClosure(
-        absl::exchange(original_recv_initial_metadata_ready_, nullptr),
-        GRPC_ERROR_REF(error), "propagate error");
+        absl::exchange(original_recv_initial_metadata_ready_, nullptr), error,
+        "propagate error");
     return;
   }
   // Record that we've got the callback.

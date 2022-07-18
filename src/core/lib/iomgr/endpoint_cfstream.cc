@@ -149,7 +149,7 @@ static void ReadAction(void* arg, grpc_error_handle error) {
   GPR_ASSERT(ep->read_cb != nullptr);
   if (!error.ok()) {
     grpc_slice_buffer_reset_and_unref_internal(ep->read_slices);
-    CallReadCb(ep, GRPC_ERROR_REF(error));
+    CallReadCb(ep, error);
     EP_UNREF(ep, "read");
     return;
   }
@@ -191,7 +191,7 @@ static void WriteAction(void* arg, grpc_error_handle error) {
   GPR_ASSERT(ep->write_cb != nullptr);
   if (!error.ok()) {
     grpc_slice_buffer_reset_and_unref_internal(ep->write_slices);
-    CallWriteCb(ep, GRPC_ERROR_REF(error));
+    CallWriteCb(ep, error);
     EP_UNREF(ep, "write");
     return;
   }

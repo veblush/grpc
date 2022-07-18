@@ -208,7 +208,7 @@ void SecurityHandshaker::HandshakeFailedLocked(grpc_error_handle error) {
     // before destroying them, even if we know that there are no
     // pending read/write callbacks.  This should be fixed, at which
     // point this can be removed.
-    grpc_endpoint_shutdown(args_->endpoint, GRPC_ERROR_REF(error));
+    grpc_endpoint_shutdown(args_->endpoint, error);
     // Not shutting down, so the write failed.  Clean up before
     // invoking the callback.
     CleanupArgsForFailureLocked();
@@ -349,7 +349,7 @@ void SecurityHandshaker::OnPeerCheckedInner(grpc_error_handle error) {
 
 void SecurityHandshaker::OnPeerCheckedFn(void* arg, grpc_error_handle error) {
   RefCountedPtr<SecurityHandshaker>(static_cast<SecurityHandshaker*>(arg))
-      ->OnPeerCheckedInner(GRPC_ERROR_REF(error));
+      ->OnPeerCheckedInner(error);
 }
 
 grpc_error_handle SecurityHandshaker::CheckPeerLocked() {
@@ -475,7 +475,7 @@ void SecurityHandshaker::OnHandshakeDataReceivedFromPeerFnScheduler(
       GRPC_CLOSURE_INIT(&h->on_handshake_data_received_from_peer_,
                         &SecurityHandshaker::OnHandshakeDataReceivedFromPeerFn,
                         h, grpc_schedule_on_exec_ctx),
-      GRPC_ERROR_REF(error));
+      error);
 }
 
 void SecurityHandshaker::OnHandshakeDataReceivedFromPeerFn(
@@ -508,7 +508,7 @@ void SecurityHandshaker::OnHandshakeDataSentToPeerFnScheduler(
       GRPC_CLOSURE_INIT(&h->on_handshake_data_sent_to_peer_,
                         &SecurityHandshaker::OnHandshakeDataSentToPeerFn, h,
                         grpc_schedule_on_exec_ctx),
-      GRPC_ERROR_REF(error));
+      error);
 }
 
 void SecurityHandshaker::OnHandshakeDataSentToPeerFn(void* arg,
@@ -547,9 +547,9 @@ void SecurityHandshaker::Shutdown(grpc_error_handle why) {
   MutexLock lock(&mu_);
   if (!is_shutdown_) {
     is_shutdown_ = true;
-    connector_->cancel_check_peer(&on_peer_checked_, GRPC_ERROR_REF(why));
+    connector_->cancel_check_peer(&on_peer_checked_, why);
     tsi_handshaker_shutdown(handshaker_);
-    grpc_endpoint_shutdown(args_->endpoint, GRPC_ERROR_REF(why));
+    grpc_endpoint_shutdown(args_->endpoint, why);
     CleanupArgsForFailureLocked();
   }
   GRPC_ERROR_UNREF(why);
@@ -585,7 +585,7 @@ class FailHandshaker : public Handshaker {
                    HandshakerArgs* args) override {
     grpc_error_handle error = GRPC_ERROR_CREATE_FROM_STATIC_STRING(
         "Failed to create security handshaker");
-    grpc_endpoint_shutdown(args->endpoint, GRPC_ERROR_REF(error));
+    grpc_endpoint_shutdown(args->endpoint, error);
     grpc_endpoint_destroy(args->endpoint);
     args->endpoint = nullptr;
     args->args = ChannelArgs();

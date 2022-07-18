@@ -135,7 +135,7 @@ void HttpConnectHandshaker::HandshakeFailedLocked(grpc_error_handle error) {
     // before destroying them, even if we know that there are no
     // pending read/write callbacks.  This should be fixed, at which
     // point this can be removed.
-    grpc_endpoint_shutdown(args_->endpoint, GRPC_ERROR_REF(error));
+    grpc_endpoint_shutdown(args_->endpoint, error);
     // Not shutting down, so the handshake failed.  Clean up before
     // invoking the callback.
     CleanupArgsForFailureLocked();
@@ -156,7 +156,7 @@ void HttpConnectHandshaker::OnWriteDoneScheduler(void* arg,
                GRPC_CLOSURE_INIT(&handshaker->request_done_closure_,
                                  &HttpConnectHandshaker::OnWriteDone,
                                  handshaker, grpc_schedule_on_exec_ctx),
-               GRPC_ERROR_REF(error));
+               error);
 }
 
 // Callback invoked when finished writing HTTP CONNECT request.
@@ -166,7 +166,7 @@ void HttpConnectHandshaker::OnWriteDone(void* arg, grpc_error_handle error) {
   if (!error.ok() || handshaker->is_shutdown_) {
     // If the write failed or we're shutting down, clean up and invoke the
     // callback with the error.
-    handshaker->HandshakeFailedLocked(GRPC_ERROR_REF(error));
+    handshaker->HandshakeFailedLocked(error);
     lock.Release();
     handshaker->Unref();
   } else {
@@ -190,7 +190,7 @@ void HttpConnectHandshaker::OnReadDoneScheduler(void* arg,
                GRPC_CLOSURE_INIT(&handshaker->response_read_closure_,
                                  &HttpConnectHandshaker::OnReadDone, handshaker,
                                  grpc_schedule_on_exec_ctx),
-               GRPC_ERROR_REF(error));
+               error);
 }
 
 // Callback invoked for reading HTTP CONNECT response.
@@ -200,7 +200,7 @@ void HttpConnectHandshaker::OnReadDone(void* arg, grpc_error_handle error) {
   if (!error.ok() || handshaker->is_shutdown_) {
     // If the read failed or we're shutting down, clean up and invoke the
     // callback with the error.
-    handshaker->HandshakeFailedLocked(GRPC_ERROR_REF(error));
+    handshaker->HandshakeFailedLocked(error);
     goto done;
   }
   // Add buffer to parser.
@@ -284,7 +284,7 @@ void HttpConnectHandshaker::Shutdown(grpc_error_handle why) {
     MutexLock lock(&mu_);
     if (!is_shutdown_) {
       is_shutdown_ = true;
-      grpc_endpoint_shutdown(args_->endpoint, GRPC_ERROR_REF(why));
+      grpc_endpoint_shutdown(args_->endpoint, why);
       CleanupArgsForFailureLocked();
     }
   }

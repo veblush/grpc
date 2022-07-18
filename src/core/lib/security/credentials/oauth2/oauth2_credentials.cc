@@ -237,7 +237,7 @@ end:
 
 static void on_oauth2_token_fetcher_http_response(void* user_data,
                                                   grpc_error_handle error) {
-  GRPC_LOG_IF_ERROR("oauth_fetch", GRPC_ERROR_REF(error));
+  GRPC_LOG_IF_ERROR("oauth_fetch", error);
   grpc_credentials_metadata_request* r =
       static_cast<grpc_credentials_metadata_request*>(user_data);
   grpc_oauth2_token_fetcher_credentials* c =

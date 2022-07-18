@@ -147,12 +147,12 @@ void grpc_enable_error_creation();
 #define GRPC_ERROR_OOM absl::Status(absl::ResourceExhaustedError(""))
 #define GRPC_ERROR_CANCELLED absl::CancelledError()
 
+// Don't use these macro: begin
+// TODO(veblush): Remove
 #define GRPC_ERROR_REF(err) (err)
 #define GRPC_ERROR_UNREF(err) (void)(err)
-
-// Don't use this macro
-// TODO(veblush): Remove
 #define GRPC_ERROR_IS_NONE(err) (err).ok()
+// Don't use these macro: end
 
 #define GRPC_ERROR_CREATE_FROM_STATIC_STRING(desc) \
   StatusCreate(absl::StatusCode::kUnknown, desc, DEBUG_LOCATION, {})
@@ -262,9 +262,7 @@ class AtomicError {
     error_ = GRPC_ERROR_NONE;
     lock_ = GPR_SPINLOCK_STATIC_INITIALIZER;
   }
-  explicit AtomicError(grpc_error_handle error) {
-    error_ = GRPC_ERROR_REF(error);
-  }
+  explicit AtomicError(grpc_error_handle error) { error_ = error; }
   ~AtomicError() { GRPC_ERROR_UNREF(error_); }
 
   AtomicError(const AtomicError&) = delete;
@@ -288,7 +286,7 @@ class AtomicError {
   void set(grpc_error_handle error) {
     gpr_spinlock_lock(&lock_);
     GRPC_ERROR_UNREF(error_);
-    error_ = GRPC_ERROR_REF(error);
+    error_ = error;
     gpr_spinlock_unlock(&lock_);
   }
 
