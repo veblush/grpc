@@ -90,9 +90,9 @@ static absl::Status get_unused_port(int* port) {
 }
 
 absl::Status grpc_tcp_server_add_all_local_addrs(grpc_tcp_server* s,
-                                                      unsigned port_index,
-                                                      int requested_port,
-                                                      int* out_port) {
+                                                 unsigned port_index,
+                                                 int requested_port,
+                                                 int* out_port) {
   struct ifaddrs* ifa = nullptr;
   struct ifaddrs* ifa_it;
   unsigned fd_index = 0;

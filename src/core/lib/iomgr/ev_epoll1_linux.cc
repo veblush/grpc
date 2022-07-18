@@ -711,7 +711,7 @@ static absl::Status process_epoll_events(grpc_pollset* /*pollset*/) {
    (i.e the designated poller thread) will be calling this function. So there is
    no need for any synchronization when accesing fields in g_epoll_set */
 static absl::Status do_epoll_wait(grpc_pollset* ps,
-                                       grpc_core::Timestamp deadline) {
+                                  grpc_core::Timestamp deadline) {
   GPR_TIMER_SCOPE("do_epoll_wait", 0);
 
   int r;
@@ -1011,8 +1011,8 @@ static void end_worker(grpc_pollset* pollset, grpc_pollset_worker* worker,
    during the course of its execution but it will always re-acquire the lock and
    ensure that it is held by the time the function returns */
 static absl::Status pollset_work(grpc_pollset* ps,
-                                      grpc_pollset_worker** worker_hdl,
-                                      grpc_core::Timestamp deadline) {
+                                 grpc_pollset_worker** worker_hdl,
+                                 grpc_core::Timestamp deadline) {
   GPR_TIMER_SCOPE("pollset_work", 0);
   grpc_pollset_worker worker;
   absl::Status error = GRPC_ERROR_NONE;
@@ -1062,7 +1062,7 @@ static absl::Status pollset_work(grpc_pollset* ps,
 }
 
 static absl::Status pollset_kick(grpc_pollset* pollset,
-                                      grpc_pollset_worker* specific_worker) {
+                                 grpc_pollset_worker* specific_worker) {
   GPR_TIMER_SCOPE("pollset_kick", 0);
   GRPC_STATS_INC_POLLSET_KICK();
   absl::Status ret_err = GRPC_ERROR_NONE;

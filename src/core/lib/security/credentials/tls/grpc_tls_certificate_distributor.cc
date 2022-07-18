@@ -100,8 +100,7 @@ bool grpc_tls_certificate_distributor::HasKeyCertPairs(
 };
 
 void grpc_tls_certificate_distributor::SetErrorForCert(
-    const std::string& cert_name,
-    absl::optional<absl::Status> root_cert_error,
+    const std::string& cert_name, absl::optional<absl::Status> root_cert_error,
     absl::optional<absl::Status> identity_cert_error) {
   GPR_ASSERT(root_cert_error.has_value() || identity_cert_error.has_value());
   grpc_core::MutexLock lock(&mu_);

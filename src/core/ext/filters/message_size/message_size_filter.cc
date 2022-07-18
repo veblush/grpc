@@ -48,8 +48,7 @@
 #include "src/core/lib/transport/transport.h"
 
 static void recv_message_ready(void* user_data, absl::Status error);
-static void recv_trailing_metadata_ready(void* user_data,
-                                         absl::Status error);
+static void recv_trailing_metadata_ready(void* user_data, absl::Status error);
 
 namespace grpc_core {
 
@@ -74,8 +73,7 @@ const MessageSizeParsedConfig* MessageSizeParsedConfig::GetFromCallContext(
 
 std::unique_ptr<ServiceConfigParser::ParsedConfig>
 MessageSizeParser::ParsePerMethodParams(const ChannelArgs& /*args*/,
-                                        const Json& json,
-                                        absl::Status* error) {
+                                        const Json& json, absl::Status* error) {
   GPR_DEBUG_ASSERT(error != nullptr && error->ok());
   std::vector<absl::Status> error_list;
   // Max request size.
@@ -240,8 +238,7 @@ static void recv_message_ready(void* user_data, absl::Status error) {
 
 // Callback invoked on completion of recv_trailing_metadata
 // Notifies the recv_trailing_metadata batch of any message size failures
-static void recv_trailing_metadata_ready(void* user_data,
-                                         absl::Status error) {
+static void recv_trailing_metadata_ready(void* user_data, absl::Status error) {
   grpc_call_element* elem = static_cast<grpc_call_element*>(user_data);
   call_data* calld = static_cast<call_data*>(elem->call_data);
   if (calld->next_recv_message_ready != nullptr) {

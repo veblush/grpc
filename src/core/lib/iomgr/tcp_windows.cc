@@ -398,8 +398,8 @@ static void win_write(grpc_endpoint* ep, grpc_slice_buffer* slices,
      avoid doing an async write operation at all. */
   if (info->wsa_error != WSAEWOULDBLOCK) {
     absl::Status error = status == 0
-                                  ? GRPC_ERROR_NONE
-                                  : GRPC_WSA_ERROR(info->wsa_error, "WSASend");
+                             ? GRPC_ERROR_NONE
+                             : GRPC_WSA_ERROR(info->wsa_error, "WSASend");
     grpc_core::ExecCtx::Run(DEBUG_LOCATION, cb, error);
     if (allocated) gpr_free(allocated);
     return;

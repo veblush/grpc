@@ -1078,8 +1078,7 @@ void GrpcLb::BalancerCallState::ClientLoadReportDone(void* arg,
       DEBUG_LOCATION);
 }
 
-void GrpcLb::BalancerCallState::ClientLoadReportDoneLocked(
-    absl::Status error) {
+void GrpcLb::BalancerCallState::ClientLoadReportDoneLocked(absl::Status error) {
   grpc_byte_buffer_destroy(send_message_payload_);
   send_message_payload_ = nullptr;
   if (!error.ok() || this != grpclb_policy()->lb_calld_.get()) {
@@ -1089,8 +1088,8 @@ void GrpcLb::BalancerCallState::ClientLoadReportDoneLocked(
   ScheduleNextClientLoadReportLocked();
 }
 
-void GrpcLb::BalancerCallState::OnInitialRequestSent(
-    void* arg, absl::Status /*error*/) {
+void GrpcLb::BalancerCallState::OnInitialRequestSent(void* arg,
+                                                     absl::Status /*error*/) {
   BalancerCallState* lb_calld = static_cast<BalancerCallState*>(arg);
   lb_calld->grpclb_policy()->work_serializer()->Run(
       [lb_calld]() { lb_calld->OnInitialRequestSentLocked(); }, DEBUG_LOCATION);
@@ -1273,8 +1272,8 @@ void GrpcLb::BalancerCallState::OnBalancerMessageReceivedLocked() {
   }
 }
 
-void GrpcLb::BalancerCallState::OnBalancerStatusReceived(
-    void* arg, absl::Status error) {
+void GrpcLb::BalancerCallState::OnBalancerStatusReceived(void* arg,
+                                                         absl::Status error) {
   BalancerCallState* lb_calld = static_cast<BalancerCallState*>(arg);
   lb_calld->grpclb_policy()->work_serializer()->Run(
       [lb_calld, error]() { lb_calld->OnBalancerStatusReceivedLocked(error); },

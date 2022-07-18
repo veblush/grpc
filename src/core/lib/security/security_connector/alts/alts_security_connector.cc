@@ -121,7 +121,7 @@ class grpc_alts_channel_security_connector final
   }
 
   void cancel_check_peer(grpc_closure* /*on_peer_checked*/,
-                         absl::Status error) override {}
+                         absl::Status /*error*/) override {}
 
   int cmp(const grpc_security_connector* other_sc) const override {
     auto* other =
@@ -177,7 +177,7 @@ class grpc_alts_server_security_connector final
   }
 
   void cancel_check_peer(grpc_closure* /*on_peer_checked*/,
-                         absl::Status error) override {}
+                         absl::Status /*error*/) override {}
 
   int cmp(const grpc_security_connector* other) const override {
     return server_security_connector_cmp(

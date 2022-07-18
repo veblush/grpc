@@ -91,8 +91,7 @@ void CallCombiner::TsanClosure(void* arg, absl::Status error) {
 }
 #endif
 
-void CallCombiner::ScheduleClosure(grpc_closure* closure,
-                                   absl::Status error) {
+void CallCombiner::ScheduleClosure(grpc_closure* closure, absl::Status error) {
 #ifdef GRPC_TSAN_ENABLED
   original_closure_ = closure;
   ExecCtx::Run(DEBUG_LOCATION, &tsan_closure_, error);

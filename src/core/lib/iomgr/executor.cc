@@ -121,8 +121,7 @@ size_t Executor::RunClosures(const char* executor_name,
 #else
     EXECUTOR_TRACE("(%s) run %p", executor_name, c);
 #endif
-    absl::Status error =
-        internal::StatusMoveFromHeapPtr(c->error_data.error);
+    absl::Status error = internal::StatusMoveFromHeapPtr(c->error_data.error);
     c->error_data.error = 0;
     c->cb(c->cb_arg, std::move(error));
     c = next;

@@ -32,8 +32,7 @@ namespace grpc_core {
 class FileExternalAccountCredentials final : public ExternalAccountCredentials {
  public:
   static RefCountedPtr<FileExternalAccountCredentials> Create(
-      Options options, std::vector<std::string> scopes,
-      absl::Status* error);
+      Options options, std::vector<std::string> scopes, absl::Status* error);
 
   FileExternalAccountCredentials(Options options,
                                  std::vector<std::string> scopes,

@@ -141,8 +141,7 @@ absl::Status grpc_channel_stack_init(
     args.is_last = i == (filter_count - 1);
     elems[i].filter = filters[i];
     elems[i].channel_data = user_data;
-    absl::Status error =
-        elems[i].filter->init_channel_elem(&elems[i], &args);
+    absl::Status error = elems[i].filter->init_channel_elem(&elems[i], &args);
     if (!error.ok()) {
       if (first_error.ok()) {
         first_error = error;
@@ -176,10 +175,10 @@ void grpc_channel_stack_destroy(grpc_channel_stack* stack) {
   stack->on_destroy.Destroy();
 }
 
-absl::Status grpc_call_stack_init(
-    grpc_channel_stack* channel_stack, int initial_refs,
-    grpc_iomgr_cb_func destroy, void* destroy_arg,
-    const grpc_call_element_args* elem_args) {
+absl::Status grpc_call_stack_init(grpc_channel_stack* channel_stack,
+                                  int initial_refs, grpc_iomgr_cb_func destroy,
+                                  void* destroy_arg,
+                                  const grpc_call_element_args* elem_args) {
   grpc_channel_element* channel_elems = CHANNEL_ELEMS_FROM_STACK(channel_stack);
   size_t count = channel_stack->count;
   grpc_call_element* call_elems;

@@ -78,8 +78,8 @@ ServiceConfigImpl::~ServiceConfigImpl() {
   }
 }
 
-absl::Status ServiceConfigImpl::ParseJsonMethodConfig(
-    const ChannelArgs& args, const Json& json) {
+absl::Status ServiceConfigImpl::ParseJsonMethodConfig(const ChannelArgs& args,
+                                                      const Json& json) {
   std::vector<absl::Status> error_list;
   // Parse method config with each registered parser.
   auto parsed_configs =
@@ -140,8 +140,7 @@ absl::Status ServiceConfigImpl::ParseJsonMethodConfig(
   return GRPC_ERROR_CREATE_FROM_VECTOR("methodConfig", &error_list);
 }
 
-absl::Status ServiceConfigImpl::ParsePerMethodParams(
-    const ChannelArgs& args) {
+absl::Status ServiceConfigImpl::ParsePerMethodParams(const ChannelArgs& args) {
   std::vector<absl::Status> error_list;
   auto it = json_.object_value().find("methodConfig");
   if (it != json_.object_value().end()) {

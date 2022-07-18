@@ -135,10 +135,10 @@ grpc_core::Poll<absl::Status> grpc_deframe_unprocessed_incoming_frames(
 }
 
 absl::Status grpc_chttp2_data_parser_parse(void* /*parser*/,
-                                                grpc_chttp2_transport* t,
-                                                grpc_chttp2_stream* s,
-                                                const grpc_slice& slice,
-                                                int is_last) {
+                                           grpc_chttp2_transport* t,
+                                           grpc_chttp2_stream* s,
+                                           const grpc_slice& slice,
+                                           int is_last) {
   grpc_slice_ref_internal(slice);
   grpc_slice_buffer_add(&s->frame_storage, slice);
   grpc_chttp2_maybe_complete_recv_message(t, s);

@@ -341,7 +341,7 @@ class Server::AllocatingRequestMatcherBase : public RequestMatcherInterface {
 
   void ZombifyPending() override {}
 
-  void KillRequests(absl::Status error) override {}
+  void KillRequests(absl::Status /*error*/) override {}
 
   size_t request_queue_count() const override { return 0; }
 
@@ -698,8 +698,7 @@ void Server::DoneRequestEvent(void* req, grpc_cq_completion* /*c*/) {
   delete static_cast<RequestedCall*>(req);
 }
 
-void Server::FailCall(size_t cq_idx, RequestedCall* rc,
-                      absl::Status error) {
+void Server::FailCall(size_t cq_idx, RequestedCall* rc, absl::Status error) {
   *rc->call = nullptr;
   rc->initial_metadata->count = 0;
   GPR_ASSERT(!error.ok());
@@ -1122,8 +1121,7 @@ void Server::ChannelData::AcceptStream(void* arg, grpc_transport* /*transport*/,
   calld->Start(elem);
 }
 
-void Server::ChannelData::FinishDestroy(void* arg,
-                                        absl::Status /*error*/) {
+void Server::ChannelData::FinishDestroy(void* arg, absl::Status /*error*/) {
   auto* chand = static_cast<Server::ChannelData*>(arg);
   Server* server = chand->server_.get();
   auto* channel_stack = chand->channel_->channel_stack();
@@ -1325,8 +1323,8 @@ void Server::CallData::StartNewRpc(grpc_call_element* elem) {
   }
 }
 
-void Server::CallData::RecvInitialMetadataBatchComplete(
-    void* arg, absl::Status error) {
+void Server::CallData::RecvInitialMetadataBatchComplete(void* arg,
+                                                        absl::Status error) {
   grpc_call_element* elem = static_cast<grpc_call_element*>(arg);
   auto* calld = static_cast<Server::CallData*>(elem->call_data);
   if (!error.ok()) {
@@ -1360,8 +1358,7 @@ void Server::CallData::StartTransportStreamOpBatchImpl(
   grpc_call_next_op(elem, batch);
 }
 
-void Server::CallData::RecvInitialMetadataReady(void* arg,
-                                                absl::Status error) {
+void Server::CallData::RecvInitialMetadataReady(void* arg, absl::Status error) {
   grpc_call_element* elem = static_cast<grpc_call_element*>(arg);
   CallData* calld = static_cast<CallData*>(elem->call_data);
   if (error.ok()) {

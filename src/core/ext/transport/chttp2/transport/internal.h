@@ -377,8 +377,8 @@ struct grpc_chttp2_transport {
   void* parser_data = nullptr;
   grpc_chttp2_stream* incoming_stream = nullptr;
   absl::Status (*parser)(void* parser_user_data, grpc_chttp2_transport* t,
-                              grpc_chttp2_stream* s, const grpc_slice& slice,
-                              int is_last);
+                         grpc_chttp2_stream* s, const grpc_slice& slice,
+                         int is_last);
 
   grpc_chttp2_write_cb* write_cb_pool = nullptr;
 
@@ -597,7 +597,7 @@ void grpc_chttp2_end_write(grpc_chttp2_transport* t, absl::Status error);
 /** Process one slice of incoming data; return 1 if the connection is still
     viable after reading, or 0 if the connection should be torn down */
 absl::Status grpc_chttp2_perform_read(grpc_chttp2_transport* t,
-                                           const grpc_slice& slice);
+                                      const grpc_slice& slice);
 
 bool grpc_chttp2_list_add_writable_stream(grpc_chttp2_transport* t,
                                           grpc_chttp2_stream* s);
@@ -667,8 +667,7 @@ void grpc_chttp2_parsing_become_skip_parser(grpc_chttp2_transport* t);
 void grpc_chttp2_complete_closure_step(grpc_chttp2_transport* t,
                                        grpc_chttp2_stream* s,
                                        grpc_closure** pclosure,
-                                       absl::Status error,
-                                       const char* desc);
+                                       absl::Status error, const char* desc);
 
 #define GRPC_HEADER_SIZE_IN_BYTES 5
 #define MAX_SIZE_T (~(size_t)0)
@@ -688,8 +687,7 @@ void grpc_chttp2_complete_closure_step(grpc_chttp2_transport* t,
   } while (0)
 
 void grpc_chttp2_fake_status(grpc_chttp2_transport* t,
-                             grpc_chttp2_stream* stream,
-                             absl::Status error);
+                             grpc_chttp2_stream* stream, absl::Status error);
 void grpc_chttp2_mark_stream_closed(grpc_chttp2_transport* t,
                                     grpc_chttp2_stream* s, int close_reads,
                                     int close_writes, absl::Status error);
@@ -770,8 +768,7 @@ void grpc_chttp2_maybe_complete_recv_trailing_metadata(grpc_chttp2_transport* t,
                                                        grpc_chttp2_stream* s);
 
 void grpc_chttp2_fail_pending_writes(grpc_chttp2_transport* t,
-                                     grpc_chttp2_stream* s,
-                                     absl::Status error);
+                                     grpc_chttp2_stream* s, absl::Status error);
 
 /** Set the default keepalive configurations, must only be called at
     initialization */

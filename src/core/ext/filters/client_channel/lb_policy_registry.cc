@@ -165,8 +165,8 @@ absl::Status ParseLoadBalancingConfigHelper(
 }  // namespace
 
 RefCountedPtr<LoadBalancingPolicy::Config>
-LoadBalancingPolicyRegistry::ParseLoadBalancingConfig(
-    const Json& json, absl::Status* error) {
+LoadBalancingPolicyRegistry::ParseLoadBalancingConfig(const Json& json,
+                                                      absl::Status* error) {
   GPR_DEBUG_ASSERT(error != nullptr && error->ok());
   GPR_ASSERT(g_state != nullptr);
   Json::Object::const_iterator policy;

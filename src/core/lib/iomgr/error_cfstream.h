@@ -25,7 +25,7 @@
   grpc_error_create_from_cferror(__FILE__, __LINE__, \
                                  static_cast<void*>((error)), (desc))
 absl::Status grpc_error_create_from_cferror(const char* file, int line,
-                                                 void* arg, const char* desc);
+                                            void* arg, const char* desc);
 #endif /* GRPC_CFSTREAM */
 
 #endif /* GRPC_CORE_LIB_IOMGR_ERROR_CFSTREAM_H */

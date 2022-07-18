@@ -78,7 +78,7 @@ bool grpc_parse_unix_abstract(const grpc_core::URI& uri,
 namespace grpc_core {
 
 absl::Status UnixSockaddrPopulate(absl::string_view path,
-                                       grpc_resolved_address* resolved_addr) {
+                                  grpc_resolved_address* resolved_addr) {
   memset(resolved_addr, 0, sizeof(*resolved_addr));
   struct sockaddr_un* un =
       reinterpret_cast<struct sockaddr_un*>(resolved_addr->addr);
@@ -128,8 +128,8 @@ bool grpc_parse_unix_abstract(const grpc_core::URI& /* uri */,
 
 namespace grpc_core {
 
-absl::Status UnixSockaddrPopulate(
-    absl::string_view /* path */, grpc_resolved_address* /* resolved_addr */) {
+absl::Status UnixSockaddrPopulate(absl::string_view /* path */,
+                                  grpc_resolved_address* /* resolved_addr */) {
   abort();
 }
 
@@ -316,7 +316,7 @@ uint16_t grpc_strhtons(const char* port) {
 }
 
 absl::Status grpc_string_to_sockaddr(grpc_resolved_address* out,
-                                          const char* addr, int port) {
+                                     const char* addr, int port) {
   memset(out, 0, sizeof(grpc_resolved_address));
   grpc_sockaddr_in6* addr6 = reinterpret_cast<grpc_sockaddr_in6*>(out->addr);
   grpc_sockaddr_in* addr4 = reinterpret_cast<grpc_sockaddr_in*>(out->addr);

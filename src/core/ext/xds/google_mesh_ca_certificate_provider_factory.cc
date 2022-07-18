@@ -187,8 +187,8 @@ GoogleMeshCaCertificateProviderFactory::Config::ParseJsonObjectServer(
 }
 
 RefCountedPtr<GoogleMeshCaCertificateProviderFactory::Config>
-GoogleMeshCaCertificateProviderFactory::Config::Parse(
-    const Json& config_json, absl::Status* error) {
+GoogleMeshCaCertificateProviderFactory::Config::Parse(const Json& config_json,
+                                                      absl::Status* error) {
   auto config =
       MakeRefCounted<GoogleMeshCaCertificateProviderFactory::Config>();
   if (config_json.type() != Json::Type::OBJECT) {

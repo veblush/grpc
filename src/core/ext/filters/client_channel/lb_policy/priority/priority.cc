@@ -631,8 +631,8 @@ void PriorityLb::ChildPriority::DeactivationTimer::Orphan() {
   Unref();
 }
 
-void PriorityLb::ChildPriority::DeactivationTimer::OnTimer(
-    void* arg, absl::Status error) {
+void PriorityLb::ChildPriority::DeactivationTimer::OnTimer(void* arg,
+                                                           absl::Status error) {
   auto* self = static_cast<DeactivationTimer*>(arg);
   self->child_priority_->priority_policy_->work_serializer()->Run(
       [self, error]() { self->OnTimerLocked(error); }, DEBUG_LOCATION);
@@ -693,8 +693,8 @@ void PriorityLb::ChildPriority::FailoverTimer::Orphan() {
   Unref();
 }
 
-void PriorityLb::ChildPriority::FailoverTimer::OnTimer(
-    void* arg, absl::Status error) {
+void PriorityLb::ChildPriority::FailoverTimer::OnTimer(void* arg,
+                                                       absl::Status error) {
   auto* self = static_cast<FailoverTimer*>(arg);
   self->child_priority_->priority_policy_->work_serializer()->Run(
       [self, error]() { self->OnTimerLocked(error); }, DEBUG_LOCATION);

@@ -65,10 +65,10 @@ typedef struct grpc_event_engine_vtable {
   void (*pollset_shutdown)(grpc_pollset* pollset, grpc_closure* closure);
   void (*pollset_destroy)(grpc_pollset* pollset);
   absl::Status (*pollset_work)(grpc_pollset* pollset,
-                                    grpc_pollset_worker** worker,
-                                    grpc_core::Timestamp deadline);
+                               grpc_pollset_worker** worker,
+                               grpc_core::Timestamp deadline);
   absl::Status (*pollset_kick)(grpc_pollset* pollset,
-                                    grpc_pollset_worker* specific_worker);
+                               grpc_pollset_worker* specific_worker);
   void (*pollset_add_fd)(grpc_pollset* pollset, struct grpc_fd* fd);
 
   grpc_pollset_set* (*pollset_set_create)(void);

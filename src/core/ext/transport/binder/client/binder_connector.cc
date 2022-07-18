@@ -99,7 +99,7 @@ class BinderConnector : public grpc_core::SubchannelConnector {
 
     Unref();  // Was referenced in BinderConnector::Connect
   }
-  void Shutdown(absl::Status error) override {}
+  void Shutdown(absl::Status /*error*/) override {}
 
  private:
   Args args_;

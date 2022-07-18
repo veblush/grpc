@@ -86,7 +86,7 @@ class grpc_fake_channel_security_connector final
                   grpc_closure* on_peer_checked) override;
 
   void cancel_check_peer(grpc_closure* /*on_peer_checked*/,
-                         absl::Status error) override {}
+                         absl::Status /*error*/) override {}
 
   int cmp(const grpc_security_connector* other_sc) const override {
     auto* other =
@@ -282,7 +282,7 @@ class grpc_fake_server_security_connector
   }
 
   void cancel_check_peer(grpc_closure* /*on_peer_checked*/,
-                         absl::Status error) override {}
+                         absl::Status /*error*/) override {}
 
   void add_handshakers(const grpc_core::ChannelArgs& args,
                        grpc_pollset_set* /*interested_parties*/,

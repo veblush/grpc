@@ -105,8 +105,7 @@ class SubchannelCall {
     grpc_call_context_element* context;
     CallCombiner* call_combiner;
   };
-  static RefCountedPtr<SubchannelCall> Create(Args args,
-                                              absl::Status* error);
+  static RefCountedPtr<SubchannelCall> Create(Args args, absl::Status* error);
 
   // Continues processing a transport stream op batch.
   void StartTransportStreamOpBatch(grpc_transport_stream_op_batch* batch);

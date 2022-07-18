@@ -190,9 +190,7 @@ struct grpc_tls_certificate_distributor
 
     ~CertificateInfo() {}
     void SetRootError(absl::Status error) { root_cert_error = error; }
-    void SetIdentityError(absl::Status error) {
-      identity_cert_error = error;
-    }
+    void SetIdentityError(absl::Status error) { identity_cert_error = error; }
   };
 
   grpc_core::Mutex mu_;

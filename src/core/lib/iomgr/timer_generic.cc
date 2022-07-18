@@ -231,8 +231,7 @@ struct shared_mutables {
 static struct shared_mutables g_shared_mutables;
 
 static grpc_timer_check_result run_some_expired_timers(
-    grpc_core::Timestamp now, grpc_core::Timestamp* next,
-    absl::Status error);
+    grpc_core::Timestamp now, grpc_core::Timestamp* next, absl::Status error);
 
 static grpc_core::Timestamp compute_min_deadline(timer_shard* shard) {
   return grpc_timer_heap_is_empty(&shard->heap)
@@ -564,8 +563,7 @@ static size_t pop_timers(timer_shard* shard, grpc_core::Timestamp now,
 }
 
 static grpc_timer_check_result run_some_expired_timers(
-    grpc_core::Timestamp now, grpc_core::Timestamp* next,
-    absl::Status error) {
+    grpc_core::Timestamp now, grpc_core::Timestamp* next, absl::Status error) {
   grpc_timer_check_result result = GRPC_TIMERS_NOT_CHECKED;
 
 #if GPR_ARCH_64

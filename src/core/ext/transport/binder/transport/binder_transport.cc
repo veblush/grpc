@@ -147,8 +147,7 @@ static void AssignMetadata(grpc_metadata_batch* mb,
 }
 
 static void cancel_stream_locked(grpc_binder_transport* gbt,
-                                 grpc_binder_stream* gbs,
-                                 absl::Status error) {
+                                 grpc_binder_stream* gbs, absl::Status error) {
   gpr_log(GPR_INFO, "cancel_stream_locked");
   if (!gbs->is_closed) {
     GPR_ASSERT(gbs->cancel_self_error.ok());
@@ -193,8 +192,7 @@ static bool ContainsAuthorityAndPath(const grpc_binder::Metadata& metadata) {
   return has_authority && has_path;
 }
 
-static void recv_initial_metadata_locked(void* arg,
-                                         absl::Status /*error*/) {
+static void recv_initial_metadata_locked(void* arg, absl::Status /*error*/) {
   RecvInitialMetadataArgs* args = static_cast<RecvInitialMetadataArgs*>(arg);
   grpc_binder_stream* gbs = args->gbs;
 
@@ -271,8 +269,7 @@ static void recv_message_locked(void* arg, absl::Status /*error*/) {
   GRPC_BINDER_STREAM_UNREF(gbs, "recv_message");
 }
 
-static void recv_trailing_metadata_locked(void* arg,
-                                          absl::Status /*error*/) {
+static void recv_trailing_metadata_locked(void* arg, absl::Status /*error*/) {
   RecvTrailingMetadataArgs* args = static_cast<RecvTrailingMetadataArgs*>(arg);
   grpc_binder_stream* gbs = args->gbs;
 
@@ -371,8 +368,7 @@ class MetadataEncoder {
 }  // namespace
 }  // namespace grpc_binder
 
-static void perform_stream_op_locked(void* stream_op,
-                                     absl::Status /*error*/) {
+static void perform_stream_op_locked(void* stream_op, absl::Status /*error*/) {
   grpc_transport_stream_op_batch* op =
       static_cast<grpc_transport_stream_op_batch*>(stream_op);
   grpc_binder_stream* gbs =

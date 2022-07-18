@@ -51,8 +51,7 @@
 #include "src/core/lib/transport/transport.h"
 
 static void recv_initial_metadata_ready(void* arg, absl::Status error);
-static void recv_trailing_metadata_ready(void* user_data,
-                                         absl::Status error);
+static void recv_trailing_metadata_ready(void* user_data, absl::Status error);
 
 namespace {
 enum async_state {
@@ -271,8 +270,7 @@ static void recv_initial_metadata_ready(void* arg, absl::Status error) {
   grpc_core::Closure::Run(DEBUG_LOCATION, closure, error);
 }
 
-static void recv_trailing_metadata_ready(void* user_data,
-                                         absl::Status err) {
+static void recv_trailing_metadata_ready(void* user_data, absl::Status err) {
   grpc_call_element* elem = static_cast<grpc_call_element*>(user_data);
   call_data* calld = static_cast<call_data*>(elem->call_data);
   if (calld->original_recv_initial_metadata_ready != nullptr) {

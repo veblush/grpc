@@ -801,8 +801,7 @@ void OutlierDetectionLb::EjectionTimer::Orphan() {
   Unref();
 }
 
-void OutlierDetectionLb::EjectionTimer::OnTimer(void* arg,
-                                                absl::Status error) {
+void OutlierDetectionLb::EjectionTimer::OnTimer(void* arg, absl::Status error) {
   auto* self = static_cast<EjectionTimer*>(arg);
   self->parent_->work_serializer()->Run(
       [self, error]() { self->OnTimerLocked(error); }, DEBUG_LOCATION);

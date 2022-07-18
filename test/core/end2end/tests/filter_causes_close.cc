@@ -216,8 +216,8 @@ static void start_transport_stream_op_batch(
   grpc_call_next_op(elem, op);
 }
 
-static absl::Status init_call_elem(
-    grpc_call_element* /*elem*/, const grpc_call_element_args* /*args*/) {
+static absl::Status init_call_elem(grpc_call_element* /*elem*/,
+                                   const grpc_call_element_args* /*args*/) {
   return GRPC_ERROR_NONE;
 }
 
@@ -225,8 +225,8 @@ static void destroy_call_elem(grpc_call_element* /*elem*/,
                               const grpc_call_final_info* /*final_info*/,
                               grpc_closure* /*ignored*/) {}
 
-static absl::Status init_channel_elem(
-    grpc_channel_element* /*elem*/, grpc_channel_element_args* /*args*/) {
+static absl::Status init_channel_elem(grpc_channel_element* /*elem*/,
+                                      grpc_channel_element_args* /*args*/) {
   return GRPC_ERROR_NONE;
 }
 

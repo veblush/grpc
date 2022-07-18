@@ -171,9 +171,9 @@ class XdsApi {
   // load_reporting_interval for client-side load reporting. If there is any
   // error, the output config is invalid.
   absl::Status ParseLrsResponse(absl::string_view encoded_response,
-                                     bool* send_all_clusters,
-                                     std::set<std::string>* cluster_names,
-                                     Duration* load_reporting_interval);
+                                bool* send_all_clusters,
+                                std::set<std::string>* cluster_names,
+                                Duration* load_reporting_interval);
 
   // Assemble the client config proto message and return the serialized result.
   std::string AssembleClientConfig(

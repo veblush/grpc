@@ -165,8 +165,8 @@ grpc_core::UniqueTypeName grpc_google_default_channel_credentials::type()
   return kFactory.Create();
 }
 
-static void on_metadata_server_detection_http_response(
-    void* user_data, absl::Status error) {
+static void on_metadata_server_detection_http_response(void* user_data,
+                                                       absl::Status error) {
   metadata_server_detector* detector =
       static_cast<metadata_server_detector*>(user_data);
   if (error.ok() && detector->response.status == 200 &&

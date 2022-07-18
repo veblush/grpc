@@ -230,8 +230,8 @@ static int poll_deadline_to_millis_timeout(grpc_core::Timestamp deadline);
 /* As per pollset_kick, with an extended set of flags (defined above)
    -- mostly for fd_posix's use. */
 static absl::Status pollset_kick_ext(grpc_pollset* p,
-                                          grpc_pollset_worker* specific_worker,
-                                          uint32_t flags) GRPC_MUST_USE_RESULT;
+                                     grpc_pollset_worker* specific_worker,
+                                     uint32_t flags) GRPC_MUST_USE_RESULT;
 
 /* Return 1 if the pollset has active threads in pollset_work (pollset must
  * be locked) */
@@ -749,8 +749,7 @@ static void push_front_worker(grpc_pollset* p, grpc_pollset_worker* worker) {
   worker->prev->next = worker->next->prev = worker;
 }
 
-static void kick_append_error(absl::Status* composite,
-                              absl::Status error) {
+static void kick_append_error(absl::Status* composite, absl::Status error) {
   if (error.ok()) return;
   if (composite->ok()) {
     *composite = GRPC_ERROR_CREATE_FROM_STATIC_STRING("Kick Failure");
@@ -759,8 +758,8 @@ static void kick_append_error(absl::Status* composite,
 }
 
 static absl::Status pollset_kick_ext(grpc_pollset* p,
-                                          grpc_pollset_worker* specific_worker,
-                                          uint32_t flags) {
+                                     grpc_pollset_worker* specific_worker,
+                                     uint32_t flags) {
   GPR_TIMER_SCOPE("pollset_kick_ext", 0);
   absl::Status error = GRPC_ERROR_NONE;
   GRPC_STATS_INC_POLLSET_KICK();
@@ -826,7 +825,7 @@ static absl::Status pollset_kick_ext(grpc_pollset* p,
 }
 
 static absl::Status pollset_kick(grpc_pollset* p,
-                                      grpc_pollset_worker* specific_worker) {
+                                 grpc_pollset_worker* specific_worker) {
   return pollset_kick_ext(p, specific_worker, 0);
 }
 
@@ -894,8 +893,7 @@ static void finish_shutdown(grpc_pollset* pollset) {
                           GRPC_ERROR_NONE);
 }
 
-static void work_combine_error(absl::Status* composite,
-                               absl::Status error) {
+static void work_combine_error(absl::Status* composite, absl::Status error) {
   if (error.ok()) return;
   if (composite->ok()) {
     *composite = GRPC_ERROR_CREATE_FROM_STATIC_STRING("pollset_work");
@@ -904,8 +902,8 @@ static void work_combine_error(absl::Status* composite,
 }
 
 static absl::Status pollset_work(grpc_pollset* pollset,
-                                      grpc_pollset_worker** worker_hdl,
-                                      grpc_core::Timestamp deadline) {
+                                 grpc_pollset_worker** worker_hdl,
+                                 grpc_core::Timestamp deadline) {
   GPR_TIMER_SCOPE("pollset_work", 0);
   grpc_pollset_worker worker;
   if (worker_hdl) *worker_hdl = &worker;

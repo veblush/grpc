@@ -31,8 +31,8 @@
 #include "src/core/lib/gprpp/status_helper.h"
 #include "src/core/lib/transport/status_conversion.h"
 
-static absl::Status recursively_find_error_with_field(
-    absl::Status error, grpc_error_ints which) {
+static absl::Status recursively_find_error_with_field(absl::Status error,
+                                                      grpc_error_ints which) {
   intptr_t unused;
   // If the error itself has a status code, return it.
   if (grpc_error_get_int(error, which, &unused)) {
@@ -46,8 +46,7 @@ static absl::Status recursively_find_error_with_field(
   return GRPC_ERROR_NONE;
 }
 
-void grpc_error_get_status(absl::Status error,
-                           grpc_core::Timestamp deadline,
+void grpc_error_get_status(absl::Status error, grpc_core::Timestamp deadline,
                            grpc_status_code* code, std::string* message,
                            grpc_http2_error_code* http_error,
                            const char** error_string) {

@@ -60,27 +60,24 @@ using grpc_core::HPackParser;
 
 static absl::Status init_frame_parser(grpc_chttp2_transport* t);
 static absl::Status init_header_frame_parser(grpc_chttp2_transport* t,
-                                                  int is_continuation);
+                                             int is_continuation);
 static absl::Status init_data_frame_parser(grpc_chttp2_transport* t);
 static absl::Status init_rst_stream_parser(grpc_chttp2_transport* t);
 static absl::Status init_settings_frame_parser(grpc_chttp2_transport* t);
-static absl::Status init_window_update_frame_parser(
-    grpc_chttp2_transport* t);
+static absl::Status init_window_update_frame_parser(grpc_chttp2_transport* t);
 static absl::Status init_ping_parser(grpc_chttp2_transport* t);
 static absl::Status init_goaway_parser(grpc_chttp2_transport* t);
-static absl::Status init_non_header_skip_frame_parser(
-    grpc_chttp2_transport* t);
+static absl::Status init_non_header_skip_frame_parser(grpc_chttp2_transport* t);
 
 static absl::Status parse_frame_slice(grpc_chttp2_transport* t,
-                                           const grpc_slice& slice,
-                                           int is_last);
+                                      const grpc_slice& slice, int is_last);
 
 static char get_utf8_safe_char(char c) {
   return static_cast<unsigned char>(c) < 128 ? c : 32;
 }
 
 absl::Status grpc_chttp2_perform_read(grpc_chttp2_transport* t,
-                                           const grpc_slice& slice) {
+                                      const grpc_slice& slice) {
   const uint8_t* beg = GRPC_SLICE_START_PTR(slice);
   const uint8_t* end = GRPC_SLICE_END_PTR(slice);
   const uint8_t* cur = beg;
@@ -324,11 +321,9 @@ static absl::Status init_frame_parser(grpc_chttp2_transport* t) {
   }
 }
 
-static absl::Status skip_parser(void* /*parser*/,
-                                     grpc_chttp2_transport* /*t*/,
-                                     grpc_chttp2_stream* /*s*/,
-                                     const grpc_slice& /*slice*/,
-                                     int /*is_last*/) {
+static absl::Status skip_parser(void* /*parser*/, grpc_chttp2_transport* /*t*/,
+                                grpc_chttp2_stream* /*s*/,
+                                const grpc_slice& /*slice*/, int /*is_last*/) {
   return GRPC_ERROR_NONE;
 }
 
@@ -444,7 +439,7 @@ error_handler:
 }
 
 static absl::Status init_header_frame_parser(grpc_chttp2_transport* t,
-                                                  int is_continuation) {
+                                             int is_continuation) {
   const bool is_eoh =
       (t->incoming_frame_flags & GRPC_CHTTP2_DATA_FLAG_END_HEADERS) != 0;
   grpc_chttp2_stream* s;
@@ -581,8 +576,7 @@ static absl::Status init_header_frame_parser(grpc_chttp2_transport* t,
   return GRPC_ERROR_NONE;
 }
 
-static absl::Status init_window_update_frame_parser(
-    grpc_chttp2_transport* t) {
+static absl::Status init_window_update_frame_parser(grpc_chttp2_transport* t) {
   absl::Status err = grpc_chttp2_window_update_parser_begin_frame(
       &t->simple.window_update, t->incoming_frame_size,
       t->incoming_frame_flags);
@@ -662,8 +656,7 @@ static absl::Status init_settings_frame_parser(grpc_chttp2_transport* t) {
 }
 
 static absl::Status parse_frame_slice(grpc_chttp2_transport* t,
-                                           const grpc_slice& slice,
-                                           int is_last) {
+                                      const grpc_slice& slice, int is_last) {
   grpc_chttp2_stream* s = t->incoming_stream;
   absl::Status err = t->parser(t->parser_data, t, s, slice, is_last);
   intptr_t unused;

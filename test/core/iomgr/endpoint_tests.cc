@@ -128,8 +128,7 @@ static void read_scheduler(void* data, absl::Status /* error */) {
                      /*urgent=*/false, /*min_progress_size=*/1);
 }
 
-static void read_and_write_test_read_handler(void* data,
-                                             absl::Status error) {
+static void read_and_write_test_read_handler(void* data, absl::Status error) {
   struct read_and_write_test_state* state =
       static_cast<struct read_and_write_test_state*>(data);
 
@@ -157,8 +156,7 @@ static void write_scheduler(void* data, absl::Status /* error */) {
                       nullptr, /*max_frame_size=*/state->max_write_frame_size);
 }
 
-static void read_and_write_test_write_handler(void* data,
-                                              absl::Status error) {
+static void read_and_write_test_write_handler(void* data, absl::Status error) {
   struct read_and_write_test_state* state =
       static_cast<struct read_and_write_test_state*>(data);
   grpc_slice* slices = nullptr;

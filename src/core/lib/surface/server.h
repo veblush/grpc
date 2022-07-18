@@ -236,8 +236,8 @@ class Server : public InternallyRefCounted<Server>,
                                                  const grpc_slice& path);
 
     // Filter vtable functions.
-    static absl::Status InitChannelElement(
-        grpc_channel_element* elem, grpc_channel_element_args* args);
+    static absl::Status InitChannelElement(grpc_channel_element* elem,
+                                           grpc_channel_element_args* args);
     static void DestroyChannelElement(grpc_channel_element* elem);
 
    private:
@@ -298,8 +298,8 @@ class Server : public InternallyRefCounted<Server>,
     void FailCallCreation();
 
     // Filter vtable functions.
-    static absl::Status InitCallElement(
-        grpc_call_element* elem, const grpc_call_element_args* args);
+    static absl::Status InitCallElement(grpc_call_element* elem,
+                                        const grpc_call_element_args* args);
     static void DestroyCallElement(grpc_call_element* elem,
                                    const grpc_call_final_info* /*final_info*/,
                                    grpc_closure* /*ignored*/);
@@ -308,8 +308,7 @@ class Server : public InternallyRefCounted<Server>,
 
    private:
     // Helper functions for handling calls at the top of the call stack.
-    static void RecvInitialMetadataBatchComplete(void* arg,
-                                                 absl::Status error);
+    static void RecvInitialMetadataBatchComplete(void* arg, absl::Status error);
     void StartNewRpc(grpc_call_element* elem);
     static void PublishNewRpc(void* arg, absl::Status error);
 

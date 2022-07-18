@@ -595,9 +595,9 @@ std::string XdsApi::CreateLrsRequest(
 }
 
 absl::Status XdsApi::ParseLrsResponse(absl::string_view encoded_response,
-                                           bool* send_all_clusters,
-                                           std::set<std::string>* cluster_names,
-                                           Duration* load_reporting_interval) {
+                                      bool* send_all_clusters,
+                                      std::set<std::string>* cluster_names,
+                                      Duration* load_reporting_interval) {
   upb::Arena arena;
   // Decode the response.
   const envoy_service_load_stats_v3_LoadStatsResponse* decoded_response =

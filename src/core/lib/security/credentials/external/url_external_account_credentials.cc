@@ -185,8 +185,8 @@ void UrlExternalAccountCredentials::RetrieveSubjectToken(
   grpc_http_request_destroy(&request);
 }
 
-void UrlExternalAccountCredentials::OnRetrieveSubjectToken(
-    void* arg, absl::Status error) {
+void UrlExternalAccountCredentials::OnRetrieveSubjectToken(void* arg,
+                                                           absl::Status error) {
   UrlExternalAccountCredentials* self =
       static_cast<UrlExternalAccountCredentials*>(arg);
   self->OnRetrieveSubjectTokenInternal(error);

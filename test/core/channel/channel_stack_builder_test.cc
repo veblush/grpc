@@ -40,12 +40,12 @@ namespace testing {
 namespace {
 
 absl::Status ChannelInitFunc(grpc_channel_element* /*elem*/,
-                                  grpc_channel_element_args* /*args*/) {
+                             grpc_channel_element_args* /*args*/) {
   return GRPC_ERROR_NONE;
 }
 
 absl::Status CallInitFunc(grpc_call_element* /*elem*/,
-                               const grpc_call_element_args* /*args*/) {
+                          const grpc_call_element_args* /*args*/) {
   return GRPC_ERROR_NONE;
 }
 

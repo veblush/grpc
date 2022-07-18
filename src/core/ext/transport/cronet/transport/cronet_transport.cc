@@ -317,8 +317,8 @@ static void read_grpc_header(stream_obj* s) {
 }
 
 static absl::Status make_error_with_desc(int error_code,
-                                              int cronet_internal_error_code,
-                                              const char* desc) {
+                                         int cronet_internal_error_code,
+                                         const char* desc) {
   return grpc_error_set_int(GRPC_ERROR_CREATE_FROM_CPP_STRING(absl::StrFormat(
                                 "Cronet error code:%d, Cronet error detail:%s",
                                 cronet_internal_error_code, desc)),

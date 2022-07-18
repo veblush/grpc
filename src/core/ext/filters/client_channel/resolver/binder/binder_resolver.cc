@@ -91,8 +91,8 @@ class BinderResolverFactory : public ResolverFactory {
   }
 
  private:
-  static absl::Status BinderAddrPopulate(
-      absl::string_view path, grpc_resolved_address* resolved_addr) {
+  static absl::Status BinderAddrPopulate(absl::string_view path,
+                                         grpc_resolved_address* resolved_addr) {
     path = absl::StripPrefix(path, "/");
     if (path.empty()) {
       return GRPC_ERROR_CREATE_FROM_CPP_STRING("path is empty");

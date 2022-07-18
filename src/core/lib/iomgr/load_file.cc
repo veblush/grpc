@@ -31,7 +31,7 @@
 #include "src/core/lib/iomgr/block_annotate.h"
 
 absl::Status grpc_load_file(const char* filename, int add_null_terminator,
-                                 grpc_slice* output) {
+                            grpc_slice* output) {
   unsigned char* contents = nullptr;
   size_t contents_size = 0;
   grpc_slice result = grpc_empty_slice();

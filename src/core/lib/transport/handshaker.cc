@@ -144,8 +144,7 @@ bool HandshakeManager::CallNextHandshakerLocked(absl::Status error) {
   return is_shutdown_;
 }
 
-void HandshakeManager::CallNextHandshakerFn(void* arg,
-                                            absl::Status error) {
+void HandshakeManager::CallNextHandshakerFn(void* arg, absl::Status error) {
   auto* mgr = static_cast<HandshakeManager*>(arg);
   bool done;
   {

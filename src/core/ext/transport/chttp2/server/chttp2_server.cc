@@ -100,9 +100,9 @@ const char kUnixAbstractUriPrefix[] = "unix-abstract:";
 class Chttp2ServerListener : public Server::ListenerInterface {
  public:
   static absl::Status Create(Server* server, grpc_resolved_address* addr,
-                                  const ChannelArgs& args,
-                                  Chttp2ServerArgsModifier args_modifier,
-                                  int* port_num);
+                             const ChannelArgs& args,
+                             Chttp2ServerArgsModifier args_modifier,
+                             int* port_num);
 
   static absl::Status CreateWithAcceptor(
       Server* server, const char* name, const ChannelArgs& args,
@@ -619,8 +619,8 @@ void Chttp2ServerListener::ActiveConnection::Start(
   handshaking_state_ref->Start(endpoint, args);
 }
 
-void Chttp2ServerListener::ActiveConnection::OnClose(
-    void* arg, absl::Status /* error */) {
+void Chttp2ServerListener::ActiveConnection::OnClose(void* arg,
+                                                     absl::Status /* error */) {
   ActiveConnection* self = static_cast<ActiveConnection*>(arg);
   OrphanablePtr<ActiveConnection> connection;
   {
@@ -901,9 +901,9 @@ void Chttp2ServerListener::Orphan() {
 //
 
 absl::Status Chttp2ServerAddPort(Server* server, const char* addr,
-                                      const ChannelArgs& args,
-                                      Chttp2ServerArgsModifier args_modifier,
-                                      int* port_num) {
+                                 const ChannelArgs& args,
+                                 Chttp2ServerArgsModifier args_modifier,
+                                 int* port_num) {
   if (addr == nullptr) {
     return GRPC_ERROR_CREATE_FROM_STATIC_STRING(
         "Invalid address: addr cannot be a nullptr.");

@@ -61,8 +61,7 @@ class ExternalAccountCredentials
   };
 
   static RefCountedPtr<ExternalAccountCredentials> Create(
-      const Json& json, std::vector<std::string> scopes,
-      absl::Status* error);
+      const Json& json, std::vector<std::string> scopes, absl::Status* error);
 
   ExternalAccountCredentials(Options options, std::vector<std::string> scopes);
   ~ExternalAccountCredentials() override;

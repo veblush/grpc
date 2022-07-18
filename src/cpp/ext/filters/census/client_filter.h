@@ -36,7 +36,7 @@ namespace grpc {
 class CensusClientCallData : public CallData {
  public:
   absl::Status Init(grpc_call_element* /* elem */,
-                         const grpc_call_element_args* args) override;
+                    const grpc_call_element_args* args) override;
   void StartTransportStreamOpBatch(grpc_call_element* elem,
                                    TransportStreamOpBatch* op) override;
 

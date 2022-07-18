@@ -323,8 +323,8 @@ void SubchannelStreamClient::CallState::OnCancelComplete(
   self->call_->Unref(DEBUG_LOCATION, "cancel");
 }
 
-void SubchannelStreamClient::CallState::StartCancel(
-    void* arg, absl::Status /*error*/) {
+void SubchannelStreamClient::CallState::StartCancel(void* arg,
+                                                    absl::Status /*error*/) {
   auto* self = static_cast<SubchannelStreamClient::CallState*>(arg);
   auto* batch = grpc_make_transport_stream_op(
       GRPC_CLOSURE_CREATE(OnCancelComplete, self, grpc_schedule_on_exec_ctx));
@@ -346,8 +346,8 @@ void SubchannelStreamClient::CallState::Cancel() {
   }
 }
 
-void SubchannelStreamClient::CallState::OnComplete(
-    void* arg, absl::Status /*error*/) {
+void SubchannelStreamClient::CallState::OnComplete(void* arg,
+                                                   absl::Status /*error*/) {
   auto* self = static_cast<SubchannelStreamClient::CallState*>(arg);
   GRPC_CALL_COMBINER_STOP(&self->call_combiner_, "on_complete");
   self->send_initial_metadata_.Clear();

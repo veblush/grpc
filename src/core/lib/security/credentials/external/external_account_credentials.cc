@@ -100,8 +100,7 @@ bool MatchWorkforcePoolAudience(absl::string_view audience) {
 }  // namespace
 
 RefCountedPtr<ExternalAccountCredentials> ExternalAccountCredentials::Create(
-    const Json& json, std::vector<std::string> scopes,
-    absl::Status* error) {
+    const Json& json, std::vector<std::string> scopes, absl::Status* error) {
   GPR_ASSERT(error->ok());
   Options options;
   options.type = GRPC_AUTH_JSON_TYPE_INVALID;
@@ -367,8 +366,7 @@ void ExternalAccountCredentials::OnExchangeToken(void* arg,
   self->OnExchangeTokenInternal(error);
 }
 
-void ExternalAccountCredentials::OnExchangeTokenInternal(
-    absl::Status error) {
+void ExternalAccountCredentials::OnExchangeTokenInternal(absl::Status error) {
   http_request_.reset();
   if (!error.ok()) {
     FinishTokenFetch(error);

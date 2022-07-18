@@ -60,7 +60,7 @@ const absl::string_view kServerFeatureIgnoreResourceDeletion =
     "ignore_resource_deletion";
 
 absl::Status ParseChannelCreds(const Json::Object& json, size_t idx,
-                                    XdsBootstrap::XdsServer* server) {
+                               XdsBootstrap::XdsServer* server) {
   std::vector<absl::Status> error_list;
   std::string type;
   ParseJsonObjectField(json, "type", &type, &error_list);
@@ -85,7 +85,7 @@ absl::Status ParseChannelCreds(const Json::Object& json, size_t idx,
 }
 
 absl::Status ParseChannelCredsArray(const Json::Array& json,
-                                         XdsBootstrap::XdsServer* server) {
+                                    XdsBootstrap::XdsServer* server) {
   std::vector<absl::Status> error_list;
   for (size_t i = 0; i < json.size(); ++i) {
     const Json& child = json.at(i);
@@ -112,8 +112,8 @@ absl::Status ParseChannelCredsArray(const Json::Array& json,
 // XdsBootstrap::XdsServer
 //
 
-XdsBootstrap::XdsServer XdsBootstrap::XdsServer::Parse(
-    const Json& json, absl::Status* error) {
+XdsBootstrap::XdsServer XdsBootstrap::XdsServer::Parse(const Json& json,
+                                                       absl::Status* error) {
   std::vector<absl::Status> error_list;
   XdsServer server;
   ParseJsonObjectField(json.object_value(), "server_uri", &server.server_uri,
@@ -122,8 +122,7 @@ XdsBootstrap::XdsServer XdsBootstrap::XdsServer::Parse(
   ParseJsonObjectField(json.object_value(), "channel_creds", &creds_array,
                        &error_list);
   if (creds_array != nullptr) {
-    absl::Status parse_error =
-        ParseChannelCredsArray(*creds_array, &server);
+    absl::Status parse_error = ParseChannelCredsArray(*creds_array, &server);
     if (!parse_error.ok()) error_list.push_back(parse_error);
   }
   const Json::Array* server_features_array = nullptr;
@@ -181,9 +180,8 @@ std::unique_ptr<XdsBootstrap> XdsBootstrap::Create(
     absl::string_view json_string, absl::Status* error) {
   Json json = Json::Parse(json_string, error);
   if (!error->ok()) {
-    absl::Status error_out =
-        GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
-            "Failed to parse bootstrap JSON string", error, 1);
+    absl::Status error_out = GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
+        "Failed to parse bootstrap JSON string", error, 1);
     *error = error_out;
     return nullptr;
   }
@@ -286,8 +284,8 @@ bool XdsBootstrap::XdsServerExists(
   return false;
 }
 
-absl::Status XdsBootstrap::ParseXdsServerList(
-    Json* json, std::vector<XdsServer>* servers) {
+absl::Status XdsBootstrap::ParseXdsServerList(Json* json,
+                                              std::vector<XdsServer>* servers) {
   std::vector<absl::Status> error_list;
   for (size_t i = 0; i < json->mutable_array()->size(); ++i) {
     Json& child = json->mutable_array()->at(i);
@@ -323,8 +321,7 @@ absl::Status XdsBootstrap::ParseAuthorities(Json* json) {
                                        &error_list);
 }
 
-absl::Status XdsBootstrap::ParseAuthority(Json* json,
-                                               const std::string& name) {
+absl::Status XdsBootstrap::ParseAuthority(Json* json, const std::string& name) {
   std::vector<absl::Status> error_list;
   Authority authority;
   auto it =

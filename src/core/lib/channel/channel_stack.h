@@ -142,7 +142,7 @@ struct grpc_channel_filter {
      argument.
      Implementations may assume that elem->call_data is all zeros. */
   absl::Status (*init_call_elem)(grpc_call_element* elem,
-                                      const grpc_call_element_args* args);
+                                 const grpc_call_element_args* args);
   void (*set_pollset_or_pollset_set)(grpc_call_element* elem,
                                      grpc_polling_entity* pollent);
   /* Destroy per call data.
@@ -165,7 +165,7 @@ struct grpc_channel_filter {
      The filter does not need to do any chaining.
      Implementations may assume that elem->channel_data is all zeros. */
   absl::Status (*init_channel_elem)(grpc_channel_element* elem,
-                                         grpc_channel_element_args* args);
+                                    grpc_channel_element_args* args);
   /* Post init per-channel data.
      Called after all channel elements have been successfully created. */
   void (*post_init_channel_elem)(grpc_channel_stack* stk,
@@ -280,10 +280,9 @@ void grpc_channel_stack_destroy(grpc_channel_stack* stack);
    expected to be NULL on a client, or an opaque transport owned pointer on the
    server. */
 absl::Status grpc_call_stack_init(grpc_channel_stack* channel_stack,
-                                       int initial_refs,
-                                       grpc_iomgr_cb_func destroy,
-                                       void* destroy_arg,
-                                       const grpc_call_element_args* elem_args);
+                                  int initial_refs, grpc_iomgr_cb_func destroy,
+                                  void* destroy_arg,
+                                  const grpc_call_element_args* elem_args);
 /* Set a pollset or a pollset_set for a call stack: must occur before the first
  * op is started */
 void grpc_call_stack_set_pollset_or_pollset_set(grpc_call_stack* call_stack,

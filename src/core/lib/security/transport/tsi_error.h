@@ -24,7 +24,6 @@
 #include "src/core/lib/iomgr/error.h"
 #include "src/core/tsi/transport_security_interface.h"
 
-absl::Status grpc_set_tsi_error_result(absl::Status error,
-                                            tsi_result result);
+absl::Status grpc_set_tsi_error_result(absl::Status error, tsi_result result);
 
 #endif /* GRPC_CORE_LIB_SECURITY_TRANSPORT_TSI_ERROR_H */

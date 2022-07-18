@@ -31,7 +31,7 @@ namespace grpc {
 class CensusChannelData : public ChannelData {
  public:
   absl::Status Init(grpc_channel_element* elem,
-                         grpc_channel_element_args* args) override;
+                    grpc_channel_element_args* args) override;
 };
 
 }  // namespace grpc

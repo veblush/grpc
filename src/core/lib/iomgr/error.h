@@ -216,16 +216,13 @@ absl::Status grpc_wsa_error(const grpc_core::DebugLocation& location, int err,
 #define GRPC_WSA_ERROR(err, call_name) \
   grpc_wsa_error(DEBUG_LOCATION, err, call_name)
 
-absl::Status grpc_error_set_int(absl::Status src,
-                                     grpc_error_ints which,
-                                     intptr_t value) GRPC_MUST_USE_RESULT;
+absl::Status grpc_error_set_int(absl::Status src, grpc_error_ints which,
+                                intptr_t value) GRPC_MUST_USE_RESULT;
 /// It is an error to pass nullptr as `p`. Caller should allocate a phony
 /// intptr_t for `p`, even if the value of `p` is not used.
-bool grpc_error_get_int(absl::Status error, grpc_error_ints which,
-                        intptr_t* p);
-absl::Status grpc_error_set_str(
-    absl::Status src, grpc_error_strs which,
-    absl::string_view str) GRPC_MUST_USE_RESULT;
+bool grpc_error_get_int(absl::Status error, grpc_error_ints which, intptr_t* p);
+absl::Status grpc_error_set_str(absl::Status src, grpc_error_strs which,
+                                absl::string_view str) GRPC_MUST_USE_RESULT;
 /// Returns false if the specified string is not set.
 bool grpc_error_get_str(absl::Status error, grpc_error_strs which,
                         std::string* str);
@@ -241,8 +238,8 @@ bool grpc_error_get_str(absl::Status error, grpc_error_strs which,
 /// returns GRPC_ERROR_NONE. 3) If \a src and \a child point to the same error,
 /// returns a single reference. (Note that, 2 references should have been
 /// received to the error in this case.)
-absl::Status grpc_error_add_child(
-    absl::Status src, absl::Status child) GRPC_MUST_USE_RESULT;
+absl::Status grpc_error_add_child(absl::Status src,
+                                  absl::Status child) GRPC_MUST_USE_RESULT;
 
 bool grpc_log_error(const char* what, absl::Status error, const char* file,
                     int line);

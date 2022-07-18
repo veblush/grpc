@@ -383,8 +383,7 @@ tsi_result alts_tsi_handshaker_result_create(grpc_gcp_HandshakerResp* resp,
 }
 
 /* gRPC provided callback used when gRPC thread model is applied. */
-static void on_handshaker_service_resp_recv(void* arg,
-                                            absl::Status error) {
+static void on_handshaker_service_resp_recv(void* arg, absl::Status error) {
   alts_handshaker_client* client = static_cast<alts_handshaker_client*>(arg);
   if (client == nullptr) {
     gpr_log(GPR_ERROR, "ALTS handshaker client is nullptr");
@@ -402,8 +401,8 @@ static void on_handshaker_service_resp_recv(void* arg,
 
 /* gRPC provided callback used when dedicatd CQ and thread are used.
  * It serves to safely bring the control back to application. */
-static void on_handshaker_service_resp_recv_dedicated(
-    void* arg, absl::Status /*error*/) {
+static void on_handshaker_service_resp_recv_dedicated(void* arg,
+                                                      absl::Status /*error*/) {
   alts_shared_resource_dedicated* resource =
       grpc_alts_get_shared_resource_dedicated();
   grpc_cq_end_op(

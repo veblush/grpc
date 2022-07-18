@@ -30,8 +30,8 @@
 #include "src/core/lib/iomgr/error.h"
 
 static absl::Status conforms_to(const grpc_slice& slice,
-                                     const grpc_core::BitSet<256>& legal_bits,
-                                     const char* err_desc) {
+                                const grpc_core::BitSet<256>& legal_bits,
+                                const char* err_desc) {
   const uint8_t* p = GRPC_SLICE_START_PTR(slice);
   const uint8_t* e = GRPC_SLICE_END_PTR(slice);
   for (; p != e; p++) {

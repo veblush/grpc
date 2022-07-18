@@ -118,15 +118,14 @@ class XdsBootstrap {
   bool XdsServerExists(const XdsServer& server) const;
 
  private:
-  absl::Status ParseXdsServerList(Json* json,
-                                       std::vector<XdsServer>* servers);
+  absl::Status ParseXdsServerList(Json* json, std::vector<XdsServer>* servers);
   absl::Status ParseAuthorities(Json* json);
   absl::Status ParseAuthority(Json* json, const std::string& name);
   absl::Status ParseNode(Json* json);
   absl::Status ParseLocality(Json* json);
   absl::Status ParseCertificateProviders(Json* json);
   absl::Status ParseCertificateProvider(const std::string& instance_name,
-                                             Json* certificate_provider_json);
+                                        Json* certificate_provider_json);
 
   std::vector<XdsServer> servers_;
   std::unique_ptr<Node> node_;

@@ -118,8 +118,8 @@ void grpc_http_parser_destroy(grpc_http_parser* parser);
 
 /* Sets \a start_of_body to the offset in \a slice of the start of the body. */
 absl::Status grpc_http_parser_parse(grpc_http_parser* parser,
-                                         const grpc_slice& slice,
-                                         size_t* start_of_body);
+                                    const grpc_slice& slice,
+                                    size_t* start_of_body);
 absl::Status grpc_http_parser_eof(grpc_http_parser* parser);
 
 void grpc_http_request_destroy(grpc_http_request* request);

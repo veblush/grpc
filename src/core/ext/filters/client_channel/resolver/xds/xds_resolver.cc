@@ -301,8 +301,7 @@ class XdsResolver : public Resolver {
 
   class XdsConfigSelector : public ConfigSelector {
    public:
-    XdsConfigSelector(RefCountedPtr<XdsResolver> resolver,
-                      absl::Status* error);
+    XdsConfigSelector(RefCountedPtr<XdsResolver> resolver, absl::Status* error);
     ~XdsConfigSelector() override;
 
     const char* name() const override { return "XdsConfigSelector"; }

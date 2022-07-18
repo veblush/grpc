@@ -84,7 +84,7 @@ class SecurityHandshaker : public Handshaker {
 
  private:
   absl::Status DoHandshakerNextLocked(const unsigned char* bytes_received,
-                                           size_t bytes_received_size);
+                                      size_t bytes_received_size);
 
   absl::Status OnHandshakeNextDoneLocked(
       tsi_result result, const unsigned char* bytes_to_send,
@@ -92,11 +92,10 @@ class SecurityHandshaker : public Handshaker {
   void HandshakeFailedLocked(absl::Status error);
   void CleanupArgsForFailureLocked();
 
-  static void OnHandshakeDataReceivedFromPeerFn(void* arg,
-                                                absl::Status error);
+  static void OnHandshakeDataReceivedFromPeerFn(void* arg, absl::Status error);
   static void OnHandshakeDataSentToPeerFn(void* arg, absl::Status error);
-  static void OnHandshakeDataReceivedFromPeerFnScheduler(
-      void* arg, absl::Status error);
+  static void OnHandshakeDataReceivedFromPeerFnScheduler(void* arg,
+                                                         absl::Status error);
   static void OnHandshakeDataSentToPeerFnScheduler(void* arg,
                                                    absl::Status error);
   static void OnHandshakeNextDoneGrpcWrapper(
@@ -478,8 +477,8 @@ void SecurityHandshaker::OnHandshakeDataReceivedFromPeerFnScheduler(
       error);
 }
 
-void SecurityHandshaker::OnHandshakeDataReceivedFromPeerFn(
-    void* arg, absl::Status error) {
+void SecurityHandshaker::OnHandshakeDataReceivedFromPeerFn(void* arg,
+                                                           absl::Status error) {
   RefCountedPtr<SecurityHandshaker> h(static_cast<SecurityHandshaker*>(arg));
   MutexLock lock(&h->mu_);
   if (!error.ok() || h->is_shutdown_) {

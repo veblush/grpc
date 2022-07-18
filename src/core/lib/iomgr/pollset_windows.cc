@@ -107,8 +107,8 @@ static void pollset_shutdown(grpc_pollset* pollset, grpc_closure* closure) {
 static void pollset_destroy(grpc_pollset* pollset) {}
 
 static absl::Status pollset_work(grpc_pollset* pollset,
-                                      grpc_pollset_worker** worker_hdl,
-                                      grpc_core::Timestamp deadline) {
+                                 grpc_pollset_worker** worker_hdl,
+                                 grpc_core::Timestamp deadline) {
   grpc_pollset_worker worker;
   if (worker_hdl) *worker_hdl = &worker;
 
@@ -184,7 +184,7 @@ done:
 }
 
 static absl::Status pollset_kick(grpc_pollset* p,
-                                      grpc_pollset_worker* specific_worker) {
+                                 grpc_pollset_worker* specific_worker) {
   bool should_kick_global = false;
   if (specific_worker != NULL) {
     if (specific_worker == GRPC_POLLSET_KICK_BROADCAST) {

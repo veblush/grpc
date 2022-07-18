@@ -64,8 +64,7 @@ class TestParser1 : public ServiceConfigParser::Parser {
   absl::string_view name() const override { return "test_parser_1"; }
 
   std::unique_ptr<ServiceConfigParser::ParsedConfig> ParseGlobalParams(
-      const ChannelArgs& args, const Json& json,
-      absl::Status* error) override {
+      const ChannelArgs& args, const Json& json, absl::Status* error) override {
     GPR_DEBUG_ASSERT(error != nullptr);
     if (args.GetBool(GRPC_ARG_DISABLE_PARSING).value_or(false)) {
       return nullptr;
@@ -102,8 +101,7 @@ class TestParser2 : public ServiceConfigParser::Parser {
   absl::string_view name() const override { return "test_parser_2"; }
 
   std::unique_ptr<ServiceConfigParser::ParsedConfig> ParsePerMethodParams(
-      const ChannelArgs& args, const Json& json,
-      absl::Status* error) override {
+      const ChannelArgs& args, const Json& json, absl::Status* error) override {
     GPR_DEBUG_ASSERT(error != nullptr);
     if (args.GetBool(GRPC_ARG_DISABLE_PARSING).value_or(false)) {
       return nullptr;

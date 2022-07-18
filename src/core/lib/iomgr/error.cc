@@ -92,8 +92,8 @@ absl::Status grpc_wsa_error(const grpc_core::DebugLocation& location, int err,
 }
 #endif
 
-absl::Status grpc_error_set_int(absl::Status src,
-                                     grpc_error_ints which, intptr_t value) {
+absl::Status grpc_error_set_int(absl::Status src, grpc_error_ints which,
+                                intptr_t value) {
   if (src.ok()) {
     src = absl::UnknownError("");
     StatusSetInt(&src, grpc_core::StatusIntProperty::kRpcStatus,
@@ -132,9 +132,8 @@ bool grpc_error_get_int(absl::Status error, grpc_error_ints which,
   }
 }
 
-absl::Status grpc_error_set_str(absl::Status src,
-                                     grpc_error_strs which,
-                                     absl::string_view str) {
+absl::Status grpc_error_set_str(absl::Status src, grpc_error_strs which,
+                                absl::string_view str) {
   if (src.ok()) {
     src = absl::UnknownError("");
     StatusSetInt(&src, grpc_core::StatusIntProperty::kRpcStatus,
@@ -196,8 +195,7 @@ bool grpc_error_get_str(absl::Status error, grpc_error_strs which,
   }
 }
 
-absl::Status grpc_error_add_child(absl::Status src,
-                                       absl::Status child) {
+absl::Status grpc_error_add_child(absl::Status src, absl::Status child) {
   if (src.ok()) {
     return child;
   } else {

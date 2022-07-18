@@ -47,8 +47,7 @@ void default_timestamps_callback(void* /*arg*/, Timestamps* /*ts*/,
 
 /** The saved callback function that will be invoked when we get all the
  * timestamps that we are going to get for a TracedBuffer. */
-void (*timestamps_callback)(void*, Timestamps*,
-                            absl::Status shutdown_err) =
+void (*timestamps_callback)(void*, Timestamps*, absl::Status shutdown_err) =
     default_timestamps_callback;
 
 /* Used to extract individual opt stats from cmsg, so as to avoid troubles with
@@ -284,8 +283,8 @@ void TracedBuffer::Shutdown(TracedBuffer** head, void* remaining,
   }
 }
 
-void grpc_tcp_set_write_timestamps_callback(
-    void (*fn)(void*, Timestamps*, absl::Status error)) {
+void grpc_tcp_set_write_timestamps_callback(void (*fn)(void*, Timestamps*,
+                                                       absl::Status error)) {
   timestamps_callback = fn;
 }
 } /* namespace grpc_core */
@@ -293,8 +292,8 @@ void grpc_tcp_set_write_timestamps_callback(
 #else /* GRPC_LINUX_ERRQUEUE */
 
 namespace grpc_core {
-void grpc_tcp_set_write_timestamps_callback(
-    void (*fn)(void*, Timestamps*, absl::Status error)) {
+void grpc_tcp_set_write_timestamps_callback(void (*fn)(void*, Timestamps*,
+                                                       absl::Status error)) {
   // Cast value of fn to void to avoid unused parameter warning.
   // Can't comment out the name because some compilers and formatters don't
   // like the sequence */* , which would arise from */*fn*/.

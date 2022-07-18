@@ -102,11 +102,11 @@ absl::Status grpc_set_socket_rcvbuf(int fd, int buffer_size_bytes);
 
 /* Tries to set the socket using a grpc_socket_mutator */
 absl::Status grpc_set_socket_with_mutator(int fd, grpc_fd_usage usage,
-                                               grpc_socket_mutator* mutator);
+                                          grpc_socket_mutator* mutator);
 
 /* Extracts the first socket mutator from args if any and applies on the fd. */
-absl::Status grpc_apply_socket_mutator_in_args(
-    int fd, grpc_fd_usage usage, const grpc_channel_args* args);
+absl::Status grpc_apply_socket_mutator_in_args(int fd, grpc_fd_usage usage,
+                                               const grpc_channel_args* args);
 
 /* An enum to keep track of IPv4/IPv6 socket modes.
 
@@ -150,9 +150,10 @@ int grpc_set_socket_dualstack(int fd);
      IPv4, so that bind() or connect() see the correct family.
    Also, it's important to distinguish between DUALSTACK and IPV6 when
    listening on the [::] wildcard address. */
-absl::Status grpc_create_dualstack_socket(
-    const grpc_resolved_address* addr, int type, int protocol,
-    grpc_dualstack_mode* dsmode, int* newfd);
+absl::Status grpc_create_dualstack_socket(const grpc_resolved_address* addr,
+                                          int type, int protocol,
+                                          grpc_dualstack_mode* dsmode,
+                                          int* newfd);
 
 /* Same as grpc_create_dualstack_socket(), but use the given socket factory (if
    non-null) to create the socket, rather than calling socket() directly. */

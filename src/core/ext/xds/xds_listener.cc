@@ -616,8 +616,7 @@ absl::Status FilterChainMatchParse(
   filter_chain_match->source_prefix_ranges.reserve(size);
   for (size_t i = 0; i < size; i++) {
     XdsListenerResource::FilterChainMap::CidrRange cidr_range;
-    absl::Status error =
-        CidrRangeParse(source_prefix_ranges[i], &cidr_range);
+    absl::Status error = CidrRangeParse(source_prefix_ranges[i], &cidr_range);
     if (!error.ok()) return error;
     filter_chain_match->source_prefix_ranges.push_back(cidr_range);
   }
@@ -715,8 +714,8 @@ absl::Status FilterChainParse(
   return GRPC_ERROR_CREATE_FROM_VECTOR("Error parsing FilterChain", &errors);
 }
 
-absl::Status AddressParse(
-    const envoy_config_core_v3_Address* address_proto, std::string* address) {
+absl::Status AddressParse(const envoy_config_core_v3_Address* address_proto,
+                          std::string* address) {
   const auto* socket_address =
       envoy_config_core_v3_Address_socket_address(address_proto);
   if (socket_address == nullptr) {
@@ -985,10 +984,9 @@ absl::Status LdsResourceParseServer(
   return GRPC_ERROR_NONE;
 }
 
-absl::Status LdsResourceParse(
-    const XdsEncodingContext& context,
-    const envoy_config_listener_v3_Listener* listener, bool is_v2,
-    XdsListenerResource* lds_update) {
+absl::Status LdsResourceParse(const XdsEncodingContext& context,
+                              const envoy_config_listener_v3_Listener* listener,
+                              bool is_v2, XdsListenerResource* lds_update) {
   // Check whether it's a client or server listener.
   const envoy_config_listener_v3_ApiListener* api_listener =
       envoy_config_listener_v3_Listener_api_listener(listener);

@@ -229,7 +229,7 @@ class ClientChannel {
 
   // Filter vtable functions.
   static absl::Status Init(grpc_channel_element* elem,
-                                grpc_channel_element_args* args);
+                           grpc_channel_element_args* args);
   static void Destroy(grpc_channel_element* elem);
   static void StartTransportOp(grpc_channel_element* elem,
                                grpc_transport_op* op);
@@ -439,8 +439,7 @@ class ClientChannel::LoadBalancedCall
   // Returns the index into pending_batches_ to be used for batch.
   static size_t GetBatchIndex(grpc_transport_stream_op_batch* batch);
   void PendingBatchesAdd(grpc_transport_stream_op_batch* batch);
-  static void FailPendingBatchInCallCombiner(void* arg,
-                                             absl::Status error);
+  static void FailPendingBatchInCallCombiner(void* arg, absl::Status error);
   // A predicate type and some useful implementations for PendingBatchesFail().
   typedef bool (*YieldCallCombinerPredicate)(
       const CallCombinerClosureList& closures);
@@ -460,8 +459,7 @@ class ClientChannel::LoadBalancedCall
   void PendingBatchesFail(
       absl::Status error,
       YieldCallCombinerPredicate yield_call_combiner_predicate);
-  static void ResumePendingBatchInCallCombiner(void* arg,
-                                               absl::Status ignored);
+  static void ResumePendingBatchInCallCombiner(void* arg, absl::Status ignored);
   // Resumes all pending batches on subchannel_call_.
   void PendingBatchesResume();
 

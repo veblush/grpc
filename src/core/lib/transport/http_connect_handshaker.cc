@@ -183,8 +183,7 @@ void HttpConnectHandshaker::OnWriteDone(void* arg, absl::Status error) {
 
 // This callback can be invoked inline while already holding onto the mutex. To
 // avoid deadlocks, schedule OnReadDone on ExecCtx.
-void HttpConnectHandshaker::OnReadDoneScheduler(void* arg,
-                                                absl::Status error) {
+void HttpConnectHandshaker::OnReadDoneScheduler(void* arg, absl::Status error) {
   auto* handshaker = static_cast<HttpConnectHandshaker*>(arg);
   ExecCtx::Run(DEBUG_LOCATION,
                GRPC_CLOSURE_INIT(&handshaker->response_read_closure_,

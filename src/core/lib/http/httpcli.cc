@@ -277,8 +277,8 @@ void HttpRequest::OnReadInternal(absl::Status error) {
   }
 }
 
-void HttpRequest::ContinueDoneWriteAfterScheduleOnExecCtx(
-    void* arg, absl::Status error) {
+void HttpRequest::ContinueDoneWriteAfterScheduleOnExecCtx(void* arg,
+                                                          absl::Status error) {
   RefCountedPtr<HttpRequest> req(static_cast<HttpRequest*>(arg));
   MutexLock lock(&req->mu_);
   if (error.ok() && !req->cancelled_) {

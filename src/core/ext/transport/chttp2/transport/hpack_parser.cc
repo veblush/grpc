@@ -1342,10 +1342,10 @@ static void force_client_rst_stream(void* sp, absl::Status /*error*/) {
 }
 
 absl::Status grpc_chttp2_header_parser_parse(void* hpack_parser,
-                                                  grpc_chttp2_transport* t,
-                                                  grpc_chttp2_stream* s,
-                                                  const grpc_slice& slice,
-                                                  int is_last) {
+                                             grpc_chttp2_transport* t,
+                                             grpc_chttp2_stream* s,
+                                             const grpc_slice& slice,
+                                             int is_last) {
   GPR_TIMER_SCOPE("grpc_chttp2_header_parser_parse", 0);
   auto* parser = static_cast<grpc_core::HPackParser*>(hpack_parser);
   if (s != nullptr) {

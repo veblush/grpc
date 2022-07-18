@@ -70,8 +70,8 @@ void test_tcp_server_start(test_tcp_server* server, int port) {
                   .channel_args_preconditioning()
                   .PreconditionChannelArgs(nullptr)
                   .ToC();
-  absl::Status error = grpc_tcp_server_create(
-      &server->shutdown_complete, args.get(), &server->tcp_server);
+  absl::Status error = grpc_tcp_server_create(&server->shutdown_complete,
+                                              args.get(), &server->tcp_server);
   GPR_ASSERT(error.ok());
   error =
       grpc_tcp_server_add_port(server->tcp_server, &resolved_addr, &port_added);

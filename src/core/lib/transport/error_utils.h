@@ -38,8 +38,7 @@
 /// be populated with the entire error string. If any of the attributes (code,
 /// msg, http_status, error_string) are unneeded, they can be passed as
 /// NULL.
-void grpc_error_get_status(absl::Status error,
-                           grpc_core::Timestamp deadline,
+void grpc_error_get_status(absl::Status error, grpc_core::Timestamp deadline,
                            grpc_status_code* code, std::string* message,
                            grpc_http2_error_code* http_error,
                            const char** error_string);

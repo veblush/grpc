@@ -142,8 +142,7 @@ void bad_server_thread(void* vargs) {
                           .channel_args_preconditioning()
                           .PreconditionChannelArgs(nullptr)
                           .ToC();
-  absl::Status error =
-      grpc_tcp_server_create(nullptr, channel_args.get(), &s);
+  absl::Status error = grpc_tcp_server_create(nullptr, channel_args.get(), &s);
   ASSERT_TRUE(error.ok());
   memset(&resolved_addr, 0, sizeof(resolved_addr));
   addr->sa_family = GRPC_AF_INET;

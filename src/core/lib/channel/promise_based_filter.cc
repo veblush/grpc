@@ -810,8 +810,8 @@ Poll<ServerMetadataHandle> ClientCallData::PollTrailingMetadata() {
   GPR_UNREACHABLE_CODE(return Pending{});
 }
 
-void ClientCallData::RecvTrailingMetadataReadyCallback(
-    void* arg, absl::Status error) {
+void ClientCallData::RecvTrailingMetadataReadyCallback(void* arg,
+                                                       absl::Status error) {
   static_cast<ClientCallData*>(arg)->RecvTrailingMetadataReady(error);
 }
 

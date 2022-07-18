@@ -174,16 +174,14 @@ static void post_destructive_reclaimer(grpc_chttp2_transport* t);
 
 static void close_transport_locked(grpc_chttp2_transport* t,
                                    absl::Status error);
-static void end_all_the_calls(grpc_chttp2_transport* t,
-                              absl::Status error);
+static void end_all_the_calls(grpc_chttp2_transport* t, absl::Status error);
 
 static void start_bdp_ping(void* tp, absl::Status error);
 static void finish_bdp_ping(void* tp, absl::Status error);
 static void start_bdp_ping_locked(void* tp, absl::Status error);
 static void finish_bdp_ping_locked(void* tp, absl::Status error);
 static void next_bdp_ping_timer_expired(void* tp, absl::Status error);
-static void next_bdp_ping_timer_expired_locked(void* tp,
-                                               absl::Status error);
+static void next_bdp_ping_timer_expired_locked(void* tp, absl::Status error);
 
 static void cancel_pings(grpc_chttp2_transport* t, absl::Status error);
 static void send_ping_locked(grpc_chttp2_transport* t,
@@ -1209,8 +1207,7 @@ static void null_then_sched_closure(grpc_closure** closure) {
 void grpc_chttp2_complete_closure_step(grpc_chttp2_transport* t,
                                        grpc_chttp2_stream* /*s*/,
                                        grpc_closure** pclosure,
-                                       absl::Status error,
-                                       const char* desc) {
+                                       absl::Status error, const char* desc) {
   grpc_closure* closure = *pclosure;
   *pclosure = nullptr;
   if (closure == nullptr) {
@@ -2062,8 +2059,7 @@ void grpc_chttp2_fake_status(grpc_chttp2_transport* t, grpc_chttp2_stream* s,
   }
 }
 
-static void add_error(absl::Status error, absl::Status* refs,
-                      size_t* nrefs) {
+static void add_error(absl::Status error, absl::Status* refs, size_t* nrefs) {
   if (error.ok()) return;
   for (size_t i = 0; i < *nrefs; i++) {
     if (error == refs[i]) {
@@ -2075,8 +2071,8 @@ static void add_error(absl::Status error, absl::Status* refs,
 }
 
 static absl::Status removal_error(absl::Status extra_error,
-                                       grpc_chttp2_stream* s,
-                                       const char* main_error_msg) {
+                                  grpc_chttp2_stream* s,
+                                  const char* main_error_msg) {
   absl::Status refs[3];
   size_t nrefs = 0;
   add_error(s->read_closed_error, refs, &nrefs);
@@ -2091,8 +2087,7 @@ static absl::Status removal_error(absl::Status extra_error,
 }
 
 static void flush_write_list(grpc_chttp2_transport* t, grpc_chttp2_stream* s,
-                             grpc_chttp2_write_cb** list,
-                             absl::Status error) {
+                             grpc_chttp2_write_cb** list, absl::Status error) {
   while (*list) {
     grpc_chttp2_write_cb* cb = *list;
     *list = cb->next;
@@ -2345,8 +2340,7 @@ static void cancel_stream_cb(void* user_data, uint32_t /*key*/, void* stream) {
   grpc_chttp2_cancel_stream(args->t, s, args->error);
 }
 
-static void end_all_the_calls(grpc_chttp2_transport* t,
-                              absl::Status error) {
+static void end_all_the_calls(grpc_chttp2_transport* t, absl::Status error) {
   intptr_t http2_error;
   // If there is no explicit grpc or HTTP/2 error, set to UNAVAILABLE on server.
   if (!t->is_client && !grpc_error_has_clear_grpc_status(error) &&
@@ -2611,8 +2605,7 @@ static void next_bdp_ping_timer_expired(void* tp, absl::Status error) {
       error);
 }
 
-static void next_bdp_ping_timer_expired_locked(void* tp,
-                                               absl::Status error) {
+static void next_bdp_ping_timer_expired_locked(void* tp, absl::Status error) {
   grpc_chttp2_transport* t = static_cast<grpc_chttp2_transport*>(tp);
   GPR_ASSERT(t->have_next_bdp_ping_timer);
   t->have_next_bdp_ping_timer = false;
@@ -2802,8 +2795,7 @@ static void keepalive_watchdog_fired(void* arg, absl::Status error) {
       error);
 }
 
-static void keepalive_watchdog_fired_locked(void* arg,
-                                            absl::Status error) {
+static void keepalive_watchdog_fired_locked(void* arg, absl::Status error) {
   grpc_chttp2_transport* t = static_cast<grpc_chttp2_transport*>(arg);
   if (t->keepalive_state == GRPC_CHTTP2_KEEPALIVE_STATE_PINGING) {
     if (error.ok()) {

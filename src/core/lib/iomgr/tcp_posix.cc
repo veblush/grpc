@@ -712,8 +712,7 @@ static void finish_estimate(grpc_tcp* tcp) {
   tcp->bytes_read_this_round = 0;
 }
 
-static absl::Status tcp_annotate_error(absl::Status src_error,
-                                            grpc_tcp* tcp) {
+static absl::Status tcp_annotate_error(absl::Status src_error, grpc_tcp* tcp) {
   return grpc_error_set_str(
       grpc_error_set_int(
           grpc_error_set_int(src_error, GRPC_ERROR_INT_FD, tcp->fd),
@@ -1386,8 +1385,7 @@ static bool process_errors(grpc_tcp* tcp) {
   }
 }
 
-static void tcp_handle_error(void* arg /* grpc_tcp */,
-                             absl::Status error) {
+static void tcp_handle_error(void* arg /* grpc_tcp */, absl::Status error) {
   grpc_tcp* tcp = static_cast<grpc_tcp*>(arg);
   if (GRPC_TRACE_FLAG_ENABLED(grpc_tcp_trace)) {
     gpr_log(GPR_INFO, "TCP:%p got_error: %s", tcp,
@@ -1705,8 +1703,7 @@ static bool tcp_flush(grpc_tcp* tcp, absl::Status* error) {
   }
 }
 
-static void tcp_handle_write(void* arg /* grpc_tcp */,
-                             absl::Status error) {
+static void tcp_handle_write(void* arg /* grpc_tcp */, absl::Status error) {
   grpc_tcp* tcp = static_cast<grpc_tcp*>(arg);
   grpc_closure* cb;
 

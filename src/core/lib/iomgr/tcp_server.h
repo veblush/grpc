@@ -64,14 +64,13 @@ class TcpServerFdHandler {
 
 typedef struct grpc_tcp_server_vtable {
   absl::Status (*create)(grpc_closure* shutdown_complete,
-                              const grpc_channel_args* args,
-                              grpc_tcp_server** server);
+                         const grpc_channel_args* args,
+                         grpc_tcp_server** server);
   void (*start)(grpc_tcp_server* server,
                 const std::vector<grpc_pollset*>* pollsets,
                 grpc_tcp_server_cb on_accept_cb, void* cb_arg);
   absl::Status (*add_port)(grpc_tcp_server* s,
-                                const grpc_resolved_address* addr,
-                                int* out_port);
+                           const grpc_resolved_address* addr, int* out_port);
   grpc_core::TcpServerFdHandler* (*create_fd_handler)(grpc_tcp_server* s);
   unsigned (*port_fd_count)(grpc_tcp_server* s, unsigned port_index);
   int (*port_fd)(grpc_tcp_server* s, unsigned port_index, unsigned fd_index);
@@ -87,8 +86,8 @@ typedef struct grpc_tcp_server_vtable {
    grpc_tcp_server_unref() when the ref count reaches zero.
    Takes ownership of the slice_allocator_factory. */
 absl::Status grpc_tcp_server_create(grpc_closure* shutdown_complete,
-                                         const grpc_channel_args* args,
-                                         grpc_tcp_server** server);
+                                    const grpc_channel_args* args,
+                                    grpc_tcp_server** server);
 
 /* Start listening to bound ports */
 void grpc_tcp_server_start(grpc_tcp_server* server,
@@ -105,8 +104,8 @@ void grpc_tcp_server_start(grpc_tcp_server* server,
 /* TODO(ctiller): deprecate this, and make grpc_tcp_server_add_ports to handle
                   all of the multiple socket port matching logic in one place */
 absl::Status grpc_tcp_server_add_port(grpc_tcp_server* s,
-                                           const grpc_resolved_address* addr,
-                                           int* out_port);
+                                      const grpc_resolved_address* addr,
+                                      int* out_port);
 
 /* Create and return a TcpServerFdHandler so that it can be used by upper layer
    to hand over an externally connected fd to the grpc server. */

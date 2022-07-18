@@ -85,8 +85,7 @@ class GoogleMeshCaCertificateProviderFactory
         const Json::Object& google_grpc);
     std::vector<absl::Status> ParseJsonObjectGrpcServices(
         const Json::Object& grpc_service);
-    std::vector<absl::Status> ParseJsonObjectServer(
-        const Json::Object& server);
+    std::vector<absl::Status> ParseJsonObjectServer(const Json::Object& server);
 
     std::string endpoint_;
     StsConfig sts_config_;

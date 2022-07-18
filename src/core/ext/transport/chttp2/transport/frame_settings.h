@@ -58,9 +58,9 @@ absl::Status grpc_chttp2_settings_parser_begin_frame(
     grpc_chttp2_settings_parser* parser, uint32_t length, uint8_t flags,
     uint32_t* settings);
 absl::Status grpc_chttp2_settings_parser_parse(void* parser,
-                                                    grpc_chttp2_transport* t,
-                                                    grpc_chttp2_stream* s,
-                                                    const grpc_slice& slice,
-                                                    int is_last);
+                                               grpc_chttp2_transport* t,
+                                               grpc_chttp2_stream* s,
+                                               const grpc_slice& slice,
+                                               int is_last);
 
 #endif /* GRPC_CORE_EXT_TRANSPORT_CHTTP2_TRANSPORT_FRAME_SETTINGS_H */

@@ -743,8 +743,8 @@ void RlsLb::ChildPolicyWrapper::Orphan() {
 }
 
 absl::Status InsertOrUpdateChildPolicyField(const std::string& field,
-                                                 const std::string& value,
-                                                 Json* config) {
+                                            const std::string& value,
+                                            Json* config) {
   if (config->type() != Json::Type::ARRAY) {
     return GRPC_ERROR_CREATE_FROM_STATIC_STRING(
         "child policy configuration is not an array");
@@ -1114,8 +1114,8 @@ void RlsLb::Cache::Entry::BackoffTimer::Orphan() {
   Unref(DEBUG_LOCATION, "Orphan");
 }
 
-void RlsLb::Cache::Entry::BackoffTimer::OnBackoffTimer(
-    void* arg, absl::Status /*error*/) {
+void RlsLb::Cache::Entry::BackoffTimer::OnBackoffTimer(void* arg,
+                                                       absl::Status /*error*/) {
   auto* self = static_cast<BackoffTimer*>(arg);
   self->entry_->lb_policy_->work_serializer()->Run(
       [self]() {
@@ -2122,9 +2122,8 @@ void RlsLb::UpdatePickerLocked() {
 // RlsLbFactory
 //
 
-absl::Status ParseJsonHeaders(size_t idx, const Json& json,
-                                   std::string* key,
-                                   std::vector<std::string>* headers) {
+absl::Status ParseJsonHeaders(size_t idx, const Json& json, std::string* key,
+                              std::vector<std::string>* headers) {
   if (json.type() != Json::Type::OBJECT) {
     return GRPC_ERROR_CREATE_FROM_CPP_STRING(absl::StrCat(
         "field:headers index:", idx, " error:type should be OBJECT"));
@@ -2193,8 +2192,8 @@ std::string ParseJsonMethodName(size_t idx, const Json& json,
   return absl::StrCat("/", service_name, "/", method_name);
 }
 
-absl::Status ParseGrpcKeybuilder(
-    size_t idx, const Json& json, RlsLbConfig::KeyBuilderMap* key_builder_map) {
+absl::Status ParseGrpcKeybuilder(size_t idx, const Json& json,
+                                 RlsLbConfig::KeyBuilderMap* key_builder_map) {
   if (json.type() != Json::Type::OBJECT) {
     return GRPC_ERROR_CREATE_FROM_CPP_STRING(absl::StrCat(
         "field:grpc_keybuilders index:", idx, " error:type should be OBJECT"));
@@ -2349,8 +2348,8 @@ RlsLbConfig::KeyBuilderMap ParseGrpcKeybuilders(
   return key_builder_map;
 }
 
-RlsLbConfig::RouteLookupConfig ParseRouteLookupConfig(
-    const Json::Object& json, absl::Status* error) {
+RlsLbConfig::RouteLookupConfig ParseRouteLookupConfig(const Json::Object& json,
+                                                      absl::Status* error) {
   std::vector<absl::Status> error_list;
   RlsLbConfig::RouteLookupConfig route_lookup_config;
   // Parse grpcKeybuilders.

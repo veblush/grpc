@@ -60,8 +60,8 @@ void ContextList::Execute(void* arg, Timestamps* ts, absl::Status error) {
   }
 }
 
-void grpc_http2_set_write_timestamps_callback(
-    void (*fn)(void*, Timestamps*, absl::Status error)) {
+void grpc_http2_set_write_timestamps_callback(void (*fn)(void*, Timestamps*,
+                                                         absl::Status error)) {
   write_timestamps_callback_g = fn;
 }
 

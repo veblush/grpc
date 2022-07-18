@@ -289,9 +289,10 @@ void tsi_test_frame_protector_receive_message_from_peer(
   gpr_free(message_buffer);
 }
 
-absl::Status on_handshake_next_done(
-    tsi_result result, void* user_data, const unsigned char* bytes_to_send,
-    size_t bytes_to_send_size, tsi_handshaker_result* handshaker_result) {
+absl::Status on_handshake_next_done(tsi_result result, void* user_data,
+                                    const unsigned char* bytes_to_send,
+                                    size_t bytes_to_send_size,
+                                    tsi_handshaker_result* handshaker_result) {
   handshaker_args* args = static_cast<handshaker_args*>(user_data);
   GPR_ASSERT(args != nullptr);
   GPR_ASSERT(args->fixture != nullptr);

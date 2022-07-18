@@ -379,13 +379,12 @@ static void BM_TransportEmptyOp(benchmark::State& state) {
     op = {};
     op.payload = &op_payload;
   };
-  std::unique_ptr<TestClosure> c =
-      MakeTestClosure([&](absl::Status /*error*/) {
-        if (!state.KeepRunning()) return;
-        reset_op();
-        op.on_complete = c.get();
-        s->Op(&op);
-      });
+  std::unique_ptr<TestClosure> c = MakeTestClosure([&](absl::Status /*error*/) {
+    if (!state.KeepRunning()) return;
+    reset_op();
+    op.on_complete = c.get();
+    s->Op(&op);
+  });
   grpc_core::ExecCtx::Run(DEBUG_LOCATION, c.get(), GRPC_ERROR_NONE);
   f.FlushExecCtx();
   reset_op();
@@ -403,8 +402,7 @@ static void BM_TransportEmptyOp(benchmark::State& state) {
   f.FlushExecCtx();
   gpr_event_wait(stream_cancel_done, gpr_inf_future(GPR_CLOCK_REALTIME));
   done_events.emplace_back(stream_cancel_done);
-  s->DestroyThen(
-      MakeOnceClosure([s](absl::Status /*error*/) { delete s; }));
+  s->DestroyThen(MakeOnceClosure([s](absl::Status /*error*/) { delete s; }));
   f.FlushExecCtx();
   track_counters.Finish(state);
 }

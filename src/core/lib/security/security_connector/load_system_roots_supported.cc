@@ -71,8 +71,7 @@ grpc_slice GetSystemRootCerts() {
   grpc_slice valid_bundle_slice = grpc_empty_slice();
   size_t num_cert_files_ = GPR_ARRAY_SIZE(kCertFiles);
   for (size_t i = 0; i < num_cert_files_; i++) {
-    absl::Status error =
-        grpc_load_file(kCertFiles[i], 1, &valid_bundle_slice);
+    absl::Status error = grpc_load_file(kCertFiles[i], 1, &valid_bundle_slice);
     if (error.ok()) {
       return valid_bundle_slice;
     } else {

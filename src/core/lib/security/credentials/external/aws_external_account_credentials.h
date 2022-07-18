@@ -37,8 +37,7 @@ namespace grpc_core {
 class AwsExternalAccountCredentials final : public ExternalAccountCredentials {
  public:
   static RefCountedPtr<AwsExternalAccountCredentials> Create(
-      Options options, std::vector<std::string> scopes,
-      absl::Status* error);
+      Options options, std::vector<std::string> scopes, absl::Status* error);
 
   AwsExternalAccountCredentials(Options options,
                                 std::vector<std::string> scopes,

@@ -81,8 +81,7 @@ extern int grpc_allow_pipe_wakeup_fd;
 
 #define GRPC_WAKEUP_FD_GET_READ_FD(fd_info) ((fd_info)->read_fd)
 
-absl::Status grpc_wakeup_fd_init(grpc_wakeup_fd* fd_info)
-    GRPC_MUST_USE_RESULT;
+absl::Status grpc_wakeup_fd_init(grpc_wakeup_fd* fd_info) GRPC_MUST_USE_RESULT;
 absl::Status grpc_wakeup_fd_consume_wakeup(grpc_wakeup_fd* fd_info)
     GRPC_MUST_USE_RESULT;
 absl::Status grpc_wakeup_fd_wakeup(grpc_wakeup_fd* fd_info)

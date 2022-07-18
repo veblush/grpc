@@ -96,8 +96,7 @@ static void done_write(void* /*arg*/, absl::Status error) {
   gpr_atm_rel_store(&state.done_atm, 1);
 }
 
-static void done_writing_settings_frame(void* /* arg */,
-                                        absl::Status error) {
+static void done_writing_settings_frame(void* /* arg */, absl::Status error) {
   GPR_ASSERT(error.ok());
   grpc_endpoint_read(state.tcp, &state.temp_incoming_buffer, &on_read,
                      /*urgent=*/false, /*min_progress_size=*/1);

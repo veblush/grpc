@@ -97,13 +97,11 @@ class ServiceConfigImpl final : public ServiceConfig {
  private:
   // Helper functions for parsing the method configs.
   absl::Status ParsePerMethodParams(const ChannelArgs& args);
-  absl::Status ParseJsonMethodConfig(const ChannelArgs& args,
-                                          const Json& json);
+  absl::Status ParseJsonMethodConfig(const ChannelArgs& args, const Json& json);
 
   // Returns a path string for the JSON name object specified by json.
   // Sets *error on error.
-  static std::string ParseJsonMethodName(const Json& json,
-                                         absl::Status* error);
+  static std::string ParseJsonMethodName(const Json& json, absl::Status* error);
 
   std::string json_string_;
   Json json_;

@@ -243,7 +243,7 @@ done:
 }
 
 static absl::Status finish_line(grpc_http_parser* parser,
-                                     bool* found_body_start) {
+                                bool* found_body_start) {
   absl::Status err;
   switch (parser->state) {
     case GRPC_HTTP_FIRST_LINE:
@@ -381,7 +381,7 @@ static bool check_line(grpc_http_parser* parser) {
 }
 
 static absl::Status addbyte(grpc_http_parser* parser, uint8_t byte,
-                                 bool* found_body_start) {
+                            bool* found_body_start) {
   switch (parser->state) {
     case GRPC_HTTP_FIRST_LINE:
     case GRPC_HTTP_HEADERS:
@@ -442,8 +442,8 @@ void grpc_http_response_destroy(grpc_http_response* response) {
 }
 
 absl::Status grpc_http_parser_parse(grpc_http_parser* parser,
-                                         const grpc_slice& slice,
-                                         size_t* start_of_body) {
+                                    const grpc_slice& slice,
+                                    size_t* start_of_body) {
   for (size_t i = 0; i < GRPC_SLICE_LENGTH(slice); i++) {
     bool found_body_start = false;
     absl::Status err =

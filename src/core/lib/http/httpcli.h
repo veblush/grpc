@@ -206,8 +206,7 @@ class HttpRequest : public InternallyRefCounted<HttpRequest> {
     req->OnReadInternal(error);
   }
 
-  void OnReadInternal(absl::Status error)
-      ABSL_EXCLUSIVE_LOCKS_REQUIRED(mu_);
+  void OnReadInternal(absl::Status error) ABSL_EXCLUSIVE_LOCKS_REQUIRED(mu_);
 
   void OnWritten() ABSL_EXCLUSIVE_LOCKS_REQUIRED(mu_) { DoRead(); }
 

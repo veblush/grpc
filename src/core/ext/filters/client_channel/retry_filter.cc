@@ -147,7 +147,7 @@ class RetryFilter {
   class CallData;
 
   static absl::Status Init(grpc_channel_element* elem,
-                                grpc_channel_element_args* args) {
+                           grpc_channel_element_args* args) {
     GPR_ASSERT(args->is_last);
     GPR_ASSERT(elem->filter == &kRetryFilterVtable);
     absl::Status error = GRPC_ERROR_NONE;
@@ -226,7 +226,7 @@ class RetryFilter {
 class RetryFilter::CallData {
  public:
   static absl::Status Init(grpc_call_element* elem,
-                                const grpc_call_element_args* args);
+                           const grpc_call_element_args* args);
   static void Destroy(grpc_call_element* elem,
                       const grpc_call_final_info* /*final_info*/,
                       grpc_closure* then_schedule_closure);
@@ -521,8 +521,7 @@ class RetryFilter::CallData {
   PendingBatch* PendingBatchesAdd(grpc_transport_stream_op_batch* batch);
   void PendingBatchClear(PendingBatch* pending);
   void MaybeClearPendingBatch(PendingBatch* pending);
-  static void FailPendingBatchInCallCombiner(void* arg,
-                                             absl::Status error);
+  static void FailPendingBatchInCallCombiner(void* arg, absl::Status error);
   // Fails all pending batches.  Does NOT yield call combiner.
   void PendingBatchesFail(absl::Status error);
   // Returns a pointer to the first pending batch for which predicate(batch)
@@ -681,8 +680,7 @@ class RetryFilter::CallData::CallStackDestructionBarrier
   }
 
  private:
-  static void OnLbCallDestructionComplete(void* arg,
-                                          absl::Status /*error*/) {
+  static void OnLbCallDestructionComplete(void* arg, absl::Status /*error*/) {
     auto* self = static_cast<CallStackDestructionBarrier*>(arg);
     self->Unref();
   }
@@ -2089,8 +2087,8 @@ void RetryFilter::CallData::CallAttempt::BatchData::AddCancelStreamOp(
 // CallData vtable functions
 //
 
-absl::Status RetryFilter::CallData::Init(
-    grpc_call_element* elem, const grpc_call_element_args* args) {
+absl::Status RetryFilter::CallData::Init(grpc_call_element* elem,
+                                         const grpc_call_element_args* args) {
   auto* chand = static_cast<RetryFilter*>(elem->channel_data);
   new (elem->call_data) CallData(chand, *args);
   if (GRPC_TRACE_FLAG_ENABLED(grpc_retry_trace)) {
@@ -2499,8 +2497,8 @@ void RetryFilter::CallData::MaybeClearPendingBatch(PendingBatch* pending) {
 }
 
 // This is called via the call combiner, so access to calld is synchronized.
-void RetryFilter::CallData::FailPendingBatchInCallCombiner(
-    void* arg, absl::Status error) {
+void RetryFilter::CallData::FailPendingBatchInCallCombiner(void* arg,
+                                                           absl::Status error) {
   grpc_transport_stream_op_batch* batch =
       static_cast<grpc_transport_stream_op_batch*>(arg);
   CallData* call = static_cast<CallData*>(batch->handler_private.extra_arg);
@@ -2616,8 +2614,7 @@ void RetryFilter::CallData::OnRetryTimer(void* arg, absl::Status error) {
                            "retry timer fired");
 }
 
-void RetryFilter::CallData::OnRetryTimerLocked(void* arg,
-                                               absl::Status error) {
+void RetryFilter::CallData::OnRetryTimerLocked(void* arg, absl::Status error) {
   auto* calld = static_cast<CallData*>(arg);
   if (error.ok() && calld->retry_timer_pending_) {
     calld->retry_timer_pending_ = false;

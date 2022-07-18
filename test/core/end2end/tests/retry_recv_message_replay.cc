@@ -271,7 +271,7 @@ class FailFirstSendOpFilter {
   class CallData {
    public:
     static absl::Status Init(grpc_call_element* elem,
-                                  const grpc_call_element_args* args) {
+                             const grpc_call_element_args* args) {
       new (elem->call_data) CallData(args);
       return GRPC_ERROR_NONE;
     }
@@ -312,7 +312,7 @@ class FailFirstSendOpFilter {
   };
 
   static absl::Status Init(grpc_channel_element* elem,
-                                grpc_channel_element_args* /*args*/) {
+                           grpc_channel_element_args* /*args*/) {
     new (elem->channel_data) FailFirstSendOpFilter();
     return GRPC_ERROR_NONE;
   }

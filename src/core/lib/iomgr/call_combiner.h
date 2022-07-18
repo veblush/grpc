@@ -68,8 +68,7 @@ class CallCombiner {
 #define GRPC_CALL_COMBINER_STOP(call_combiner, reason) \
   (call_combiner)->Stop((reason))
   /// Starts processing \a closure.
-  void Start(grpc_closure* closure, absl::Status error,
-             const char* reason);
+  void Start(grpc_closure* closure, absl::Status error, const char* reason);
   /// Yields the call combiner to the next closure in the queue, if any.
   void Stop(const char* reason);
 #endif

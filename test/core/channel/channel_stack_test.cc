@@ -31,7 +31,7 @@
 #include "test/core/util/test_config.h"
 
 static absl::Status channel_init_func(grpc_channel_element* elem,
-                                           grpc_channel_element_args* args) {
+                                      grpc_channel_element_args* args) {
   EXPECT_EQ(args->channel_args->num_args, 1);
   EXPECT_EQ(args->channel_args->args[0].type, GRPC_ARG_INTEGER);
   EXPECT_STREQ(args->channel_args->args[0].key, "test_key");
@@ -42,8 +42,8 @@ static absl::Status channel_init_func(grpc_channel_element* elem,
   return GRPC_ERROR_NONE;
 }
 
-static absl::Status call_init_func(
-    grpc_call_element* elem, const grpc_call_element_args* /*args*/) {
+static absl::Status call_init_func(grpc_call_element* elem,
+                                   const grpc_call_element_args* /*args*/) {
   ++*static_cast<int*>(elem->channel_data);
   *static_cast<int*>(elem->call_data) = 0;
   return GRPC_ERROR_NONE;

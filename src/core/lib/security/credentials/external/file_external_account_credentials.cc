@@ -106,8 +106,7 @@ void FileExternalAccountCredentials::RetrieveSubjectToken(
   SliceWrapper content_slice;
   // To retrieve the subject token, we read the file every time we make a
   // request because it may have changed since the last request.
-  absl::Status error =
-      grpc_load_file(file_.c_str(), 0, &content_slice.slice);
+  absl::Status error = grpc_load_file(file_.c_str(), 0, &content_slice.slice);
   if (!error.ok()) {
     cb("", error);
     return;

@@ -178,8 +178,7 @@ class FilterStackCall final : public Call {
   }
 
   // TODO(ctiller): return absl::StatusOr<SomeSmartPointer<Call>>?
-  static absl::Status Create(grpc_call_create_args* args,
-                                  grpc_call** out_call);
+  static absl::Status Create(grpc_call_create_args* args, grpc_call** out_call);
 
   static Call* FromTopElem(grpc_call_element* elem) {
     return FromCallStack(grpc_call_stack_from_top_element(elem));
@@ -341,8 +340,7 @@ class FilterStackCall final : public Call {
                                   bool is_trailing);
   void PublishAppMetadata(grpc_metadata_batch* b, bool is_trailing);
   void RecvInitialFilter(grpc_metadata_batch* b);
-  void RecvTrailingFilter(grpc_metadata_batch* b,
-                          absl::Status batch_error);
+  void RecvTrailingFilter(grpc_metadata_batch* b, absl::Status batch_error);
 
   RefCount ext_ref_;
   CallCombiner call_combiner_;
@@ -515,13 +513,12 @@ void Call::PublishToParent(Call* parent) {
 }
 
 absl::Status FilterStackCall::Create(grpc_call_create_args* args,
-                                          grpc_call** out_call) {
+                                     grpc_call** out_call) {
   GPR_TIMER_SCOPE("grpc_call_create", 0);
 
   Channel* channel = args->channel.get();
 
-  auto add_init_error = [](absl::Status* composite,
-                           absl::Status new_err) {
+  auto add_init_error = [](absl::Status* composite, absl::Status new_err) {
     if (new_err.ok()) return;
     if (composite->ok()) {
       *composite = GRPC_ERROR_CREATE_FROM_STATIC_STRING("Call creation failed");
@@ -1146,8 +1143,7 @@ void FilterStackCall::BatchControl::ProcessDataAfterMetadata() {
   }
 }
 
-void FilterStackCall::BatchControl::ReceivingStreamReady(
-    absl::Status error) {
+void FilterStackCall::BatchControl::ReceivingStreamReady(absl::Status error) {
   FilterStackCall* call = call_;
   if (!error.ok()) {
     call->receiving_slice_buffer_.reset();
@@ -1747,7 +1743,7 @@ size_t grpc_call_get_initial_size_estimate() {
 }
 
 absl::Status grpc_call_create(grpc_call_create_args* args,
-                                   grpc_call** out_call) {
+                              grpc_call** out_call) {
   return grpc_core::FilterStackCall::Create(args, out_call);
 }
 

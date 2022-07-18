@@ -54,8 +54,7 @@ static void set_error_handle_promise(void *arg, absl::Status error) {
   p->set_value(error);
 }
 
-static void init_event_closure(grpc_closure *closure,
-                               std::promise<absl::Status> *error_handle) {
+static void init_event_closure(grpc_closure *closure, std::promise<absl::Status> *error_handle) {
   GRPC_CLOSURE_INIT(closure, set_error_handle_promise, static_cast<void *>(error_handle),
                     grpc_schedule_on_exec_ctx);
 }

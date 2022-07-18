@@ -94,8 +94,7 @@ class RetryServiceConfigParser : public ServiceConfigParser::Parser {
       absl::Status* error) override;
 
   std::unique_ptr<ServiceConfigParser::ParsedConfig> ParsePerMethodParams(
-      const ChannelArgs& args, const Json& json,
-      absl::Status* error) override;
+      const ChannelArgs& args, const Json& json, absl::Status* error) override;
 
   static size_t ParserIndex();
   static void Register(CoreConfiguration::Builder* builder);

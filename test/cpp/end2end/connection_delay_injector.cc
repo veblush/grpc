@@ -186,8 +186,7 @@ bool ConnectionHoldInjector::Hold::IsStarted() {
   return !start_cv_.WaitWithDeadline(&injector_->mu_, absl::Now());
 }
 
-void ConnectionHoldInjector::Hold::OnComplete(void* arg,
-                                              absl::Status error) {
+void ConnectionHoldInjector::Hold::OnComplete(void* arg, absl::Status error) {
   auto* self = static_cast<Hold*>(arg);
   grpc_closure* on_complete;
   {

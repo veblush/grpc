@@ -1250,8 +1250,8 @@ grpc_channel* grpc_inproc_channel_create(grpc_server* server,
   inproc_transports_create(&server_transport, &client_transport);
 
   // TODO(ncteisen): design and support channelz GetSocket for inproc.
-  absl::Status error = core_server->SetupTransport(
-      server_transport, nullptr, server_args, nullptr);
+  absl::Status error = core_server->SetupTransport(server_transport, nullptr,
+                                                   server_args, nullptr);
   grpc_channel* channel = nullptr;
   if (error.ok()) {
     auto new_channel = grpc_core::Channel::Create(

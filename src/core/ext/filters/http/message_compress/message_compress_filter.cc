@@ -288,7 +288,7 @@ void CompressStartTransportStreamOpBatch(
 
 /* Constructor for call_data */
 absl::Status CompressInitCallElem(grpc_call_element* elem,
-                                       const grpc_call_element_args* args) {
+                                  const grpc_call_element_args* args) {
   new (elem->call_data) CallData(elem, *args);
   return GRPC_ERROR_NONE;
 }
@@ -303,7 +303,7 @@ void CompressDestroyCallElem(grpc_call_element* elem,
 
 /* Constructor for ChannelData */
 absl::Status CompressInitChannelElem(grpc_channel_element* elem,
-                                          grpc_channel_element_args* args) {
+                                     grpc_channel_element_args* args) {
   new (elem->channel_data) ChannelData(args);
   return GRPC_ERROR_NONE;
 }

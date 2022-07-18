@@ -46,8 +46,8 @@ class ContextList {
   size_t byte_offset_ = 0;
 };
 
-void grpc_http2_set_write_timestamps_callback(
-    void (*fn)(void*, Timestamps*, absl::Status error));
+void grpc_http2_set_write_timestamps_callback(void (*fn)(void*, Timestamps*,
+                                                         absl::Status error));
 void grpc_http2_set_fn_get_copied_context(void* (*fn)(void*));
 } /* namespace grpc_core */
 

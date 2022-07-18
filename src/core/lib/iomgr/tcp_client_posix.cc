@@ -90,9 +90,8 @@ void grpc_tcp_client_global_init() {
   gpr_once_init(&g_tcp_client_posix_init, do_tcp_client_global_init);
 }
 
-static absl::Status prepare_socket(const grpc_resolved_address* addr,
-                                        int fd,
-                                        const grpc_channel_args* channel_args) {
+static absl::Status prepare_socket(const grpc_resolved_address* addr, int fd,
+                                   const grpc_channel_args* channel_args) {
   absl::Status err = GRPC_ERROR_NONE;
 
   GPR_ASSERT(fd >= 0);
@@ -278,9 +277,10 @@ finish:
   }
 }
 
-absl::Status grpc_tcp_client_prepare_fd(
-    const grpc_channel_args* channel_args, const grpc_resolved_address* addr,
-    grpc_resolved_address* mapped_addr, int* fd) {
+absl::Status grpc_tcp_client_prepare_fd(const grpc_channel_args* channel_args,
+                                        const grpc_resolved_address* addr,
+                                        grpc_resolved_address* mapped_addr,
+                                        int* fd) {
   grpc_dualstack_mode dsmode;
   absl::Status error;
   *fd = -1;

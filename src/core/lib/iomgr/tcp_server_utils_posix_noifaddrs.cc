@@ -25,9 +25,9 @@
 #include "src/core/lib/iomgr/tcp_server_utils_posix.h"
 
 absl::Status grpc_tcp_server_add_all_local_addrs(grpc_tcp_server* /*s*/,
-                                                      unsigned /*port_index*/,
-                                                      int /*requested_port*/,
-                                                      int* /*out_port*/) {
+                                                 unsigned /*port_index*/,
+                                                 int /*requested_port*/,
+                                                 int* /*out_port*/) {
   return GRPC_ERROR_CREATE_FROM_STATIC_STRING("no ifaddrs available");
 }
 

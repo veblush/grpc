@@ -65,8 +65,8 @@ constexpr uint32_t
 constexpr uint32_t
     OpenCensusCallTracer::OpenCensusCallAttemptTracer::kMaxTagsLen;
 
-absl::Status CensusClientCallData::Init(
-    grpc_call_element* /* elem */, const grpc_call_element_args* args) {
+absl::Status CensusClientCallData::Init(grpc_call_element* /* elem */,
+                                        const grpc_call_element_args* args) {
   tracer_ = args->arena->New<OpenCensusCallTracer>(args);
   GPR_DEBUG_ASSERT(args->context[GRPC_CONTEXT_CALL_TRACER].value == nullptr);
   args->context[GRPC_CONTEXT_CALL_TRACER].value = tracer_;

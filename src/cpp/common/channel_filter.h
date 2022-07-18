@@ -207,7 +207,7 @@ class ChannelData {
 
   /// Initializes the channel data.
   virtual absl::Status Init(grpc_channel_element* /*elem*/,
-                                 grpc_channel_element_args* /*args*/) {
+                            grpc_channel_element_args* /*args*/) {
     return GRPC_ERROR_NONE;
   }
 
@@ -230,7 +230,7 @@ class CallData {
 
   /// Initializes the call data.
   virtual absl::Status Init(grpc_call_element* /*elem*/,
-                                 const grpc_call_element_args* /*args*/) {
+                            const grpc_call_element_args* /*args*/) {
     return GRPC_ERROR_NONE;
   }
 
@@ -259,7 +259,7 @@ class ChannelFilter final {
   static const size_t channel_data_size = sizeof(ChannelDataType);
 
   static absl::Status InitChannelElement(grpc_channel_element* elem,
-                                              grpc_channel_element_args* args) {
+                                         grpc_channel_element_args* args) {
     // Construct the object in the already-allocated memory.
     ChannelDataType* channel_data = new (elem->channel_data) ChannelDataType();
     return channel_data->Init(elem, args);
@@ -290,7 +290,7 @@ class ChannelFilter final {
   static const size_t call_data_size = sizeof(CallDataType);
 
   static absl::Status InitCallElement(grpc_call_element* elem,
-                                           const grpc_call_element_args* args) {
+                                      const grpc_call_element_args* args) {
     // Construct the object in the already-allocated memory.
     CallDataType* call_data = new (elem->call_data) CallDataType();
     return call_data->Init(elem, args);

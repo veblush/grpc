@@ -278,7 +278,7 @@ void DecompressStartTransportStreamOpBatch(
 }
 
 absl::Status DecompressInitCallElem(grpc_call_element* elem,
-                                         const grpc_call_element_args* args) {
+                                    const grpc_call_element_args* args) {
   ChannelData* chand = static_cast<ChannelData*>(elem->channel_data);
   new (elem->call_data) CallData(*args, chand);
   return GRPC_ERROR_NONE;
@@ -292,7 +292,7 @@ void DecompressDestroyCallElem(grpc_call_element* elem,
 }
 
 absl::Status DecompressInitChannelElem(grpc_channel_element* elem,
-                                            grpc_channel_element_args* args) {
+                                       grpc_channel_element_args* args) {
   ChannelData* chand = static_cast<ChannelData*>(elem->channel_data);
   new (chand) ChannelData(args);
   return GRPC_ERROR_NONE;

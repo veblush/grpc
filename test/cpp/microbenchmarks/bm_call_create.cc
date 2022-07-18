@@ -328,9 +328,7 @@ static void BM_LameChannelCallCreateCoreSeparateBatch(benchmark::State& state) {
 }
 BENCHMARK(BM_LameChannelCallCreateCoreSeparateBatch);
 
-static void FilterDestroy(void* arg, absl::Status /*error*/) {
-  gpr_free(arg);
-}
+static void FilterDestroy(void* arg, absl::Status /*error*/) { gpr_free(arg); }
 
 static void DoNothing(void* /*arg*/, absl::Status /*error*/) {}
 
@@ -363,7 +361,7 @@ static void StartTransportOp(grpc_channel_element* /*elem*/,
                              grpc_transport_op* /*op*/) {}
 
 static absl::Status InitCallElem(grpc_call_element* /*elem*/,
-                                      const grpc_call_element_args* /*args*/) {
+                                 const grpc_call_element_args* /*args*/) {
   return GRPC_ERROR_NONE;
 }
 
@@ -375,7 +373,7 @@ static void DestroyCallElem(grpc_call_element* /*elem*/,
                             grpc_closure* /*then_sched_closure*/) {}
 
 absl::Status InitChannelElem(grpc_channel_element* /*elem*/,
-                                  grpc_channel_element_args* /*args*/) {
+                             grpc_channel_element_args* /*args*/) {
   return GRPC_ERROR_NONE;
 }
 
@@ -671,7 +669,7 @@ static void StartTransportOp(grpc_channel_element* /*elem*/,
 }
 
 static absl::Status InitCallElem(grpc_call_element* elem,
-                                      const grpc_call_element_args* args) {
+                                 const grpc_call_element_args* args) {
   call_data* calld = static_cast<call_data*>(elem->call_data);
   calld->call_combiner = args->call_combiner;
   return GRPC_ERROR_NONE;
@@ -687,7 +685,7 @@ static void DestroyCallElem(grpc_call_element* /*elem*/,
 }
 
 absl::Status InitChannelElem(grpc_channel_element* /*elem*/,
-                                  grpc_channel_element_args* /*args*/) {
+                             grpc_channel_element_args* /*args*/) {
   return GRPC_ERROR_NONE;
 }
 

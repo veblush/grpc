@@ -240,9 +240,8 @@ void FileWatcherCertificateProvider::ForceUpdate() {
     ExecCtx exec_ctx;
     absl::Status root_cert_error = GRPC_ERROR_CREATE_FROM_STATIC_STRING(
         "Unable to get latest root certificates.");
-    absl::Status identity_cert_error =
-        GRPC_ERROR_CREATE_FROM_STATIC_STRING(
-            "Unable to get latest identity certificates.");
+    absl::Status identity_cert_error = GRPC_ERROR_CREATE_FROM_STATIC_STRING(
+        "Unable to get latest identity certificates.");
     for (const auto& p : watcher_info_) {
       const std::string& cert_name = p.first;
       const WatcherInfo& info = p.second;

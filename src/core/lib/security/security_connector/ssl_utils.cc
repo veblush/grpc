@@ -156,7 +156,7 @@ absl::Status grpc_ssl_check_alpn(const tsi_peer* peer) {
 }
 
 absl::Status grpc_ssl_check_peer_name(absl::string_view peer_name,
-                                           const tsi_peer* peer) {
+                                      const tsi_peer* peer) {
   /* Check the peer name if specified. */
   if (!peer_name.empty() && !grpc_ssl_host_matches_name(peer, peer_name)) {
     return GRPC_ERROR_CREATE_FROM_CPP_STRING(

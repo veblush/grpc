@@ -175,8 +175,7 @@ class BaseCallData : public Activity, private Wakeable {
       release_.push_back(batch);
     }
 
-    void Cancel(grpc_transport_stream_op_batch* batch,
-                absl::Status error) {
+    void Cancel(grpc_transport_stream_op_batch* batch, absl::Status error) {
       grpc_transport_stream_op_batch_queue_finish_with_failure(batch, error,
                                                                &call_closures_);
     }
@@ -337,13 +336,11 @@ class ClientCallData : public BaseCallData {
   // All polls: await receiving the trailing metadata, then return it to the
   // application.
   Poll<ServerMetadataHandle> PollTrailingMetadata();
-  static void RecvTrailingMetadataReadyCallback(void* arg,
-                                                absl::Status error);
+  static void RecvTrailingMetadataReadyCallback(void* arg, absl::Status error);
   void RecvTrailingMetadataReady(absl::Status error);
   void RecvInitialMetadataReady(absl::Status error);
   // Given an error, fill in ServerMetadataHandle to represent that error.
-  void SetStatusFromError(grpc_metadata_batch* metadata,
-                          absl::Status error);
+  void SetStatusFromError(grpc_metadata_batch* metadata, absl::Status error);
   // Wakeup and poll the promise if appropriate.
   void WakeInsideCombiner(Flusher* flusher);
   void OnWakeup() override;
@@ -422,8 +419,7 @@ class ServerCallData : public BaseCallData {
   // All polls: await sending the trailing metadata, then foward it down the
   // stack.
   Poll<ServerMetadataHandle> PollTrailingMetadata();
-  static void RecvInitialMetadataReadyCallback(void* arg,
-                                               absl::Status error);
+  static void RecvInitialMetadataReadyCallback(void* arg, absl::Status error);
   void RecvInitialMetadataReady(absl::Status error);
   // Wakeup and poll the promise if appropriate.
   void WakeInsideCombiner(Flusher* flusher);

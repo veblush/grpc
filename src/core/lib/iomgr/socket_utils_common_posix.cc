@@ -389,7 +389,7 @@ absl::Status grpc_set_socket_tcp_user_timeout(
 
 /* set a socket using a grpc_socket_mutator */
 absl::Status grpc_set_socket_with_mutator(int fd, grpc_fd_usage usage,
-                                               grpc_socket_mutator* mutator) {
+                                          grpc_socket_mutator* mutator) {
   GPR_ASSERT(mutator);
   if (!grpc_socket_mutator_mutate_fd(mutator, fd, usage)) {
     return GRPC_ERROR_CREATE_FROM_STATIC_STRING("grpc_socket_mutator failed.");
@@ -397,8 +397,8 @@ absl::Status grpc_set_socket_with_mutator(int fd, grpc_fd_usage usage,
   return GRPC_ERROR_NONE;
 }
 
-absl::Status grpc_apply_socket_mutator_in_args(
-    int fd, grpc_fd_usage usage, const grpc_channel_args* args) {
+absl::Status grpc_apply_socket_mutator_in_args(int fd, grpc_fd_usage usage,
+                                               const grpc_channel_args* args) {
   const grpc_arg* socket_mutator_arg =
       grpc_channel_args_find(args, GRPC_ARG_SOCKET_MUTATOR);
   if (socket_mutator_arg == nullptr) {
@@ -438,8 +438,7 @@ int grpc_ipv6_loopback_available(void) {
   return g_ipv6_loopback_available;
 }
 
-static absl::Status error_for_fd(int fd,
-                                      const grpc_resolved_address* addr) {
+static absl::Status error_for_fd(int fd, const grpc_resolved_address* addr) {
   if (fd >= 0) return GRPC_ERROR_NONE;
   auto addr_str = grpc_sockaddr_to_string(addr, false);
   absl::Status err = grpc_error_set_str(

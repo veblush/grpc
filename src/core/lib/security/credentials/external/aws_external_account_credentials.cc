@@ -332,8 +332,8 @@ void AwsExternalAccountCredentials::RetrieveRoleName() {
   grpc_http_request_destroy(&request);
 }
 
-void AwsExternalAccountCredentials::OnRetrieveRoleName(
-    void* arg, absl::Status error) {
+void AwsExternalAccountCredentials::OnRetrieveRoleName(void* arg,
+                                                       absl::Status error) {
   AwsExternalAccountCredentials* self =
       static_cast<AwsExternalAccountCredentials*>(arg);
   self->OnRetrieveRoleNameInternal(error);
@@ -398,8 +398,8 @@ void AwsExternalAccountCredentials::RetrieveSigningKeys() {
   grpc_http_request_destroy(&request);
 }
 
-void AwsExternalAccountCredentials::OnRetrieveSigningKeys(
-    void* arg, absl::Status error) {
+void AwsExternalAccountCredentials::OnRetrieveSigningKeys(void* arg,
+                                                          absl::Status error) {
   AwsExternalAccountCredentials* self =
       static_cast<AwsExternalAccountCredentials*>(arg);
   self->OnRetrieveSigningKeysInternal(error);

@@ -81,10 +81,9 @@ static int get_max_accept_queue_size(void) {
 }
 
 static absl::Status add_socket_to_server(grpc_tcp_server* s, int fd,
-                                              const grpc_resolved_address* addr,
-                                              unsigned port_index,
-                                              unsigned fd_index,
-                                              grpc_tcp_listener** listener) {
+                                         const grpc_resolved_address* addr,
+                                         unsigned port_index, unsigned fd_index,
+                                         grpc_tcp_listener** listener) {
   *listener = nullptr;
   int port = -1;
 
@@ -128,11 +127,10 @@ static absl::Status add_socket_to_server(grpc_tcp_server* s, int fd,
 /* If successful, add a listener to s for addr, set *dsmode for the socket, and
    return the *listener. */
 absl::Status grpc_tcp_server_add_addr(grpc_tcp_server* s,
-                                           const grpc_resolved_address* addr,
-                                           unsigned port_index,
-                                           unsigned fd_index,
-                                           grpc_dualstack_mode* dsmode,
-                                           grpc_tcp_listener** listener) {
+                                      const grpc_resolved_address* addr,
+                                      unsigned port_index, unsigned fd_index,
+                                      grpc_dualstack_mode* dsmode,
+                                      grpc_tcp_listener** listener) {
   grpc_resolved_address addr4_copy;
   int fd;
   absl::Status err =
@@ -148,9 +146,9 @@ absl::Status grpc_tcp_server_add_addr(grpc_tcp_server* s,
 }
 
 /* Prepare a recently-created socket for listening. */
-absl::Status grpc_tcp_server_prepare_socket(
-    grpc_tcp_server* s, int fd, const grpc_resolved_address* addr,
-    bool so_reuseport, int* port) {
+absl::Status grpc_tcp_server_prepare_socket(grpc_tcp_server* s, int fd,
+                                            const grpc_resolved_address* addr,
+                                            bool so_reuseport, int* port) {
   grpc_resolved_address sockname_temp;
   absl::Status err = GRPC_ERROR_NONE;
 

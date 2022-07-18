@@ -107,7 +107,7 @@ TraceFlag grpc_client_channel_lb_call_trace(false, "client_channel_lb_call");
 class ClientChannel::CallData {
  public:
   static absl::Status Init(grpc_call_element* elem,
-                                const grpc_call_element_args* args);
+                           const grpc_call_element_args* args);
   static void Destroy(grpc_call_element* elem,
                       const grpc_call_final_info* final_info,
                       grpc_closure* then_schedule_closure);
@@ -140,8 +140,7 @@ class ClientChannel::CallData {
   static size_t GetBatchIndex(grpc_transport_stream_op_batch* batch);
   void PendingBatchesAdd(grpc_call_element* elem,
                          grpc_transport_stream_op_batch* batch);
-  static void FailPendingBatchInCallCombiner(void* arg,
-                                             absl::Status error);
+  static void FailPendingBatchInCallCombiner(void* arg, absl::Status error);
   // A predicate type and some useful implementations for PendingBatchesFail().
   typedef bool (*YieldCallCombinerPredicate)(
       const CallCombinerClosureList& closures);
@@ -161,8 +160,7 @@ class ClientChannel::CallData {
   void PendingBatchesFail(
       grpc_call_element* elem, absl::Status error,
       YieldCallCombinerPredicate yield_call_combiner_predicate);
-  static void ResumePendingBatchInCallCombiner(void* arg,
-                                               absl::Status ignored);
+  static void ResumePendingBatchInCallCombiner(void* arg, absl::Status ignored);
   // Resumes all pending batches on lb_call_.
   void PendingBatchesResume(grpc_call_element* elem);
 
@@ -270,7 +268,7 @@ class DynamicTerminationFilter {
   static const grpc_channel_filter kFilterVtable;
 
   static absl::Status Init(grpc_channel_element* elem,
-                                grpc_channel_element_args* args) {
+                           grpc_channel_element_args* args) {
     GPR_ASSERT(args->is_last);
     GPR_ASSERT(elem->filter == &kFilterVtable);
     new (elem->channel_data) DynamicTerminationFilter(args->channel_args);
@@ -299,7 +297,7 @@ class DynamicTerminationFilter {
 class DynamicTerminationFilter::CallData {
  public:
   static absl::Status Init(grpc_call_element* elem,
-                                const grpc_call_element_args* args) {
+                           const grpc_call_element_args* args) {
     new (elem->call_data) CallData(*args);
     return GRPC_ERROR_NONE;
   }
@@ -951,7 +949,7 @@ ClientChannel* ClientChannel::GetFromChannel(Channel* channel) {
 }
 
 absl::Status ClientChannel::Init(grpc_channel_element* elem,
-                                      grpc_channel_element_args* args) {
+                                 grpc_channel_element_args* args) {
   GPR_ASSERT(args->is_last);
   GPR_ASSERT(elem->filter == &kFilterVtable);
   absl::Status error = GRPC_ERROR_NONE;
@@ -1805,8 +1803,8 @@ ClientChannel::CallData::~CallData() {
   }
 }
 
-absl::Status ClientChannel::CallData::Init(
-    grpc_call_element* elem, const grpc_call_element_args* args) {
+absl::Status ClientChannel::CallData::Init(grpc_call_element* elem,
+                                           const grpc_call_element_args* args) {
   ClientChannel* chand = static_cast<ClientChannel*>(elem->channel_data);
   new (elem->call_data) CallData(elem, *chand, *args);
   return GRPC_ERROR_NONE;
@@ -2216,8 +2214,7 @@ void ClientChannel::CallData::AsyncResolutionDone(grpc_call_element* elem,
   ExecCtx::Run(DEBUG_LOCATION, &resolution_done_closure_, error);
 }
 
-void ClientChannel::CallData::ResolutionDone(void* arg,
-                                             absl::Status error) {
+void ClientChannel::CallData::ResolutionDone(void* arg, absl::Status error) {
   grpc_call_element* elem = static_cast<grpc_call_element*>(arg);
   ClientChannel* chand = static_cast<ClientChannel*>(elem->channel_data);
   CallData* calld = static_cast<CallData*>(elem->call_data);
@@ -2233,8 +2230,7 @@ void ClientChannel::CallData::ResolutionDone(void* arg,
   calld->CreateDynamicCall(elem);
 }
 
-void ClientChannel::CallData::CheckResolution(void* arg,
-                                              absl::Status error) {
+void ClientChannel::CallData::CheckResolution(void* arg, absl::Status error) {
   grpc_call_element* elem = static_cast<grpc_call_element*>(arg);
   CallData* calld = static_cast<CallData*>(elem->call_data);
   ClientChannel* chand = static_cast<ClientChannel*>(elem->channel_data);
@@ -2836,8 +2832,8 @@ void ClientChannel::LoadBalancedCall::RecvInitialMetadataReady(
                error);
 }
 
-void ClientChannel::LoadBalancedCall::RecvMessageReady(
-    void* arg, absl::Status error) {
+void ClientChannel::LoadBalancedCall::RecvMessageReady(void* arg,
+                                                       absl::Status error) {
   auto* self = static_cast<LoadBalancedCall*>(arg);
   if (GRPC_TRACE_FLAG_ENABLED(grpc_client_channel_lb_call_trace)) {
     gpr_log(GPR_INFO, "chand=%p lb_call=%p: got recv_message_ready: error=%s",
@@ -3019,8 +3015,7 @@ void ClientChannel::LoadBalancedCall::AsyncPickDone(absl::Status error) {
   ExecCtx::Run(DEBUG_LOCATION, &pick_closure_, error);
 }
 
-void ClientChannel::LoadBalancedCall::PickDone(void* arg,
-                                               absl::Status error) {
+void ClientChannel::LoadBalancedCall::PickDone(void* arg, absl::Status error) {
   auto* self = static_cast<LoadBalancedCall*>(arg);
   if (!error.ok()) {
     if (GRPC_TRACE_FLAG_ENABLED(grpc_client_channel_lb_call_trace)) {

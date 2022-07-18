@@ -89,8 +89,7 @@ class FaultInjectionServiceConfigParser final
   absl::string_view name() const override { return parser_name(); }
   // Parses the per-method service config for fault injection filter.
   std::unique_ptr<ServiceConfigParser::ParsedConfig> ParsePerMethodParams(
-      const ChannelArgs& args, const Json& json,
-      absl::Status* error) override;
+      const ChannelArgs& args, const Json& json, absl::Status* error) override;
   // Returns the parser index for FaultInjectionServiceConfigParser.
   static size_t ParserIndex();
   // Registers FaultInjectionServiceConfigParser to ServiceConfigParser.

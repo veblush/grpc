@@ -46,8 +46,7 @@ grpc_core::DebugOnlyTraceFlag grpc_combiner_trace(false, "combiner");
 static void combiner_exec(grpc_core::Combiner* lock, grpc_closure* closure,
                           absl::Status error);
 static void combiner_finally_exec(grpc_core::Combiner* lock,
-                                  grpc_closure* closure,
-                                  absl::Status error);
+                                  grpc_closure* closure, absl::Status error);
 
 static void offload(void* arg, absl::Status error);
 
@@ -291,8 +290,7 @@ bool grpc_combiner_continue_exec_ctx() {
 static void enqueue_finally(void* closure, absl::Status error);
 
 static void combiner_finally_exec(grpc_core::Combiner* lock,
-                                  grpc_closure* closure,
-                                  absl::Status error) {
+                                  grpc_closure* closure, absl::Status error) {
   GPR_ASSERT(lock != nullptr);
   GRPC_COMBINER_TRACE(gpr_log(
       GPR_INFO, "C:%p grpc_combiner_execute_finally c=%p; ac=%p", lock, closure,

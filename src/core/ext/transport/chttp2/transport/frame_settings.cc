@@ -118,10 +118,10 @@ absl::Status grpc_chttp2_settings_parser_begin_frame(
 }
 
 absl::Status grpc_chttp2_settings_parser_parse(void* p,
-                                                    grpc_chttp2_transport* t,
-                                                    grpc_chttp2_stream* /*s*/,
-                                                    const grpc_slice& slice,
-                                                    int is_last) {
+                                               grpc_chttp2_transport* t,
+                                               grpc_chttp2_stream* /*s*/,
+                                               const grpc_slice& slice,
+                                               int is_last) {
   grpc_chttp2_settings_parser* parser =
       static_cast<grpc_chttp2_settings_parser*>(p);
   const uint8_t* cur = GRPC_SLICE_START_PTR(slice);

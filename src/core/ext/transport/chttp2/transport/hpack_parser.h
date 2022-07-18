@@ -134,9 +134,9 @@ class HPackParser {
 /* wraps grpc_chttp2_hpack_parser_parse to provide a frame level parser for
    the transport */
 absl::Status grpc_chttp2_header_parser_parse(void* hpack_parser,
-                                                  grpc_chttp2_transport* t,
-                                                  grpc_chttp2_stream* s,
-                                                  const grpc_slice& slice,
-                                                  int is_last);
+                                             grpc_chttp2_transport* t,
+                                             grpc_chttp2_stream* s,
+                                             const grpc_slice& slice,
+                                             int is_last);
 
 #endif /* GRPC_CORE_EXT_TRANSPORT_CHTTP2_TRANSPORT_HPACK_PARSER_H */

@@ -48,7 +48,7 @@ absl::Status grpc_ssl_check_alpn(const tsi_peer* peer);
 
 /* Check peer name information returned from SSL handshakes. */
 absl::Status grpc_ssl_check_peer_name(absl::string_view peer_name,
-                                           const tsi_peer* peer);
+                                      const tsi_peer* peer);
 /* Compare targer_name information extracted from SSL security connectors. */
 int grpc_ssl_cmp_target_name(absl::string_view target_name,
                              absl::string_view other_target_name,

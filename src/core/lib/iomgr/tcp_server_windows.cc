@@ -101,8 +101,8 @@ struct grpc_tcp_server {
 /* Public function. Allocates the proper data structures to hold a
    grpc_tcp_server. */
 static absl::Status tcp_server_create(grpc_closure* shutdown_complete,
-                                           const grpc_channel_args* args,
-                                           grpc_tcp_server** server) {
+                                      const grpc_channel_args* args,
+                                      grpc_tcp_server** server) {
   grpc_tcp_server* s = (grpc_tcp_server*)gpr_malloc(sizeof(grpc_tcp_server));
   s->channel_args = grpc_channel_args_copy(args);
   gpr_ref_init(&s->refs, 1);
@@ -190,8 +190,8 @@ static void tcp_server_unref(grpc_tcp_server* s) {
 
 /* Prepare (bind) a recently-created socket for listening. */
 static absl::Status prepare_socket(SOCKET sock,
-                                        const grpc_resolved_address* addr,
-                                        int* port) {
+                                   const grpc_resolved_address* addr,
+                                   int* port) {
   grpc_resolved_address sockname_temp;
   absl::Status error = GRPC_ERROR_NONE;
   int sockname_temp_len;
@@ -392,9 +392,9 @@ static void on_accept(void* arg, absl::Status error) {
 }
 
 static absl::Status add_socket_to_server(grpc_tcp_server* s, SOCKET sock,
-                                              const grpc_resolved_address* addr,
-                                              unsigned port_index,
-                                              grpc_tcp_listener** listener) {
+                                         const grpc_resolved_address* addr,
+                                         unsigned port_index,
+                                         grpc_tcp_listener** listener) {
   grpc_tcp_listener* sp = NULL;
   int port = -1;
   int status;
@@ -450,8 +450,8 @@ static absl::Status add_socket_to_server(grpc_tcp_server* s, SOCKET sock,
 }
 
 static absl::Status tcp_server_add_port(grpc_tcp_server* s,
-                                             const grpc_resolved_address* addr,
-                                             int* port) {
+                                        const grpc_resolved_address* addr,
+                                        int* port) {
   grpc_tcp_listener* sp = NULL;
   SOCKET sock;
   grpc_resolved_address addr6_v4mapped;
@@ -511,9 +511,8 @@ done:
   gpr_free(allocated_addr);
 
   if (!error.ok()) {
-    absl::Status error_out =
-        GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
-            "Failed to add port to server", &error, 1);
+    absl::Status error_out = GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING(
+        "Failed to add port to server", &error, 1);
     error = error_out;
     *port = -1;
   } else {

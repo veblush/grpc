@@ -43,10 +43,10 @@ absl::Status grpc_chttp2_data_parser_begin_frame(uint8_t flags,
 /* handle a slice of a data frame - is_last indicates the last slice of a
    frame */
 absl::Status grpc_chttp2_data_parser_parse(void* parser,
-                                                grpc_chttp2_transport* t,
-                                                grpc_chttp2_stream* s,
-                                                const grpc_slice& slice,
-                                                int is_last);
+                                           grpc_chttp2_transport* t,
+                                           grpc_chttp2_stream* s,
+                                           const grpc_slice& slice,
+                                           int is_last);
 
 void grpc_chttp2_encode_data(uint32_t id, grpc_slice_buffer* inbuf,
                              uint32_t write_bytes, int is_eof,

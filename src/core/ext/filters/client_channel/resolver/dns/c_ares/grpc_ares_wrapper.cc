@@ -515,9 +515,10 @@ static void noop_inject_channel_config(ares_channel /*channel*/) {}
 void (*grpc_ares_test_only_inject_config)(ares_channel channel) =
     noop_inject_channel_config;
 
-absl::Status grpc_ares_ev_driver_create_locked(
-    grpc_ares_ev_driver** ev_driver, grpc_pollset_set* pollset_set,
-    int query_timeout_ms, grpc_ares_request* request)
+absl::Status grpc_ares_ev_driver_create_locked(grpc_ares_ev_driver** ev_driver,
+                                               grpc_pollset_set* pollset_set,
+                                               int query_timeout_ms,
+                                               grpc_ares_request* request)
     ABSL_EXCLUSIVE_LOCKS_REQUIRED(request->mu) {
   *ev_driver = new grpc_ares_ev_driver(request);
   ares_options opts;
@@ -824,7 +825,7 @@ fail:
 }
 
 absl::Status set_request_dns_server(grpc_ares_request* r,
-                                         absl::string_view dns_server)
+                                    absl::string_view dns_server)
     ABSL_EXCLUSIVE_LOCKS_REQUIRED(r->mu) {
   if (!dns_server.empty()) {
     GRPC_CARES_TRACE_LOG("request:%p Using DNS server %s", r,

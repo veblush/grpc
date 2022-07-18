@@ -45,9 +45,9 @@ typedef struct grpc_pollset_vtable {
   void (*shutdown)(grpc_pollset* pollset, grpc_closure* closure);
   void (*destroy)(grpc_pollset* pollset);
   absl::Status (*work)(grpc_pollset* pollset, grpc_pollset_worker** worker,
-                            grpc_core::Timestamp deadline);
+                       grpc_core::Timestamp deadline);
   absl::Status (*kick)(grpc_pollset* pollset,
-                            grpc_pollset_worker* specific_worker);
+                       grpc_pollset_worker* specific_worker);
   size_t (*pollset_size)(void);
 } grpc_pollset_vtable;
 
@@ -93,7 +93,7 @@ absl::Status grpc_pollset_work(
 /* Break one polling thread out of polling work for this pollset.
    If specific_worker is non-NULL, then kick that worker. */
 absl::Status grpc_pollset_kick(grpc_pollset* pollset,
-                                    grpc_pollset_worker* specific_worker)
+                               grpc_pollset_worker* specific_worker)
     GRPC_MUST_USE_RESULT;
 
 #endif /* GRPC_CORE_LIB_IOMGR_POLLSET_H */

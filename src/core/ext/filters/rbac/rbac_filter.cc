@@ -42,8 +42,8 @@ namespace grpc_core {
 
 // CallData
 
-absl::Status RbacFilter::CallData::Init(
-    grpc_call_element* elem, const grpc_call_element_args* args) {
+absl::Status RbacFilter::CallData::Init(grpc_call_element* elem,
+                                        const grpc_call_element_args* args) {
   new (elem->call_data) CallData(elem, *args);
   return GRPC_ERROR_NONE;
 }
@@ -140,7 +140,7 @@ RbacFilter::RbacFilter(size_t index,
       per_channel_evaluate_args_(std::move(per_channel_evaluate_args)) {}
 
 absl::Status RbacFilter::Init(grpc_channel_element* elem,
-                                   grpc_channel_element_args* args) {
+                              grpc_channel_element_args* args) {
   GPR_ASSERT(elem->filter == &kFilterVtable);
   auto* auth_context = grpc_find_auth_context_in_args(args->channel_args);
   if (auth_context == nullptr) {

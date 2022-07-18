@@ -268,8 +268,7 @@ void GetCallStatus(grpc_status_code* status, Timestamp deadline,
 
 }  // namespace
 
-void SubchannelCall::RecvTrailingMetadataReady(void* arg,
-                                               absl::Status error) {
+void SubchannelCall::RecvTrailingMetadataReady(void* arg, absl::Status error) {
   SubchannelCall* call = static_cast<SubchannelCall*>(arg);
   GPR_ASSERT(call->recv_trailing_metadata_ != nullptr);
   grpc_status_code status = GRPC_STATUS_OK;

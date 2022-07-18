@@ -58,9 +58,8 @@ void RetryServiceConfigParser::Register(CoreConfiguration::Builder* builder) {
 
 namespace {
 
-absl::Status ParseRetryThrottling(const Json& json,
-                                       intptr_t* max_milli_tokens,
-                                       intptr_t* milli_token_ratio) {
+absl::Status ParseRetryThrottling(const Json& json, intptr_t* max_milli_tokens,
+                                  intptr_t* milli_token_ratio) {
   if (json.type() != Json::Type::OBJECT) {
     return GRPC_ERROR_CREATE_FROM_STATIC_STRING(
         "field:retryThrottling error:Type should be object");

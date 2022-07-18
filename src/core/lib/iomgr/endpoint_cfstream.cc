@@ -104,7 +104,7 @@ static void CFStreamRef(CFStreamEndpoint* ep) { gpr_ref(&ep->refcount); }
 #endif
 
 static absl::Status CFStreamAnnotateError(absl::Status src_error,
-                                               CFStreamEndpoint* ep) {
+                                          CFStreamEndpoint* ep) {
   return grpc_error_set_str(
       grpc_error_set_int(src_error, GRPC_ERROR_INT_GRPC_STATUS,
                          GRPC_STATUS_UNAVAILABLE),

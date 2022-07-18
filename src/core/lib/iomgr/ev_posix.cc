@@ -273,19 +273,18 @@ static void pollset_destroy(grpc_pollset* pollset) {
 }
 
 static absl::Status pollset_work(grpc_pollset* pollset,
-                                      grpc_pollset_worker** worker,
-                                      grpc_core::Timestamp deadline) {
+                                 grpc_pollset_worker** worker,
+                                 grpc_core::Timestamp deadline) {
   GRPC_POLLING_API_TRACE("pollset_work(%p, %" PRId64 ") begin", pollset,
                          deadline.milliseconds_after_process_epoch());
-  absl::Status err =
-      g_event_engine->pollset_work(pollset, worker, deadline);
+  absl::Status err = g_event_engine->pollset_work(pollset, worker, deadline);
   GRPC_POLLING_API_TRACE("pollset_work(%p, %" PRId64 ") end", pollset,
                          deadline.milliseconds_after_process_epoch());
   return err;
 }
 
 static absl::Status pollset_kick(grpc_pollset* pollset,
-                                      grpc_pollset_worker* specific_worker) {
+                                 grpc_pollset_worker* specific_worker) {
   GRPC_POLLING_API_TRACE("pollset_kick(%p, %p)", pollset, specific_worker);
   return g_event_engine->pollset_kick(pollset, specific_worker);
 }

@@ -393,9 +393,9 @@ absl::Status ClusterSpecifierPluginParse(
   return GRPC_ERROR_NONE;
 }
 
-absl::Status RoutePathMatchParse(
-    const envoy_config_route_v3_RouteMatch* match,
-    XdsRouteConfigResource::Route* route, bool* ignore_route) {
+absl::Status RoutePathMatchParse(const envoy_config_route_v3_RouteMatch* match,
+                                 XdsRouteConfigResource::Route* route,
+                                 bool* ignore_route) {
   auto* case_sensitive_ptr =
       envoy_config_route_v3_RouteMatch_case_sensitive(match);
   bool case_sensitive = true;
@@ -1027,8 +1027,7 @@ absl::Status XdsRouteConfigResource::Parse(
       }
       XdsRouteConfigResource::Route route;
       bool ignore_route = false;
-      absl::Status error =
-          RoutePathMatchParse(match, &route, &ignore_route);
+      absl::Status error = RoutePathMatchParse(match, &route, &ignore_route);
       if (!error.ok()) return error;
       if (ignore_route) continue;
       error = RouteHeaderMatchersParse(match, &route);

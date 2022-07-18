@@ -150,9 +150,8 @@ absl::Status UpstreamTlsContextParse(
   return GRPC_ERROR_NONE;
 }
 
-absl::Status CdsLogicalDnsParse(
-    const envoy_config_cluster_v3_Cluster* cluster,
-    XdsClusterResource* cds_update) {
+absl::Status CdsLogicalDnsParse(const envoy_config_cluster_v3_Cluster* cluster,
+                                XdsClusterResource* cds_update) {
   const auto* load_assignment =
       envoy_config_cluster_v3_Cluster_load_assignment(cluster);
   if (load_assignment == nullptr) {
@@ -217,10 +216,9 @@ absl::Status CdsLogicalDnsParse(
   return GRPC_ERROR_NONE;
 }
 
-absl::Status CdsResourceParse(
-    const XdsEncodingContext& context,
-    const envoy_config_cluster_v3_Cluster* cluster, bool /*is_v2*/,
-    XdsClusterResource* cds_update) {
+absl::Status CdsResourceParse(const XdsEncodingContext& context,
+                              const envoy_config_cluster_v3_Cluster* cluster,
+                              bool /*is_v2*/, XdsClusterResource* cds_update) {
   std::vector<absl::Status> errors;
   // Check the cluster_discovery_type.
   if (!envoy_config_cluster_v3_Cluster_has_type(cluster) &&

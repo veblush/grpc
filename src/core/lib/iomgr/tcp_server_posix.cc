@@ -65,8 +65,8 @@
 static std::atomic<int64_t> num_dropped_connections{0};
 
 static absl::Status tcp_server_create(grpc_closure* shutdown_complete,
-                                           const grpc_channel_args* args,
-                                           grpc_tcp_server** server) {
+                                      const grpc_channel_args* args,
+                                      grpc_tcp_server** server) {
   grpc_tcp_server* s = new grpc_tcp_server;
   s->so_reuseport = grpc_is_socket_reuse_port_supported();
   s->expand_wildcard_addrs = false;
@@ -305,9 +305,9 @@ error:
 
 /* Treat :: or 0.0.0.0 as a family-agnostic wildcard. */
 static absl::Status add_wildcard_addrs_to_server(grpc_tcp_server* s,
-                                                      unsigned port_index,
-                                                      int requested_port,
-                                                      int* out_port) {
+                                                 unsigned port_index,
+                                                 int requested_port,
+                                                 int* out_port) {
   grpc_resolved_address wild4;
   grpc_resolved_address wild6;
   unsigned fd_index = 0;
@@ -367,8 +367,7 @@ static absl::Status add_wildcard_addrs_to_server(grpc_tcp_server* s,
   }
 }
 
-static absl::Status clone_port(grpc_tcp_listener* listener,
-                                    unsigned count) {
+static absl::Status clone_port(grpc_tcp_listener* listener, unsigned count) {
   grpc_tcp_listener* sp = nullptr;
   absl::StatusOr<std::string> addr_str;
   absl::Status err;
@@ -421,8 +420,8 @@ static absl::Status clone_port(grpc_tcp_listener* listener,
 }
 
 static absl::Status tcp_server_add_port(grpc_tcp_server* s,
-                                             const grpc_resolved_address* addr,
-                                             int* out_port) {
+                                        const grpc_resolved_address* addr,
+                                        int* out_port) {
   GPR_ASSERT(addr->len <= GRPC_MAX_SOCKADDR_SIZE);
   grpc_tcp_listener* sp;
   grpc_resolved_address sockname_temp;

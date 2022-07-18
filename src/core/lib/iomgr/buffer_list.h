@@ -153,8 +153,8 @@ class TracedBuffer {
 
 /** Sets the callback function to call when timestamps for a write are
  *  collected. The callback does not own a reference to error. */
-void grpc_tcp_set_write_timestamps_callback(
-    void (*fn)(void*, Timestamps*, absl::Status error));
+void grpc_tcp_set_write_timestamps_callback(void (*fn)(void*, Timestamps*,
+                                                       absl::Status error));
 
 } /* namespace grpc_core */
 
