@@ -948,7 +948,7 @@ const XdsListenerResource::FilterChainData* FindFilterChainDataForSourceType(
   grpc_resolved_address source_addr;
   grpc_error_handle error = grpc_string_to_sockaddr(
       &source_addr, host.c_str(), 0 /* port doesn't matter here */);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     gpr_log(GPR_DEBUG, "Could not parse string to socket address: %s",
             host.c_str());
     GRPC_ERROR_UNREF(error);
@@ -999,7 +999,7 @@ const XdsListenerResource::FilterChainData* FindFilterChainDataForDestinationIp(
   grpc_resolved_address destination_addr;
   grpc_error_handle error = grpc_string_to_sockaddr(
       &destination_addr, host.c_str(), 0 /* port doesn't matter here */);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     gpr_log(GPR_DEBUG, "Could not parse string to socket address: %s",
             host.c_str());
     GRPC_ERROR_UNREF(error);
@@ -1135,7 +1135,7 @@ XdsServerConfigFetcher::ListenerWatcher::FilterChainMatchManager::
       XdsRouting::GeneratePerHttpFilterConfigsResult result =
           XdsRouting::GeneratePerHTTPFilterConfigs(http_filters, vhost, route,
                                                    nullptr, ChannelArgs());
-      if (!GRPC_ERROR_IS_NONE(result.error)) {
+      if (!result.error.ok()) {
         return grpc_error_to_absl_status(result.error);
       }
       std::vector<std::string> fields;
@@ -1159,7 +1159,7 @@ XdsServerConfigFetcher::ListenerWatcher::FilterChainMatchManager::
         grpc_error_handle error = GRPC_ERROR_NONE;
         config_selector_route.method_config =
             ServiceConfigImpl::Create(result.args, json.c_str(), &error);
-        GPR_ASSERT(GRPC_ERROR_IS_NONE(error));
+        GPR_ASSERT(error.ok());
       }
     }
   }
@@ -1333,7 +1333,7 @@ grpc_server_config_fetcher* grpc_server_config_fetcher_xds_create(
   grpc_error_handle error = GRPC_ERROR_NONE;
   grpc_core::RefCountedPtr<grpc_core::XdsClient> xds_client =
       grpc_core::GrpcXdsClient::GetOrCreate(channel_args, &error);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     gpr_log(GPR_ERROR, "Failed to create xds client: %s",
             grpc_error_std_string(error).c_str());
     GRPC_ERROR_UNREF(error);

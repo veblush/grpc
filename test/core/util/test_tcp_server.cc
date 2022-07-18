@@ -72,10 +72,10 @@ void test_tcp_server_start(test_tcp_server* server, int port) {
                   .ToC();
   grpc_error_handle error = grpc_tcp_server_create(
       &server->shutdown_complete, args.get(), &server->tcp_server);
-  GPR_ASSERT(GRPC_ERROR_IS_NONE(error));
+  GPR_ASSERT(error.ok());
   error =
       grpc_tcp_server_add_port(server->tcp_server, &resolved_addr, &port_added);
-  GPR_ASSERT(GRPC_ERROR_IS_NONE(error));
+  GPR_ASSERT(error.ok());
   GPR_ASSERT(port_added == port);
 
   grpc_tcp_server_start(server->tcp_server, &server->pollset,

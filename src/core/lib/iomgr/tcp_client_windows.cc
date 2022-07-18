@@ -93,7 +93,7 @@ static void on_connect(void* acp, grpc_error_handle error) {
 
   gpr_mu_lock(&ac->mu);
 
-  if (GRPC_ERROR_IS_NONE(error)) {
+  if (error.ok()) {
     if (socket != NULL) {
       DWORD transfered_bytes = 0;
       DWORD flags;
@@ -161,7 +161,7 @@ static int64_t tcp_connect(grpc_closure* on_done, grpc_endpoint** endpoint,
   }
 
   error = grpc_tcp_prepare_socket(sock);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     goto failure;
   }
 
@@ -219,7 +219,7 @@ static int64_t tcp_connect(grpc_closure* on_done, grpc_endpoint** endpoint,
   return 0;
 
 failure:
-  GPR_ASSERT(!GRPC_ERROR_IS_NONE(error));
+  GPR_ASSERT(!error.ok());
   grpc_error_handle final_error = grpc_error_set_str(
       GRPC_ERROR_CREATE_REFERENCING_FROM_STATIC_STRING("Failed to connect",
                                                        &error, 1),

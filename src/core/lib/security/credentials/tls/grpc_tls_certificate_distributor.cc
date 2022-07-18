@@ -153,7 +153,7 @@ void grpc_tls_certificate_distributor::SetErrorForCert(
 };
 
 void grpc_tls_certificate_distributor::SetError(grpc_error_handle error) {
-  GPR_ASSERT(!GRPC_ERROR_IS_NONE(error));
+  GPR_ASSERT(!error.ok());
   grpc_core::MutexLock lock(&mu_);
   for (const auto& watcher : watchers_) {
     const auto watcher_ptr = watcher.first;
@@ -231,8 +231,7 @@ void grpc_tls_certificate_distributor::WatchTlsCertificates(
                                          std::move(updated_identity_pairs));
     }
     // Notify this watcher if the certs it is watching already had some errors.
-    if (!GRPC_ERROR_IS_NONE(root_error) ||
-        !GRPC_ERROR_IS_NONE(identity_error)) {
+    if (!root_error.ok() || !identity_error.ok()) {
       watcher_ptr->OnError(GRPC_ERROR_REF(root_error),
                            GRPC_ERROR_REF(identity_error));
     }

@@ -199,7 +199,7 @@ void CallCombiner::SetNotifyOnCancel(grpc_closure* closure) {
     grpc_error_handle original_error = DecodeCancelStateError(original_state);
     // If error is set, invoke the cancellation closure immediately.
     // Otherwise, store the new closure.
-    if (!GRPC_ERROR_IS_NONE(original_error)) {
+    if (!original_error.ok()) {
       if (GRPC_TRACE_FLAG_ENABLED(grpc_call_combiner_trace)) {
         gpr_log(GPR_INFO,
                 "call_combiner=%p: scheduling notify_on_cancel callback=%p "
@@ -241,7 +241,7 @@ void CallCombiner::Cancel(grpc_error_handle error) {
   while (true) {
     gpr_atm original_state = gpr_atm_acq_load(&cancel_state_);
     grpc_error_handle original_error = DecodeCancelStateError(original_state);
-    if (!GRPC_ERROR_IS_NONE(original_error)) {
+    if (!original_error.ok()) {
       internal::StatusFreeHeapPtr(status_ptr);
       break;
     }

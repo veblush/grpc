@@ -1294,7 +1294,7 @@ void XdsClient::ChannelState::LrsCallState::OnRecvMessage(
   grpc_error_handle parse_error = xds_client()->api_.ParseLrsResponse(
       payload, &send_all_clusters, &new_cluster_names,
       &new_load_reporting_interval);
-  if (!GRPC_ERROR_IS_NONE(parse_error)) {
+  if (!parse_error.ok()) {
     gpr_log(GPR_ERROR,
             "[xds_client %p] xds server %s: LRS response parsing failed: %s",
             xds_client(), chand()->server_.server_uri.c_str(),

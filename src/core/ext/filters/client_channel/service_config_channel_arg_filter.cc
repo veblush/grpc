@@ -59,7 +59,7 @@ class ServiceConfigChannelArgChannelData {
       auto service_config =
           ServiceConfigImpl::Create(ChannelArgs::FromC(args->channel_args),
                                     service_config_str, &service_config_error);
-      if (GRPC_ERROR_IS_NONE(service_config_error)) {
+      if (service_config_error.ok()) {
         service_config_ = std::move(service_config);
       } else {
         gpr_log(GPR_ERROR, "%s",

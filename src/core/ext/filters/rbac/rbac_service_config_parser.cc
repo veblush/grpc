@@ -585,7 +585,7 @@ std::unique_ptr<ServiceConfigParser::ParsedConfig>
 RbacServiceConfigParser::ParsePerMethodParams(const ChannelArgs& args,
                                               const Json& json,
                                               grpc_error_handle* error) {
-  GPR_DEBUG_ASSERT(error != nullptr && GRPC_ERROR_IS_NONE(*error));
+  GPR_DEBUG_ASSERT(error != nullptr && error->ok());
   // Only parse rbac policy if the channel arg is present
   if (!args.GetBool(GRPC_ARG_PARSE_RBAC_METHOD_CONFIG).value_or(false)) {
     return nullptr;
@@ -598,7 +598,7 @@ RbacServiceConfigParser::ParsePerMethodParams(const ChannelArgs& args,
     rbac_policies = ParseRbacArray(*policies_json_array, &error_list);
   }
   *error = GRPC_ERROR_CREATE_FROM_VECTOR("Rbac parser", &error_list);
-  if (!GRPC_ERROR_IS_NONE(*error) || rbac_policies.empty()) {
+  if (!error->ok() || rbac_policies.empty()) {
     return nullptr;
   }
   return absl::make_unique<RbacMethodParsedConfig>(std::move(rbac_policies));

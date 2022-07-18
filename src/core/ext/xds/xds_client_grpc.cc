@@ -96,7 +96,7 @@ std::string GetBootstrapContents(const char* fallback_config,
     grpc_slice contents;
     *error =
         grpc_load_file(path.get(), /*add_null_terminator=*/true, &contents);
-    if (!GRPC_ERROR_IS_NONE(*error)) return "";
+    if (!error->ok()) return "";
     std::string contents_str(StringViewFromSlice(contents));
     grpc_slice_unref_internal(contents);
     return contents_str;
@@ -137,7 +137,7 @@ RefCountedPtr<XdsClient> GrpcXdsClient::GetOrCreate(const ChannelArgs& args,
   if (bootstrap_config.has_value()) {
     std::unique_ptr<XdsBootstrap> bootstrap =
         XdsBootstrap::Create(*bootstrap_config, error);
-    if (GRPC_ERROR_IS_NONE(*error)) {
+    if (error->ok()) {
       grpc_channel_args* xds_channel_args = args.GetPointer<grpc_channel_args>(
           GRPC_ARG_TEST_ONLY_DO_NOT_USE_IN_PROD_XDS_CLIENT_CHANNEL_ARGS);
       return MakeRefCounted<GrpcXdsClient>(
@@ -155,7 +155,7 @@ RefCountedPtr<XdsClient> GrpcXdsClient::GetOrCreate(const ChannelArgs& args,
     // Find bootstrap contents.
     std::string bootstrap_contents =
         GetBootstrapContents(g_fallback_bootstrap_config, error);
-    if (!GRPC_ERROR_IS_NONE(*error)) return nullptr;
+    if (!error->ok()) return nullptr;
     if (GRPC_TRACE_FLAG_ENABLED(grpc_xds_client_trace)) {
       gpr_log(GPR_INFO, "xDS bootstrap contents: %s",
               bootstrap_contents.c_str());
@@ -163,7 +163,7 @@ RefCountedPtr<XdsClient> GrpcXdsClient::GetOrCreate(const ChannelArgs& args,
     // Parse bootstrap.
     std::unique_ptr<XdsBootstrap> bootstrap =
         XdsBootstrap::Create(bootstrap_contents, error);
-    if (!GRPC_ERROR_IS_NONE(*error)) return nullptr;
+    if (!error->ok()) return nullptr;
     // Instantiate XdsClient.
     xds_client = MakeRefCounted<GrpcXdsClient>(
         std::move(bootstrap), ChannelArgs::FromC(g_channel_args));
@@ -220,7 +220,7 @@ grpc_slice grpc_dump_xds_configs(void) {
   grpc_error_handle error = GRPC_ERROR_NONE;
   auto xds_client =
       grpc_core::GrpcXdsClient::GetOrCreate(grpc_core::ChannelArgs(), &error);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     // If we aren't using xDS, just return an empty string.
     GRPC_ERROR_UNREF(error);
     return grpc_empty_slice();

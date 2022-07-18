@@ -90,8 +90,7 @@ StaticDataCertificateProvider::StaticDataCertificateProvider(
       identity_cert_error = GRPC_ERROR_CREATE_FROM_STATIC_STRING(
           "Unable to get latest identity certificates.");
     }
-    if (!GRPC_ERROR_IS_NONE(root_cert_error) ||
-        !GRPC_ERROR_IS_NONE(identity_cert_error)) {
+    if (!root_cert_error.ok() || !identity_cert_error.ok()) {
       distributor_->SetErrorForCert(cert_name, root_cert_error,
                                     identity_cert_error);
     }
@@ -185,8 +184,7 @@ FileWatcherCertificateProvider::FileWatcherCertificateProvider(
       identity_cert_error = GRPC_ERROR_CREATE_FROM_STATIC_STRING(
           "Unable to get latest identity certificates.");
     }
-    if (!GRPC_ERROR_IS_NONE(root_cert_error) ||
-        !GRPC_ERROR_IS_NONE(identity_cert_error)) {
+    if (!root_cert_error.ok() || !identity_cert_error.ok()) {
       distributor_->SetErrorForCert(cert_name, root_cert_error,
                                     identity_cert_error);
     }
@@ -289,7 +287,7 @@ FileWatcherCertificateProvider::ReadRootCertificatesFromFile(
   grpc_slice root_slice = grpc_empty_slice();
   grpc_error_handle root_error =
       grpc_load_file(root_cert_full_path.c_str(), 0, &root_slice);
-  if (!GRPC_ERROR_IS_NONE(root_error)) {
+  if (!root_error.ok()) {
     gpr_log(GPR_ERROR, "Reading file %s failed: %s",
             root_cert_full_path.c_str(),
             grpc_error_std_string(root_error).c_str());
@@ -348,7 +346,7 @@ FileWatcherCertificateProvider::ReadIdentityKeyCertPairFromFiles(
     SliceWrapper key_slice, cert_slice;
     grpc_error_handle key_error =
         grpc_load_file(private_key_path.c_str(), 0, &key_slice.slice);
-    if (!GRPC_ERROR_IS_NONE(key_error)) {
+    if (!key_error.ok()) {
       gpr_log(GPR_ERROR, "Reading file %s failed: %s. Start retrying...",
               private_key_path.c_str(),
               grpc_error_std_string(key_error).c_str());
@@ -357,7 +355,7 @@ FileWatcherCertificateProvider::ReadIdentityKeyCertPairFromFiles(
     }
     grpc_error_handle cert_error =
         grpc_load_file(identity_certificate_path.c_str(), 0, &cert_slice.slice);
-    if (!GRPC_ERROR_IS_NONE(cert_error)) {
+    if (!cert_error.ok()) {
       gpr_log(GPR_ERROR, "Reading file %s failed: %s. Start retrying...",
               identity_certificate_path.c_str(),
               grpc_error_std_string(cert_error).c_str());

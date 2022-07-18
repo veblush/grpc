@@ -34,7 +34,7 @@ std::string ValidateServiceConfigJSON(const std::string& service_config_json) {
   grpc_core::ServiceConfigImpl::Create(grpc_core::ChannelArgs(),
                                        service_config_json.c_str(), &error);
   std::string return_value;
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     return_value = grpc_error_std_string(error);
     GRPC_ERROR_UNREF(error);
   }

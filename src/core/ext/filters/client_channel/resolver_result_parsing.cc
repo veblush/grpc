@@ -54,7 +54,7 @@ namespace {
 
 absl::optional<std::string> ParseHealthCheckConfig(const Json& field,
                                                    grpc_error_handle* error) {
-  GPR_DEBUG_ASSERT(error != nullptr && GRPC_ERROR_IS_NONE(*error));
+  GPR_DEBUG_ASSERT(error != nullptr && error->ok());
   if (field.type() != Json::Type::OBJECT) {
     *error = GRPC_ERROR_CREATE_FROM_STATIC_STRING(
         "field:healthCheckConfig error:should be of type object");
@@ -82,7 +82,7 @@ std::unique_ptr<ServiceConfigParser::ParsedConfig>
 ClientChannelServiceConfigParser::ParseGlobalParams(const ChannelArgs& /*args*/,
                                                     const Json& json,
                                                     grpc_error_handle* error) {
-  GPR_DEBUG_ASSERT(error != nullptr && GRPC_ERROR_IS_NONE(*error));
+  GPR_DEBUG_ASSERT(error != nullptr && error->ok());
   std::vector<grpc_error_handle> error_list;
   // Parse LB config.
   RefCountedPtr<LoadBalancingPolicy::Config> parsed_lb_config;
@@ -91,7 +91,7 @@ ClientChannelServiceConfigParser::ParseGlobalParams(const ChannelArgs& /*args*/,
     grpc_error_handle parse_error = GRPC_ERROR_NONE;
     parsed_lb_config = LoadBalancingPolicyRegistry::ParseLoadBalancingConfig(
         it->second, &parse_error);
-    if (!GRPC_ERROR_IS_NONE(parse_error)) {
+    if (!parse_error.ok()) {
       std::vector<grpc_error_handle> lb_errors;
       lb_errors.push_back(parse_error);
       error_list.push_back(GRPC_ERROR_CREATE_FROM_VECTOR(
@@ -130,13 +130,13 @@ ClientChannelServiceConfigParser::ParseGlobalParams(const ChannelArgs& /*args*/,
     grpc_error_handle parsing_error = GRPC_ERROR_NONE;
     health_check_service_name =
         ParseHealthCheckConfig(it->second, &parsing_error);
-    if (!GRPC_ERROR_IS_NONE(parsing_error)) {
+    if (!parsing_error.ok()) {
       error_list.push_back(parsing_error);
     }
   }
   *error = GRPC_ERROR_CREATE_FROM_VECTOR("Client channel global parser",
                                          &error_list);
-  if (GRPC_ERROR_IS_NONE(*error)) {
+  if (error->ok()) {
     return absl::make_unique<ClientChannelGlobalParsedConfig>(
         std::move(parsed_lb_config), std::move(lb_policy_name),
         std::move(health_check_service_name));
@@ -147,7 +147,7 @@ ClientChannelServiceConfigParser::ParseGlobalParams(const ChannelArgs& /*args*/,
 std::unique_ptr<ServiceConfigParser::ParsedConfig>
 ClientChannelServiceConfigParser::ParsePerMethodParams(
     const ChannelArgs& /*args*/, const Json& json, grpc_error_handle* error) {
-  GPR_DEBUG_ASSERT(error != nullptr && GRPC_ERROR_IS_NONE(*error));
+  GPR_DEBUG_ASSERT(error != nullptr && error->ok());
   std::vector<grpc_error_handle> error_list;
   // Parse waitForReady.
   absl::optional<bool> wait_for_ready;
@@ -168,7 +168,7 @@ ClientChannelServiceConfigParser::ParsePerMethodParams(
                                  &error_list, false);
   // Return result.
   *error = GRPC_ERROR_CREATE_FROM_VECTOR("Client channel parser", &error_list);
-  if (GRPC_ERROR_IS_NONE(*error)) {
+  if (error->ok()) {
     return absl::make_unique<ClientChannelMethodParsedConfig>(timeout,
                                                               wait_for_ready);
   }

@@ -142,14 +142,14 @@ std::unique_ptr<ServiceConfigParser::ParsedConfig>
 RetryServiceConfigParser::ParseGlobalParams(const ChannelArgs& /*args*/,
                                             const Json& json,
                                             grpc_error_handle* error) {
-  GPR_DEBUG_ASSERT(error != nullptr && GRPC_ERROR_IS_NONE(*error));
+  GPR_DEBUG_ASSERT(error != nullptr && error->ok());
   auto it = json.object_value().find("retryThrottling");
   if (it == json.object_value().end()) return nullptr;
   intptr_t max_milli_tokens = 0;
   intptr_t milli_token_ratio = 0;
   *error =
       ParseRetryThrottling(it->second, &max_milli_tokens, &milli_token_ratio);
-  if (!GRPC_ERROR_IS_NONE(*error)) return nullptr;
+  if (!error->ok()) return nullptr;
   return absl::make_unique<RetryGlobalConfig>(max_milli_tokens,
                                               milli_token_ratio);
 }
@@ -290,7 +290,7 @@ std::unique_ptr<ServiceConfigParser::ParsedConfig>
 RetryServiceConfigParser::ParsePerMethodParams(const ChannelArgs& args,
                                                const Json& json,
                                                grpc_error_handle* error) {
-  GPR_DEBUG_ASSERT(error != nullptr && GRPC_ERROR_IS_NONE(*error));
+  GPR_DEBUG_ASSERT(error != nullptr && error->ok());
   // Parse retry policy.
   auto it = json.object_value().find("retryPolicy");
   if (it == json.object_value().end()) return nullptr;
@@ -303,7 +303,7 @@ RetryServiceConfigParser::ParsePerMethodParams(const ChannelArgs& args,
   *error = ParseRetryPolicy(args, it->second, &max_attempts, &initial_backoff,
                             &max_backoff, &backoff_multiplier,
                             &retryable_status_codes, &per_attempt_recv_timeout);
-  if (!GRPC_ERROR_IS_NONE(*error)) return nullptr;
+  if (!error->ok()) return nullptr;
   return absl::make_unique<RetryMethodConfig>(
       max_attempts, initial_backoff, max_backoff, backoff_multiplier,
       retryable_status_codes, per_attempt_recv_timeout);

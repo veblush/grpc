@@ -810,7 +810,7 @@ void OutlierDetectionLb::EjectionTimer::OnTimer(void* arg,
 }
 
 void OutlierDetectionLb::EjectionTimer::OnTimerLocked(grpc_error_handle error) {
-  if (GRPC_ERROR_IS_NONE(error) && timer_pending_) {
+  if (error.ok() && timer_pending_) {
     if (GRPC_TRACE_FLAG_ENABLED(grpc_outlier_detection_lb_trace)) {
       gpr_log(GPR_INFO, "[outlier_detection_lb %p] ejection timer running",
               parent_.get());
@@ -1011,7 +1011,7 @@ class OutlierDetectionLbFactory : public LoadBalancingPolicyFactory {
 
   RefCountedPtr<LoadBalancingPolicy::Config> ParseLoadBalancingConfig(
       const Json& json, grpc_error_handle* error) const override {
-    GPR_DEBUG_ASSERT(error != nullptr && GRPC_ERROR_IS_NONE(*error));
+    GPR_DEBUG_ASSERT(error != nullptr && error->ok());
     if (json.type() == Json::Type::JSON_NULL) {
       // This policy was configured in the deprecated loadBalancingPolicy
       // field or in the client API.
@@ -1095,7 +1095,7 @@ class OutlierDetectionLbFactory : public LoadBalancingPolicyFactory {
       child_policy = LoadBalancingPolicyRegistry::ParseLoadBalancingConfig(
           it->second, &parse_error);
       if (child_policy == nullptr) {
-        GPR_DEBUG_ASSERT(!GRPC_ERROR_IS_NONE(parse_error));
+        GPR_DEBUG_ASSERT(!parse_error.ok());
         std::vector<grpc_error_handle> child_errors;
         child_errors.push_back(parse_error);
         error_list.push_back(

@@ -94,7 +94,7 @@ void CensusServerCallData::OnDoneRecvInitialMetadataCb(
   CensusServerCallData* calld =
       reinterpret_cast<CensusServerCallData*>(elem->call_data);
   GPR_ASSERT(calld != nullptr);
-  if (GRPC_ERROR_IS_NONE(error)) {
+  if (error.ok()) {
     grpc_metadata_batch* initial_metadata = calld->recv_initial_metadata_;
     GPR_ASSERT(initial_metadata != nullptr);
     ServerMetadataElements sml;

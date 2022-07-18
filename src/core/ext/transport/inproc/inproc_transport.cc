@@ -209,7 +209,7 @@ struct inproc_stream {
         cs->write_buffer_trailing_md.Clear();
         cs->write_buffer_trailing_md_filled = false;
       }
-      if (!GRPC_ERROR_IS_NONE(cs->write_buffer_cancel_error)) {
+      if (!cs->write_buffer_cancel_error.ok()) {
         cancel_other_error = cs->write_buffer_cancel_error;
         cs->write_buffer_cancel_error = GRPC_ERROR_NONE;
         maybe_process_ops_locked(this, cancel_other_error);
@@ -432,7 +432,7 @@ void complete_if_batch_end_locked(inproc_stream* s, grpc_error_handle error,
 }
 
 void maybe_process_ops_locked(inproc_stream* s, grpc_error_handle error) {
-  if (s && (!GRPC_ERROR_IS_NONE(error) || s->ops_needed)) {
+  if (s && (!error.ok() || s->ops_needed)) {
     s->ops_needed = false;
     op_state_machine_locked(s, error);
   }
@@ -456,11 +456,11 @@ void fail_helper_locked(inproc_stream* s, grpc_error_handle error) {
     (void)fill_in_metadata(s, &fake_md, 0, dest, nullptr, destfilled);
 
     if (other != nullptr) {
-      if (GRPC_ERROR_IS_NONE(other->cancel_other_error)) {
+      if (other->cancel_other_error.ok()) {
         other->cancel_other_error = GRPC_ERROR_REF(error);
       }
       maybe_process_ops_locked(other, error);
-    } else if (GRPC_ERROR_IS_NONE(s->write_buffer_cancel_error)) {
+    } else if (s->write_buffer_cancel_error.ok()) {
       s->write_buffer_cancel_error = GRPC_ERROR_REF(error);
     }
   }
@@ -605,13 +605,13 @@ void op_state_machine_locked(inproc_stream* s, grpc_error_handle error) {
   // cancellation takes precedence
   inproc_stream* other = s->other_side;
 
-  if (!GRPC_ERROR_IS_NONE(s->cancel_self_error)) {
+  if (!s->cancel_self_error.ok()) {
     fail_helper_locked(s, GRPC_ERROR_REF(s->cancel_self_error));
     goto done;
-  } else if (!GRPC_ERROR_IS_NONE(s->cancel_other_error)) {
+  } else if (!s->cancel_other_error.ok()) {
     fail_helper_locked(s, GRPC_ERROR_REF(s->cancel_other_error));
     goto done;
-  } else if (!GRPC_ERROR_IS_NONE(error)) {
+  } else if (!error.ok()) {
     fail_helper_locked(s, GRPC_ERROR_REF(error));
     goto done;
   }
@@ -884,7 +884,7 @@ bool cancel_stream_locked(inproc_stream* s, grpc_error_handle error) {
   bool ret = false;  // was the cancel accepted
   INPROC_LOG(GPR_INFO, "cancel_stream %p with %s", s,
              grpc_error_std_string(error).c_str());
-  if (GRPC_ERROR_IS_NONE(s->cancel_self_error)) {
+  if (s->cancel_self_error.ok()) {
     ret = true;
     s->cancel_self_error = GRPC_ERROR_REF(error);
     // Catch current value of other before it gets closed off
@@ -904,11 +904,11 @@ bool cancel_stream_locked(inproc_stream* s, grpc_error_handle error) {
     (void)fill_in_metadata(s, &cancel_md, 0, dest, nullptr, destfilled);
 
     if (other != nullptr) {
-      if (GRPC_ERROR_IS_NONE(other->cancel_other_error)) {
+      if (other->cancel_other_error.ok()) {
         other->cancel_other_error = GRPC_ERROR_REF(s->cancel_self_error);
       }
       maybe_process_ops_locked(other, other->cancel_other_error);
-    } else if (GRPC_ERROR_IS_NONE(s->write_buffer_cancel_error)) {
+    } else if (s->write_buffer_cancel_error.ok()) {
       s->write_buffer_cancel_error = GRPC_ERROR_REF(s->cancel_self_error);
     }
 
@@ -971,7 +971,7 @@ void perform_stream_op(grpc_transport* gt, grpc_stream* gs,
     // this function is responsible to make sure that that field gets unref'ed
     cancel_stream_locked(s, op->payload->cancel_stream.cancel_error);
     // this op can complete without an error
-  } else if (!GRPC_ERROR_IS_NONE(s->cancel_self_error)) {
+  } else if (!s->cancel_self_error.ok()) {
     // already self-canceled so still give it an error
     error = GRPC_ERROR_REF(s->cancel_self_error);
   } else {
@@ -986,12 +986,11 @@ void perform_stream_op(grpc_transport* gt, grpc_stream* gs,
   }
 
   inproc_stream* other = s->other_side;
-  if (GRPC_ERROR_IS_NONE(error) &&
-      (op->send_initial_metadata || op->send_trailing_metadata)) {
+  if (error.ok() && (op->send_initial_metadata || op->send_trailing_metadata)) {
     if (s->t->is_closed) {
       error = GRPC_ERROR_CREATE_FROM_STATIC_STRING("Endpoint already shutdown");
     }
-    if (GRPC_ERROR_IS_NONE(error) && op->send_initial_metadata) {
+    if (error.ok() && op->send_initial_metadata) {
       grpc_metadata_batch* dest = (other == nullptr)
                                       ? &s->write_buffer_initial_md
                                       : &other->to_read_initial_md;
@@ -1025,10 +1024,9 @@ void perform_stream_op(grpc_transport* gt, grpc_stream* gs,
     }
   }
 
-  if (GRPC_ERROR_IS_NONE(error) &&
-      (op->send_message || op->send_trailing_metadata ||
-       op->recv_initial_metadata || op->recv_message ||
-       op->recv_trailing_metadata)) {
+  if (error.ok() && (op->send_message || op->send_trailing_metadata ||
+                     op->recv_initial_metadata || op->recv_message ||
+                     op->recv_trailing_metadata)) {
     // Mark ops that need to be processed by the state machine
     if (op->send_message) {
       s->send_message_op = op;
@@ -1065,7 +1063,7 @@ void perform_stream_op(grpc_transport* gt, grpc_stream* gs,
       s->ops_needed = true;
     }
   } else {
-    if (!GRPC_ERROR_IS_NONE(error)) {
+    if (!error.ok()) {
       // Consume any send message that was sent here but that we are not
       // pushing to the other side
       if (op->send_message) {
@@ -1161,11 +1159,11 @@ void perform_transport_op(grpc_transport* gt, grpc_transport_op* op) {
   }
 
   bool do_close = false;
-  if (!GRPC_ERROR_IS_NONE(op->goaway_error)) {
+  if (!op->goaway_error.ok()) {
     do_close = true;
     GRPC_ERROR_UNREF(op->goaway_error);
   }
-  if (!GRPC_ERROR_IS_NONE(op->disconnect_with_error)) {
+  if (!op->disconnect_with_error.ok()) {
     do_close = true;
     GRPC_ERROR_UNREF(op->disconnect_with_error);
   }
@@ -1271,7 +1269,7 @@ grpc_channel* grpc_inproc_channel_create(grpc_server* server,
   grpc_error_handle error = core_server->SetupTransport(
       server_transport, nullptr, server_args, nullptr);
   grpc_channel* channel = nullptr;
-  if (GRPC_ERROR_IS_NONE(error)) {
+  if (error.ok()) {
     auto new_channel = grpc_core::Channel::Create(
         "inproc", client_args, GRPC_CLIENT_DIRECT_CHANNEL, client_transport);
     if (!new_channel.ok()) {

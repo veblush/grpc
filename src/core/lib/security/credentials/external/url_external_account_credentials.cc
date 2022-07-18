@@ -50,7 +50,7 @@ UrlExternalAccountCredentials::Create(Options options,
                                       grpc_error_handle* error) {
   auto creds = MakeRefCounted<UrlExternalAccountCredentials>(
       std::move(options), std::move(scopes), error);
-  if (GRPC_ERROR_IS_NONE(*error)) {
+  if (error->ok()) {
     return creds;
   } else {
     return nullptr;
@@ -195,7 +195,7 @@ void UrlExternalAccountCredentials::OnRetrieveSubjectToken(
 void UrlExternalAccountCredentials::OnRetrieveSubjectTokenInternal(
     grpc_error_handle error) {
   http_request_.reset();
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     FinishRetrieveSubjectToken("", error);
     return;
   }
@@ -204,8 +204,7 @@ void UrlExternalAccountCredentials::OnRetrieveSubjectTokenInternal(
   if (format_type_ == "json") {
     grpc_error_handle error = GRPC_ERROR_NONE;
     Json response_json = Json::Parse(response_body, &error);
-    if (!GRPC_ERROR_IS_NONE(error) ||
-        response_json.type() != Json::Type::OBJECT) {
+    if (!error.ok() || response_json.type() != Json::Type::OBJECT) {
       FinishRetrieveSubjectToken(
           "", GRPC_ERROR_CREATE_FROM_STATIC_STRING(
                   "The format of response is not a valid json object."));
@@ -238,7 +237,7 @@ void UrlExternalAccountCredentials::FinishRetrieveSubjectToken(
   auto cb = cb_;
   cb_ = nullptr;
   // Invoke the callback.
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     cb("", error);
   } else {
     cb(subject_token, GRPC_ERROR_NONE);

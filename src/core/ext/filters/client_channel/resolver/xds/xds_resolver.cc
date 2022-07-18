@@ -493,7 +493,7 @@ XdsResolver::XdsConfigSelector::XdsConfigSelector(
           Route::ClusterWeightState cluster_weight_state;
           *error = CreateMethodConfig(route_entry.route, &weighted_cluster,
                                       &cluster_weight_state.method_config);
-          if (!GRPC_ERROR_IS_NONE(*error)) return;
+          if (!error->ok()) return;
           end += weighted_cluster.weight;
           cluster_weight_state.range_end = end;
           cluster_weight_state.cluster = weighted_cluster.name;
@@ -597,7 +597,7 @@ grpc_error_handle XdsResolver::XdsConfigSelector::CreateMethodConfig(
           resolver_->current_listener_.http_connection_manager.http_filters,
           resolver_->current_virtual_host_, route, cluster_weight,
           resolver_->args_);
-  if (!GRPC_ERROR_IS_NONE(result.error)) {
+  if (!result.error.ok()) {
     return result.error;
   }
   for (const auto& p : result.per_filter_configs) {
@@ -788,7 +788,7 @@ ConfigSelector::CallConfig XdsResolver::XdsConfigSelector::GetCallConfig(
 void XdsResolver::StartLocked() {
   grpc_error_handle error = GRPC_ERROR_NONE;
   xds_client_ = GrpcXdsClient::GetOrCreate(args_, &error);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     gpr_log(GPR_ERROR,
             "Failed to create xds client -- channel will remain in "
             "TRANSIENT_FAILURE: %s",
@@ -1038,7 +1038,7 @@ XdsResolver::CreateServiceConfig() {
   grpc_error_handle error = GRPC_ERROR_NONE;
   absl::StatusOr<RefCountedPtr<ServiceConfig>> result =
       ServiceConfigImpl::Create(args_, json.c_str(), &error);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     result = grpc_error_to_absl_status(error);
     GRPC_ERROR_UNREF(error);
   }
@@ -1051,7 +1051,7 @@ void XdsResolver::GenerateResult() {
   // state map, and then CreateServiceConfig for LB policies.
   grpc_error_handle error = GRPC_ERROR_NONE;
   auto config_selector = MakeRefCounted<XdsConfigSelector>(Ref(), &error);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     OnError("could not create ConfigSelector",
             absl::UnavailableError(grpc_error_std_string(error)));
     GRPC_ERROR_UNREF(error);

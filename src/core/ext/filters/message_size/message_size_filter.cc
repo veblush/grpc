@@ -76,7 +76,7 @@ std::unique_ptr<ServiceConfigParser::ParsedConfig>
 MessageSizeParser::ParsePerMethodParams(const ChannelArgs& /*args*/,
                                         const Json& json,
                                         grpc_error_handle* error) {
-  GPR_DEBUG_ASSERT(error != nullptr && GRPC_ERROR_IS_NONE(*error));
+  GPR_DEBUG_ASSERT(error != nullptr && error->ok());
   std::vector<grpc_error_handle> error_list;
   // Max request size.
   int max_request_message_bytes = -1;

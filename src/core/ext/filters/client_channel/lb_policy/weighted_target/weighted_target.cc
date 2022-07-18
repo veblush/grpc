@@ -683,7 +683,7 @@ class WeightedTargetLbFactory : public LoadBalancingPolicyFactory {
 
   RefCountedPtr<LoadBalancingPolicy::Config> ParseLoadBalancingConfig(
       const Json& json, grpc_error_handle* error) const override {
-    GPR_DEBUG_ASSERT(error != nullptr && GRPC_ERROR_IS_NONE(*error));
+    GPR_DEBUG_ASSERT(error != nullptr && error->ok());
     if (json.type() == Json::Type::JSON_NULL) {
       // weighted_target was mentioned as a policy in the deprecated
       // loadBalancingPolicy field or in the client API.
@@ -761,7 +761,7 @@ class WeightedTargetLbFactory : public LoadBalancingPolicyFactory {
           LoadBalancingPolicyRegistry::ParseLoadBalancingConfig(it->second,
                                                                 &parse_error);
       if (child_config->config == nullptr) {
-        GPR_DEBUG_ASSERT(!GRPC_ERROR_IS_NONE(parse_error));
+        GPR_DEBUG_ASSERT(!parse_error.ok());
         std::vector<grpc_error_handle> child_errors;
         child_errors.push_back(parse_error);
         error_list.push_back(

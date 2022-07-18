@@ -795,7 +795,7 @@ grpc_error_handle RouteActionParse(
             envoy_config_route_v3_WeightedCluster_ClusterWeight_TypedPerFilterConfigEntry_key,
             envoy_config_route_v3_WeightedCluster_ClusterWeight_TypedPerFilterConfigEntry_value,
             &cluster.typed_per_filter_config);
-        if (!GRPC_ERROR_IS_NONE(error)) return error;
+        if (!error.ok()) return error;
       }
       action_weighted_clusters.emplace_back(std::move(cluster));
     }
@@ -934,7 +934,7 @@ grpc_error_handle RouteActionParse(
   if (retry_policy != nullptr) {
     absl::optional<XdsRouteConfigResource::RetryPolicy> retry;
     grpc_error_handle error = RetryPolicyParse(context, retry_policy, &retry);
-    if (!GRPC_ERROR_IS_NONE(error)) return error;
+    if (!error.ok()) return error;
     route->retry_policy = retry;
   }
   return GRPC_ERROR_NONE;
@@ -950,7 +950,7 @@ grpc_error_handle XdsRouteConfigResource::Parse(
   if (XdsRlsEnabled()) {
     grpc_error_handle error =
         ClusterSpecifierPluginParse(context, route_config, rds_update);
-    if (!GRPC_ERROR_IS_NONE(error)) return error;
+    if (!error.ok()) return error;
   }
   // Get the virtual hosts.
   size_t num_virtual_hosts;
@@ -986,7 +986,7 @@ grpc_error_handle XdsRouteConfigResource::Parse(
           envoy_config_route_v3_VirtualHost_TypedPerFilterConfigEntry_key,
           envoy_config_route_v3_VirtualHost_TypedPerFilterConfigEntry_value,
           &vhost.typed_per_filter_config);
-      if (!GRPC_ERROR_IS_NONE(error)) return error;
+      if (!error.ok()) return error;
     }
     // Parse retry policy.
     absl::optional<XdsRouteConfigResource::RetryPolicy>
@@ -996,7 +996,7 @@ grpc_error_handle XdsRouteConfigResource::Parse(
     if (retry_policy != nullptr) {
       grpc_error_handle error =
           RetryPolicyParse(context, retry_policy, &virtual_host_retry_policy);
-      if (!GRPC_ERROR_IS_NONE(error)) return error;
+      if (!error.ok()) return error;
     }
     // Parse routes.
     size_t num_routes;
@@ -1029,12 +1029,12 @@ grpc_error_handle XdsRouteConfigResource::Parse(
       bool ignore_route = false;
       grpc_error_handle error =
           RoutePathMatchParse(match, &route, &ignore_route);
-      if (!GRPC_ERROR_IS_NONE(error)) return error;
+      if (!error.ok()) return error;
       if (ignore_route) continue;
       error = RouteHeaderMatchersParse(match, &route);
-      if (!GRPC_ERROR_IS_NONE(error)) return error;
+      if (!error.ok()) return error;
       error = RouteRuntimeFractionParse(match, &route);
-      if (!GRPC_ERROR_IS_NONE(error)) return error;
+      if (!error.ok()) return error;
       if (envoy_config_route_v3_Route_has_route(routes[j])) {
         route.action.emplace<XdsRouteConfigResource::Route::RouteAction>();
         auto& route_action =
@@ -1042,7 +1042,7 @@ grpc_error_handle XdsRouteConfigResource::Parse(
         error = RouteActionParse(context, routes[j],
                                  rds_update->cluster_specifier_plugin_map,
                                  &route_action, &ignore_route);
-        if (!GRPC_ERROR_IS_NONE(error)) return error;
+        if (!error.ok()) return error;
         if (ignore_route) continue;
         if (route_action.retry_policy == absl::nullopt &&
             retry_policy != nullptr) {
@@ -1070,7 +1070,7 @@ grpc_error_handle XdsRouteConfigResource::Parse(
             envoy_config_route_v3_Route_TypedPerFilterConfigEntry_key,
             envoy_config_route_v3_Route_TypedPerFilterConfigEntry_value,
             &route.typed_per_filter_config);
-        if (!GRPC_ERROR_IS_NONE(error)) return error;
+        if (!error.ok()) return error;
       }
       vhost.routes.emplace_back(std::move(route));
     }
@@ -1128,7 +1128,7 @@ XdsRouteConfigResourceType::Decode(const XdsEncodingContext& context,
   auto route_config_data = absl::make_unique<ResourceDataSubclass>();
   grpc_error_handle error = XdsRouteConfigResource::Parse(
       context, resource, &route_config_data->resource);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     std::string error_str = grpc_error_std_string(error);
     GRPC_ERROR_UNREF(error);
     if (GRPC_TRACE_FLAG_ENABLED(*context.tracer)) {

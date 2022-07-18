@@ -164,8 +164,8 @@ void TCPConnectHandshaker::Connected(void* arg, grpc_error_handle error) {
       static_cast<TCPConnectHandshaker*>(arg));
   {
     MutexLock lock(&self->mu_);
-    if (!GRPC_ERROR_IS_NONE(error) || self->shutdown_) {
-      if (GRPC_ERROR_IS_NONE(error)) {
+    if (!error.ok() || self->shutdown_) {
+      if (error.ok()) {
         error = GRPC_ERROR_CREATE_FROM_STATIC_STRING("tcp handshaker shutdown");
       } else {
         error = GRPC_ERROR_REF(error);

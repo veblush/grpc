@@ -210,11 +210,11 @@ TEST(JwtVerifierTest, ClaimsSuccess) {
   grpc_jwt_claims* claims;
   grpc_error_handle error = GRPC_ERROR_NONE;
   Json json = Json::Parse(claims_without_time_constraint, &error);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     gpr_log(GPR_ERROR, "JSON parse error: %s",
             grpc_error_std_string(error).c_str());
   }
-  ASSERT_TRUE(GRPC_ERROR_IS_NONE(error));
+  ASSERT_TRUE(error.ok());
   ASSERT_EQ(json.type(), Json::Type::OBJECT);
   grpc_core::ExecCtx exec_ctx;
   claims = grpc_jwt_claims_from_json(json);
@@ -233,11 +233,11 @@ TEST(JwtVerifierTest, ExpiredClaimsFailure) {
   grpc_jwt_claims* claims;
   grpc_error_handle error = GRPC_ERROR_NONE;
   Json json = Json::Parse(expired_claims, &error);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     gpr_log(GPR_ERROR, "JSON parse error: %s",
             grpc_error_std_string(error).c_str());
   }
-  ASSERT_TRUE(GRPC_ERROR_IS_NONE(error));
+  ASSERT_TRUE(error.ok());
   ASSERT_EQ(json.type(), Json::Type::OBJECT);
   gpr_timespec exp_iat = {100, 0, GPR_CLOCK_REALTIME};
   gpr_timespec exp_exp = {120, 0, GPR_CLOCK_REALTIME};
@@ -262,11 +262,11 @@ TEST(JwtVerifierTest, ExpiredClaimsFailure) {
 TEST(JwtVerifierTest, InvalidClaimsFailure) {
   grpc_error_handle error = GRPC_ERROR_NONE;
   Json json = Json::Parse(invalid_claims, &error);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     gpr_log(GPR_ERROR, "JSON parse error: %s",
             grpc_error_std_string(error).c_str());
   }
-  ASSERT_TRUE(GRPC_ERROR_IS_NONE(error));
+  ASSERT_TRUE(error.ok());
   ASSERT_EQ(json.type(), Json::Type::OBJECT);
   grpc_core::ExecCtx exec_ctx;
   ASSERT_EQ(grpc_jwt_claims_from_json(json), nullptr);
@@ -276,11 +276,11 @@ TEST(JwtVerifierTest, BadAudienceClaimsFailure) {
   grpc_jwt_claims* claims;
   grpc_error_handle error = GRPC_ERROR_NONE;
   Json json = Json::Parse(claims_without_time_constraint, &error);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     gpr_log(GPR_ERROR, "JSON parse error: %s",
             grpc_error_std_string(error).c_str());
   }
-  ASSERT_TRUE(GRPC_ERROR_IS_NONE(error));
+  ASSERT_TRUE(error.ok());
   ASSERT_EQ(json.type(), Json::Type::OBJECT);
   grpc_core::ExecCtx exec_ctx;
   claims = grpc_jwt_claims_from_json(json);
@@ -294,11 +294,11 @@ TEST(JwtVerifierTest, BadSubjectClaimsFailure) {
   grpc_jwt_claims* claims;
   grpc_error_handle error = GRPC_ERROR_NONE;
   Json json = Json::Parse(claims_with_bad_subject, &error);
-  if (!GRPC_ERROR_IS_NONE(error)) {
+  if (!error.ok()) {
     gpr_log(GPR_ERROR, "JSON parse error: %s",
             grpc_error_std_string(error).c_str());
   }
-  ASSERT_TRUE(GRPC_ERROR_IS_NONE(error));
+  ASSERT_TRUE(error.ok());
   ASSERT_EQ(json.type(), Json::Type::OBJECT);
   grpc_core::ExecCtx exec_ctx;
   claims = grpc_jwt_claims_from_json(json);

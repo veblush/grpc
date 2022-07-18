@@ -229,7 +229,7 @@ grpc_error_handle CertificateValidationContextParse(
     grpc_error_handle error = CertificateProviderPluginInstanceParse(
         context, ca_certificate_provider_instance,
         &certificate_validation_context->ca_certificate_provider_instance);
-    if (!GRPC_ERROR_IS_NONE(error)) errors.push_back(error);
+    if (!error.ok()) errors.push_back(error);
   }
   if (envoy_extensions_transport_sockets_tls_v3_CertificateValidationContext_verify_certificate_spki(
           certificate_validation_context_proto, nullptr) != nullptr) {
@@ -289,7 +289,7 @@ grpc_error_handle CommonTlsContext::Parse(
       grpc_error_handle error = CertificateValidationContextParse(
           context, default_validation_context,
           &common_tls_context->certificate_validation_context);
-      if (!GRPC_ERROR_IS_NONE(error)) errors.push_back(error);
+      if (!error.ok()) errors.push_back(error);
     }
     // If after parsing default_validation_context,
     // common_tls_context->certificate_validation_context.ca_certificate_provider_instance
@@ -308,7 +308,7 @@ grpc_error_handle CommonTlsContext::Parse(
           context, validation_context_certificate_provider_instance,
           &common_tls_context->certificate_validation_context
                .ca_certificate_provider_instance);
-      if (!GRPC_ERROR_IS_NONE(error)) errors.push_back(error);
+      if (!error.ok()) errors.push_back(error);
     }
   } else {
     auto* validation_context =
@@ -318,7 +318,7 @@ grpc_error_handle CommonTlsContext::Parse(
       grpc_error_handle error = CertificateValidationContextParse(
           context, validation_context,
           &common_tls_context->certificate_validation_context);
-      if (!GRPC_ERROR_IS_NONE(error)) errors.push_back(error);
+      if (!error.ok()) errors.push_back(error);
     } else if (
         envoy_extensions_transport_sockets_tls_v3_CommonTlsContext_has_validation_context_sds_secret_config(
             common_tls_context_proto)) {
@@ -333,7 +333,7 @@ grpc_error_handle CommonTlsContext::Parse(
     grpc_error_handle error = CertificateProviderPluginInstanceParse(
         context, tls_certificate_provider_instance,
         &common_tls_context->tls_certificate_provider_instance);
-    if (!GRPC_ERROR_IS_NONE(error)) errors.push_back(error);
+    if (!error.ok()) errors.push_back(error);
   } else {
     // Fall back onto 'tls_certificate_certificate_provider_instance'. Note that
     // this way of fetching identity certificates is deprecated and will be
@@ -346,7 +346,7 @@ grpc_error_handle CommonTlsContext::Parse(
       grpc_error_handle error = CertificateProviderInstanceParse(
           context, tls_certificate_certificate_provider_instance,
           &common_tls_context->tls_certificate_provider_instance);
-      if (!GRPC_ERROR_IS_NONE(error)) errors.push_back(error);
+      if (!error.ok()) errors.push_back(error);
     } else {
       if (envoy_extensions_transport_sockets_tls_v3_CommonTlsContext_has_tls_certificates(
               common_tls_context_proto)) {

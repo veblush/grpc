@@ -169,7 +169,7 @@ done:
   if (result) {
     freeaddrinfo(result);
   }
-  if (GRPC_ERROR_IS_NONE(err)) {
+  if (err.ok()) {
     return addresses;
   }
   auto error_result = grpc_error_to_absl_status(err);
