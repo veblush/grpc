@@ -24,6 +24,7 @@
 #include <stddef.h>
 
 #include "absl/container/inlined_vector.h"
+#include "absl/status/status.h"
 
 #include <grpc/slice.h>
 
@@ -34,7 +35,6 @@
 #include "src/core/lib/gprpp/time.h"
 #include "src/core/lib/iomgr/closure.h"
 #include "src/core/lib/iomgr/endpoint.h"
-#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/iomgr/tcp_server.h"
 #include "src/core/lib/iomgr/timer.h"
 

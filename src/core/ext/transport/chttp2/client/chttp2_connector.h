@@ -21,6 +21,7 @@
 
 #include <grpc/support/port_platform.h>
 
+#include "absl/status/status.h"
 #include "absl/types/optional.h"
 
 #include "src/core/ext/filters/client_channel/connector.h"
@@ -28,7 +29,6 @@
 #include "src/core/lib/gprpp/sync.h"
 #include "src/core/lib/iomgr/closure.h"
 #include "src/core/lib/iomgr/endpoint.h"
-#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/iomgr/timer.h"
 #include "src/core/lib/transport/handshaker.h"
 

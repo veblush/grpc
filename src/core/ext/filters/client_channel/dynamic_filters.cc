@@ -33,6 +33,7 @@
 #include "src/core/lib/channel/channel_stack.h"
 #include "src/core/lib/debug/trace.h"
 #include "src/core/lib/gpr/alloc.h"
+#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/surface/lame_client.h"
 
 // Conversion between call and call stack.

@@ -37,6 +37,8 @@
 #include "absl/time/clock.h"
 #include "absl/time/time.h"
 
+#include "src/core/lib/iomgr/error.h"
+
 namespace grpc_core {
 
 namespace {

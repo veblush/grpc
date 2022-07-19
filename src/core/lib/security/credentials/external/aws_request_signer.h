@@ -22,7 +22,8 @@
 #include <map>
 #include <string>
 
-#include "src/core/lib/iomgr/error.h"
+#include "absl/status/status.h"
+
 #include "src/core/lib/uri/uri_parser.h"
 
 namespace grpc_core {

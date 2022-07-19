@@ -20,6 +20,8 @@
 
 #include "src/cpp/ext/filters/census/channel_filter.h"
 
+#include "src/core/lib/iomgr/error.h"
+
 namespace grpc {
 
 absl::Status CensusChannelData::Init(grpc_channel_element* /*elem*/,

@@ -21,7 +21,8 @@
 
 #include <grpc/support/port_platform.h>
 
-#include "src/core/lib/iomgr/error.h"
+#include "absl/status/status.h"
+
 #include "src/core/tsi/transport_security_interface.h"
 
 absl::Status grpc_set_tsi_error_result(absl::Status error, tsi_result result);

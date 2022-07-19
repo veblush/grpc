@@ -50,6 +50,7 @@
 #include "src/core/lib/debug/trace.h"
 #include "src/core/lib/iomgr/closure.h"
 #include "src/core/lib/iomgr/combiner.h"
+#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/profiling/timers.h"
 #include "src/core/lib/slice/slice.h"
 #include "src/core/lib/slice/slice_refcount_base.h"

@@ -23,6 +23,8 @@
 #include <algorithm>
 #include <new>
 
+#include "absl/status/status.h"
+
 #include <grpc/grpc.h>
 #include <grpc/grpc_security.h>
 #include <grpc/impl/codegen/grpc_types.h>

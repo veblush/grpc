@@ -23,10 +23,11 @@
 
 #include <stdint.h>
 
+#include "absl/status/status.h"
+
 #include <grpc/slice.h>
 
 #include "src/core/ext/transport/chttp2/transport/frame.h"
-#include "src/core/lib/iomgr/error.h"
 
 typedef enum {
   GRPC_CHTTP2_GOAWAY_LSI0,

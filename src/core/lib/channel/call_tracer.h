@@ -28,7 +28,6 @@
 #include <grpc/impl/codegen/gpr_types.h>
 #include <grpc/support/atm.h>
 
-#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/slice/slice_buffer.h"
 #include "src/core/lib/transport/metadata_batch.h"
 #include "src/core/lib/transport/transport.h"

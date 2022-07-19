@@ -25,10 +25,10 @@
 
 #include <cstring>
 
+#include "absl/status/status.h"
+
 #include <grpc/slice.h>
 #include <grpc/support/log.h>
-
-#include "src/core/lib/iomgr/error.h"
 
 absl::Status grpc_validate_header_key_is_legal(const grpc_slice& slice);
 absl::Status grpc_validate_header_nonbin_value_is_legal(
