@@ -32,6 +32,7 @@
 #include <grpc/support/time.h>
 
 #include "src/core/ext/xds/certificate_provider_registry.h"
+#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/json/json_util.h"
 #include "src/core/lib/security/credentials/tls/grpc_tls_certificate_provider.h"
 

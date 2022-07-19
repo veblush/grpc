@@ -31,6 +31,7 @@
 #include <grpc/support/log.h>
 
 #include "src/core/ext/filters/client_channel/lb_policy_registry.h"
+#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/json/json_util.h"
 
 // As per the retry design, we do not allow more than 5 retry attempts.

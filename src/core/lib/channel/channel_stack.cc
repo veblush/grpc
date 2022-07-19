@@ -27,6 +27,7 @@
 #include <grpc/support/log.h>
 
 #include "src/core/lib/gpr/alloc.h"
+#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/promise/poll.h"
 
 grpc_core::TraceFlag grpc_trace_channel(false, "channel");

@@ -24,6 +24,7 @@
 #include <utility>
 #include <vector>
 
+#include "absl/status/status.h"
 #include "absl/strings/string_view.h"
 
 #include <grpc/impl/codegen/grpc_types.h>

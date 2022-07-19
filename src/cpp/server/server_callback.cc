@@ -15,6 +15,8 @@
  *
  */
 
+#include "absl/status/status.h"
+
 #include <grpcpp/impl/codegen/server_callback.h>
 #include <grpcpp/support/server_callback.h>
 

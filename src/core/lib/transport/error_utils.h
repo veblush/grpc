@@ -28,7 +28,6 @@
 #include <grpc/status.h>
 
 #include "src/core/lib/gprpp/time.h"
-#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/transport/http2_errors.h"
 
 /// A utility function to get the status code and message to be returned

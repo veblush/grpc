@@ -34,6 +34,7 @@
 #include <grpc/support/log.h>
 
 #include "src/core/lib/gprpp/debug_location.h"
+#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/surface/call.h"
 #include "src/core/lib/transport/transport.h"
 #include "src/cpp/ext/filters/census/channel_filter.h"

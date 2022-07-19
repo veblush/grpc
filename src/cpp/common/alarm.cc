@@ -20,6 +20,8 @@
 #include <functional>
 #include <utility>
 
+#include "absl/status/status.h"
+
 #include <grpc/impl/codegen/gpr_types.h>
 #include <grpc/impl/codegen/grpc_types.h>
 #include <grpc/support/log.h>
@@ -31,7 +33,6 @@
 
 #include "src/core/lib/gprpp/time.h"
 #include "src/core/lib/iomgr/closure.h"
-#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/iomgr/exec_ctx.h"
 #include "src/core/lib/iomgr/executor.h"
 #include "src/core/lib/iomgr/timer.h"

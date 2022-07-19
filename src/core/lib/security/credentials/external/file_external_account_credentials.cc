@@ -24,6 +24,7 @@
 
 #include <grpc/slice.h>
 
+#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/iomgr/load_file.h"
 #include "src/core/lib/json/json.h"
 #include "src/core/lib/slice/slice_internal.h"

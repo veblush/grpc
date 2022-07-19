@@ -26,6 +26,8 @@
 
 #include <grpc/support/log.h>
 
+#include "src/core/lib/iomgr/error.h"
+
 namespace grpc_core {
 
 ServiceConfigParser ServiceConfigParser::Builder::Build() {

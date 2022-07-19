@@ -18,7 +18,6 @@
 
 #ifndef GRPC_CORE_EXT_FILTERS_CLIENT_CHANNEL_RESOLVER_DNS_C_ARES_GRPC_ARES_WRAPPER_H
 #define GRPC_CORE_EXT_FILTERS_CLIENT_CHANNEL_RESOLVER_DNS_C_ARES_GRPC_ARES_WRAPPER_H
-
 #include <grpc/support/port_platform.h>
 
 #include <stddef.h>
@@ -28,6 +27,7 @@
 #include <ares.h>
 
 #include "absl/base/thread_annotations.h"
+#include "absl/status/status.h"
 
 #include <grpc/support/log.h>
 

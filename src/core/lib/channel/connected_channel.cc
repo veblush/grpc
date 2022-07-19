@@ -20,6 +20,8 @@
 
 #include "src/core/lib/channel/connected_channel.h"
 
+#include "absl/status/status.h"
+
 #include <grpc/impl/codegen/grpc_types.h>
 #include <grpc/support/alloc.h>
 #include <grpc/support/log.h>

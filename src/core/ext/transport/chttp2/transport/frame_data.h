@@ -30,7 +30,6 @@
 #include <grpc/slice.h>
 
 #include "src/core/ext/transport/chttp2/transport/frame.h"
-#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/promise/poll.h"
 #include "src/core/lib/slice/slice_buffer.h"
 #include "src/core/lib/transport/transport.h"

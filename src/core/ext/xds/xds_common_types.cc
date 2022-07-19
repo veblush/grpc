@@ -39,6 +39,7 @@
 #include "xds/type/v3/typed_struct.upb.h"
 
 #include "src/core/ext/xds/certificate_provider_store.h"
+#include "src/core/lib/iomgr/error.h"
 
 namespace grpc_core {
 

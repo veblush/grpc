@@ -31,6 +31,8 @@
 #include <openssl/pem.h>
 #include <openssl/rsa.h>
 
+#include "absl/status/status.h"
+
 #include <grpc/grpc_security.h>
 #include <grpc/support/alloc.h>
 #include <grpc/support/log.h>

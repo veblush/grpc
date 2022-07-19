@@ -29,6 +29,7 @@
 #include <grpc/support/string_util.h>
 
 #include "src/core/lib/gprpp/status_helper.h"
+#include "src/core/lib/iomgr/error.h"
 #include "src/core/lib/transport/status_conversion.h"
 
 static absl::Status recursively_find_error_with_field(absl::Status error,
