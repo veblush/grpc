@@ -30,6 +30,8 @@
 #include "src/core/ext/transport/chttp2/transport/flow_control.h"
 #include "src/core/ext/transport/chttp2/transport/internal.h"
 
+extern grpc_core::TraceFlag grpc_flowctl_trace;
+
 grpc_slice grpc_chttp2_window_update_create(
     uint32_t id, uint32_t window_delta, grpc_transport_one_way_stats* stats) {
   static const size_t frame_size = 13;
@@ -94,6 +96,13 @@ grpc_error_handle grpc_chttp2_window_update_parser_parse(
           absl::StrCat("invalid window update bytes: ", p->amount));
     }
     GPR_ASSERT(is_last);
+
+    if (GRPC_TRACE_FLAG_ENABLED(grpc_flowctl_trace)) {
+      gpr_log(GPR_INFO, "%p[%s] Incoming WINDOWS_UPDATE stream=%d update=%d", t,
+              t->is_client ? "cli" : "svr",
+              static_cast<int>(t->incoming_stream_id),
+              static_cast<int>(received_update));
+    }
 
     if (t->incoming_stream_id != 0) {
       if (s != nullptr) {
