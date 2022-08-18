@@ -414,6 +414,13 @@ class DataSendContext {
     grpc_chttp2_encode_data(s_->id, &s_->flow_controlled_buffer, send_bytes,
                             is_last_frame_, &s_->stats.outgoing, &t_->outbuf);
     sfc_upd_.SentData(send_bytes);
+    if (send_bytes > 0) {
+      if (GRPC_TRACE_FLAG_ENABLED(grpc_flowctl_trace)) {
+        gpr_log(GPR_INFO, "%p[%s] Datasent stream=%d bytes=%d", t_,
+                t_->is_client ? "cli" : "svr", static_cast<int>(s_->id),
+                static_cast<int>(send_bytes));
+      }
+    }
     s_->sending_bytes += send_bytes;
   }
 
