@@ -225,6 +225,9 @@ grpc_error_handle grpc_chttp2_settings_parser_parse(void* p,
               gpr_log(GPR_INFO, "%p[%s] adding %d for initial_window change", t,
                       t->is_client ? "cli" : "svr",
                       static_cast<int>(t->initial_window_update));
+              gpr_log(GPR_INFO, "%p[%s] incoming_settings=%d", t,
+                      t->is_client ? "cli" : "svr",
+                      static_cast<int>(parser->incoming_settings[id]));
             }
           }
           parser->incoming_settings[id] = parser->value;
