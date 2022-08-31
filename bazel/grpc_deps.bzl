@@ -190,16 +190,6 @@ def grpc_deps():
         actual = "@com_github_libuv_libuv//:libuv_test",
     )
 
-    native.bind(
-        name = "googleapis_trace_grpc_service",
-        actual = "@com_google_googleapis//google/devtools/cloudtrace/v2:cloudtrace_cc_grpc",
-    )
-
-    native.bind(
-        name = "googleapis_monitoring_grpc_service",
-        actual = "@com_google_googleapis//google/monitoring/v3:monitoring_cc_grpc",
-    )
-
     if "boringssl" not in native.existing_rules():
         http_archive(
             name = "boringssl",
@@ -217,7 +207,7 @@ def grpc_deps():
         http_archive(
             name = "zlib",
             build_file = "@com_github_grpc_grpc//third_party:zlib.BUILD",
-            sha256 = "ef47b0fbe646d69a2fc5ba012cb278de8e8946a8e9649f83a807cc05559f0eff",
+            sha256 = "f68ce04245d2787c2f007cee2aa9f5823e67990bf5c5b56224d13f7b46cc5216",
             strip_prefix = "zlib-21767c654d31d2dccdde4330529775c6c5fd5389",
             urls = [
                 "https://storage.googleapis.com/grpc-bazel-mirror/github.com/madler/zlib/archive/21767c654d31d2dccdde4330529775c6c5fd5389.tar.gz",
@@ -228,11 +218,10 @@ def grpc_deps():
     if "com_google_protobuf" not in native.existing_rules():
         http_archive(
             name = "com_google_protobuf",
-            sha256 = "63c5539a8506dc6bccd352a857cea106e0a389ce047a3ff0a78fe3f8fede410d",
-            strip_prefix = "protobuf-24487dd1045c7f3d64a21f38a3f0c06cc4cf2edb",
+            sha256 = "f68ce04245d2787c2f007cee2aa9f5823e67990bf5c5b56224d13f7b46cc5216",
+            strip_prefix = "protobuf-5cf61b7e478729e884b81a05798e4fad5c18a39d",
             urls = [
-                "https://storage.googleapis.com/grpc-bazel-mirror/github.com/protocolbuffers/protobuf/archive/24487dd1045c7f3d64a21f38a3f0c06cc4cf2edb.tar.gz",
-                "https://github.com/protocolbuffers/protobuf/archive/24487dd1045c7f3d64a21f38a3f0c06cc4cf2edb.tar.gz",
+                "https://github.com/protocolbuffers/protobuf/archive/5cf61b7e478729e884b81a05798e4fad5c18a39d.tar.gz",
             ],
             patches = ["@com_github_grpc_grpc//third_party:protobuf.patch"],
             patch_args = ["-p1"],
