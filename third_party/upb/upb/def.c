@@ -29,15 +29,14 @@
 
 #include <ctype.h>
 #include <errno.h>
-#include <setjmp.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "google/protobuf/descriptor.upb.h"
+#include "upb/internal/mini_descriptor.h"
 #include "upb/mini_table.h"
 #include "upb/reflection.h"
 
-/* Must be last. */
+// Must be last.
 #include "upb/port_def.inc"
 
 typedef struct {
@@ -52,7 +51,7 @@ typedef struct {
  *
  * We have to allocate an extra pointer for upb's internal metadata. */
 static const char opt_default_buf[_UPB_MAXOPT_SIZE + sizeof(void*)] = {0};
-static const char* opt_default = &opt_default_buf[sizeof(void*)];
+static const char* kUpbDefOptDefault = &opt_default_buf[sizeof(void*)];
 
 struct upb_FieldDef {
   const google_protobuf_FieldOptions* opts;
@@ -143,9 +142,7 @@ struct upb_EnumDef {
   const upb_EnumValueDef* values;
   int value_count;
   int32_t defaultval;
-#if UINTPTR_MAX == 0xffffffff
-  uint32_t padding;  // Increase size to a multiple of 8.
-#endif
+  bool is_sorted;  // Are all of the values defined in ascending order?
 };
 
 struct upb_EnumValueDef {
@@ -239,10 +236,6 @@ typedef enum {
   UPB_DEFTYPE_FIELD = 0,
   UPB_DEFTYPE_ONEOF = 1,
   UPB_DEFTYPE_FIELD_JSONNAME = 2,
-
-  /* Only inside file table. */
-  UPB_DEFTYPE_FILE = 0,
-  UPB_DEFTYPE_LAYOUT = 1
 } upb_deftype_t;
 
 #define FIELD_TYPE_UNSPECIFIED 0
@@ -252,28 +245,24 @@ static upb_deftype_t deftype(upb_value v) {
   return num & UPB_DEFTYPE_MASK;
 }
 
-static const void* unpack_def(upb_value v, upb_deftype_t type) {
+static const void* _upb_DefUtil_Unpack(upb_value v, upb_deftype_t type) {
   uintptr_t num = (uintptr_t)upb_value_getconstptr(v);
   return (num & UPB_DEFTYPE_MASK) == type
              ? (const void*)(num & ~UPB_DEFTYPE_MASK)
              : NULL;
 }
 
-static upb_value pack_def(const void* ptr, upb_deftype_t type) {
+static upb_value _upb_DefUtil_Pack(const void* ptr, upb_deftype_t type,
+                                   size_t size) {
   // Our 3-bit pointer tagging requires all pointers to be multiples of 8.
   // The arena will always yield 8-byte-aligned addresses, however we put
-  // the defs into arrays.  For each element in the array to be 8-byte-aligned,
+  // the defs into arrays. For each element in the array to be 8-byte-aligned,
   // the sizes of each def type must also be a multiple of 8.
   //
-  // If any of these asserts fail, we need to add or remove padding on 32-bit
+  // If any of these  asserts fail, we need to add or remove padding on 32-bit
   // machines (64-bit machines will have 8-byte alignment already due to
   // pointers, which all of these structs have).
-  UPB_ASSERT((sizeof(upb_FieldDef) & UPB_DEFTYPE_MASK) == 0);
-  UPB_ASSERT((sizeof(upb_MessageDef) & UPB_DEFTYPE_MASK) == 0);
-  UPB_ASSERT((sizeof(upb_EnumDef) & UPB_DEFTYPE_MASK) == 0);
-  UPB_ASSERT((sizeof(upb_EnumValueDef) & UPB_DEFTYPE_MASK) == 0);
-  UPB_ASSERT((sizeof(upb_ServiceDef) & UPB_DEFTYPE_MASK) == 0);
-  UPB_ASSERT((sizeof(upb_OneofDef) & UPB_DEFTYPE_MASK) == 0);
+  UPB_ASSERT((size & UPB_DEFTYPE_MASK) == 0);
   uintptr_t num = (uintptr_t)ptr;
   UPB_ASSERT((num & UPB_DEFTYPE_MASK) == 0);
   num |= type;
@@ -301,7 +290,7 @@ static bool upb_isalphanum(char c) {
   return upb_isletter(c) || upb_isbetween(c, '0', '9');
 }
 
-static const char* shortdefname(const char* fullname) {
+static const char* _upb_DefUtil_FullToShort(const char* fullname) {
   const char* p;
 
   if (fullname == NULL) {
@@ -325,14 +314,10 @@ uint32_t field_rank(const upb_FieldDef* f) {
   return ret;
 }
 
-int cmp_fields(const void* p1, const void* p2) {
-  const upb_FieldDef* f1 = *(upb_FieldDef* const*)p1;
-  const upb_FieldDef* f2 = *(upb_FieldDef* const*)p2;
-  return field_rank(f1) - field_rank(f2);
-}
-
-static void upb_Status_setoom(upb_Status* status) {
-  upb_Status_SetErrorMessage(status, "out of memory");
+static int cmp_values(const void* a, const void* b) {
+  const uint32_t A = upb_EnumValueDef_Number(*(const upb_EnumValueDef**)a);
+  const uint32_t B = upb_EnumValueDef_Number(*(const upb_EnumValueDef**)b);
+  return (A < B) ? -1 : (A > B);
 }
 
 static void assign_msg_wellknowntype(upb_MessageDef* m) {
@@ -378,6 +363,41 @@ static void assign_msg_wellknowntype(upb_MessageDef* m) {
   }
 }
 
+typedef struct {
+  upb_DefPool* symtab;
+  upb_FileDef* file;                /* File we are building. */
+  upb_Arena* arena;                 /* Allocate defs here. */
+  upb_Arena* tmp_arena;             /* For temporary allocations. */
+  upb_Status* status;               /* Record errors here. */
+  const upb_MiniTable_File* layout; /* NULL if we should build layouts. */
+  int enum_count;                   /* Count of enums built so far. */
+  int msg_count;                    /* Count of messages built so far. */
+  int ext_count;                    /* Count of extensions built so far. */
+  jmp_buf err;                      /* longjmp() on error. */
+} upb_DefBuilder;
+
+UPB_NORETURN UPB_NOINLINE UPB_PRINTF(2, 3) static void _upb_DefBuilder_Errf(
+    upb_DefBuilder* ctx, const char* fmt, ...) {
+  va_list argp;
+  va_start(argp, fmt);
+  upb_Status_VSetErrorFormat(ctx->status, fmt, argp);
+  va_end(argp);
+  UPB_LONGJMP(ctx->err, 1);
+}
+
+UPB_NORETURN UPB_NOINLINE static void _upb_DefBuilder_OomErr(
+    upb_DefBuilder* ctx) {
+  upb_Status_SetErrorMessage(ctx->status, "out of memory");
+  UPB_LONGJMP(ctx->err, 1);
+}
+
+void* _upb_DefBuilder_Alloc(upb_DefBuilder* ctx, size_t bytes) {
+  if (bytes == 0) return NULL;
+  void* ret = upb_Arena_Malloc(ctx->arena, bytes);
+  if (!ret) _upb_DefBuilder_OomErr(ctx);
+  return ret;
+}
+
 /* upb_EnumDef ****************************************************************/
 
 const google_protobuf_EnumOptions* upb_EnumDef_Options(const upb_EnumDef* e) {
@@ -385,13 +405,13 @@ const google_protobuf_EnumOptions* upb_EnumDef_Options(const upb_EnumDef* e) {
 }
 
 bool upb_EnumDef_HasOptions(const upb_EnumDef* e) {
-  return e->opts != (void*)opt_default;
+  return e->opts != (void*)kUpbDefOptDefault;
 }
 
 const char* upb_EnumDef_FullName(const upb_EnumDef* e) { return e->full_name; }
 
 const char* upb_EnumDef_Name(const upb_EnumDef* e) {
-  return shortdefname(e->full_name);
+  return _upb_DefUtil_FullToShort(e->full_name);
 }
 
 const upb_FileDef* upb_EnumDef_File(const upb_EnumDef* e) { return e->file; }
@@ -433,6 +453,21 @@ const upb_EnumValueDef* upb_EnumDef_Value(const upb_EnumDef* e, int i) {
   return &e->values[i];
 }
 
+const char* _upb_EnumDef_MiniDescriptor(const upb_EnumDef* e, upb_Arena* a) {
+  if (e->is_sorted) return _upb_MiniDescriptor_EncodeEnum(e, NULL, a);
+
+  const upb_EnumValueDef** sorted = (const upb_EnumValueDef**)upb_Arena_Malloc(
+      a, e->value_count * sizeof(void*));
+  if (!sorted) return NULL;
+
+  for (size_t i = 0; i < e->value_count; i++) {
+    sorted[i] = upb_EnumDef_Value(e, i);
+  }
+  qsort(sorted, e->value_count, sizeof(void*), cmp_values);
+
+  return _upb_MiniDescriptor_EncodeEnum(e, sorted, a);
+}
+
 /* upb_EnumValueDef ***********************************************************/
 
 const google_protobuf_EnumValueOptions* upb_EnumValueDef_Options(
@@ -441,7 +476,7 @@ const google_protobuf_EnumValueOptions* upb_EnumValueDef_Options(
 }
 
 bool upb_EnumValueDef_HasOptions(const upb_EnumValueDef* e) {
-  return e->opts != (void*)opt_default;
+  return e->opts != (void*)kUpbDefOptDefault;
 }
 
 const upb_EnumDef* upb_EnumValueDef_Enum(const upb_EnumValueDef* ev) {
@@ -453,7 +488,7 @@ const char* upb_EnumValueDef_FullName(const upb_EnumValueDef* ev) {
 }
 
 const char* upb_EnumValueDef_Name(const upb_EnumValueDef* ev) {
-  return shortdefname(ev->full_name);
+  return _upb_DefUtil_FullToShort(ev->full_name);
 }
 
 int32_t upb_EnumValueDef_Number(const upb_EnumValueDef* ev) {
@@ -465,8 +500,7 @@ uint32_t upb_EnumValueDef_Index(const upb_EnumValueDef* ev) {
   return ev - ev->parent->values;
 }
 
-/* upb_ExtensionRange
- * ***************************************************************/
+/* upb_ExtensionRange *********************************************************/
 
 const google_protobuf_ExtensionRangeOptions* upb_ExtensionRange_Options(
     const upb_ExtensionRange* r) {
@@ -474,7 +508,7 @@ const google_protobuf_ExtensionRangeOptions* upb_ExtensionRange_Options(
 }
 
 bool upb_ExtensionRange_HasOptions(const upb_ExtensionRange* r) {
-  return r->opts != (void*)opt_default;
+  return r->opts != (void*)kUpbDefOptDefault;
 }
 
 int32_t upb_ExtensionRange_Start(const upb_ExtensionRange* e) {
@@ -482,6 +516,12 @@ int32_t upb_ExtensionRange_Start(const upb_ExtensionRange* e) {
 }
 
 int32_t upb_ExtensionRange_End(const upb_ExtensionRange* e) { return e->end; }
+
+// Allocate sufficient storage to contain an array of |n| extension ranges.
+static upb_ExtensionRange* _upb_ExtensionRange_Alloc(upb_DefBuilder* ctx,
+                                                     int n) {
+  return _upb_DefBuilder_Alloc(ctx, sizeof(upb_ExtensionRange) * n);
+}
 
 /* upb_FieldDef ***************************************************************/
 
@@ -491,7 +531,7 @@ const google_protobuf_FieldOptions* upb_FieldDef_Options(
 }
 
 bool upb_FieldDef_HasOptions(const upb_FieldDef* f) {
-  return f->opts != (void*)opt_default;
+  return f->opts != (void*)kUpbDefOptDefault;
 }
 
 const char* upb_FieldDef_FullName(const upb_FieldDef* f) {
@@ -548,7 +588,7 @@ bool upb_FieldDef_IsExtension(const upb_FieldDef* f) {
 bool upb_FieldDef_IsPacked(const upb_FieldDef* f) { return f->packed_; }
 
 const char* upb_FieldDef_Name(const upb_FieldDef* f) {
-  return shortdefname(f->full_name);
+  return _upb_DefUtil_FullToShort(f->full_name);
 }
 
 const char* upb_FieldDef_JsonName(const upb_FieldDef* f) {
@@ -627,13 +667,15 @@ const upb_EnumDef* upb_FieldDef_EnumSubDef(const upb_FieldDef* f) {
 
 const upb_MiniTable_Field* upb_FieldDef_MiniTable(const upb_FieldDef* f) {
   UPB_ASSERT(!upb_FieldDef_IsExtension(f));
-  return &f->msgdef->layout->fields[f->layout_index];
+  const upb_MiniTable* layout = upb_MessageDef_MiniTable(f->msgdef);
+  return &layout->fields[f->layout_index];
 }
 
 const upb_MiniTable_Extension* _upb_FieldDef_ExtensionMiniTable(
     const upb_FieldDef* f) {
   UPB_ASSERT(upb_FieldDef_IsExtension(f));
-  return f->file->ext_layouts[f->layout_index];
+  const upb_FileDef* file = upb_FieldDef_File(f);
+  return file->ext_layouts[f->layout_index];
 }
 
 bool _upb_FieldDef_IsProto3Optional(const upb_FieldDef* f) {
@@ -679,8 +721,9 @@ bool upb_FieldDef_HasSubDef(const upb_FieldDef* f) {
 
 bool upb_FieldDef_HasPresence(const upb_FieldDef* f) {
   if (upb_FieldDef_IsRepeated(f)) return false;
+  const upb_FileDef* file = upb_FieldDef_File(f);
   return upb_FieldDef_IsSubMessage(f) || upb_FieldDef_ContainingOneof(f) ||
-         f->file->syntax == kUpb_Syntax_Proto2;
+         upb_FileDef_Syntax(file) == kUpb_Syntax_Proto2;
 }
 
 static bool between(int32_t x, int32_t low, int32_t high) {
@@ -695,8 +738,12 @@ bool upb_FieldDef_checkdescriptortype(int32_t type) {
   return between(type, 1, 18);
 }
 
-/* upb_MessageDef
- * *****************************************************************/
+// Allocate sufficient storage to contain an array of |n| field defs.
+static upb_FieldDef* _upb_FieldDef_Alloc(upb_DefBuilder* ctx, int n) {
+  return _upb_DefBuilder_Alloc(ctx, sizeof(upb_FieldDef) * n);
+}
+
+/* upb_MessageDef *************************************************************/
 
 const google_protobuf_MessageOptions* upb_MessageDef_Options(
     const upb_MessageDef* m) {
@@ -704,7 +751,7 @@ const google_protobuf_MessageOptions* upb_MessageDef_Options(
 }
 
 bool upb_MessageDef_HasOptions(const upb_MessageDef* m) {
-  return m->opts != (void*)opt_default;
+  return m->opts != (void*)kUpbDefOptDefault;
 }
 
 const char* upb_MessageDef_FullName(const upb_MessageDef* m) {
@@ -720,11 +767,11 @@ const upb_MessageDef* upb_MessageDef_ContainingType(const upb_MessageDef* m) {
 }
 
 const char* upb_MessageDef_Name(const upb_MessageDef* m) {
-  return shortdefname(m->full_name);
+  return _upb_DefUtil_FullToShort(m->full_name);
 }
 
 upb_Syntax upb_MessageDef_Syntax(const upb_MessageDef* m) {
-  return m->file->syntax;
+  return upb_FileDef_Syntax(m->file);
 }
 
 const upb_FieldDef* upb_MessageDef_FindFieldByNumber(const upb_MessageDef* m,
@@ -742,7 +789,7 @@ const upb_FieldDef* upb_MessageDef_FindFieldByNameWithSize(
     return NULL;
   }
 
-  return unpack_def(val, UPB_DEFTYPE_FIELD);
+  return _upb_DefUtil_Unpack(val, UPB_DEFTYPE_FIELD);
 }
 
 const upb_OneofDef* upb_MessageDef_FindOneofByNameWithSize(
@@ -753,7 +800,7 @@ const upb_OneofDef* upb_MessageDef_FindOneofByNameWithSize(
     return NULL;
   }
 
-  return unpack_def(val, UPB_DEFTYPE_ONEOF);
+  return _upb_DefUtil_Unpack(val, UPB_DEFTYPE_ONEOF);
 }
 
 bool upb_MessageDef_FindByNameWithSize(const upb_MessageDef* m,
@@ -766,8 +813,8 @@ bool upb_MessageDef_FindByNameWithSize(const upb_MessageDef* m,
     return false;
   }
 
-  const upb_FieldDef* f = unpack_def(val, UPB_DEFTYPE_FIELD);
-  const upb_OneofDef* o = unpack_def(val, UPB_DEFTYPE_ONEOF);
+  const upb_FieldDef* f = _upb_DefUtil_Unpack(val, UPB_DEFTYPE_FIELD);
+  const upb_OneofDef* o = _upb_DefUtil_Unpack(val, UPB_DEFTYPE_ONEOF);
   if (out_f) *out_f = f;
   if (out_o) *out_o = o;
   return f || o; /* False if this was a JSON name. */
@@ -782,8 +829,8 @@ const upb_FieldDef* upb_MessageDef_FindByJsonNameWithSize(
     return NULL;
   }
 
-  f = unpack_def(val, UPB_DEFTYPE_FIELD);
-  if (!f) f = unpack_def(val, UPB_DEFTYPE_FIELD_JSONNAME);
+  f = _upb_DefUtil_Unpack(val, UPB_DEFTYPE_FIELD);
+  if (!f) f = _upb_DefUtil_Unpack(val, UPB_DEFTYPE_FIELD_JSONNAME);
 
   return f;
 }
@@ -873,11 +920,11 @@ const google_protobuf_OneofOptions* upb_OneofDef_Options(
 }
 
 bool upb_OneofDef_HasOptions(const upb_OneofDef* o) {
-  return o->opts != (void*)opt_default;
+  return o->opts != (void*)kUpbDefOptDefault;
 }
 
 const char* upb_OneofDef_Name(const upb_OneofDef* o) {
-  return shortdefname(o->full_name);
+  return _upb_DefUtil_FullToShort(o->full_name);
 }
 
 const upb_MessageDef* upb_OneofDef_ContainingType(const upb_OneofDef* o) {
@@ -923,12 +970,14 @@ const google_protobuf_FileOptions* upb_FileDef_Options(const upb_FileDef* f) {
 }
 
 bool upb_FileDef_HasOptions(const upb_FileDef* f) {
-  return f->opts != (void*)opt_default;
+  return f->opts != (void*)kUpbDefOptDefault;
 }
 
 const char* upb_FileDef_Name(const upb_FileDef* f) { return f->name; }
 
-const char* upb_FileDef_Package(const upb_FileDef* f) { return f->package; }
+const char* upb_FileDef_Package(const upb_FileDef* f) {
+  return f->package ? f->package : "";
+}
 
 upb_Syntax upb_FileDef_Syntax(const upb_FileDef* f) { return f->syntax; }
 
@@ -1003,13 +1052,12 @@ const upb_DefPool* upb_FileDef_Pool(const upb_FileDef* f) { return f->symtab; }
 
 /* upb_MethodDef **************************************************************/
 
-const google_protobuf_MethodOptions* upb_MethodDef_Options(
-    const upb_MethodDef* m) {
+const google_protobuf_MethodOptions* upb_MethodDef_Options(const upb_MethodDef* m) {
   return m->opts;
 }
 
 bool upb_MethodDef_HasOptions(const upb_MethodDef* m) {
-  return m->opts != (void*)opt_default;
+  return m->opts != (void*)kUpbDefOptDefault;
 }
 
 const char* upb_MethodDef_FullName(const upb_MethodDef* m) {
@@ -1019,7 +1067,7 @@ const char* upb_MethodDef_FullName(const upb_MethodDef* m) {
 int upb_MethodDef_Index(const upb_MethodDef* m) { return m->index; }
 
 const char* upb_MethodDef_Name(const upb_MethodDef* m) {
-  return shortdefname(m->full_name);
+  return _upb_DefUtil_FullToShort(m->full_name);
 }
 
 const upb_ServiceDef* upb_MethodDef_Service(const upb_MethodDef* m) {
@@ -1044,13 +1092,12 @@ bool upb_MethodDef_ServerStreaming(const upb_MethodDef* m) {
 
 /* upb_ServiceDef *************************************************************/
 
-const google_protobuf_ServiceOptions* upb_ServiceDef_Options(
-    const upb_ServiceDef* s) {
+const google_protobuf_ServiceOptions* upb_ServiceDef_Options(const upb_ServiceDef* s) {
   return s->opts;
 }
 
 bool upb_ServiceDef_HasOptions(const upb_ServiceDef* s) {
-  return s->opts != (void*)opt_default;
+  return s->opts != (void*)kUpbDefOptDefault;
 }
 
 const char* upb_ServiceDef_FullName(const upb_ServiceDef* s) {
@@ -1058,7 +1105,7 @@ const char* upb_ServiceDef_FullName(const upb_ServiceDef* s) {
 }
 
 const char* upb_ServiceDef_Name(const upb_ServiceDef* s) {
-  return shortdefname(s->full_name);
+  return _upb_DefUtil_FullToShort(s->full_name);
 }
 
 int upb_ServiceDef_Index(const upb_ServiceDef* s) { return s->index; }
@@ -1072,7 +1119,7 @@ int upb_ServiceDef_MethodCount(const upb_ServiceDef* s) {
 }
 
 const upb_MethodDef* upb_ServiceDef_Method(const upb_ServiceDef* s, int i) {
-  return i < 0 || i >= s->method_count ? NULL : &s->methods[i];
+  return (i < 0 || i >= s->method_count) ? NULL : &s->methods[i];
 }
 
 const upb_MethodDef* upb_ServiceDef_FindMethodByName(const upb_ServiceDef* s,
@@ -1094,22 +1141,18 @@ void upb_DefPool_Free(upb_DefPool* s) {
 
 upb_DefPool* upb_DefPool_New(void) {
   upb_DefPool* s = upb_gmalloc(sizeof(*s));
-
-  if (!s) {
-    return NULL;
-  }
+  if (!s) return NULL;
 
   s->arena = upb_Arena_New();
   s->bytes_loaded = 0;
 
-  if (!upb_strtable_init(&s->syms, 32, s->arena) ||
-      !upb_strtable_init(&s->files, 4, s->arena) ||
-      !upb_inttable_init(&s->exts, s->arena)) {
-    goto err;
-  }
+  if (!upb_strtable_init(&s->syms, 32, s->arena)) goto err;
+  if (!upb_strtable_init(&s->files, 4, s->arena)) goto err;
+  if (!upb_inttable_init(&s->exts, s->arena)) goto err;
 
   s->extreg = upb_ExtensionRegistry_New(s->arena);
   if (!s->extreg) goto err;
+
   return s;
 
 err:
@@ -1121,14 +1164,16 @@ err:
 static const void* symtab_lookup(const upb_DefPool* s, const char* sym,
                                  upb_deftype_t type) {
   upb_value v;
-  return upb_strtable_lookup(&s->syms, sym, &v) ? unpack_def(v, type) : NULL;
+  return upb_strtable_lookup(&s->syms, sym, &v) ? _upb_DefUtil_Unpack(v, type)
+                                                : NULL;
 }
 
 static const void* symtab_lookup2(const upb_DefPool* s, const char* sym,
                                   size_t size, upb_deftype_t type) {
   upb_value v;
-  return upb_strtable_lookup2(&s->syms, sym, size, &v) ? unpack_def(v, type)
-                                                       : NULL;
+  return upb_strtable_lookup2(&s->syms, sym, size, &v)
+             ? _upb_DefUtil_Unpack(v, type)
+             : NULL;
 }
 
 const upb_MessageDef* upb_DefPool_FindMessageByName(const upb_DefPool* s,
@@ -1154,9 +1199,8 @@ const upb_EnumValueDef* upb_DefPool_FindEnumByNameval(const upb_DefPool* s,
 const upb_FileDef* upb_DefPool_FindFileByName(const upb_DefPool* s,
                                               const char* name) {
   upb_value v;
-  return upb_strtable_lookup(&s->files, name, &v)
-             ? unpack_def(v, UPB_DEFTYPE_FILE)
-             : NULL;
+  return upb_strtable_lookup(&s->files, name, &v) ? upb_value_getconstptr(v)
+                                                  : NULL;
 }
 
 const upb_FileDef* upb_DefPool_FindFileByNameWithSize(const upb_DefPool* s,
@@ -1164,7 +1208,7 @@ const upb_FileDef* upb_DefPool_FindFileByNameWithSize(const upb_DefPool* s,
                                                       size_t len) {
   upb_value v;
   return upb_strtable_lookup2(&s->files, name, len, &v)
-             ? unpack_def(v, UPB_DEFTYPE_FILE)
+             ? upb_value_getconstptr(v)
              : NULL;
 }
 
@@ -1175,9 +1219,9 @@ const upb_FieldDef* upb_DefPool_FindExtensionByNameWithSize(
 
   switch (deftype(v)) {
     case UPB_DEFTYPE_FIELD:
-      return unpack_def(v, UPB_DEFTYPE_FIELD);
+      return _upb_DefUtil_Unpack(v, UPB_DEFTYPE_FIELD);
     case UPB_DEFTYPE_MSG: {
-      const upb_MessageDef* m = unpack_def(v, UPB_DEFTYPE_MSG);
+      const upb_MessageDef* m = _upb_DefUtil_Unpack(v, UPB_DEFTYPE_MSG);
       return m->in_message_set ? &m->nested_exts[0] : NULL;
     }
     default:
@@ -1209,23 +1253,25 @@ const upb_FileDef* upb_DefPool_FindFileContainingSymbol(const upb_DefPool* s,
   if (upb_strtable_lookup(&s->syms, name, &v)) {
     switch (deftype(v)) {
       case UPB_DEFTYPE_EXT: {
-        const upb_FieldDef* f = unpack_def(v, UPB_DEFTYPE_EXT);
+        const upb_FieldDef* f = _upb_DefUtil_Unpack(v, UPB_DEFTYPE_EXT);
         return upb_FieldDef_File(f);
       }
       case UPB_DEFTYPE_MSG: {
-        const upb_MessageDef* m = unpack_def(v, UPB_DEFTYPE_MSG);
+        const upb_MessageDef* m = _upb_DefUtil_Unpack(v, UPB_DEFTYPE_MSG);
         return upb_MessageDef_File(m);
       }
       case UPB_DEFTYPE_ENUM: {
-        const upb_EnumDef* e = unpack_def(v, UPB_DEFTYPE_ENUM);
+        const upb_EnumDef* e = _upb_DefUtil_Unpack(v, UPB_DEFTYPE_ENUM);
         return upb_EnumDef_File(e);
       }
       case UPB_DEFTYPE_ENUMVAL: {
-        const upb_EnumValueDef* ev = unpack_def(v, UPB_DEFTYPE_ENUMVAL);
+        const upb_EnumValueDef* ev =
+            _upb_DefUtil_Unpack(v, UPB_DEFTYPE_ENUMVAL);
         return upb_EnumDef_File(upb_EnumValueDef_Enum(ev));
       }
       case UPB_DEFTYPE_SERVICE: {
-        const upb_ServiceDef* service = unpack_def(v, UPB_DEFTYPE_SERVICE);
+        const upb_ServiceDef* service =
+            _upb_DefUtil_Unpack(v, UPB_DEFTYPE_SERVICE);
         return upb_ServiceDef_File(service);
       }
       default:
@@ -1256,60 +1302,22 @@ const upb_FileDef* upb_DefPool_FindFileContainingSymbol(const upb_DefPool* s,
  * this code is used to directly build defs from Ruby (for example) we do need
  * to validate important constraints like uniqueness of names and numbers. */
 
-#define CHK_OOM(x)      \
-  if (!(x)) {           \
-    symtab_oomerr(ctx); \
-  }
-
-typedef struct {
-  upb_DefPool* symtab;
-  upb_FileDef* file;                /* File we are building. */
-  upb_Arena* arena;                 /* Allocate defs here. */
-  upb_Arena* tmp_arena;             /* For temporary allocations. */
-  const upb_MiniTable_File* layout; /* NULL if we should build layouts. */
-  int enum_count;                   /* Count of enums built so far. */
-  int msg_count;                    /* Count of messages built so far. */
-  int ext_count;                    /* Count of extensions built so far. */
-  upb_Status* status;               /* Record errors here. */
-  jmp_buf err;                      /* longjmp() on error. */
-} symtab_addctx;
-
-UPB_NORETURN UPB_NOINLINE UPB_PRINTF(2, 3) static void symtab_errf(
-    symtab_addctx* ctx, const char* fmt, ...) {
-  va_list argp;
-  va_start(argp, fmt);
-  upb_Status_VSetErrorFormat(ctx->status, fmt, argp);
-  va_end(argp);
-  UPB_LONGJMP(ctx->err, 1);
-}
-
-UPB_NORETURN UPB_NOINLINE static void symtab_oomerr(symtab_addctx* ctx) {
-  upb_Status_setoom(ctx->status);
-  UPB_LONGJMP(ctx->err, 1);
-}
-
-void* symtab_alloc(symtab_addctx* ctx, size_t bytes) {
-  if (bytes == 0) return NULL;
-  void* ret = upb_Arena_Malloc(ctx->arena, bytes);
-  if (!ret) symtab_oomerr(ctx);
-  return ret;
-}
-
 // We want to copy the options verbatim into the destination options proto.
 // We use serialize+parse as our deep copy.
-#define SET_OPTIONS(target, desc_type, options_type, proto)                   \
+#define SET_OPTIONS(target, desc_type, options_type, proto)          \
   if (google_protobuf_##desc_type##_has_options(proto)) {                     \
-    size_t size;                                                              \
+    size_t size;                                                     \
     char* pb = google_protobuf_##options_type##_serialize(                    \
         google_protobuf_##desc_type##_options(proto), ctx->tmp_arena, &size); \
-    CHK_OOM(pb);                                                              \
+    if (!pb) _upb_DefBuilder_OomErr(ctx);                            \
     target = google_protobuf_##options_type##_parse(pb, size, ctx->arena);    \
-    CHK_OOM(target);                                                          \
-  } else {                                                                    \
-    target = (const google_protobuf_##options_type*)opt_default;              \
+    if (!target) _upb_DefBuilder_OomErr(ctx);                        \
+  } else {                                                           \
+    target = (const google_protobuf_##options_type*)kUpbDefOptDefault;        \
   }
 
-static void check_ident(symtab_addctx* ctx, upb_StringView name, bool full) {
+static void _upb_DefBuilder_CheckIdent(upb_DefBuilder* ctx, upb_StringView name,
+                                       bool full) {
   const char* str = name.data;
   size_t len = name.size;
   bool start = true;
@@ -1318,12 +1326,13 @@ static void check_ident(symtab_addctx* ctx, upb_StringView name, bool full) {
     char c = str[i];
     if (c == '.') {
       if (start || !full) {
-        symtab_errf(ctx, "invalid name: unexpected '.' (%.*s)", (int)len, str);
+        _upb_DefBuilder_Errf(ctx, "invalid name: unexpected '.' (%.*s)",
+                             (int)len, str);
       }
       start = true;
     } else if (start) {
       if (!upb_isletter(c)) {
-        symtab_errf(
+        _upb_DefBuilder_Errf(
             ctx,
             "invalid name: path components must start with a letter (%.*s)",
             (int)len, str);
@@ -1331,13 +1340,14 @@ static void check_ident(symtab_addctx* ctx, upb_StringView name, bool full) {
       start = false;
     } else {
       if (!upb_isalphanum(c)) {
-        symtab_errf(ctx, "invalid name: non-alphanumeric character (%.*s)",
-                    (int)len, str);
+        _upb_DefBuilder_Errf(ctx,
+                             "invalid name: non-alphanumeric character (%.*s)",
+                             (int)len, str);
       }
     }
   }
   if (start) {
-    symtab_errf(ctx, "invalid name: empty part (%.*s)", (int)len, str);
+    _upb_DefBuilder_Errf(ctx, "invalid name: empty part (%.*s)", (int)len, str);
   }
 }
 
@@ -1377,14 +1387,15 @@ static uint8_t upb_msg_fielddefsize(const upb_FieldDef* f) {
   }
 }
 
-static uint32_t upb_MiniTable_place(symtab_addctx* ctx, upb_MiniTable* l,
+static uint32_t upb_MiniTable_place(upb_DefBuilder* ctx, upb_MiniTable* l,
                                     size_t size, const upb_MessageDef* m) {
   size_t ofs = UPB_ALIGN_UP(l->size, size);
   size_t next = ofs + size;
 
   if (next > UINT16_MAX) {
-    symtab_errf(ctx, "size of message %s exceeded max size of %zu bytes",
-                upb_MessageDef_FullName(m), (size_t)UINT16_MAX);
+    _upb_DefBuilder_Errf(ctx,
+                         "size of message %s exceeded max size of %zu bytes",
+                         upb_MessageDef_FullName(m), (size_t)UINT16_MAX);
   }
 
   l->size = next;
@@ -1419,16 +1430,22 @@ static uint8_t map_descriptortype(const upb_FieldDef* f) {
   uint8_t type = upb_FieldDef_Type(f);
   /* See TableDescriptorType() in upbc/generator.cc for details and
    * rationale of these exceptions. */
-  if (type == kUpb_FieldType_String && f->file->syntax == kUpb_Syntax_Proto2) {
-    return kUpb_FieldType_Bytes;
-  } else if (type == kUpb_FieldType_Enum &&
-             (f->sub.enumdef->file->syntax == kUpb_Syntax_Proto3 ||
-              UPB_TREAT_PROTO2_ENUMS_LIKE_PROTO3 ||
-              // TODO(https://github.com/protocolbuffers/upb/issues/541):
-              // fix map enum values to check for unknown enum values and put
-              // them in the unknown field set.
-              upb_MessageDef_IsMapEntry(upb_FieldDef_ContainingType(f)))) {
-    return kUpb_FieldType_Int32;
+  if (type == kUpb_FieldType_String) {
+    const upb_FileDef* file = upb_FieldDef_File(f);
+    const upb_Syntax syntax = upb_FileDef_Syntax(file);
+
+    if (syntax == kUpb_Syntax_Proto2) return kUpb_FieldType_Bytes;
+  } else if (type == kUpb_FieldType_Enum) {
+    const upb_FileDef* file = upb_EnumDef_File(f->sub.enumdef);
+    const upb_Syntax syntax = upb_FileDef_Syntax(file);
+
+    if (syntax == kUpb_Syntax_Proto3 || UPB_TREAT_PROTO2_ENUMS_LIKE_PROTO3 ||
+        // TODO(https://github.com/protocolbuffers/upb/issues/541):
+        // fix map enum values to check for unknown enum values and put
+        // them in the unknown field set.
+        upb_MessageDef_IsMapEntry(upb_FieldDef_ContainingType(f))) {
+      return kUpb_FieldType_Int32;
+    }
   }
   return type;
 }
@@ -1482,8 +1499,8 @@ static void fill_fieldlayout(upb_MiniTable_Field* field,
 
 /* This function is the dynamic equivalent of message_layout.{cc,h} in upbc.
  * It computes a dynamic layout for all of the fields in |m|. */
-static void make_layout(symtab_addctx* ctx, const upb_MessageDef* m) {
-  upb_MiniTable* l = (upb_MiniTable*)m->layout;
+static void make_layout(upb_DefBuilder* ctx, const upb_MessageDef* m) {
+  upb_MiniTable* l = (upb_MiniTable*)upb_MessageDef_MiniTable(m);
   size_t field_count = upb_MessageDef_numfields(m);
   size_t sublayout_count = 0;
   upb_MiniTable_Sub* subs;
@@ -1493,18 +1510,18 @@ static void make_layout(symtab_addctx* ctx, const upb_MessageDef* m) {
 
   /* Count sub-messages. */
   for (size_t i = 0; i < field_count; i++) {
-    const upb_FieldDef* f = &m->fields[i];
+    const upb_FieldDef* f = upb_MessageDef_Field(m, i);
     if (upb_FieldDef_IsSubMessage(f)) {
       sublayout_count++;
     }
     if (upb_FieldDef_CType(f) == kUpb_CType_Enum &&
-        f->sub.enumdef->file->syntax == kUpb_Syntax_Proto2) {
+        upb_FileDef_Syntax(f->sub.enumdef->file) == kUpb_Syntax_Proto2) {
       sublayout_count++;
     }
   }
 
-  fields = symtab_alloc(ctx, field_count * sizeof(*fields));
-  subs = symtab_alloc(ctx, sublayout_count * sizeof(*subs));
+  fields = _upb_DefBuilder_Alloc(ctx, field_count * sizeof(*fields));
+  subs = _upb_DefBuilder_Alloc(ctx, sublayout_count * sizeof(*subs));
 
   l->field_count = upb_MessageDef_numfields(m);
   l->fields = fields;
@@ -1524,7 +1541,7 @@ static void make_layout(symtab_addctx* ctx, const upb_MessageDef* m) {
 
   /* TODO(haberman): initialize fast tables so that reflection-based parsing
    * can get the same speeds as linked-in types. */
-  l->fasttable[0].field_parser = &fastdecode_generic;
+  l->fasttable[0].field_parser = &_upb_FastDecoder_DecodeGeneric;
   l->fasttable[0].field_data = 0;
 
   if (upb_MessageDef_IsMapEntry(m)) {
@@ -1579,8 +1596,8 @@ static void make_layout(symtab_addctx* ctx, const upb_MessageDef* m) {
     if (upb_FieldDef_Label(f) == kUpb_Label_Required) {
       field->presence = ++hasbit;
       if (hasbit >= 63) {
-        symtab_errf(ctx, "Message with >=63 required fields: %s",
-                    upb_MessageDef_FullName(m));
+        _upb_DefBuilder_Errf(ctx, "Message with >=63 required fields: %s",
+                             upb_MessageDef_FullName(m));
       }
       l->required_count++;
     }
@@ -1645,7 +1662,8 @@ static void make_layout(symtab_addctx* ctx, const upb_MessageDef* m) {
     if (upb_OneofDef_IsSynthetic(o)) continue;
 
     if (o->field_count == 0) {
-      symtab_errf(ctx, "Oneof must have at least one field (%s)", o->full_name);
+      _upb_DefBuilder_Errf(ctx, "Oneof must have at least one field (%s)",
+                           o->full_name);
     }
 
     /* Calculate field size: the max of all field sizes. */
@@ -1677,9 +1695,9 @@ static void make_layout(symtab_addctx* ctx, const upb_MessageDef* m) {
   assign_layout_indices(m, l, fields);
 }
 
-static char* strviewdup(symtab_addctx* ctx, upb_StringView view) {
+static char* strviewdup(upb_DefBuilder* ctx, upb_StringView view) {
   char* ret = upb_strdup2(view.data, view.size, ctx->arena);
-  CHK_OOM(ret);
+  if (!ret) _upb_DefBuilder_OomErr(ctx);
   return ret;
 }
 
@@ -1691,12 +1709,13 @@ static bool streql_view(upb_StringView view, const char* b) {
   return streql2(view.data, view.size, b);
 }
 
-static const char* makefullname(symtab_addctx* ctx, const char* prefix,
-                                upb_StringView name) {
+static const char* _upb_DefBuilder_MakeFullName(upb_DefBuilder* ctx,
+                                                const char* prefix,
+                                                upb_StringView name) {
   if (prefix) {
     /* ret = prefix + '.' + name; */
     size_t n = strlen(prefix);
-    char* ret = symtab_alloc(ctx, n + name.size + 2);
+    char* ret = _upb_DefBuilder_Alloc(ctx, n + name.size + 2);
     strcpy(ret, prefix);
     ret[n] = '.';
     memcpy(&ret[n + 1], name.data, name.size);
@@ -1707,7 +1726,7 @@ static const char* makefullname(symtab_addctx* ctx, const char* prefix,
   }
 }
 
-static void finalize_oneofs(symtab_addctx* ctx, upb_MessageDef* m) {
+static void finalize_oneofs(upb_DefBuilder* ctx, upb_MessageDef* m) {
   int i;
   int synthetic_count = 0;
   upb_OneofDef* mutable_oneofs = (upb_OneofDef*)m->oneofs;
@@ -1716,18 +1735,21 @@ static void finalize_oneofs(symtab_addctx* ctx, upb_MessageDef* m) {
     upb_OneofDef* o = &mutable_oneofs[i];
 
     if (o->synthetic && o->field_count != 1) {
-      symtab_errf(ctx, "Synthetic oneofs must have one field, not %d: %s",
-                  o->field_count, upb_OneofDef_Name(o));
+      _upb_DefBuilder_Errf(ctx,
+                           "Synthetic oneofs must have one field, not %d: %s",
+                           o->field_count, upb_OneofDef_Name(o));
     }
 
     if (o->synthetic) {
       synthetic_count++;
     } else if (synthetic_count != 0) {
-      symtab_errf(ctx, "Synthetic oneofs must be after all other oneofs: %s",
-                  upb_OneofDef_Name(o));
+      _upb_DefBuilder_Errf(
+          ctx, "Synthetic oneofs must be after all other oneofs: %s",
+          upb_OneofDef_Name(o));
     }
 
-    o->fields = symtab_alloc(ctx, sizeof(upb_FieldDef*) * o->field_count);
+    o->fields =
+        _upb_DefBuilder_Alloc(ctx, sizeof(upb_FieldDef*) * o->field_count);
     o->field_count = 0;
   }
 
@@ -1782,25 +1804,27 @@ size_t getjsonname(const char* name, char* buf, size_t len) {
 #undef WRITE
 }
 
-static char* makejsonname(symtab_addctx* ctx, const char* name) {
+static char* makejsonname(upb_DefBuilder* ctx, const char* name) {
   size_t size = getjsonname(name, NULL, 0);
-  char* json_name = symtab_alloc(ctx, size);
+  char* json_name = _upb_DefBuilder_Alloc(ctx, size);
   getjsonname(name, json_name, size);
   return json_name;
 }
 
 /* Adds a symbol |v| to the symtab, which must be a def pointer previously
- * packed with pack_def().  The def's pointer to upb_FileDef* must be set before
+ * packed with pack_def(). The def's pointer to upb_FileDef* must be set before
  * adding, so we know which entries to remove if building this file fails. */
-static void symtab_add(symtab_addctx* ctx, const char* name, upb_value v) {
+static void _upb_DefBuilder_Add(upb_DefBuilder* ctx, const char* name,
+                                upb_value v) {
   // TODO: table should support an operation "tryinsert" to avoid the double
   // lookup.
   if (upb_strtable_lookup(&ctx->symtab->syms, name, NULL)) {
-    symtab_errf(ctx, "duplicate symbol '%s'", name);
+    _upb_DefBuilder_Errf(ctx, "duplicate symbol '%s'", name);
   }
   size_t len = strlen(name);
-  CHK_OOM(upb_strtable_insert(&ctx->symtab->syms, name, len, v,
-                              ctx->symtab->arena));
+  bool ok =
+      upb_strtable_insert(&ctx->symtab->syms, name, len, v, ctx->symtab->arena);
+  if (!ok) _upb_DefBuilder_OomErr(ctx);
 }
 
 static bool remove_component(char* base, size_t* len) {
@@ -1819,7 +1843,7 @@ static bool remove_component(char* base, size_t* len) {
 
 /* Given a symbol and the base symbol inside which it is defined, find the
  * symbol's definition in t. */
-static const void* symtab_resolveany(symtab_addctx* ctx,
+static const void* symtab_resolveany(upb_DefBuilder* ctx,
                                      const char* from_name_dbg,
                                      const char* base, upb_StringView sym,
                                      upb_deftype_t* type) {
@@ -1857,38 +1881,37 @@ static const void* symtab_resolveany(symtab_addctx* ctx,
   }
 
   *type = deftype(v);
-  return unpack_def(v, *type);
+  return _upb_DefUtil_Unpack(v, *type);
 
 notfound:
-  symtab_errf(ctx, "couldn't resolve name '" UPB_STRINGVIEW_FORMAT "'",
-              UPB_STRINGVIEW_ARGS(sym));
+  _upb_DefBuilder_Errf(ctx, "couldn't resolve name '" UPB_STRINGVIEW_FORMAT "'",
+                       UPB_STRINGVIEW_ARGS(sym));
 }
 
-static const void* symtab_resolve(symtab_addctx* ctx, const char* from_name_dbg,
-                                  const char* base, upb_StringView sym,
-                                  upb_deftype_t type) {
+static const void* symtab_resolve(upb_DefBuilder* ctx,
+                                  const char* from_name_dbg, const char* base,
+                                  upb_StringView sym, upb_deftype_t type) {
   upb_deftype_t found_type;
   const void* ret =
       symtab_resolveany(ctx, from_name_dbg, base, sym, &found_type);
   if (ret && found_type != type) {
-    symtab_errf(ctx,
-                "type mismatch when resolving %s: couldn't find "
-                "name " UPB_STRINGVIEW_FORMAT " with type=%d",
-                from_name_dbg, UPB_STRINGVIEW_ARGS(sym), (int)type);
+    _upb_DefBuilder_Errf(ctx,
+                         "type mismatch when resolving %s: couldn't find "
+                         "name " UPB_STRINGVIEW_FORMAT " with type=%d",
+                         from_name_dbg, UPB_STRINGVIEW_ARGS(sym), (int)type);
   }
   return ret;
 }
 
-static void create_oneofdef(
-    symtab_addctx* ctx, upb_MessageDef* m,
-    const google_protobuf_OneofDescriptorProto* oneof_proto,
-    const upb_OneofDef* _o) {
+static void create_oneofdef(upb_DefBuilder* ctx, upb_MessageDef* m,
+                            const google_protobuf_OneofDescriptorProto* oneof_proto,
+                            const upb_OneofDef* _o) {
   upb_OneofDef* o = (upb_OneofDef*)_o;
   upb_StringView name = google_protobuf_OneofDescriptorProto_name(oneof_proto);
   upb_value v;
 
   o->parent = m;
-  o->full_name = makefullname(ctx, m->full_name, name);
+  o->full_name = _upb_DefBuilder_MakeFullName(ctx, m->full_name, name);
   o->field_count = 0;
   o->synthetic = false;
 
@@ -1896,19 +1919,35 @@ static void create_oneofdef(
 
   upb_value existing_v;
   if (upb_strtable_lookup2(&m->ntof, name.data, name.size, &existing_v)) {
-    symtab_errf(ctx, "duplicate oneof name (%s)", o->full_name);
+    _upb_DefBuilder_Errf(ctx, "duplicate oneof name (%s)", o->full_name);
   }
 
-  v = pack_def(o, UPB_DEFTYPE_ONEOF);
-  CHK_OOM(upb_strtable_insert(&m->ntof, name.data, name.size, v, ctx->arena));
+  v = _upb_DefUtil_Pack(o, UPB_DEFTYPE_ONEOF, sizeof(upb_OneofDef));
 
-  CHK_OOM(upb_inttable_init(&o->itof, ctx->arena));
-  CHK_OOM(upb_strtable_init(&o->ntof, 4, ctx->arena));
+  bool ok = upb_strtable_insert(&m->ntof, name.data, name.size, v, ctx->arena);
+  if (!ok) _upb_DefBuilder_OomErr(ctx);
+
+  ok = upb_inttable_init(&o->itof, ctx->arena);
+  if (!ok) _upb_DefBuilder_OomErr(ctx);
+
+  ok = upb_strtable_init(&o->ntof, 4, ctx->arena);
+  if (!ok) _upb_DefBuilder_OomErr(ctx);
 }
 
-static str_t* newstr(symtab_addctx* ctx, const char* data, size_t len) {
-  str_t* ret = symtab_alloc(ctx, sizeof(*ret) + len);
-  CHK_OOM(ret);
+// Allocate and initialize an array of |n| oneof defs.
+static upb_OneofDef* _upb_OneofDefs_New(
+    upb_DefBuilder* ctx, int n,
+    const google_protobuf_OneofDescriptorProto* const* protos, upb_MessageDef* m) {
+  upb_OneofDef* o = _upb_DefBuilder_Alloc(ctx, sizeof(upb_OneofDef) * n);
+  for (int i = 0; i < n; i++) {
+    create_oneofdef(ctx, m, protos[i], &o[i]);
+  }
+  return o;
+}
+
+static str_t* newstr(upb_DefBuilder* ctx, const char* data, size_t len) {
+  str_t* ret = _upb_DefBuilder_Alloc(ctx, sizeof(*ret) + len);
+  if (!ret) _upb_DefBuilder_OomErr(ctx);
   ret->len = len;
   if (len) memcpy(ret->str, data, len);
   ret->str[len] = '\0';
@@ -1923,8 +1962,7 @@ static bool upb_DefPool_TryGetChar(const char** src, const char* end,
   return true;
 }
 
-static char upb_DefPool_TryGetHexDigit(symtab_addctx* ctx,
-                                       const upb_FieldDef* f, const char** src,
+static char upb_DefPool_TryGetHexDigit(const upb_FieldDef* f, const char** src,
                                        const char* end) {
   char ch;
   if (!upb_DefPool_TryGetChar(src, end, &ch)) return -1;
@@ -1939,23 +1977,23 @@ static char upb_DefPool_TryGetHexDigit(symtab_addctx* ctx,
   return -1;
 }
 
-static char upb_DefPool_ParseHexEscape(symtab_addctx* ctx,
+static char upb_DefPool_ParseHexEscape(upb_DefBuilder* ctx,
                                        const upb_FieldDef* f, const char** src,
                                        const char* end) {
-  char hex_digit = upb_DefPool_TryGetHexDigit(ctx, f, src, end);
+  char hex_digit = upb_DefPool_TryGetHexDigit(f, src, end);
   if (hex_digit < 0) {
-    symtab_errf(ctx,
-                "\\x cannot be followed by non-hex digit in field '%s' default",
-                upb_FieldDef_FullName(f));
+    _upb_DefBuilder_Errf(
+        ctx, "\\x cannot be followed by non-hex digit in field '%s' default",
+        upb_FieldDef_FullName(f));
     return 0;
   }
   unsigned int ret = hex_digit;
-  while ((hex_digit = upb_DefPool_TryGetHexDigit(ctx, f, src, end)) >= 0) {
+  while ((hex_digit = upb_DefPool_TryGetHexDigit(f, src, end)) >= 0) {
     ret = (ret << 4) | hex_digit;
   }
   if (ret > 0xff) {
-    symtab_errf(ctx, "Value of hex escape in field %s exceeds 8 bits",
-                upb_FieldDef_FullName(f));
+    _upb_DefBuilder_Errf(ctx, "Value of hex escape in field %s exceeds 8 bits",
+                         upb_FieldDef_FullName(f));
     return 0;
   }
   return ret;
@@ -1971,7 +2009,7 @@ char upb_DefPool_TryGetOctalDigit(const char** src, const char* end) {
   return -1;
 }
 
-static char upb_DefPool_ParseOctalEscape(symtab_addctx* ctx,
+static char upb_DefPool_ParseOctalEscape(upb_DefBuilder* ctx,
                                          const upb_FieldDef* f,
                                          const char** src, const char* end) {
   char ch = 0;
@@ -1984,12 +2022,12 @@ static char upb_DefPool_ParseOctalEscape(symtab_addctx* ctx,
   return ch;
 }
 
-static char upb_DefPool_ParseEscape(symtab_addctx* ctx, const upb_FieldDef* f,
+static char upb_DefPool_ParseEscape(upb_DefBuilder* ctx, const upb_FieldDef* f,
                                     const char** src, const char* end) {
   char ch;
   if (!upb_DefPool_TryGetChar(src, end, &ch)) {
-    symtab_errf(ctx, "unterminated escape sequence in field %s",
-                upb_FieldDef_FullName(f));
+    _upb_DefBuilder_Errf(ctx, "unterminated escape sequence in field %s",
+                         upb_FieldDef_FullName(f));
     return 0;
   }
   switch (ch) {
@@ -2029,13 +2067,13 @@ static char upb_DefPool_ParseEscape(symtab_addctx* ctx, const upb_FieldDef* f,
       *src -= 1;
       return upb_DefPool_ParseOctalEscape(ctx, f, src, end);
   }
-  symtab_errf(ctx, "Unknown escape sequence: \\%c", ch);
+  _upb_DefBuilder_Errf(ctx, "Unknown escape sequence: \\%c", ch);
 }
 
-static str_t* unescape(symtab_addctx* ctx, const upb_FieldDef* f,
+static str_t* unescape(upb_DefBuilder* ctx, const upb_FieldDef* f,
                        const char* data, size_t len) {
   // Size here is an upper bound; escape sequences could ultimately shrink it.
-  str_t* ret = symtab_alloc(ctx, sizeof(*ret) + len);
+  str_t* ret = _upb_DefBuilder_Alloc(ctx, sizeof(*ret) + len);
   char* dst = &ret->str[0];
   const char* src = data;
   const char* end = data + len;
@@ -2053,7 +2091,7 @@ static str_t* unescape(symtab_addctx* ctx, const upb_FieldDef* f,
   return ret;
 }
 
-static void parse_default(symtab_addctx* ctx, const char* str, size_t len,
+static void parse_default(upb_DefBuilder* ctx, const char* str, size_t len,
                           upb_FieldDef* f) {
   char* end;
   char nullz[64];
@@ -2068,7 +2106,7 @@ static void parse_default(symtab_addctx* ctx, const char* str, size_t len,
     case kUpb_CType_Float:
       /* Standard C number parsing functions expect null-terminated strings. */
       if (len >= sizeof(nullz) - 1) {
-        symtab_errf(ctx, "Default too long: %.*s", (int)len, str);
+        _upb_DefBuilder_Errf(ctx, "Default too long: %.*s", (int)len, str);
       }
       memcpy(nullz, str, len);
       nullz[len] = '\0';
@@ -2155,18 +2193,19 @@ static void parse_default(symtab_addctx* ctx, const char* str, size_t len,
       break;
     case kUpb_CType_Message:
       /* Should not have a default value. */
-      symtab_errf(ctx, "Message should not have a default (%s)",
-                  upb_FieldDef_FullName(f));
+      _upb_DefBuilder_Errf(ctx, "Message should not have a default (%s)",
+                           upb_FieldDef_FullName(f));
   }
 
   return;
 
 invalid:
-  symtab_errf(ctx, "Invalid default '%.*s' for field %s of type %d", (int)len,
-              str, upb_FieldDef_FullName(f), (int)upb_FieldDef_Type(f));
+  _upb_DefBuilder_Errf(ctx, "Invalid default '%.*s' for field %s of type %d",
+                       (int)len, str, upb_FieldDef_FullName(f),
+                       (int)upb_FieldDef_Type(f));
 }
 
-static void set_default_default(symtab_addctx* ctx, upb_FieldDef* f) {
+static void set_default_default(upb_DefBuilder* ctx, upb_FieldDef* f) {
   switch (upb_FieldDef_CType(f)) {
     case kUpb_CType_Int32:
     case kUpb_CType_Int64:
@@ -2187,17 +2226,19 @@ static void set_default_default(symtab_addctx* ctx, upb_FieldDef* f) {
     case kUpb_CType_Bool:
       f->defaultval.boolean = false;
       break;
-    case kUpb_CType_Enum:
-      f->defaultval.sint = f->sub.enumdef->values[0].number;
+    case kUpb_CType_Enum: {
+      const upb_EnumValueDef* v = upb_EnumDef_Value(f->sub.enumdef, 0);
+      f->defaultval.sint = upb_EnumValueDef_Number(v);
+    }
     case kUpb_CType_Message:
       break;
   }
 }
 
-static void create_fielddef(
-    symtab_addctx* ctx, const char* prefix, upb_MessageDef* m,
-    const google_protobuf_FieldDescriptorProto* field_proto,
-    const upb_FieldDef* _f, bool is_extension) {
+static void create_fielddef(upb_DefBuilder* ctx, const char* prefix,
+                            upb_MessageDef* m,
+                            const google_protobuf_FieldDescriptorProto* field_proto,
+                            const upb_FieldDef* _f, bool is_extension) {
   upb_FieldDef* f = (upb_FieldDef*)_f;
   upb_StringView name;
   const char* full_name;
@@ -2205,16 +2246,16 @@ static void create_fielddef(
   const char* shortname;
   int32_t field_number;
 
-  f->file = ctx->file; /* Must happen prior to symtab_add(). */
+  f->file = ctx->file;  // Must happen prior to _upb_DefBuilder_Add()
 
   if (!google_protobuf_FieldDescriptorProto_has_name(field_proto)) {
-    symtab_errf(ctx, "field has no name");
+    _upb_DefBuilder_Errf(ctx, "field has no name");
   }
 
   name = google_protobuf_FieldDescriptorProto_name(field_proto);
-  check_ident(ctx, name, false);
-  full_name = makefullname(ctx, prefix, name);
-  shortname = shortdefname(full_name);
+  _upb_DefBuilder_CheckIdent(ctx, name, false);
+  full_name = _upb_DefBuilder_MakeFullName(ctx, prefix, name);
+  shortname = _upb_DefUtil_FullToShort(full_name);
 
   if (google_protobuf_FieldDescriptorProto_has_json_name(field_proto)) {
     json_name = strviewdup(
@@ -2247,14 +2288,15 @@ static void create_fielddef(
       case kUpb_FieldType_Group:
       case kUpb_FieldType_Enum:
         if (!has_type_name) {
-          symtab_errf(ctx, "field of type %d requires type name (%s)",
-                      (int)f->type_, full_name);
+          _upb_DefBuilder_Errf(ctx, "field of type %d requires type name (%s)",
+                               (int)f->type_, full_name);
         }
         break;
       default:
         if (has_type_name) {
-          symtab_errf(ctx, "invalid type for field with type_name set (%s, %d)",
-                      full_name, (int)f->type_);
+          _upb_DefBuilder_Errf(
+              ctx, "invalid type for field with type_name set (%s, %d)",
+              full_name, (int)f->type_);
         }
     }
   } else if (has_type_name) {
@@ -2268,43 +2310,48 @@ static void create_fielddef(
     size_t json_size;
 
     if (field_number <= 0 || field_number > kUpb_MaxFieldNumber) {
-      symtab_errf(ctx, "invalid field number (%u)", field_number);
+      _upb_DefBuilder_Errf(ctx, "invalid field number (%u)", field_number);
     }
 
     f->index_ = f - m->fields;
     f->msgdef = m;
     f->is_extension_ = false;
 
-    field_v = pack_def(f, UPB_DEFTYPE_FIELD);
-    json_v = pack_def(f, UPB_DEFTYPE_FIELD_JSONNAME);
+    field_v = _upb_DefUtil_Pack(f, UPB_DEFTYPE_FIELD, sizeof(upb_FieldDef));
+    json_v =
+        _upb_DefUtil_Pack(f, UPB_DEFTYPE_FIELD_JSONNAME, sizeof(upb_FieldDef));
     v = upb_value_constptr(f);
     json_size = strlen(json_name);
 
     if (upb_strtable_lookup(&m->ntof, shortname, &existing_v)) {
-      symtab_errf(ctx, "duplicate field name (%s)", shortname);
+      _upb_DefBuilder_Errf(ctx, "duplicate field name (%s)", shortname);
     }
 
-    CHK_OOM(upb_strtable_insert(&m->ntof, name.data, name.size, field_v,
-                                ctx->arena));
+    bool ok = upb_strtable_insert(&m->ntof, name.data, name.size, field_v,
+                                  ctx->arena);
+    if (!ok) _upb_DefBuilder_OomErr(ctx);
 
     if (strcmp(shortname, json_name) != 0) {
       if (upb_strtable_lookup(&m->ntof, json_name, &v)) {
-        symtab_errf(ctx, "duplicate json_name (%s)", json_name);
+        _upb_DefBuilder_Errf(ctx, "duplicate json_name (%s)", json_name);
       } else {
-        CHK_OOM(upb_strtable_insert(&m->ntof, json_name, json_size, json_v,
-                                    ctx->arena));
+        ok = upb_strtable_insert(&m->ntof, json_name, json_size, json_v,
+                                 ctx->arena);
+        if (!ok) _upb_DefBuilder_OomErr(ctx);
       }
     }
 
     if (upb_inttable_lookup(&m->itof, field_number, NULL)) {
-      symtab_errf(ctx, "duplicate field number (%u)", field_number);
+      _upb_DefBuilder_Errf(ctx, "duplicate field number (%u)", field_number);
     }
 
-    CHK_OOM(upb_inttable_insert(&m->itof, field_number, v, ctx->arena));
+    ok = upb_inttable_insert(&m->itof, field_number, v, ctx->arena);
+    if (!ok) _upb_DefBuilder_OomErr(ctx);
 
     if (ctx->layout) {
-      const upb_MiniTable_Field* fields = m->layout->fields;
-      int count = m->layout->field_count;
+      const upb_MiniTable* mt = upb_MessageDef_MiniTable(m);
+      const upb_MiniTable_Field* fields = mt->fields;
+      const int count = mt->field_count;
       bool found = false;
       for (int i = 0; i < count; i++) {
         if (fields[i].number == field_number) {
@@ -2319,21 +2366,24 @@ static void create_fielddef(
     /* extension field. */
     f->is_extension_ = true;
     f->scope.extension_scope = m;
-    symtab_add(ctx, full_name, pack_def(f, UPB_DEFTYPE_EXT));
+    _upb_DefBuilder_Add(
+        ctx, full_name,
+        _upb_DefUtil_Pack(f, UPB_DEFTYPE_EXT, sizeof(upb_FieldDef)));
     f->layout_index = ctx->ext_count++;
     if (ctx->layout) {
-      UPB_ASSERT(ctx->file->ext_layouts[f->layout_index]->field.number ==
+      UPB_ASSERT(_upb_FieldDef_ExtensionMiniTable(f)->field.number ==
                  field_number);
     }
   }
 
   if (f->type_ < kUpb_FieldType_Double || f->type_ > kUpb_FieldType_SInt64) {
-    symtab_errf(ctx, "invalid type for field %s (%d)", f->full_name, f->type_);
+    _upb_DefBuilder_Errf(ctx, "invalid type for field %s (%d)", f->full_name,
+                         f->type_);
   }
 
   if (f->label_ < kUpb_Label_Optional || f->label_ > kUpb_Label_Repeated) {
-    symtab_errf(ctx, "invalid label for field %s (%d)", f->full_name,
-                f->label_);
+    _upb_DefBuilder_Errf(ctx, "invalid label for field %s (%d)", f->full_name,
+                         f->label_);
   }
 
   /* We can't resolve the subdef or (in the case of extensions) the containing
@@ -2343,7 +2393,8 @@ static void create_fielddef(
 
   if (f->label_ == kUpb_Label_Required &&
       f->file->syntax == kUpb_Syntax_Proto3) {
-    symtab_errf(ctx, "proto3 fields cannot be required (%s)", f->full_name);
+    _upb_DefBuilder_Errf(ctx, "proto3 fields cannot be required (%s)",
+                         f->full_name);
   }
 
   if (google_protobuf_FieldDescriptorProto_has_oneof_index(field_proto)) {
@@ -2352,17 +2403,17 @@ static void create_fielddef(
     upb_value v = upb_value_constptr(f);
 
     if (upb_FieldDef_Label(f) != kUpb_Label_Optional) {
-      symtab_errf(ctx, "fields in oneof must have OPTIONAL label (%s)",
-                  f->full_name);
+      _upb_DefBuilder_Errf(ctx, "fields in oneof must have OPTIONAL label (%s)",
+                           f->full_name);
     }
 
     if (!m) {
-      symtab_errf(ctx, "oneof_index provided for extension field (%s)",
-                  f->full_name);
+      _upb_DefBuilder_Errf(ctx, "oneof_index provided for extension field (%s)",
+                           f->full_name);
     }
 
     if (oneof_index >= m->oneof_count) {
-      symtab_errf(ctx, "oneof_index out of range (%s)", f->full_name);
+      _upb_DefBuilder_Errf(ctx, "oneof_index out of range (%s)", f->full_name);
     }
 
     oneof = (upb_OneofDef*)&m->oneofs[oneof_index];
@@ -2372,13 +2423,17 @@ static void create_fielddef(
     if (f->proto3_optional_) {
       oneof->synthetic = true;
     }
-    CHK_OOM(upb_inttable_insert(&oneof->itof, f->number_, v, ctx->arena));
-    CHK_OOM(
-        upb_strtable_insert(&oneof->ntof, name.data, name.size, v, ctx->arena));
+
+    bool ok = upb_inttable_insert(&oneof->itof, f->number_, v, ctx->arena);
+    if (!ok) _upb_DefBuilder_OomErr(ctx);
+
+    ok = upb_strtable_insert(&oneof->ntof, name.data, name.size, v, ctx->arena);
+    if (!ok) _upb_DefBuilder_OomErr(ctx);
   } else {
     if (f->proto3_optional_) {
-      symtab_errf(ctx, "field with proto3_optional was not in a oneof (%s)",
-                  f->full_name);
+      _upb_DefBuilder_Errf(ctx,
+                           "field with proto3_optional was not in a oneof (%s)",
+                           f->full_name);
     }
   }
 
@@ -2390,56 +2445,76 @@ static void create_fielddef(
     /* Repeated fields default to packed for proto3 only. */
     f->packed_ = upb_FieldDef_IsPrimitive(f) &&
                  f->label_ == kUpb_Label_Repeated &&
-                 f->file->syntax == kUpb_Syntax_Proto3;
+                 upb_FileDef_Syntax(f->file) == kUpb_Syntax_Proto3;
   }
 }
 
-static void create_service(
-    symtab_addctx* ctx, const google_protobuf_ServiceDescriptorProto* svc_proto,
-    const upb_ServiceDef* _s) {
-  upb_ServiceDef* s = (upb_ServiceDef*)_s;
-  upb_StringView name;
-  const google_protobuf_MethodDescriptorProto* const* methods;
-  size_t i, n;
+static void create_method(upb_DefBuilder* ctx,
+                          const google_protobuf_MethodDescriptorProto* method_proto,
+                          upb_ServiceDef* s, upb_MethodDef* m) {
+  upb_StringView name = google_protobuf_MethodDescriptorProto_name(method_proto);
 
-  s->file = ctx->file; /* Must happen prior to symtab_add. */
+  m->service = s;
+  m->full_name = _upb_DefBuilder_MakeFullName(ctx, s->full_name, name);
+  m->client_streaming =
+      google_protobuf_MethodDescriptorProto_client_streaming(method_proto);
+  m->server_streaming =
+      google_protobuf_MethodDescriptorProto_server_streaming(method_proto);
+  m->input_type = symtab_resolve(
+      ctx, m->full_name, m->full_name,
+      google_protobuf_MethodDescriptorProto_input_type(method_proto), UPB_DEFTYPE_MSG);
+  m->output_type = symtab_resolve(
+      ctx, m->full_name, m->full_name,
+      google_protobuf_MethodDescriptorProto_output_type(method_proto), UPB_DEFTYPE_MSG);
+
+  SET_OPTIONS(m->opts, MethodDescriptorProto, MethodOptions, method_proto);
+}
+
+// Allocate and initialize an array of |n| method defs.
+static upb_MethodDef* _upb_MethodDefs_New(
+    upb_DefBuilder* ctx, int n,
+    const google_protobuf_MethodDescriptorProto* const* protos, upb_ServiceDef* s) {
+  upb_MethodDef* m = _upb_DefBuilder_Alloc(ctx, sizeof(upb_MethodDef) * n);
+  for (int i = 0; i < n; i++) {
+    create_method(ctx, protos[i], s, &m[i]);
+    m[i].index = i;
+  }
+  return m;
+}
+
+static void create_service(upb_DefBuilder* ctx,
+                           const google_protobuf_ServiceDescriptorProto* svc_proto,
+                           upb_ServiceDef* s) {
+  upb_StringView name;
+  size_t n;
+
+  s->file = ctx->file;  // Must happen prior to _upb_DefBuilder_Add()
 
   name = google_protobuf_ServiceDescriptorProto_name(svc_proto);
-  check_ident(ctx, name, false);
-  s->full_name = makefullname(ctx, ctx->file->package, name);
-  symtab_add(ctx, s->full_name, pack_def(s, UPB_DEFTYPE_SERVICE));
+  _upb_DefBuilder_CheckIdent(ctx, name, false);
+  s->full_name = _upb_DefBuilder_MakeFullName(ctx, ctx->file->package, name);
+  _upb_DefBuilder_Add(
+      ctx, s->full_name,
+      _upb_DefUtil_Pack(s, UPB_DEFTYPE_SERVICE, sizeof(upb_ServiceDef)));
 
-  methods = google_protobuf_ServiceDescriptorProto_method(svc_proto, &n);
-
+  const google_protobuf_MethodDescriptorProto* const* methods =
+      google_protobuf_ServiceDescriptorProto_method(svc_proto, &n);
   s->method_count = n;
-  s->methods = symtab_alloc(ctx, sizeof(*s->methods) * n);
+  s->methods = _upb_MethodDefs_New(ctx, n, methods, s);
 
   SET_OPTIONS(s->opts, ServiceDescriptorProto, ServiceOptions, svc_proto);
+}
 
-  for (i = 0; i < n; i++) {
-    const google_protobuf_MethodDescriptorProto* method_proto = methods[i];
-    upb_MethodDef* m = (upb_MethodDef*)&s->methods[i];
-    upb_StringView name =
-        google_protobuf_MethodDescriptorProto_name(method_proto);
-
-    m->service = s;
-    m->full_name = makefullname(ctx, s->full_name, name);
-    m->index = i;
-    m->client_streaming =
-        google_protobuf_MethodDescriptorProto_client_streaming(method_proto);
-    m->server_streaming =
-        google_protobuf_MethodDescriptorProto_server_streaming(method_proto);
-    m->input_type = symtab_resolve(
-        ctx, m->full_name, m->full_name,
-        google_protobuf_MethodDescriptorProto_input_type(method_proto),
-        UPB_DEFTYPE_MSG);
-    m->output_type = symtab_resolve(
-        ctx, m->full_name, m->full_name,
-        google_protobuf_MethodDescriptorProto_output_type(method_proto),
-        UPB_DEFTYPE_MSG);
-
-    SET_OPTIONS(m->opts, MethodDescriptorProto, MethodOptions, method_proto);
+// Allocate and initialize an array of |n| service defs.
+static upb_ServiceDef* _upb_ServiceDefs_New(
+    upb_DefBuilder* ctx, int n,
+    const google_protobuf_ServiceDescriptorProto* const* protos) {
+  upb_ServiceDef* s = _upb_DefBuilder_Alloc(ctx, sizeof(upb_ServiceDef) * n);
+  for (int i = 0; i < n; i++) {
+    create_service(ctx, protos[i], &s[i]);
+    s[i].index = i;
   }
+  return s;
 }
 
 static int count_bits_debug(uint64_t x) {
@@ -2452,138 +2527,117 @@ static int count_bits_debug(uint64_t x) {
   return n;
 }
 
-static int compare_int32(const void* a_ptr, const void* b_ptr) {
-  int32_t a = *(int32_t*)a_ptr;
-  int32_t b = *(int32_t*)b_ptr;
-  return a < b ? -1 : (a == b ? 0 : 1);
-}
+static upb_MiniTable_Enum* create_enumlayout(upb_DefBuilder* ctx,
+                                             const upb_EnumDef* e) {
+  const char* desc = _upb_EnumDef_MiniDescriptor(e, ctx->tmp_arena);
+  if (!desc)
+    _upb_DefBuilder_Errf(ctx, "OOM while building enum MiniDescriptor");
 
-upb_MiniTable_Enum* create_enumlayout(symtab_addctx* ctx,
-                                      const upb_EnumDef* e) {
-  int n = 0;
-  uint64_t mask = 0;
-
-  for (int i = 0; i < e->value_count; i++) {
-    uint32_t val = (uint32_t)e->values[i].number;
-    if (val < 64) {
-      mask |= 1ULL << val;
-    } else {
-      n++;
-    }
-  }
-
-  int32_t* values = symtab_alloc(ctx, sizeof(*values) * n);
-
-  if (n) {
-    int32_t* p = values;
-
-    // Add values outside the bitmask range to the list, as described in the
-    // comments for upb_MiniTable_Enum.
-    for (int i = 0; i < e->value_count; i++) {
-      int32_t val = e->values[i].number;
-      if ((uint32_t)val >= 64) {
-        *p++ = val;
-      }
-    }
-    UPB_ASSERT(p == values + n);
-  }
-
-  // Enums can have duplicate values; we must sort+uniq them.
-  if (values) qsort(values, n, sizeof(*values), &compare_int32);
-
-  int dst = 0;
-  for (int i = 0; i < n; dst++) {
-    int32_t val = values[i];
-    while (i < n && values[i] == val) i++;  // Skip duplicates.
-    values[dst] = val;
-  }
-  n = dst;
-
-  UPB_ASSERT(upb_inttable_count(&e->iton) == n + count_bits_debug(mask));
-
-  upb_MiniTable_Enum* layout = symtab_alloc(ctx, sizeof(*layout));
-  layout->value_count = n;
-  layout->mask = mask;
-  layout->values = values;
-
+  upb_Status status;
+  upb_MiniTable_Enum* layout =
+      upb_MiniTable_BuildEnum(desc, strlen(desc), ctx->arena, &status);
+  if (!layout)
+    _upb_DefBuilder_Errf(ctx, "Error building enum MiniTable: %s", status.msg);
   return layout;
 }
 
-static void create_enumvaldef(
-    symtab_addctx* ctx, const char* prefix,
-    const google_protobuf_EnumValueDescriptorProto* val_proto, upb_EnumDef* e,
-    int i) {
-  upb_EnumValueDef* val = (upb_EnumValueDef*)&e->values[i];
-  upb_StringView name =
-      google_protobuf_EnumValueDescriptorProto_name(val_proto);
-  upb_value v = upb_value_constptr(val);
+static void create_enumvaldef(upb_DefBuilder* ctx, const char* prefix,
+                              const google_protobuf_EnumValueDescriptorProto* val_proto,
+                              upb_EnumDef* e, upb_EnumValueDef* v) {
+  upb_StringView name = google_protobuf_EnumValueDescriptorProto_name(val_proto);
+  upb_value val = upb_value_constptr(v);
 
-  val->parent = e; /* Must happen prior to symtab_add(). */
-  val->full_name = makefullname(ctx, prefix, name);
-  val->number = google_protobuf_EnumValueDescriptorProto_number(val_proto);
-  symtab_add(ctx, val->full_name, pack_def(val, UPB_DEFTYPE_ENUMVAL));
+  v->parent = e;  // Must happen prior to _upb_DefBuilder_Add()
+  v->full_name = _upb_DefBuilder_MakeFullName(ctx, prefix, name);
+  v->number = google_protobuf_EnumValueDescriptorProto_number(val_proto);
+  _upb_DefBuilder_Add(
+      ctx, v->full_name,
+      _upb_DefUtil_Pack(v, UPB_DEFTYPE_ENUMVAL, sizeof(upb_EnumDef)));
 
-  SET_OPTIONS(val->opts, EnumValueDescriptorProto, EnumValueOptions, val_proto);
+  SET_OPTIONS(v->opts, EnumValueDescriptorProto, EnumValueOptions, val_proto);
 
-  if (i == 0 && e->file->syntax == kUpb_Syntax_Proto3 && val->number != 0) {
-    symtab_errf(ctx, "for proto3, the first enum value must be zero (%s)",
-                e->full_name);
-  }
-
-  CHK_OOM(upb_strtable_insert(&e->ntoi, name.data, name.size, v, ctx->arena));
+  bool ok =
+      upb_strtable_insert(&e->ntoi, name.data, name.size, val, ctx->arena);
+  if (!ok) _upb_DefBuilder_OomErr(ctx);
 
   // Multiple enumerators can have the same number, first one wins.
-  if (!upb_inttable_lookup(&e->iton, val->number, NULL)) {
-    CHK_OOM(upb_inttable_insert(&e->iton, val->number, v, ctx->arena));
+  if (!upb_inttable_lookup(&e->iton, v->number, NULL)) {
+    ok = upb_inttable_insert(&e->iton, v->number, val, ctx->arena);
+    if (!ok) _upb_DefBuilder_OomErr(ctx);
   }
 }
 
-static void create_enumdef(
-    symtab_addctx* ctx, const char* prefix,
-    const google_protobuf_EnumDescriptorProto* enum_proto,
-    const upb_MessageDef* containing_type, const upb_EnumDef* _e) {
-  upb_EnumDef* e = (upb_EnumDef*)_e;
-  ;
+// Allocate and initialize an array of |n| enum value defs.
+// TODO(b/243726666): This will eventually become the (only) public constructor.
+static upb_EnumValueDef* _upb_EnumValueDefs_New(
+    upb_DefBuilder* ctx, const char* prefix, int n,
+    const google_protobuf_EnumValueDescriptorProto* const* protos, upb_EnumDef* e) {
+  upb_EnumValueDef* v =
+      _upb_DefBuilder_Alloc(ctx, sizeof(upb_EnumValueDef) * n);
+
+  bool is_sorted = true;
+  uint32_t previous = 0;
+  for (size_t i = 0; i < n; i++) {
+    create_enumvaldef(ctx, prefix, protos[i], e, &v[i]);
+
+    const uint32_t current = v[i].number;
+    if (previous > current) is_sorted = false;
+    previous = current;
+  }
+  e->is_sorted = is_sorted;
+
+  if (upb_FileDef_Syntax(ctx->file) == kUpb_Syntax_Proto3 && n > 0 &&
+      v[0].number != 0) {
+    _upb_DefBuilder_Errf(ctx,
+                         "for proto3, the first enum value must be zero (%s)",
+                         e->full_name);
+  }
+
+  return v;
+}
+
+static void create_enumdef(upb_DefBuilder* ctx, const char* prefix,
+                           const google_protobuf_EnumDescriptorProto* enum_proto,
+                           upb_EnumDef* e) {
   const google_protobuf_EnumValueDescriptorProto* const* values;
   upb_StringView name;
-  size_t i, n;
+  size_t n;
 
-  e->file = ctx->file; /* Must happen prior to symtab_add() */
-  e->containing_type = containing_type;
+  e->file = ctx->file;  // Must happen prior to _upb_DefBuilder_Add()
 
   name = google_protobuf_EnumDescriptorProto_name(enum_proto);
-  check_ident(ctx, name, false);
+  _upb_DefBuilder_CheckIdent(ctx, name, false);
 
-  e->full_name = makefullname(ctx, prefix, name);
-  symtab_add(ctx, e->full_name, pack_def(e, UPB_DEFTYPE_ENUM));
+  e->full_name = _upb_DefBuilder_MakeFullName(ctx, prefix, name);
+  _upb_DefBuilder_Add(
+      ctx, e->full_name,
+      _upb_DefUtil_Pack(e, UPB_DEFTYPE_ENUM, sizeof(upb_EnumDef)));
 
   values = google_protobuf_EnumDescriptorProto_value(enum_proto, &n);
-  CHK_OOM(upb_strtable_init(&e->ntoi, n, ctx->arena));
-  CHK_OOM(upb_inttable_init(&e->iton, ctx->arena));
+
+  bool ok = upb_strtable_init(&e->ntoi, n, ctx->arena);
+  if (!ok) _upb_DefBuilder_OomErr(ctx);
+
+  ok = upb_inttable_init(&e->iton, ctx->arena);
+  if (!ok) _upb_DefBuilder_OomErr(ctx);
 
   e->defaultval = 0;
   e->value_count = n;
-  e->values = symtab_alloc(ctx, sizeof(*e->values) * n);
+  e->values = _upb_EnumValueDefs_New(ctx, prefix, n, values, e);
 
   if (n == 0) {
-    symtab_errf(ctx, "enums must contain at least one value (%s)",
-                e->full_name);
+    _upb_DefBuilder_Errf(ctx, "enums must contain at least one value (%s)",
+                         e->full_name);
   }
 
   SET_OPTIONS(e->opts, EnumDescriptorProto, EnumOptions, enum_proto);
 
-  for (i = 0; i < n; i++) {
-    create_enumvaldef(ctx, prefix, values[i], e, i);
-  }
-
   upb_inttable_compact(&e->iton, ctx->arena);
 
-  if (e->file->syntax == kUpb_Syntax_Proto2) {
+  if (upb_FileDef_Syntax(e->file) == kUpb_Syntax_Proto2) {
     if (ctx->layout) {
       UPB_ASSERT(ctx->enum_count < ctx->layout->enum_count);
       e->layout = ctx->layout->enums[ctx->enum_count++];
-      UPB_ASSERT(upb_inttable_count(&e->iton) ==
-                 e->layout->value_count + count_bits_debug(e->layout->mask));
     } else {
       e->layout = create_enumlayout(ctx, e);
     }
@@ -2592,11 +2646,29 @@ static void create_enumdef(
   }
 }
 
-static void msgdef_create_nested(
-    symtab_addctx* ctx, const google_protobuf_DescriptorProto* msg_proto,
-    upb_MessageDef* m);
+// Allocate and initialize an array of |n| enum defs.
+// TODO(b/243726666): This will eventually become the (only) public constructor.
+static upb_EnumDef* _upb_EnumDefs_New(
+    upb_DefBuilder* ctx, int n, const google_protobuf_EnumDescriptorProto* const* protos,
+    const upb_MessageDef* containing_type) {
+  // If a containing type is defined then get the full name from that.
+  // Otherwise use the package name from the file def.
+  const char* name =
+      containing_type ? containing_type->full_name : ctx->file->package;
 
-static void create_msgdef(symtab_addctx* ctx, const char* prefix,
+  upb_EnumDef* e = _upb_DefBuilder_Alloc(ctx, sizeof(upb_EnumDef) * n);
+  for (size_t i = 0; i < n; i++) {
+    create_enumdef(ctx, name, protos[i], &e[i]);
+    e[i].containing_type = containing_type;
+  }
+  return e;
+}
+
+static void msgdef_create_nested(upb_DefBuilder* ctx,
+                                 const google_protobuf_DescriptorProto* msg_proto,
+                                 upb_MessageDef* m);
+
+static void create_msgdef(upb_DefBuilder* ctx, const char* prefix,
                           const google_protobuf_DescriptorProto* msg_proto,
                           const upb_MessageDef* containing_type,
                           const upb_MessageDef* _m) {
@@ -2607,22 +2679,27 @@ static void create_msgdef(symtab_addctx* ctx, const char* prefix,
   size_t i, n_oneof, n_field, n_ext_range;
   upb_StringView name;
 
-  m->file = ctx->file; /* Must happen prior to symtab_add(). */
+  m->file = ctx->file;  // Must happen prior to _upb_DefBuilder_Add()
   m->containing_type = containing_type;
 
   name = google_protobuf_DescriptorProto_name(msg_proto);
-  check_ident(ctx, name, false);
+  _upb_DefBuilder_CheckIdent(ctx, name, false);
 
-  m->full_name = makefullname(ctx, prefix, name);
-  symtab_add(ctx, m->full_name, pack_def(m, UPB_DEFTYPE_MSG));
+  m->full_name = _upb_DefBuilder_MakeFullName(ctx, prefix, name);
+  _upb_DefBuilder_Add(
+      ctx, m->full_name,
+      _upb_DefUtil_Pack(m, UPB_DEFTYPE_MSG, sizeof(upb_MessageDef)));
 
   oneofs = google_protobuf_DescriptorProto_oneof_decl(msg_proto, &n_oneof);
   fields = google_protobuf_DescriptorProto_field(msg_proto, &n_field);
   ext_ranges =
       google_protobuf_DescriptorProto_extension_range(msg_proto, &n_ext_range);
 
-  CHK_OOM(upb_inttable_init(&m->itof, ctx->arena));
-  CHK_OOM(upb_strtable_init(&m->ntof, n_oneof + n_field, ctx->arena));
+  bool ok = upb_inttable_init(&m->itof, ctx->arena);
+  if (!ok) _upb_DefBuilder_OomErr(ctx);
+
+  ok = upb_strtable_init(&m->ntof, n_oneof + n_field, ctx->arena);
+  if (!ok) _upb_DefBuilder_OomErr(ctx);
 
   if (ctx->layout) {
     /* create_fielddef() below depends on this being set. */
@@ -2631,27 +2708,24 @@ static void create_msgdef(symtab_addctx* ctx, const char* prefix,
     UPB_ASSERT(n_field == m->layout->field_count);
   } else {
     /* Allocate now (to allow cross-linking), populate later. */
-    m->layout =
-        symtab_alloc(ctx, sizeof(*m->layout) + sizeof(_upb_FastTable_Entry));
+    m->layout = _upb_DefBuilder_Alloc(
+        ctx, sizeof(*m->layout) + sizeof(_upb_FastTable_Entry));
   }
 
   SET_OPTIONS(m->opts, DescriptorProto, MessageOptions, msg_proto);
 
   m->oneof_count = n_oneof;
-  m->oneofs = symtab_alloc(ctx, sizeof(*m->oneofs) * n_oneof);
-  for (i = 0; i < n_oneof; i++) {
-    create_oneofdef(ctx, m, oneofs[i], &m->oneofs[i]);
-  }
+  m->oneofs = _upb_OneofDefs_New(ctx, n_oneof, oneofs, m);
 
   m->field_count = n_field;
-  m->fields = symtab_alloc(ctx, sizeof(*m->fields) * n_field);
+  m->fields = _upb_FieldDef_Alloc(ctx, n_field);
   for (i = 0; i < n_field; i++) {
     create_fielddef(ctx, m->full_name, m, fields[i], &m->fields[i],
                     /* is_extension= */ false);
   }
 
   m->ext_range_count = n_ext_range;
-  m->ext_ranges = symtab_alloc(ctx, sizeof(*m->ext_ranges) * n_ext_range);
+  m->ext_ranges = _upb_ExtensionRange_Alloc(ctx, n_ext_range);
   for (i = 0; i < n_ext_range; i++) {
     const google_protobuf_DescriptorProto_ExtensionRange* r = ext_ranges[i];
     upb_ExtensionRange* r_def = (upb_ExtensionRange*)&m->ext_ranges[i];
@@ -2666,8 +2740,9 @@ static void create_msgdef(symtab_addctx* ctx, const char* prefix,
     // none of the fields overlap with the extension ranges, but we are just
     // sanity checking here.
     if (start < 1 || end <= start || end > max) {
-      symtab_errf(ctx, "Extension range (%d, %d) is invalid, message=%s\n",
-                  (int)start, (int)end, m->full_name);
+      _upb_DefBuilder_Errf(ctx,
+                           "Extension range (%d, %d) is invalid, message=%s\n",
+                           (int)start, (int)end, m->full_name);
     }
 
     r_def->start = start;
@@ -2682,24 +2757,33 @@ static void create_msgdef(symtab_addctx* ctx, const char* prefix,
   msgdef_create_nested(ctx, msg_proto, m);
 }
 
-static void msgdef_create_nested(
-    symtab_addctx* ctx, const google_protobuf_DescriptorProto* msg_proto,
-    upb_MessageDef* m) {
+// Allocate and initialize an array of |n| message defs.
+static upb_MessageDef* _upb_MessageDefs_New(
+    upb_DefBuilder* ctx, int n, const google_protobuf_DescriptorProto* const* protos,
+    const upb_MessageDef* containing_type) {
+  const char* name =
+      containing_type ? containing_type->full_name : ctx->file->package;
+  upb_MessageDef* m = _upb_DefBuilder_Alloc(ctx, sizeof(upb_MessageDef) * n);
+  for (int i = 0; i < n; i++) {
+    create_msgdef(ctx, name, protos[i], containing_type, &m[i]);
+  }
+  return m;
+}
+
+static void msgdef_create_nested(upb_DefBuilder* ctx,
+                                 const google_protobuf_DescriptorProto* msg_proto,
+                                 upb_MessageDef* m) {
   size_t n;
 
   const google_protobuf_EnumDescriptorProto* const* enums =
       google_protobuf_DescriptorProto_enum_type(msg_proto, &n);
   m->nested_enum_count = n;
-  m->nested_enums = symtab_alloc(ctx, sizeof(*m->nested_enums) * n);
-  for (size_t i = 0; i < n; i++) {
-    m->nested_enum_count = i + 1;
-    create_enumdef(ctx, m->full_name, enums[i], m, &m->nested_enums[i]);
-  }
+  m->nested_enums = _upb_EnumDefs_New(ctx, n, enums, m);
 
   const google_protobuf_FieldDescriptorProto* const* exts =
       google_protobuf_DescriptorProto_extension(msg_proto, &n);
   m->nested_ext_count = n;
-  m->nested_exts = symtab_alloc(ctx, sizeof(*m->nested_exts) * n);
+  m->nested_exts = _upb_FieldDef_Alloc(ctx, n);
   for (size_t i = 0; i < n; i++) {
     create_fielddef(ctx, m->full_name, m, exts[i], &m->nested_exts[i],
                     /* is_extension= */ true);
@@ -2709,13 +2793,10 @@ static void msgdef_create_nested(
   const google_protobuf_DescriptorProto* const* msgs =
       google_protobuf_DescriptorProto_nested_type(msg_proto, &n);
   m->nested_msg_count = n;
-  m->nested_msgs = symtab_alloc(ctx, sizeof(*m->nested_msgs) * n);
-  for (size_t i = 0; i < n; i++) {
-    create_msgdef(ctx, m->full_name, msgs[i], m, &m->nested_msgs[i]);
-  }
+  m->nested_msgs = _upb_MessageDefs_New(ctx, n, msgs, m);
 }
 
-static void resolve_subdef(symtab_addctx* ctx, const char* prefix,
+static void resolve_subdef(upb_DefBuilder* ctx, const char* prefix,
                            upb_FieldDef* f) {
   const google_protobuf_FieldDescriptorProto* field_proto = f->sub.unresolved;
   upb_StringView name =
@@ -2740,8 +2821,8 @@ static void resolve_subdef(symtab_addctx* ctx, const char* prefix,
                                               // this being a group.
           break;
         default:
-          symtab_errf(ctx, "Couldn't resolve type name for field %s",
-                      f->full_name);
+          _upb_DefBuilder_Errf(ctx, "Couldn't resolve type name for field %s",
+                               f->full_name);
       }
     }
     case kUpb_FieldType_Message:
@@ -2761,15 +2842,15 @@ static void resolve_subdef(symtab_addctx* ctx, const char* prefix,
   }
 }
 
-static void resolve_extension(
-    symtab_addctx* ctx, const char* prefix, upb_FieldDef* f,
-    const google_protobuf_FieldDescriptorProto* field_proto) {
+static void resolve_extension(upb_DefBuilder* ctx, const char* prefix,
+                              upb_FieldDef* f,
+                              const google_protobuf_FieldDescriptorProto* field_proto) {
   if (!google_protobuf_FieldDescriptorProto_has_extendee(field_proto)) {
-    symtab_errf(ctx, "extension for field '%s' had no extendee", f->full_name);
+    _upb_DefBuilder_Errf(ctx, "extension for field '%s' had no extendee",
+                         f->full_name);
   }
 
-  upb_StringView name =
-      google_protobuf_FieldDescriptorProto_extendee(field_proto);
+  upb_StringView name = google_protobuf_FieldDescriptorProto_extendee(field_proto);
   const upb_MessageDef* m =
       symtab_resolve(ctx, f->full_name, prefix, name, UPB_DEFTYPE_MSG);
   f->msgdef = m;
@@ -2785,13 +2866,14 @@ static void resolve_extension(
   }
 
   if (!found) {
-    symtab_errf(ctx,
-                "field number %u in extension %s has no extension range in "
-                "message %s",
-                (unsigned)f->number_, f->full_name, f->msgdef->full_name);
+    _upb_DefBuilder_Errf(
+        ctx,
+        "field number %u in extension %s has no extension range in "
+        "message %s",
+        (unsigned)f->number_, f->full_name, f->msgdef->full_name);
   }
 
-  const upb_MiniTable_Extension* ext = ctx->file->ext_layouts[f->layout_index];
+  const upb_MiniTable_Extension* ext = _upb_FieldDef_ExtensionMiniTable(f);
   if (ctx->layout) {
     UPB_ASSERT(upb_FieldDef_Number(f) == ext->field.number);
   } else {
@@ -2804,27 +2886,29 @@ static void resolve_extension(
     mut_ext->sub.submsg = f->sub.msgdef->layout;
   }
 
-  CHK_OOM(upb_inttable_insert(&ctx->symtab->exts, (uintptr_t)ext,
-                              upb_value_constptr(f), ctx->arena));
+  bool ok = upb_inttable_insert(&ctx->symtab->exts, (uintptr_t)ext,
+                                upb_value_constptr(f), ctx->arena);
+  if (!ok) _upb_DefBuilder_OomErr(ctx);
 }
 
-static void resolve_default(
-    symtab_addctx* ctx, upb_FieldDef* f,
-    const google_protobuf_FieldDescriptorProto* field_proto) {
+static void resolve_default(upb_DefBuilder* ctx, upb_FieldDef* f,
+                            const google_protobuf_FieldDescriptorProto* field_proto) {
   // Have to delay resolving of the default value until now because of the enum
   // case, since enum defaults are specified with a label.
   if (google_protobuf_FieldDescriptorProto_has_default_value(field_proto)) {
     upb_StringView defaultval =
         google_protobuf_FieldDescriptorProto_default_value(field_proto);
 
-    if (f->file->syntax == kUpb_Syntax_Proto3) {
-      symtab_errf(ctx, "proto3 fields cannot have explicit defaults (%s)",
-                  f->full_name);
+    if (upb_FileDef_Syntax(f->file) == kUpb_Syntax_Proto3) {
+      _upb_DefBuilder_Errf(ctx,
+                           "proto3 fields cannot have explicit defaults (%s)",
+                           f->full_name);
     }
 
     if (upb_FieldDef_IsSubMessage(f)) {
-      symtab_errf(ctx, "message fields cannot have explicit defaults (%s)",
-                  f->full_name);
+      _upb_DefBuilder_Errf(ctx,
+                           "message fields cannot have explicit defaults (%s)",
+                           f->full_name);
     }
 
     parse_default(ctx, defaultval.data, defaultval.size, f);
@@ -2835,7 +2919,7 @@ static void resolve_default(
   }
 }
 
-static void resolve_fielddef(symtab_addctx* ctx, const char* prefix,
+static void resolve_fielddef(upb_DefBuilder* ctx, const char* prefix,
                              upb_FieldDef* f) {
   // We have to stash this away since resolve_subdef() may overwrite it.
   const google_protobuf_FieldDescriptorProto* field_proto = f->sub.unresolved;
@@ -2848,7 +2932,7 @@ static void resolve_fielddef(symtab_addctx* ctx, const char* prefix,
   }
 }
 
-static void resolve_msgdef(symtab_addctx* ctx, upb_MessageDef* m) {
+static void resolve_msgdef(upb_DefBuilder* ctx, upb_MessageDef* m) {
   for (int i = 0; i < m->field_count; i++) {
     resolve_fielddef(ctx, m->full_name, (upb_FieldDef*)&m->fields[i]);
   }
@@ -2886,9 +2970,12 @@ static int count_exts_in_msg(const google_protobuf_DescriptorProto* msg_proto) {
   return ext_count;
 }
 
-static void build_filedef(
-    symtab_addctx* ctx, upb_FileDef* file,
-    const google_protobuf_FileDescriptorProto* file_proto) {
+// Allocate and initialize one file def, and add it to the context object.
+static void _upb_FileDef_Create(upb_DefBuilder* ctx,
+                                const google_protobuf_FileDescriptorProto* file_proto) {
+  upb_FileDef* file = _upb_DefBuilder_Alloc(ctx, sizeof(upb_FileDef));
+  ctx->file = file;
+
   const google_protobuf_DescriptorProto* const* msgs;
   const google_protobuf_EnumDescriptorProto* const* enums;
   const google_protobuf_FieldDescriptorProto* const* exts;
@@ -2913,47 +3000,45 @@ static void build_filedef(
     /* We are using the ext layouts that were passed in. */
     file->ext_layouts = ctx->layout->exts;
     if (ctx->layout->ext_count != file->ext_count) {
-      symtab_errf(ctx, "Extension count did not match layout (%d vs %d)",
-                  ctx->layout->ext_count, file->ext_count);
+      _upb_DefBuilder_Errf(ctx,
+                           "Extension count did not match layout (%d vs %d)",
+                           ctx->layout->ext_count, file->ext_count);
     }
   } else {
     /* We are building ext layouts from scratch. */
-    file->ext_layouts =
-        symtab_alloc(ctx, sizeof(*file->ext_layouts) * file->ext_count);
+    file->ext_layouts = _upb_DefBuilder_Alloc(
+        ctx, sizeof(*file->ext_layouts) * file->ext_count);
     upb_MiniTable_Extension* ext =
-        symtab_alloc(ctx, sizeof(*ext) * file->ext_count);
+        _upb_DefBuilder_Alloc(ctx, sizeof(*ext) * file->ext_count);
     for (int i = 0; i < file->ext_count; i++) {
       file->ext_layouts[i] = &ext[i];
     }
   }
 
   if (!google_protobuf_FileDescriptorProto_has_name(file_proto)) {
-    symtab_errf(ctx, "File has no name");
+    _upb_DefBuilder_Errf(ctx, "File has no name");
   }
 
-  file->name =
-      strviewdup(ctx, google_protobuf_FileDescriptorProto_name(file_proto));
+  file->name = strviewdup(ctx, google_protobuf_FileDescriptorProto_name(file_proto));
 
-  if (google_protobuf_FileDescriptorProto_has_package(file_proto)) {
-    upb_StringView package =
-        google_protobuf_FileDescriptorProto_package(file_proto);
-    check_ident(ctx, package, true);
+  upb_StringView package = google_protobuf_FileDescriptorProto_package(file_proto);
+  if (package.size) {
+    _upb_DefBuilder_CheckIdent(ctx, package, true);
     file->package = strviewdup(ctx, package);
   } else {
     file->package = NULL;
   }
 
   if (google_protobuf_FileDescriptorProto_has_syntax(file_proto)) {
-    upb_StringView syntax =
-        google_protobuf_FileDescriptorProto_syntax(file_proto);
+    upb_StringView syntax = google_protobuf_FileDescriptorProto_syntax(file_proto);
 
     if (streql_view(syntax, "proto2")) {
       file->syntax = kUpb_Syntax_Proto2;
     } else if (streql_view(syntax, "proto3")) {
       file->syntax = kUpb_Syntax_Proto3;
     } else {
-      symtab_errf(ctx, "Invalid syntax '" UPB_STRINGVIEW_FORMAT "'",
-                  UPB_STRINGVIEW_ARGS(syntax));
+      _upb_DefBuilder_Errf(ctx, "Invalid syntax '" UPB_STRINGVIEW_FORMAT "'",
+                           UPB_STRINGVIEW_ARGS(syntax));
     }
   } else {
     file->syntax = kUpb_Syntax_Proto2;
@@ -2965,78 +3050,69 @@ static void build_filedef(
   /* Verify dependencies. */
   strs = google_protobuf_FileDescriptorProto_dependency(file_proto, &n);
   file->dep_count = n;
-  file->deps = symtab_alloc(ctx, sizeof(*file->deps) * n);
+  file->deps = _upb_DefBuilder_Alloc(ctx, sizeof(*file->deps) * n);
 
   for (i = 0; i < n; i++) {
     upb_StringView str = strs[i];
     file->deps[i] =
         upb_DefPool_FindFileByNameWithSize(ctx->symtab, str.data, str.size);
     if (!file->deps[i]) {
-      symtab_errf(ctx,
-                  "Depends on file '" UPB_STRINGVIEW_FORMAT
-                  "', but it has not been loaded",
-                  UPB_STRINGVIEW_ARGS(str));
+      _upb_DefBuilder_Errf(ctx,
+                           "Depends on file '" UPB_STRINGVIEW_FORMAT
+                           "', but it has not been loaded",
+                           UPB_STRINGVIEW_ARGS(str));
     }
   }
 
-  public_deps =
-      google_protobuf_FileDescriptorProto_public_dependency(file_proto, &n);
+  public_deps = google_protobuf_FileDescriptorProto_public_dependency(file_proto, &n);
   file->public_dep_count = n;
-  file->public_deps = symtab_alloc(ctx, sizeof(*file->public_deps) * n);
+  file->public_deps =
+      _upb_DefBuilder_Alloc(ctx, sizeof(*file->public_deps) * n);
   int32_t* mutable_public_deps = (int32_t*)file->public_deps;
   for (i = 0; i < n; i++) {
     if (public_deps[i] >= file->dep_count) {
-      symtab_errf(ctx, "public_dep %d is out of range", (int)public_deps[i]);
+      _upb_DefBuilder_Errf(ctx, "public_dep %d is out of range",
+                           (int)public_deps[i]);
     }
     mutable_public_deps[i] = public_deps[i];
   }
 
-  weak_deps =
-      google_protobuf_FileDescriptorProto_weak_dependency(file_proto, &n);
+  weak_deps = google_protobuf_FileDescriptorProto_weak_dependency(file_proto, &n);
   file->weak_dep_count = n;
-  file->weak_deps = symtab_alloc(ctx, sizeof(*file->weak_deps) * n);
+  file->weak_deps = _upb_DefBuilder_Alloc(ctx, sizeof(*file->weak_deps) * n);
   int32_t* mutable_weak_deps = (int32_t*)file->weak_deps;
   for (i = 0; i < n; i++) {
     if (weak_deps[i] >= file->dep_count) {
-      symtab_errf(ctx, "weak_dep %d is out of range", (int)weak_deps[i]);
+      _upb_DefBuilder_Errf(ctx, "weak_dep %d is out of range",
+                           (int)weak_deps[i]);
     }
     mutable_weak_deps[i] = weak_deps[i];
   }
 
-  /* Create enums. */
+  // Create enums.
   enums = google_protobuf_FileDescriptorProto_enum_type(file_proto, &n);
   file->top_lvl_enum_count = n;
-  file->top_lvl_enums = symtab_alloc(ctx, sizeof(*file->top_lvl_enums) * n);
-  for (i = 0; i < n; i++) {
-    create_enumdef(ctx, file->package, enums[i], NULL, &file->top_lvl_enums[i]);
-  }
+  file->top_lvl_enums = _upb_EnumDefs_New(ctx, n, enums, NULL);
 
   /* Create extensions. */
   exts = google_protobuf_FileDescriptorProto_extension(file_proto, &n);
   file->top_lvl_ext_count = n;
-  file->top_lvl_exts = symtab_alloc(ctx, sizeof(*file->top_lvl_exts) * n);
+  file->top_lvl_exts = _upb_FieldDef_Alloc(ctx, n);
   for (i = 0; i < n; i++) {
     create_fielddef(ctx, file->package, NULL, exts[i], &file->top_lvl_exts[i],
                     /* is_extension= */ true);
     ((upb_FieldDef*)&file->top_lvl_exts[i])->index_ = i;
   }
 
-  /* Create messages. */
+  // Create messages.
   msgs = google_protobuf_FileDescriptorProto_message_type(file_proto, &n);
   file->top_lvl_msg_count = n;
-  file->top_lvl_msgs = symtab_alloc(ctx, sizeof(*file->top_lvl_msgs) * n);
-  for (i = 0; i < n; i++) {
-    create_msgdef(ctx, file->package, msgs[i], NULL, &file->top_lvl_msgs[i]);
-  }
+  file->top_lvl_msgs = _upb_MessageDefs_New(ctx, n, msgs, NULL);
 
-  /* Create services. */
+  // Create services.
   services = google_protobuf_FileDescriptorProto_service(file_proto, &n);
   file->service_count = n;
-  file->services = symtab_alloc(ctx, sizeof(*file->services) * n);
-  for (i = 0; i < n; i++) {
-    create_service(ctx, services[i], &file->services[i]);
-    ((upb_ServiceDef*)&file->services[i])->index = i;
-  }
+  file->services = _upb_ServiceDefs_New(ctx, n, services);
 
   /* Now that all names are in the table, build layouts and resolve refs. */
   for (i = 0; i < (size_t)file->top_lvl_ext_count; i++) {
@@ -3048,8 +3124,9 @@ static void build_filedef(
   }
 
   if (file->ext_count) {
-    CHK_OOM(_upb_extreg_add(ctx->symtab->extreg, file->ext_layouts,
-                            file->ext_count));
+    bool ok = _upb_extreg_add(ctx->symtab->extreg, file->ext_layouts,
+                              file->ext_count);
+    if (!ok) _upb_DefBuilder_OomErr(ctx);
   }
 }
 
@@ -3061,20 +3138,20 @@ static void remove_filedef(upb_DefPool* s, upb_FileDef* file) {
     const upb_FileDef* f;
     switch (deftype(val)) {
       case UPB_DEFTYPE_EXT:
-        f = upb_FieldDef_File(unpack_def(val, UPB_DEFTYPE_EXT));
+        f = upb_FieldDef_File(_upb_DefUtil_Unpack(val, UPB_DEFTYPE_EXT));
         break;
       case UPB_DEFTYPE_MSG:
-        f = upb_MessageDef_File(unpack_def(val, UPB_DEFTYPE_MSG));
+        f = upb_MessageDef_File(_upb_DefUtil_Unpack(val, UPB_DEFTYPE_MSG));
         break;
       case UPB_DEFTYPE_ENUM:
-        f = upb_EnumDef_File(unpack_def(val, UPB_DEFTYPE_ENUM));
+        f = upb_EnumDef_File(_upb_DefUtil_Unpack(val, UPB_DEFTYPE_ENUM));
         break;
       case UPB_DEFTYPE_ENUMVAL:
-        f = upb_EnumDef_File(
-            upb_EnumValueDef_Enum(unpack_def(val, UPB_DEFTYPE_ENUMVAL)));
+        f = upb_EnumDef_File(upb_EnumValueDef_Enum(
+            _upb_DefUtil_Unpack(val, UPB_DEFTYPE_ENUMVAL)));
         break;
       case UPB_DEFTYPE_SERVICE:
-        f = upb_ServiceDef_File(unpack_def(val, UPB_DEFTYPE_SERVICE));
+        f = upb_ServiceDef_File(_upb_DefUtil_Unpack(val, UPB_DEFTYPE_SERVICE));
         break;
       default:
         UPB_UNREACHABLE();
@@ -3087,61 +3164,48 @@ static void remove_filedef(upb_DefPool* s, upb_FileDef* file) {
 static const upb_FileDef* _upb_DefPool_AddFile(
     upb_DefPool* s, const google_protobuf_FileDescriptorProto* file_proto,
     const upb_MiniTable_File* layout, upb_Status* status) {
-  symtab_addctx ctx;
-  upb_StringView name = google_protobuf_FileDescriptorProto_name(file_proto);
-  upb_value v;
+  const upb_StringView name = google_protobuf_FileDescriptorProto_name(file_proto);
 
-  if (upb_strtable_lookup2(&s->files, name.data, name.size, &v)) {
-    if (unpack_def(v, UPB_DEFTYPE_FILE)) {
+  // Determine whether we already know about this file.
+  {
+    upb_value v;
+    if (upb_strtable_lookup2(&s->files, name.data, name.size, &v)) {
       upb_Status_SetErrorFormat(status, "duplicate file name (%.*s)",
                                 UPB_STRINGVIEW_ARGS(name));
       return NULL;
     }
-    const upb_MiniTable_File* registered = unpack_def(v, UPB_DEFTYPE_LAYOUT);
-    UPB_ASSERT(registered);
-    if (layout && layout != registered) {
-      upb_Status_SetErrorFormat(
-          status, "tried to build with a different layout (filename=%.*s)",
-          UPB_STRINGVIEW_ARGS(name));
-      return NULL;
-    }
-    layout = registered;
   }
 
-  ctx.symtab = s;
-  ctx.layout = layout;
-  ctx.msg_count = 0;
-  ctx.enum_count = 0;
-  ctx.ext_count = 0;
-  ctx.status = status;
-  ctx.file = NULL;
-  ctx.arena = upb_Arena_New();
-  ctx.tmp_arena = upb_Arena_New();
+  upb_DefBuilder ctx = {
+      .symtab = s,
+      .layout = layout,
+      .msg_count = 0,
+      .enum_count = 0,
+      .ext_count = 0,
+      .status = status,
+      .file = NULL,
+      .arena = upb_Arena_New(),
+      .tmp_arena = upb_Arena_New(),
+  };
 
-  if (!ctx.arena || !ctx.tmp_arena) {
-    if (ctx.arena) upb_Arena_Free(ctx.arena);
-    if (ctx.tmp_arena) upb_Arena_Free(ctx.tmp_arena);
-    upb_Status_setoom(status);
-    return NULL;
-  }
-
-  if (UPB_UNLIKELY(UPB_SETJMP(ctx.err))) {
+  if (UPB_SETJMP(ctx.err)) {
     UPB_ASSERT(!upb_Status_IsOk(status));
     if (ctx.file) {
       remove_filedef(s, ctx.file);
       ctx.file = NULL;
     }
+  } else if (!ctx.arena || !ctx.tmp_arena) {
+    _upb_DefBuilder_OomErr(&ctx);
   } else {
-    ctx.file = symtab_alloc(&ctx, sizeof(*ctx.file));
-    build_filedef(&ctx, ctx.file, file_proto);
+    _upb_FileDef_Create(&ctx, file_proto);
     upb_strtable_insert(&s->files, name.data, name.size,
-                        pack_def(ctx.file, UPB_DEFTYPE_FILE), ctx.arena);
+                        upb_value_constptr(ctx.file), ctx.arena);
     UPB_ASSERT(upb_Status_IsOk(status));
     upb_Arena_Fuse(s->arena, ctx.arena);
   }
 
-  upb_Arena_Free(ctx.arena);
-  upb_Arena_Free(ctx.tmp_arena);
+  if (ctx.arena) upb_Arena_Free(ctx.arena);
+  if (ctx.tmp_arena) upb_Arena_Free(ctx.tmp_arena);
   return ctx.file;
 }
 
@@ -3228,14 +3292,6 @@ const upb_FieldDef* upb_DefPool_FindExtensionByNumber(const upb_DefPool* s,
   return ext ? _upb_DefPool_FindExtensionByMiniTable(s, ext) : NULL;
 }
 
-bool _upb_DefPool_registerlayout(upb_DefPool* s, const char* filename,
-                                 const upb_MiniTable_File* file) {
-  if (upb_DefPool_FindFileByName(s, filename)) return false;
-  upb_value v = pack_def(file, UPB_DEFTYPE_LAYOUT);
-  return upb_strtable_insert(&s->files, filename, strlen(filename), v,
-                             s->arena);
-}
-
 const upb_ExtensionRegistry* upb_DefPool_ExtensionRegistry(
     const upb_DefPool* s) {
   return s->extreg;
@@ -3265,5 +3321,3 @@ const upb_FieldDef** upb_DefPool_GetAllExtensions(const upb_DefPool* s,
   *count = n;
   return exts;
 }
-
-#undef CHK_OOM

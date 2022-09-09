@@ -64,13 +64,21 @@
 
 #include "upb/msg.h"
 
+// Must be last.
+#include "upb/port_def.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct upb_Decoder;
 
 // The fallback, generic parsing function that can handle any field type.
 // This just uses the regular (non-fast) parser to parse a single field.
-const char* fastdecode_generic(struct upb_Decoder* d, const char* ptr,
-                               upb_Message* msg, intptr_t table,
-                               uint64_t hasbits, uint64_t data);
+const char* _upb_FastDecoder_DecodeGeneric(struct upb_Decoder* d,
+                                           const char* ptr, upb_Message* msg,
+                                           intptr_t table, uint64_t hasbits,
+                                           uint64_t data);
 
 #define UPB_PARSE_PARAMS                                                    \
   struct upb_Decoder *d, const char *ptr, upb_Message *msg, intptr_t table, \
@@ -149,5 +157,11 @@ TAGBYTES(r)
 #undef F
 
 #undef UPB_PARSE_PARAMS
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
+
+#include "upb/port_undef.inc"
 
 #endif /* UPB_DECODE_FAST_H_ */

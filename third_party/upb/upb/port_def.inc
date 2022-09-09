@@ -54,8 +54,20 @@
 #error upb requires C99 or C++11 or MSVC >= 2015.
 #endif
 
-#include <stdint.h>
+// Portable check for GCC minimum version:
+// https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
+#if defined(__GNUC__) && defined(__GNUC_MINOR__) && defined(__GNUC_PATCHLEVEL__)
+#define UPB_GNUC_MIN(x, y) \
+  (__GNUC__ > (x) || __GNUC__ == (x) && __GNUC_MINOR__ >= (y))
+#else
+#define UPB_GNUC_MIN(x, y) 0
+#endif
+
+#include <assert.h>
+#include <setjmp.h>
+#include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #if UINTPTR_MAX == 0xffffffff
 #define UPB_SIZE(size32, size64) size32
@@ -229,7 +241,11 @@
 
 #undef UPB_FASTTABLE_SUPPORTED
 
-/* ASAN poisoning (for arena) *************************************************/
+/* ASAN poisoning (for arena).
+ * If using UPB from an interpreted language like Ruby, a build of the
+ * interpreter compiled with ASAN enbabled must be used in order to get sane and
+ * expected behavior.
+ */
 
 #if defined(__SANITIZE_ADDRESS__)
 #define UPB_ASAN 1
@@ -259,4 +275,19 @@ void __asan_unpoison_memory_region(void const volatile *addr, size_t size);
 #define UPB_TREAT_PROTO2_ENUMS_LIKE_PROTO3 1
 #else
 #define UPB_TREAT_PROTO2_ENUMS_LIKE_PROTO3 0
+#endif
+
+#if defined(__cplusplus)
+#if defined(__clang__) || UPB_GNUC_MIN(6, 0)
+// https://gcc.gnu.org/gcc-6/changes.html
+#if __cplusplus >= 201402L
+#define UPB_DEPRECATED [[deprecated]]
+#else
+#define UPB_DEPRECATED __attribute__((deprecated))
+#endif
+#else
+#define UPB_DEPRECATED
+#endif
+#else
+#define UPB_DEPRECATED
 #endif

@@ -28,8 +28,8 @@
 #ifndef UPB_MINI_DESCRIPTOR_H_
 #define UPB_MINI_DESCRIPTOR_H_
 
+#include "upb/arena.h"
 #include "upb/def.h"
-#include "upb/upb.h"
 
 // Must be last.
 #include "upb/port_def.inc"
@@ -38,16 +38,15 @@
 extern "C" {
 #endif
 
-/** upb_MiniDescriptor ********************************************************/
+// Creates and returns a mini descriptor string for an enum, or NULL on error.
+const char* upb_MiniDescriptor_EncodeEnum(const upb_EnumDef* e, upb_Arena* a);
 
-upb_StringView upb_MiniDescriptor_EncodeEnum(const upb_EnumDef* enum_def,
+// Creates and returns a mini descriptor string for a field, or NULL on error.
+const char* upb_MiniDescriptor_EncodeField(const upb_FieldDef* f, upb_Arena* a);
+
+// Creates and returns a mini descriptor string for a message, or NULL on error.
+const char* upb_MiniDescriptor_EncodeMessage(const upb_MessageDef* m,
                                              upb_Arena* a);
-
-upb_StringView upb_MiniDescriptor_EncodeExtension(const upb_FieldDef* field_def,
-                                                  upb_Arena* a);
-
-upb_StringView upb_MiniDescriptor_EncodeMessage(
-    const upb_MessageDef* message_def, upb_Arena* a);
 
 #ifdef __cplusplus
 } /* extern "C" */

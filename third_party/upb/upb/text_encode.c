@@ -34,8 +34,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "upb/internal/upb.h"
+#include "upb/internal/encode.h"
 #include "upb/internal/vsnprintf_compat.h"
+#include "upb/map.h"
 #include "upb/reflection.h"
 
 // Must be last.
@@ -158,11 +159,17 @@ static void txtenc_string(txtenc* e, upb_StringView str, bool bytes) {
 static void txtenc_field(txtenc* e, upb_MessageValue val,
                          const upb_FieldDef* f) {
   txtenc_indent(e);
-  upb_CType type = upb_FieldDef_CType(f);
+  const upb_CType type = upb_FieldDef_CType(f);
+  const bool is_ext = upb_FieldDef_IsExtension(f);
+  const char* full = upb_FieldDef_FullName(f);
   const char* name = upb_FieldDef_Name(f);
 
   if (type == kUpb_CType_Message) {
-    txtenc_printf(e, "%s {", name);
+    if (is_ext) {
+      txtenc_printf(e, "[%s] {", full);
+    } else {
+      txtenc_printf(e, "%s {", name);
+    }
     txtenc_endfield(e);
     e->indent_depth++;
     txtenc_msg(e, val.msg_val, upb_FieldDef_MessageSubDef(f));
@@ -173,7 +180,11 @@ static void txtenc_field(txtenc* e, upb_MessageValue val,
     return;
   }
 
-  txtenc_printf(e, "%s: ", name);
+  if (is_ext) {
+    txtenc_printf(e, "[%s]: ", full);
+  } else {
+    txtenc_printf(e, "%s: ", name);
+  }
 
   switch (type) {
     case kUpb_CType_Bool:

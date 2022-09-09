@@ -32,14 +32,16 @@
 #include <inttypes.h>
 #include <limits.h>
 #include <math.h>
-#include <setjmp.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "upb/encode.h"
+#include "upb/internal/atoi.h"
+#include "upb/internal/unicode.h"
+#include "upb/map.h"
 #include "upb/reflection.h"
 
-/* Special header, must be included last. */
+// Must be last.
 #include "upb/port_def.inc"
 
 typedef struct {
@@ -377,44 +379,20 @@ static uint32_t jsondec_codepoint(jsondec* d) {
 /* Parses a \uXXXX unicode escape (possibly a surrogate pair). */
 static size_t jsondec_unicode(jsondec* d, char* out) {
   uint32_t cp = jsondec_codepoint(d);
-  if (cp >= 0xd800 && cp <= 0xdbff) {
+  if (upb_Unicode_IsHigh(cp)) {
     /* Surrogate pair: two 16-bit codepoints become a 32-bit codepoint. */
-    uint32_t high = cp;
-    uint32_t low;
     jsondec_parselit(d, "\\u");
-    low = jsondec_codepoint(d);
-    if (low < 0xdc00 || low > 0xdfff) {
-      jsondec_err(d, "Invalid low surrogate");
-    }
-    cp = (high & 0x3ff) << 10;
-    cp |= (low & 0x3ff);
-    cp += 0x10000;
-  } else if (cp >= 0xdc00 && cp <= 0xdfff) {
+    uint32_t low = jsondec_codepoint(d);
+    if (!upb_Unicode_IsLow(low)) jsondec_err(d, "Invalid low surrogate");
+    cp = upb_Unicode_FromPair(cp, low);
+  } else if (upb_Unicode_IsLow(cp)) {
     jsondec_err(d, "Unpaired low surrogate");
   }
 
   /* Write to UTF-8 */
-  if (cp <= 0x7f) {
-    out[0] = cp;
-    return 1;
-  } else if (cp <= 0x07FF) {
-    out[0] = ((cp >> 6) & 0x1F) | 0xC0;
-    out[1] = ((cp >> 0) & 0x3F) | 0x80;
-    return 2;
-  } else if (cp <= 0xFFFF) {
-    out[0] = ((cp >> 12) & 0x0F) | 0xE0;
-    out[1] = ((cp >> 6) & 0x3F) | 0x80;
-    out[2] = ((cp >> 0) & 0x3F) | 0x80;
-    return 3;
-  } else if (cp < 0x10FFFF) {
-    out[0] = ((cp >> 18) & 0x07) | 0xF0;
-    out[1] = ((cp >> 12) & 0x3f) | 0x80;
-    out[2] = ((cp >> 6) & 0x3f) | 0x80;
-    out[3] = ((cp >> 0) & 0x3f) | 0x80;
-    return 4;
-  } else {
-    jsondec_err(d, "Invalid codepoint");
-  }
+  int bytes = upb_Unicode_ToUTF8(cp, out);
+  if (bytes == 0) jsondec_err(d, "Invalid codepoint");
+  return bytes;
 }
 
 static void jsondec_resize(jsondec* d, char** buf, char** end, char** buf_end) {
@@ -460,7 +438,7 @@ static upb_StringView jsondec_string(jsondec* d) {
         if (*d->ptr == 'u') {
           d->ptr++;
           if (buf_end - end < 4) {
-            /* Allow space for maximum-sized code point (4 bytes). */
+            /* Allow space for maximum-sized codepoint (4 bytes). */
             jsondec_resize(d, &buf, &end, &buf_end);
           }
           end += jsondec_unicode(d, end);
@@ -633,44 +611,19 @@ static size_t jsondec_base64(jsondec* d, upb_StringView str) {
 
 /* Low-level integer parsing **************************************************/
 
-/* We use these hand-written routines instead of strto[u]l() because the "long
- * long" variants aren't in c89. Also our version allows setting a ptr limit. */
-
 static const char* jsondec_buftouint64(jsondec* d, const char* ptr,
                                        const char* end, uint64_t* val) {
-  uint64_t u64 = 0;
-  while (ptr < end) {
-    unsigned ch = *ptr - '0';
-    if (ch >= 10) break;
-    if (u64 > UINT64_MAX / 10 || u64 * 10 > UINT64_MAX - ch) {
-      jsondec_err(d, "Integer overflow");
-    }
-    u64 *= 10;
-    u64 += ch;
-    ptr++;
-  }
-
-  *val = u64;
-  return ptr;
+  const char* out = upb_BufToUint64(ptr, end, val);
+  if (!out) jsondec_err(d, "Integer overflow");
+  return out;
 }
 
 static const char* jsondec_buftoint64(jsondec* d, const char* ptr,
-                                      const char* end, int64_t* val) {
-  bool neg = false;
-  uint64_t u64;
-
-  if (ptr != end && *ptr == '-') {
-    ptr++;
-    neg = true;
-  }
-
-  ptr = jsondec_buftouint64(d, ptr, end, &u64);
-  if (u64 > (uint64_t)INT64_MAX + neg) {
-    jsondec_err(d, "Integer overflow");
-  }
-
-  *val = neg ? -u64 : u64;
-  return ptr;
+                                      const char* end, int64_t* val,
+                                      bool* is_neg) {
+  const char* out = upb_BufToInt64(ptr, end, val, is_neg);
+  if (!out) jsondec_err(d, "Integer overflow");
+  return out;
 }
 
 static uint64_t jsondec_strtouint64(jsondec* d, upb_StringView str) {
@@ -685,7 +638,7 @@ static uint64_t jsondec_strtouint64(jsondec* d, upb_StringView str) {
 static int64_t jsondec_strtoint64(jsondec* d, upb_StringView str) {
   const char* end = str.data + str.size;
   int64_t ret;
-  if (jsondec_buftoint64(d, str.data, end, &ret) != end) {
+  if (jsondec_buftoint64(d, str.data, end, &ret, NULL) != end) {
     jsondec_err(d, "Non-number characters in quoted integer");
   }
   return ret;
@@ -792,11 +745,11 @@ static upb_MessageValue jsondec_double(jsondec* d, const upb_FieldDef* f) {
   }
 
   if (upb_FieldDef_CType(f) == kUpb_CType_Float) {
-    if (val.double_val != INFINITY && val.double_val != -INFINITY &&
-        (val.double_val > FLT_MAX || val.double_val < -FLT_MAX)) {
-      jsondec_err(d, "Float out of range");
+    float f = val.double_val;
+    if (val.double_val != INFINITY && val.double_val != -INFINITY) {
+      if (f == INFINITY || f == -INFINITY) jsondec_err(d, "Float out of range");
     }
-    val.float_val = val.double_val;
+    val.float_val = f;
   }
 
   return val;
@@ -1154,9 +1107,10 @@ static void jsondec_duration(jsondec* d, upb_Message* msg,
   const char* ptr = str.data;
   const char* end = ptr + str.size;
   const int64_t max = (uint64_t)3652500 * 86400;
+  bool neg = false;
 
   /* "3.000000001s", "3s", etc. */
-  ptr = jsondec_buftoint64(d, ptr, end, &seconds.int64_val);
+  ptr = jsondec_buftoint64(d, ptr, end, &seconds.int64_val, &neg);
   nanos.int32_val = jsondec_nanos(d, &ptr, end);
 
   if (end - ptr != 1 || *ptr != 's') {
@@ -1167,7 +1121,7 @@ static void jsondec_duration(jsondec* d, upb_Message* msg,
     jsondec_err(d, "Duration out of range");
   }
 
-  if (seconds.int64_val < 0) {
+  if (neg) {
     nanos.int32_val = -nanos.int32_val;
   }
 

@@ -27,8 +27,11 @@
 
 #include "upb/msg.h"
 
-#include "upb/internal/table.h"
+#include <math.h>
+
 #include "upb/msg_internal.h"
+
+// Must be last.
 #include "upb/port_def.inc"
 
 /** upb_Message ***************************************************************/
@@ -173,64 +176,6 @@ size_t upb_Message_ExtensionCount(const upb_Message* msg) {
   return count;
 }
 
-/** upb_Array *****************************************************************/
-
-bool _upb_array_realloc(upb_Array* arr, size_t min_size, upb_Arena* arena) {
-  size_t new_size = UPB_MAX(arr->size, 4);
-  int elem_size_lg2 = arr->data & 7;
-  size_t old_bytes = arr->size << elem_size_lg2;
-  size_t new_bytes;
-  void* ptr = _upb_array_ptr(arr);
-
-  /* Log2 ceiling of size. */
-  while (new_size < min_size) new_size *= 2;
-
-  new_bytes = new_size << elem_size_lg2;
-  ptr = upb_Arena_Realloc(arena, ptr, old_bytes, new_bytes);
-
-  if (!ptr) {
-    return false;
-  }
-
-  arr->data = _upb_tag_arrptr(ptr, elem_size_lg2);
-  arr->size = new_size;
-  return true;
-}
-
-static upb_Array* getorcreate_array(upb_Array** arr_ptr, int elem_size_lg2,
-                                    upb_Arena* arena) {
-  upb_Array* arr = *arr_ptr;
-  if (!arr) {
-    arr = _upb_Array_New(arena, 4, elem_size_lg2);
-    if (!arr) return NULL;
-    *arr_ptr = arr;
-  }
-  return arr;
-}
-
-void* _upb_Array_Resize_fallback(upb_Array** arr_ptr, size_t size,
-                                 int elem_size_lg2, upb_Arena* arena) {
-  upb_Array* arr = getorcreate_array(arr_ptr, elem_size_lg2, arena);
-  return arr && _upb_Array_Resize(arr, size, arena) ? _upb_array_ptr(arr)
-                                                    : NULL;
-}
-
-bool _upb_Array_Append_fallback(upb_Array** arr_ptr, const void* value,
-                                int elem_size_lg2, upb_Arena* arena) {
-  upb_Array* arr = getorcreate_array(arr_ptr, elem_size_lg2, arena);
-  if (!arr) return false;
-
-  size_t elems = arr->len;
-
-  if (!_upb_Array_Resize(arr, elems + 1, arena)) {
-    return false;
-  }
-
-  char* data = _upb_array_ptr(arr);
-  memcpy(data + (elems << elem_size_lg2), value, 1 << elem_size_lg2);
-  return true;
-}
-
 /** upb_Map *******************************************************************/
 
 upb_Map* _upb_Map_New(upb_Arena* a, size_t key_size, size_t value_size) {
@@ -366,3 +311,6 @@ bool _upb_mapsorter_pushmap(_upb_mapsorter* s, upb_FieldType key_type,
   qsort(&s->entries[sorted->start], map_size, sizeof(*s->entries), compar);
   return true;
 }
+
+const float kUpb_FltInfinity = INFINITY;
+const double kUpb_Infinity = INFINITY;

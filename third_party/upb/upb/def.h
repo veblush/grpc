@@ -32,12 +32,12 @@
 #include "upb/internal/table.h"
 #include "upb/upb.h"
 
-/* Must be last. */
+// Must be last.
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif
 
 struct upb_EnumDef;
 typedef struct upb_EnumDef upb_EnumDef;
@@ -282,6 +282,9 @@ UPB_INLINE const upb_EnumValueDef* upb_EnumDef_FindValueByName(
   return upb_EnumDef_FindValueByNameWithSize(e, name, strlen(name));
 }
 
+// Builds and returns a mini descriptor, or NULL if OOM.
+const char* _upb_EnumDef_MiniDescriptor(const upb_EnumDef* e, upb_Arena* a);
+
 /* upb_EnumValueDef ***********************************************************/
 
 const google_protobuf_EnumValueOptions* upb_EnumValueDef_Options(
@@ -407,10 +410,10 @@ UPB_INLINE bool _upb_DefPool_LoadDefInit(upb_DefPool* s,
   return _upb_DefPool_LoadDefInitEx(s, init, false);
 }
 
-#include "upb/port_undef.inc"
-
 #ifdef __cplusplus
 } /* extern "C" */
-#endif /* __cplusplus */
+#endif
+
+#include "upb/port_undef.inc"
 
 #endif /* UPB_DEF_H_ */

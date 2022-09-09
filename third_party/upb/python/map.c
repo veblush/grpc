@@ -30,6 +30,7 @@
 #include "python/convert.h"
 #include "python/message.h"
 #include "python/protobuf.h"
+#include "upb/def.h"
 #include "upb/map.h"
 
 // -----------------------------------------------------------------------------
@@ -84,8 +85,11 @@ static void PyUpb_MapContainer_Dealloc(void* _self) {
 PyTypeObject* PyUpb_MapContainer_GetClass(const upb_FieldDef* f) {
   assert(upb_FieldDef_IsMap(f));
   PyUpb_ModuleState* state = PyUpb_ModuleState_Get();
-  return upb_FieldDef_IsSubMessage(f) ? state->message_map_container_type
-                                      : state->scalar_map_container_type;
+  const upb_FieldDef* val =
+      upb_MessageDef_Field(upb_FieldDef_MessageSubDef(f), 1);
+  assert(upb_FieldDef_Number(val) == 2);
+  return upb_FieldDef_IsSubMessage(val) ? state->message_map_container_type
+                                        : state->scalar_map_container_type;
 }
 
 PyObject* PyUpb_MapContainer_NewStub(PyObject* parent, const upb_FieldDef* f,
@@ -382,7 +386,6 @@ static PyType_Slot PyUpb_ScalarMapContainer_Slots[] = {
     {Py_tp_methods, PyUpb_ScalarMapContainer_Methods},
     {Py_tp_iter, PyUpb_MapIterator_New},
     {Py_tp_repr, PyUpb_MapContainer_Repr},
-    {Py_tp_hash, PyObject_HashNotImplemented},
     {0, NULL},
 };
 
@@ -428,7 +431,6 @@ static PyType_Slot PyUpb_MessageMapContainer_Slots[] = {
     {Py_tp_methods, PyUpb_MessageMapContainer_Methods},
     {Py_tp_iter, PyUpb_MapIterator_New},
     {Py_tp_repr, PyUpb_MapContainer_Repr},
-    {Py_tp_hash, PyObject_HashNotImplemented},
     {0, NULL}};
 
 static PyType_Spec PyUpb_MessageMapContainer_Spec = {

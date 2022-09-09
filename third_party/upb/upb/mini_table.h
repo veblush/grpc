@@ -45,16 +45,9 @@ UPB_INLINE const upb_MiniTable* upb_MiniTable_GetSubMessageTable(
   return mini_table->subs[field->submsg_index].submsg;
 }
 
-UPB_INLINE bool upb_MiniTable_Enum_CheckValue(const upb_MiniTable_Enum* e,
-                                              int32_t val) {
-  uint32_t uval = (uint32_t)val;
-  if (uval < 64) return e->mask & (1ULL << uval);
-  // OPT: binary search long lists?
-  int n = e->value_count;
-  for (int i = 0; i < n; i++) {
-    if (e->values[i] == val) return true;
-  }
-  return false;
+UPB_INLINE const upb_MiniTable_Enum* upb_MiniTable_GetSubEnumTable(
+    const upb_MiniTable* mini_table, const upb_MiniTable_Field* field) {
+  return mini_table->subs[field->submsg_index].subenum;
 }
 
 /** upb_MtDataEncoder *********************************************************/
@@ -93,7 +86,8 @@ typedef struct {
 //   char buf[256];
 //   char* ptr = buf;
 //   e.end = ptr + sizeof(buf);
-//   ptr = upb_MtDataEncoder_StartMessage(&e, ptr);
+//   unit64_t msg_mod = ...; // bitwise & of kUpb_MessageModifiers or zero
+//   ptr = upb_MtDataEncoder_StartMessage(&e, ptr, msg_mod);
 //   // Fields *must* be in field number order.
 //   ptr = upb_MtDataEncoder_PutField(&e, ptr, ...);
 //   ptr = upb_MtDataEncoder_PutField(&e, ptr, ...);
@@ -147,9 +141,11 @@ void upb_MiniTable_SetSubMessage(upb_MiniTable* table,
 void upb_MiniTable_SetSubEnum(upb_MiniTable* table, upb_MiniTable_Field* field,
                               const upb_MiniTable_Enum* sub);
 
-bool upb_MiniTable_BuildExtension(const char* data, size_t len,
-                                  upb_MiniTable_Extension* ext,
-                                  upb_MiniTable_Sub sub, upb_Status* status);
+const char* upb_MiniTable_BuildExtension(const char* data, size_t len,
+                                         upb_MiniTable_Extension* ext,
+                                         const upb_MiniTable* extendee,
+                                         upb_MiniTable_Sub sub,
+                                         upb_Status* status);
 
 // Special-case functions for MessageSet layout and map entries.
 upb_MiniTable* upb_MiniTable_BuildMessageSet(upb_MiniTablePlatform platform,

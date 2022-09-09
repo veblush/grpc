@@ -43,7 +43,7 @@ std::string StripExtension(absl::string_view fname) {
 }
 
 std::string ToCIdent(absl::string_view str) {
-  return absl::StrReplaceAll(str, {{".", "_"}, {"/", "_"}});
+  return absl::StrReplaceAll(str, {{".", "_"}, {"/", "_"}, {"-", "_"}});
 }
 
 std::string ToPreproc(absl::string_view str) {
@@ -72,6 +72,14 @@ std::string FileLayoutName(const google::protobuf::FileDescriptor* file) {
 
 std::string HeaderFilename(const google::protobuf::FileDescriptor* file) {
   return StripExtension(file->name()) + ".upb.h";
+}
+
+std::string MessageInit(const protobuf::Descriptor* descriptor) {
+  return MessageName(descriptor) + "_msg_init";
+}
+
+std::string EnumInit(const protobuf::EnumDescriptor* descriptor) {
+  return ToCIdent(descriptor->full_name()) + "_enum_init";
 }
 
 }  // namespace upbc

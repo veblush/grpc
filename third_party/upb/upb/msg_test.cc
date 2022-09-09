@@ -29,11 +29,16 @@
 #include "gtest/gtest.h"
 #include "google/protobuf/test_messages_proto3.upb.h"
 #include "upb/def.hpp"
+#include "upb/fuzz_test_util.h"
 #include "upb/json_decode.h"
 #include "upb/json_encode.h"
 #include "upb/msg_test.upb.h"
 #include "upb/msg_test.upbdefs.h"
 #include "upb/upb.hpp"
+
+// begin:google_only
+// #include "testing/fuzzing/fuzztest.h"
+// end:google_only
 
 void VerifyMessage(const upb_test_TestExtensions* ext_msg) {
   EXPECT_TRUE(upb_test_TestExtensions_has_optional_int32_ext(ext_msg));
@@ -308,7 +313,7 @@ TEST(MessageTest, DecodeRequiredFieldsTopLevelMessage) {
 
   // Fails, because required fields are missing.
   EXPECT_EQ(kUpb_DecodeStatus_MissingRequired,
-            upb_Decode(NULL, 0, test_msg, &upb_test_TestRequiredFields_msginit,
+            upb_Decode(NULL, 0, test_msg, &upb_test_TestRequiredFields_msg_init,
                        NULL, kUpb_DecodeOption_CheckRequired, arena.ptr()));
 
   upb_test_TestRequiredFields_set_required_int32(test_msg, 1);
@@ -322,7 +327,7 @@ TEST(MessageTest, DecodeRequiredFieldsTopLevelMessage) {
   // payload is not empty.
   EXPECT_EQ(kUpb_DecodeStatus_MissingRequired,
             upb_Decode(serialized, size, test_msg,
-                       &upb_test_TestRequiredFields_msginit, NULL,
+                       &upb_test_TestRequiredFields_msg_init, NULL,
                        kUpb_DecodeOption_CheckRequired, arena.ptr()));
 
   empty_msg = upb_test_EmptyMessage_new(arena.ptr());
@@ -332,7 +337,7 @@ TEST(MessageTest, DecodeRequiredFieldsTopLevelMessage) {
 
   // Succeeds, because required fields are present (though not in the input).
   EXPECT_EQ(kUpb_DecodeStatus_Ok,
-            upb_Decode(NULL, 0, test_msg, &upb_test_TestRequiredFields_msginit,
+            upb_Decode(NULL, 0, test_msg, &upb_test_TestRequiredFields_msg_init,
                        NULL, kUpb_DecodeOption_CheckRequired, arena.ptr()));
 
   // Serialize a complete payload.
@@ -351,7 +356,7 @@ TEST(MessageTest, DecodeRequiredFieldsTopLevelMessage) {
       test_msg2, upb_test_TestRequiredFields_new(arena.ptr()));
   EXPECT_EQ(kUpb_DecodeStatus_Ok,
             upb_Decode(serialized, size, test_msg2,
-                       &upb_test_TestRequiredFields_msginit, NULL,
+                       &upb_test_TestRequiredFields_msg_init, NULL,
                        kUpb_DecodeOption_CheckRequired, arena.ptr()));
 }
 
@@ -489,3 +494,80 @@ TEST(MessageTest, MapField) {
   ASSERT_TRUE(
       upb_test_TestMapFieldExtra_map_field_get(test_msg_extra2, 0, nullptr));
 }
+
+// begin:google_only
+//
+// static void DecodeEncodeArbitrarySchemaAndPayload(
+//     const upb::fuzz::MiniTableFuzzInput& input, std::string_view proto_payload,
+//     int decode_options, int encode_options) {
+//   upb::Arena arena;
+//   upb_ExtensionRegistry* exts;
+//   const upb_MiniTable* mini_table =
+//       upb::fuzz::BuildMiniTable(input, &exts, arena.ptr());
+//   if (!mini_table) return;
+//   upb::Status status;
+//   upb_Message* msg = _upb_Message_New(mini_table, arena.ptr());
+//   upb_Decode(proto_payload.data(), proto_payload.size(), msg, mini_table, exts,
+//              decode_options, arena.ptr());
+//   char* ptr;
+//   size_t size;
+//   upb_Encode(msg, mini_table, encode_options, arena.ptr(), &ptr, &size);
+// }
+// FUZZ_TEST(FuzzTest, DecodeEncodeArbitrarySchemaAndPayload);
+//
+// TEST(FuzzTest, DecodeUnknownProto2EnumExtension) {
+//   DecodeEncodeArbitrarySchemaAndPayload(
+//       {{"\256\354Rt\216\3271\234", "\243\243\267\207\336gV\366w"},
+//        {"z"},
+//        "}\212\304d\371\363\341\2329\325B\264\377?\215\223\201\201\226y\201%"
+//        "\321\363\255;",
+//        {}},
+//       "\010", -724543908, -591643538);
+// }
+//
+// TEST(FuzzTest, DecodeExtensionEnsurePresenceInitialized) {
+//   DecodeEncodeArbitrarySchemaAndPayload(
+//       {{"\031", "S", "\364", "", "", "j", "\303", "", "\224", "\277"},
+//        {},
+//        "_C-\236$*)C0C>",
+//        {4041515984, 2147483647, 1929379871, 0, 3715937258, 4294967295}},
+//       "\010\002", 342248070, -806315555);
+// }
+//
+// TEST(FuzzTest, DecodeExtendMessageSetWithNonMessage) {
+//   DecodeEncodeArbitrarySchemaAndPayload(
+//       {{"\n"}, {""}, ".\244", {}}, "\013\032\005\212a#\365\336\020\001\226",
+//       14803219, 670718349);
+// }
+//
+// TEST(FuzzTest, DecodeExtendMessageSetWithNonMessage2) {
+//   DecodeEncodeArbitrarySchemaAndPayload({{"\n", "G", "\n", "\274", ""},
+//                                          {"", "\030"},
+//                                          "_@",
+//                                          {4294967295, 2147483647}},
+//                                         std::string("\013\032\000\220", 4),
+//                                         279975758, 1647495141);
+// }
+//
+// TEST(FuzzTest, DecodeExtendMessageSetWithNonMessage3) {
+//   DecodeEncodeArbitrarySchemaAndPayload(
+//       {{"\n"}, {"B", ""}, "\212:b", {11141121}},
+//       "\013\032\004\357;7\363\020\001\346\240\200\201\271", 399842149,
+//       -452966025);
+// }
+//
+// TEST(FuzzTest, DecodeExtendMessageSetWithNonMessage4) {
+//   DecodeEncodeArbitrarySchemaAndPayload(
+//       {{"\n", "3\340", "\354"}, {}, "B}G", {4294967295, 4082331310}},
+//       "\013\032\004\244B\331\255\020\001\220\224\243\350\t", -561523015,
+//       1683327312);
+// }
+//
+// TEST(FuzzTest, DecodeExtendMessageSetWithNonMessage5) {
+//   DecodeEncodeArbitrarySchemaAndPayload(
+//       {{"\n"}, {""}, "kB", {0}},
+//       "x\203\251\006\013\032\002S\376\010\273\'\020\014\365\207\244\234",
+//       -696925610, -654590577);
+// }
+//
+// end:google_only

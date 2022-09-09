@@ -205,8 +205,9 @@ py_extension(
     deps = [
         "//:collections",
         "//:descriptor_upb_proto_reflection",
+        "//:port",
         "//:reflection",
-        "//:table",
+        "//:table_internal",
         "//:textformat",
         "//:upb",
         "//upb/util:compare",

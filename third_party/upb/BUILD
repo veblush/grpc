@@ -102,35 +102,44 @@ cc_library(
 cc_library(
     name = "upb",
     srcs = [
+        "upb/alloc.c",
         "upb/arena.c",
+        "upb/array.c",
         "upb/decode.c",
         "upb/encode.c",
-        "upb/internal/decode.h",
         "upb/internal/table.h",
-        "upb/internal/upb.h",
+        "upb/internal/unicode.h",
         "upb/msg.c",
         "upb/msg_internal.h",
         "upb/status.c",
-        "upb/table.c",
         "upb/upb.c",
     ],
     hdrs = [
+        "upb/alloc.h",
         "upb/arena.h",
+        "upb/array.h",
         "upb/decode.h",
         "upb/encode.h",
         "upb/extension_registry.h",
+        "upb/message_value.h",
         "upb/msg.h",
         "upb/status.h",
+        "upb/string_view.h",
         "upb/upb.h",
         "upb/upb.hpp",
     ],
     copts = UPB_DEFAULT_COPTS,
     visibility = ["//visibility:public"],
     deps = [
+        ":arena_internal",
+        ":array_internal",
+        ":decode_internal",
+        ":encode_internal",
         ":extension_registry",
         ":fastdecode",
         ":port",
-        "//third_party/utf8_range",
+        ":table_internal",
+        ":unicode_internal",
     ],
 )
 
@@ -140,6 +149,7 @@ cc_library(
         "upb/extension_registry.c",
         "upb/msg.h",
         "upb/msg_internal.h",
+        "upb/string_view.h",
         "upb/upb.h",
     ],
     hdrs = [
@@ -149,27 +159,7 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         ":port",
-        ":table",
-    ],
-)
-
-cc_library(
-    name = "mini_descriptor",
-    srcs = [
-        "upb/mini_descriptor.c",
-    ],
-    hdrs = [
-        "upb/mini_descriptor.h",
-    ],
-    copts = UPB_DEFAULT_COPTS,
-    visibility = ["//visibility:public"],
-    deps = [
-        ":descriptor_upb_proto",
-        ":mini_table",
-        ":port",
-        ":reflection",
-        ":table",
-        ":upb",
+        ":table_internal",
     ],
 )
 
@@ -181,7 +171,7 @@ cc_library(
     deps = [
         ":extension_registry",
         ":port",
-        ":table",
+        ":table_internal",
         ":upb",
     ],
 )
@@ -217,6 +207,7 @@ cc_library(
     copts = UPB_DEFAULT_COPTS,
     visibility = ["//visibility:public"],
     deps = [
+        ":array_internal",
         ":collections",
         ":mini_table",
         ":mini_table_internal",
@@ -267,17 +258,17 @@ cc_library(
         "upb/decode.h",
         "upb/decode_fast.c",
         "upb/decode_fast.h",
-        "upb/internal/decode.h",
-        "upb/internal/upb.h",
         "upb/msg.h",
         "upb/msg_internal.h",
     ],
     copts = UPB_DEFAULT_COPTS,
     deps = [
+        ":arena_internal",
+        ":array_internal",
+        ":decode_internal",
         ":extension_registry",
         ":port",
-        ":table",
-        "//third_party/utf8_range",
+        ":table_internal",
     ],
 )
 
@@ -290,10 +281,13 @@ cc_library(
 cc_library(
     name = "generated_code_support__only_for_generated_code_do_not_use__i_give_permission_to_break_me",
     hdrs = [
+        "upb/array.h",
         "upb/decode.h",
         "upb/decode_fast.h",
         "upb/encode.h",
         "upb/extension_registry.h",
+        "upb/internal/array.h",
+        "upb/message_value.h",
         "upb/msg.h",
         "upb/msg_internal.h",
         "upb/port_def.inc",
@@ -302,7 +296,29 @@ cc_library(
     copts = UPB_DEFAULT_COPTS,
     visibility = ["//visibility:public"],
     deps = [
-        ":table",
+        ":table_internal",
+        ":upb",
+    ],
+)
+
+# Common support code for C++ generated code.
+cc_library(
+    name = "generated_cpp_support__only_for_generated_code_do_not_use__i_give_permission_to_break_me",
+    hdrs = [
+        "upb/decode.h",
+        "upb/decode_fast.h",
+        "upb/encode.h",
+        "upb/msg.h",
+        "upb/msg_internal.h",
+        "upb/port_def.inc",
+        "upb/port_undef.inc",
+        "upb/upb.hpp",
+    ],
+    copts = UPB_DEFAULT_COPTS,
+    visibility = ["//visibility:public"],
+    deps = [
+        ":mini_table",
+        ":table_internal",
         ":upb",
     ],
 )
@@ -319,7 +335,7 @@ cc_library(
     deps = [
         ":descriptor_upb_proto",
         ":reflection",
-        ":table",
+        ":table_internal",
     ],
 )
 
@@ -338,11 +354,10 @@ upb_proto_reflection_library(
 cc_library(
     name = "collections",
     srcs = [
-        "upb/array.c",
         "upb/map.c",
+        "upb/msg_internal.h",
     ],
     hdrs = [
-        "upb/array.h",
         "upb/collections.h",
         "upb/map.h",
         "upb/message_value.h",
@@ -350,10 +365,9 @@ cc_library(
     copts = UPB_DEFAULT_COPTS,
     visibility = ["//visibility:public"],
     deps = [
-        ":descriptor_upb_proto",
         ":mini_table",
         ":port",
-        ":table",
+        ":table_internal",
         ":upb",
     ],
 )
@@ -362,12 +376,16 @@ cc_library(
     name = "reflection",
     srcs = [
         "upb/def.c",
+        "upb/internal/mini_descriptor.c",
+        "upb/internal/mini_descriptor.h",
+        "upb/mini_descriptor.c",
         "upb/msg.h",
         "upb/reflection.c",
     ],
     hdrs = [
         "upb/def.h",
         "upb/def.hpp",
+        "upb/mini_descriptor.h",
         "upb/reflection.h",
         "upb/reflection.hpp",
     ],
@@ -378,7 +396,7 @@ cc_library(
         ":descriptor_upb_proto",
         ":mini_table",
         ":port",
-        ":table",
+        ":table_internal",
         ":upb",
     ],
 )
@@ -386,7 +404,6 @@ cc_library(
 cc_library(
     name = "textformat",
     srcs = [
-        "upb/internal/upb.h",
         "upb/text_encode.c",
     ],
     hdrs = [
@@ -395,16 +412,16 @@ cc_library(
     copts = UPB_DEFAULT_COPTS,
     visibility = ["//visibility:public"],
     deps = [
+        ":collections",
+        ":encode_internal",
         ":port",
         ":reflection",
-        ":table",
     ],
 )
 
 cc_library(
     name = "json",
     srcs = [
-        "upb/internal/upb.h",
         "upb/json_decode.c",
         "upb/json_encode.c",
     ],
@@ -415,8 +432,12 @@ cc_library(
     copts = UPB_DEFAULT_COPTS,
     visibility = ["//visibility:public"],
     deps = [
+        ":atoi_internal",
+        ":collections",
+        ":encode_internal",
         ":port",
         ":reflection",
+        ":unicode_internal",
         ":upb",
     ],
 )
@@ -492,8 +513,22 @@ upb_proto_reflection_library(
 )
 
 cc_test(
-    name = "json_test",
-    srcs = ["upb/json_test.cc"],
+    name = "json_decode_test",
+    srcs = ["upb/json_decode_test.cc"],
+    deps = [
+        ":json",
+        ":json_test_upb_proto",
+        ":json_test_upb_proto_reflection",
+        ":reflection",
+        ":struct_upb_proto",
+        ":upb",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "json_encode_test",
+    srcs = ["upb/json_encode_test.cc"],
     deps = [
         ":json",
         ":json_test_upb_proto",
@@ -509,6 +544,7 @@ cc_test(
     name = "msg_test",
     srcs = ["upb/msg_test.cc"],
     deps = [
+        ":fuzz_test_util",
         ":json",
         ":msg_test_upb_proto",
         ":msg_test_upb_proto_reflection",
@@ -570,6 +606,17 @@ upb_proto_reflection_library(
 )
 
 cc_test(
+    name = "atoi_test",
+    srcs = ["upb/internal/atoi_test.cc"],
+    copts = UPB_DEFAULT_CPPOPTS,
+    deps = [
+        ":atoi_internal",
+        "@com_google_absl//absl/strings",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+cc_test(
     name = "test_cpp",
     srcs = ["upb/test_cpp.cc"],
     copts = UPB_DEFAULT_CPPOPTS,
@@ -592,7 +639,7 @@ cc_test(
     copts = UPB_DEFAULT_CPPOPTS,
     deps = [
         "//:port",
-        "//:table",
+        "//:table_internal",
         "//:upb",
         "@com_google_googletest//:gtest_main",
     ],
@@ -702,24 +749,117 @@ sh_test(
     deps = ["@bazel_tools//tools/bash/runfiles"],
 )
 
+cc_library(
+    name = "fuzz_test_util",
+    testonly = 1,
+    srcs = ["upb/fuzz_test_util.cc"],
+    hdrs = ["upb/fuzz_test_util.h"],
+    deps = [
+        ":mini_table",
+        ":upb",
+    ],
+)
+
 # Internal C/C++ libraries #####################################################
 
 cc_library(
-    name = "table",
-    hdrs = [
+    name = "array_internal",
+    srcs = [
+        "upb/alloc.h",
         "upb/arena.h",
-        "upb/internal/table.h",
+        "upb/array.h",
+        "upb/internal/array.c",
+        "upb/message_value.h",
+        "upb/msg.h",
         "upb/status.h",
-        "upb/table_internal.h",
+        "upb/string_view.h",
         "upb/upb.h",
     ],
-    visibility = [
-        "//python:__pkg__",
-        "//tests:__pkg__",
-    ],
+    hdrs = ["upb/internal/array.h"],
+    copts = UPB_DEFAULT_COPTS,
+    visibility = ["//:__subpackages__"],
     deps = [
         ":port",
     ],
+)
+
+cc_library(
+    name = "arena_internal",
+    srcs = [
+        "upb/alloc.h",
+        "upb/arena.h",
+    ],
+    hdrs = ["upb/internal/arena.h"],
+    copts = UPB_DEFAULT_COPTS,
+    visibility = ["//:__subpackages__"],
+    deps = [":port"],
+)
+
+cc_library(
+    name = "atoi_internal",
+    srcs = ["upb/internal/atoi.c"],
+    hdrs = ["upb/internal/atoi.h"],
+    copts = UPB_DEFAULT_COPTS,
+    visibility = ["//:__subpackages__"],
+    deps = [":port"],
+)
+
+cc_library(
+    name = "decode_internal",
+    srcs = [
+        "upb/decode.h",
+        "upb/extension_registry.h",
+        "upb/msg.h",
+        "upb/msg_internal.h",
+    ],
+    hdrs = ["upb/internal/decode.h"],
+    copts = UPB_DEFAULT_COPTS,
+    visibility = ["//:__subpackages__"],
+    deps = [
+        ":arena_internal",
+        ":port",
+        ":table_internal",
+        "//third_party/utf8_range",
+    ],
+)
+
+cc_library(
+    name = "encode_internal",
+    hdrs = ["upb/internal/encode.h"],
+    copts = UPB_DEFAULT_COPTS,
+    visibility = ["//:__subpackages__"],
+    deps = [":port"],
+)
+
+cc_library(
+    name = "table_internal",
+    srcs = [
+        "upb/internal/table.c",
+    ],
+    hdrs = [
+        "upb/alloc.h",
+        "upb/arena.h",
+        "upb/internal/table.h",
+        "upb/status.h",
+        "upb/string_view.h",
+        "upb/upb.h",
+    ],
+    copts = UPB_DEFAULT_COPTS,
+    visibility = ["//:__subpackages__"],
+    deps = [":port"],
+)
+
+cc_library(
+    name = "unicode_internal",
+    srcs = [
+        "upb/internal/unicode.c",
+    ],
+    hdrs = [
+        "upb/internal/unicode.h",
+    ],
+    copts = UPB_DEFAULT_COPTS,
+    visibility = ["//:__subpackages__"],
+    deps = [":port"],
 )
 
 # Amalgamation #################################################################
@@ -733,8 +873,13 @@ upb_amalgamation(
         "upb.h",
     ],
     libs = [
+        ":arena_internal",
+        ":array_internal",
+        ":atoi_internal",
         ":collections",
+        ":decode_internal",
         ":descriptor_upb_proto",
+        ":encode_internal",
         ":extension_registry",
         ":fastdecode",
         ":mini_table",
@@ -742,6 +887,7 @@ upb_amalgamation(
         ":reflection",
         ":upb",
     ],
+    strip_import_prefix = ["src"],
 )
 
 cc_library(
@@ -759,9 +905,14 @@ upb_amalgamation(
         "php-upb.h",
     ],
     libs = [
+        ":arena_internal",
+        ":array_internal",
+        ":atoi_internal",
         ":collections",
+        ":decode_internal",
         ":descriptor_upb_proto",
         ":descriptor_upb_proto_reflection",
+        ":encode_internal",
         ":extension_registry",
         ":fastdecode",
         ":json",
@@ -771,6 +922,7 @@ upb_amalgamation(
         ":upb",
     ],
     prefix = "php-",
+    strip_import_prefix = ["src"],
 )
 
 cc_library(
@@ -788,8 +940,13 @@ upb_amalgamation(
         "ruby-upb.h",
     ],
     libs = [
+        ":arena_internal",
+        ":array_internal",
+        ":atoi_internal",
         ":collections",
+        ":decode_internal",
         ":descriptor_upb_proto",
+        ":encode_internal",
         ":extension_registry",
         ":fastdecode",
         ":json",
@@ -799,6 +956,7 @@ upb_amalgamation(
         ":upb",
     ],
     prefix = "ruby-",
+    strip_import_prefix = ["src"],
 )
 
 cc_library(

@@ -207,7 +207,7 @@ def grpc_deps():
         http_archive(
             name = "zlib",
             build_file = "@com_github_grpc_grpc//third_party:zlib.BUILD",
-            sha256 = "f68ce04245d2787c2f007cee2aa9f5823e67990bf5c5b56224d13f7b46cc5216",
+            sha256 = "ef47b0fbe646d69a2fc5ba012cb278de8e8946a8e9649f83a807cc05559f0eff",
             strip_prefix = "zlib-21767c654d31d2dccdde4330529775c6c5fd5389",
             urls = [
                 "https://storage.googleapis.com/grpc-bazel-mirror/github.com/madler/zlib/archive/21767c654d31d2dccdde4330529775c6c5fd5389.tar.gz",
@@ -223,7 +223,7 @@ def grpc_deps():
             urls = [
                 "https://github.com/protocolbuffers/protobuf/archive/9c40a8447b2ff33fe642f9e9f6a9c3b65a655d3e.tar.gz",
             ],
-            patches = ["@com_github_grpc_grpc//third_party:protobuf.patch"],
+            #patches = ["@com_github_grpc_grpc//third_party:protobuf.patch"],
             patch_args = ["-p1"],
         )
 
@@ -343,11 +343,10 @@ def grpc_deps():
     if "upb" not in native.existing_rules():
         http_archive(
             name = "upb",
-            sha256 = "017a7e8e4e842d01dba5dc8aa316323eee080cd1b75986a7d1f94d87220e6502",
-            strip_prefix = "upb-e4635f223e7d36dfbea3b722a4ca4807a7e882e2",
+            sha256 = "c7f231b6487587263451f254f9029d83dcd0e5d0878c26d73531bc1caa294c31",
+            strip_prefix = "upb-5485645125ba3783ae2b597bd7b77679721cb1c6",
             urls = [
-                "https://storage.googleapis.com/grpc-bazel-mirror/github.com/protocolbuffers/upb/archive/e4635f223e7d36dfbea3b722a4ca4807a7e882e2.tar.gz",
-                "https://github.com/protocolbuffers/upb/archive/e4635f223e7d36dfbea3b722a4ca4807a7e882e2.tar.gz",
+                "https://github.com/protocolbuffers/upb/archive/5485645125ba3783ae2b597bd7b77679721cb1c6.tar.gz",
             ],
         )
 

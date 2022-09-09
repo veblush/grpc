@@ -29,14 +29,14 @@
 
 #include "upb/encode.h"
 
-#include <setjmp.h>
 #include <string.h>
 
 #include "upb/extension_registry.h"
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "upb/upb.h"
 
-/* Must be last. */
+// Must be last.
 #include "upb/port_def.inc"
 
 #define UPB_PB_VARINT_MAX_LEN 10
@@ -62,7 +62,7 @@ static uint64_t encode_zz64(int64_t n) {
 
 typedef struct {
   jmp_buf err;
-  upb_alloc* alloc;
+  upb_Arena* arena;
   char *buf, *ptr, *limit;
   int options;
   int depth;
@@ -85,11 +85,13 @@ UPB_NOINLINE
 static void encode_growbuffer(upb_encstate* e, size_t bytes) {
   size_t old_size = e->limit - e->buf;
   size_t new_size = upb_roundup_pow2(bytes + (e->limit - e->ptr));
-  char* new_buf = upb_realloc(e->alloc, e->buf, old_size, new_size);
+  char* new_buf = upb_Arena_Realloc(e->arena, e->buf, old_size, new_size);
 
   if (!new_buf) encode_err(e, kUpb_EncodeStatus_OutOfMemory);
 
-  /* We want previous data at the end, realloc() put it at the beginning. */
+  // We want previous data at the end, realloc() put it at the beginning.
+  // TODO(salo): This is somewhat inefficient since we are copying twice.
+  // Maybe create a realloc() that copies to the end of the new buffer?
   if (old_size > 0) {
     memmove(new_buf + new_size - old_size, e->buf, old_size);
   }
@@ -173,7 +175,7 @@ static void encode_tag(upb_encstate* e, uint32_t field_number,
 
 static void encode_fixedarray(upb_encstate* e, const upb_Array* arr,
                               size_t elem_size, uint32_t tag) {
-  size_t bytes = arr->len * elem_size;
+  size_t bytes = arr->size * elem_size;
   const char* data = _upb_array_constptr(arr);
   const char* ptr = data + bytes - elem_size;
 
@@ -294,14 +296,14 @@ static void encode_array(upb_encstate* e, const upb_Message* msg,
   bool packed = f->mode & kUpb_LabelFlags_IsPacked;
   size_t pre_len = e->limit - e->ptr;
 
-  if (arr == NULL || arr->len == 0) {
+  if (arr == NULL || arr->size == 0) {
     return;
   }
 
 #define VARINT_CASE(ctype, encode)                                       \
   {                                                                      \
     const ctype* start = _upb_array_constptr(arr);                       \
-    const ctype* ptr = start + arr->len;                                 \
+    const ctype* ptr = start + arr->size;                                \
     uint32_t tag = packed ? 0 : (f->number << 3) | kUpb_WireType_Varint; \
     do {                                                                 \
       ptr--;                                                             \
@@ -345,7 +347,7 @@ static void encode_array(upb_encstate* e, const upb_Message* msg,
     case kUpb_FieldType_String:
     case kUpb_FieldType_Bytes: {
       const upb_StringView* start = _upb_array_constptr(arr);
-      const upb_StringView* ptr = start + arr->len;
+      const upb_StringView* ptr = start + arr->size;
       do {
         ptr--;
         encode_bytes(e, ptr->data, ptr->size);
@@ -356,7 +358,7 @@ static void encode_array(upb_encstate* e, const upb_Message* msg,
     }
     case kUpb_FieldType_Group: {
       const void* const* start = _upb_array_constptr(arr);
-      const void* const* ptr = start + arr->len;
+      const void* const* ptr = start + arr->size;
       const upb_MiniTable* subm = subs[f->submsg_index].submsg;
       if (--e->depth == 0) encode_err(e, kUpb_EncodeStatus_MaxDepthExceeded);
       do {
@@ -371,7 +373,7 @@ static void encode_array(upb_encstate* e, const upb_Message* msg,
     }
     case kUpb_FieldType_Message: {
       const void* const* start = _upb_array_constptr(arr);
-      const void* const* ptr = start + arr->len;
+      const void* const* ptr = start + arr->size;
       const upb_MiniTable* subm = subs[f->submsg_index].submsg;
       if (--e->depth == 0) encode_err(e, kUpb_EncodeStatus_MaxDepthExceeded);
       do {
@@ -579,7 +581,7 @@ upb_EncodeStatus upb_Encode(const void* msg, const upb_MiniTable* l,
   upb_encstate e;
   unsigned depth = (unsigned)options >> 16;
 
-  e.alloc = upb_Arena_Alloc(arena);
+  e.arena = arena;
   e.buf = NULL;
   e.limit = NULL;
   e.ptr = NULL;

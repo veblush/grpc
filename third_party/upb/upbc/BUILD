@@ -68,12 +68,67 @@ upb_proto_reflection_library(
 
 cc_library(
     name = "common",
-    srcs = ["common.cc"],
-    hdrs = ["common.h"],
+    srcs = [
+        "common.cc",
+    ],
+    hdrs = [
+        "common.h",
+    ],
     copts = UPB_DEFAULT_CPPOPTS,
+    visibility = ["//third_party/upb/protos_generator:__pkg__"],
     deps = [
         "@com_google_absl//absl/strings",
         "@com_google_protobuf//:protobuf",
+    ],
+)
+
+cc_library(
+    name = "file_layout",
+    srcs = [
+        "file_layout.cc",
+    ],
+    hdrs = [
+        "file_layout.h",
+    ],
+    copts = UPB_DEFAULT_CPPOPTS,
+    visibility = ["//third_party/upb/protos_generator:__pkg__"],
+    deps = [
+        ":common",
+        "//:mini_table",
+        "//:upb",
+        "@com_google_absl//absl/container:flat_hash_map",
+        "@com_google_absl//absl/strings",
+        "@com_google_protobuf//src/google/protobuf/compiler:code_generator",
+    ],
+)
+
+cc_library(
+    name = "keywords",
+    srcs = [
+        "keywords.cc",
+    ],
+    hdrs = [
+        "keywords.h",
+    ],
+    copts = UPB_DEFAULT_CPPOPTS,
+    visibility = ["//third_party/upb/protos_generator:__pkg__"],
+)
+
+cc_library(
+    name = "names",
+    srcs = [
+        "names.cc",
+    ],
+    hdrs = [
+        "names.h",
+    ],
+    copts = UPB_DEFAULT_CPPOPTS,
+    visibility = ["//third_party/upb/protos_generator:__pkg__"],
+    deps = [
+        "@com_google_absl//absl/container:flat_hash_map",
+        "@com_google_absl//absl/strings",
+        "@com_google_protobuf//:protobuf",
+        "@com_google_protobuf//src/google/protobuf/compiler:code_generator",
     ],
 )
 
@@ -84,6 +139,8 @@ cc_binary(
     visibility = ["//visibility:public"],
     deps = [
         ":common",
+        ":file_layout",
+        ":names",
         "//:mini_table",
         "//:port",
         "//:upb",
@@ -92,7 +149,7 @@ cc_binary(
         "@com_google_absl//absl/container:flat_hash_set",
         "@com_google_absl//absl/strings",
         "@com_google_protobuf//:protobuf",
-        "@com_google_protobuf//:protoc_lib",
+        "@com_google_protobuf//src/google/protobuf/compiler:code_generator",
     ],
 )
 
@@ -109,7 +166,7 @@ cc_binary(
         "@com_google_absl//absl/container:flat_hash_map",
         "@com_google_absl//absl/strings",
         "@com_google_protobuf//:protobuf",
-        "@com_google_protobuf//:protoc_lib",
+        "@com_google_protobuf//src/google/protobuf/compiler:code_generator",
     ],
 )
 
@@ -130,7 +187,6 @@ cc_binary(
         ":plugin_upb_proto",
         ":plugin_upb_proto_reflection",
         "//:json",
-        "//:mini_descriptor",
         "//:mini_table",
         "//:port",
         "//:reflection",

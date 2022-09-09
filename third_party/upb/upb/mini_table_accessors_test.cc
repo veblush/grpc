@@ -64,12 +64,12 @@ const uint64_t kTestUInt64 = 0xFEDCBAFF87654321;
 
 const upb_MiniTable_Field* find_proto3_field(int field_number) {
   return upb_MiniTable_FindFieldByNumber(
-      &protobuf_test_messages_proto3_TestAllTypesProto3_msginit, field_number);
+      &protobuf_test_messages_proto3_TestAllTypesProto3_msg_init, field_number);
 }
 
 const upb_MiniTable_Field* find_proto2_field(int field_number) {
   return upb_MiniTable_FindFieldByNumber(
-      &protobuf_test_messages_proto2_TestAllTypesProto2_msginit, field_number);
+      &protobuf_test_messages_proto2_TestAllTypesProto2_msg_init, field_number);
 }
 
 TEST(GeneratedCode, HazzersProto2) {
@@ -275,7 +275,7 @@ TEST(GeneratedCode, SubMessage) {
 
   const upb_MiniTable_Field* nested_message_a_field =
       upb_MiniTable_FindFieldByNumber(
-          &protobuf_test_messages_proto2_TestAllTypesProto2_NestedMessage_msginit,
+          &protobuf_test_messages_proto2_TestAllTypesProto2_NestedMessage_msg_init,
           kFieldOptionalNestedMessageA);
   EXPECT_EQ(5, upb_MiniTable_GetInt32(sub_message, nested_message_a_field));
 
@@ -292,7 +292,7 @@ TEST(GeneratedCode, SubMessage) {
   upb_MiniTable_SetMessage(msg, optional_message_field, new_nested_message);
 
   upb_Message* mutable_message = upb_MiniTable_GetMutableMessage(
-      msg, &protobuf_test_messages_proto2_TestAllTypesProto2_msginit,
+      msg, &protobuf_test_messages_proto2_TestAllTypesProto2_msg_init,
       optional_message_field, arena);
   EXPECT_EQ(
       true,
@@ -365,13 +365,45 @@ TEST(GeneratedCode, GetMutableMessage) {
   const upb_MiniTable_Field* optional_message_field =
       find_proto2_field(kFieldOptionalNestedMessage);
   upb_Message* msg1 = upb_MiniTable_GetMutableMessage(
-      msg, &protobuf_test_messages_proto2_TestAllTypesProto2_msginit,
+      msg, &protobuf_test_messages_proto2_TestAllTypesProto2_msg_init,
       optional_message_field, arena);
   upb_Message* msg2 = upb_MiniTable_GetMutableMessage(
-      msg, &protobuf_test_messages_proto2_TestAllTypesProto2_msginit,
+      msg, &protobuf_test_messages_proto2_TestAllTypesProto2_msg_init,
       optional_message_field, arena);
   // Verify that newly constructed sub message is stored in msg.
   EXPECT_EQ(msg1, msg2);
+
+  upb_Arena_Free(arena);
+}
+
+TEST(GeneratedCode, FindUnknown) {
+  upb_Arena* arena = upb_Arena_New();
+  upb_test_ModelWithExtensions* msg = upb_test_ModelWithExtensions_new(arena);
+  upb_test_ModelWithExtensions_set_random_int32(msg, 10);
+  upb_test_ModelWithExtensions_set_random_name(
+      msg, upb_StringView_FromString("Hello"));
+
+  upb_test_ModelExtension1* extension1 = upb_test_ModelExtension1_new(arena);
+  upb_test_ModelExtension1_set_str(extension1,
+                                   upb_StringView_FromString("World"));
+
+  upb_test_ModelExtension1_set_model_ext(msg, extension1, arena);
+
+  size_t serialized_size;
+  char* serialized =
+      upb_test_ModelWithExtensions_serialize(msg, arena, &serialized_size);
+
+  upb_test_EmptyMessageWithExtensions* base_msg =
+      upb_test_EmptyMessageWithExtensions_parse(serialized, serialized_size,
+                                                arena);
+
+  upb_FindUnknownRet result = upb_MiniTable_FindUnknown(
+      base_msg, upb_test_ModelExtension1_model_ext_ext.field.number);
+  EXPECT_EQ(kUpb_FindUnknown_Ok, result.status);
+
+  result = upb_MiniTable_FindUnknown(
+      base_msg, upb_test_ModelExtension2_model_ext_ext.field.number);
+  EXPECT_EQ(kUpb_FindUnknown_NotPresent, result.status);
 
   upb_Arena_Free(arena);
 }

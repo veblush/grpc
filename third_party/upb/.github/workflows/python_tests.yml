@@ -13,9 +13,9 @@ jobs:
   build_wheels:
     name: Build Wheels
     runs-on: ubuntu-latest
-    if: ${{ github.repository_owner == 'protocolbuffers' }}
+    if: ${{ github.event.pull_request.head.repo.full_name == 'protocolbuffers/upb' }}
     env:
-      DOCKER_IMAGE: gcr.io/protobuf-build/bazel/linux@sha256:05a41edee21f620445ca01c46b9d33be2e4d06c3d8adced4341ac5abea754baa
+      DOCKER_IMAGE: gcr.io/protobuf-build/bazel/linux@sha256:2bfd061284eff8234f2fcca16d71d43c69ccf3a22206628b54c204a6a9aac277
       BAZEL_CACHE: --remote_cache=https://storage.googleapis.com/protobuf-bazel-cache --google_default_credentials
 
     steps:
@@ -51,7 +51,7 @@ jobs:
           # As a result we can just test the oldest and newest supported Python versions and assume
           # this gives us sufficient test coverage.
           - { os: ubuntu-18.04, python-version: "3.7", architecture: x64 }
-          - { os: macos-10.15, python-version: "3.7", architecture: x64 }
+          - { os: macos-11, python-version: "3.7", architecture: x64 }
           - { os: ubuntu-20.04, python-version: "3.10", architecture: x64 }
           - { os: macos-12, python-version: "3.10", architecture: x64 }
           # Windows uses the full API up until Python 3.10, so each of these
@@ -89,6 +89,8 @@ jobs:
         run: pip install tzdata
         # Only needed on Windows, Linux ships with tzdata.
         if: ${{ contains(matrix.os, 'windows') }}
+      - name: Install numpy
+        run: pip install numpy
       - name: Install Protobuf Wheels
         run: pip install -vvv --no-index --find-links wheels protobuf protobuftests
       - name: Test that module is importable

@@ -28,7 +28,6 @@
 #ifndef UPB_ARRAY_H_
 #define UPB_ARRAY_H_
 
-#include "google/protobuf/descriptor.upb.h"
 #include "upb/message_value.h"
 
 // Must be last.
@@ -41,7 +40,7 @@ extern "C" {
 /* Creates a new array on the given arena that holds elements of this type. */
 upb_Array* upb_Array_New(upb_Arena* a, upb_CType type);
 
-/* Returns the size of the array. */
+/* Returns the number of elements in the array. */
 size_t upb_Array_Size(const upb_Array* arr);
 
 /* Returns the given element, which must be within the array's current size. */
