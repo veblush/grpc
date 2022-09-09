@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/core/v3/http_uri.upb.h"
 #include "google/protobuf/duration.upb.h"
@@ -17,7 +18,7 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_config_core_v3_HttpUri_submsgs[1] = {
-  {.submsg = &google_protobuf_Duration_msginit},
+  {.submsg = &google_protobuf_Duration_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_core_v3_HttpUri__fields[3] = {
@@ -26,14 +27,14 @@ static const upb_MiniTable_Field envoy_config_core_v3_HttpUri__fields[3] = {
   {3, UPB_SIZE(24, 40), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_core_v3_HttpUri_msginit = {
+const upb_MiniTable envoy_config_core_v3_HttpUri_msg_init = {
   &envoy_config_core_v3_HttpUri_submsgs[0],
   &envoy_config_core_v3_HttpUri__fields[0],
   UPB_SIZE(32, 48), 3, kUpb_ExtMode_NonExtendable, 3, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_config_core_v3_HttpUri_msginit,
+  &envoy_config_core_v3_HttpUri_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_core_v3_http_uri_proto_upb_file_layout = {

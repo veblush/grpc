@@ -9,38 +9,38 @@
 #ifndef ENVOY_CONFIG_CORE_V3_SUBSTITUTION_FORMAT_STRING_PROTO_UPB_H_
 #define ENVOY_CONFIG_CORE_V3_SUBSTITUTION_FORMAT_STRING_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_config_core_v3_SubstitutionFormatString;
 typedef struct envoy_config_core_v3_SubstitutionFormatString envoy_config_core_v3_SubstitutionFormatString;
-extern const upb_MiniTable envoy_config_core_v3_SubstitutionFormatString_msginit;
+extern const upb_MiniTable envoy_config_core_v3_SubstitutionFormatString_msg_init;
 struct envoy_config_core_v3_DataSource;
 struct envoy_config_core_v3_TypedExtensionConfig;
 struct google_protobuf_Struct;
-extern const upb_MiniTable envoy_config_core_v3_DataSource_msginit;
-extern const upb_MiniTable envoy_config_core_v3_TypedExtensionConfig_msginit;
-extern const upb_MiniTable google_protobuf_Struct_msginit;
+extern const upb_MiniTable envoy_config_core_v3_DataSource_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_TypedExtensionConfig_msg_init;
+extern const upb_MiniTable google_protobuf_Struct_msg_init;
 
 
 
 /* envoy.config.core.v3.SubstitutionFormatString */
 
 UPB_INLINE envoy_config_core_v3_SubstitutionFormatString* envoy_config_core_v3_SubstitutionFormatString_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_SubstitutionFormatString*)_upb_Message_New(&envoy_config_core_v3_SubstitutionFormatString_msginit, arena);
+  return (envoy_config_core_v3_SubstitutionFormatString*)_upb_Message_New(&envoy_config_core_v3_SubstitutionFormatString_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_SubstitutionFormatString* envoy_config_core_v3_SubstitutionFormatString_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_SubstitutionFormatString* ret = envoy_config_core_v3_SubstitutionFormatString_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_SubstitutionFormatString_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_SubstitutionFormatString_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -50,7 +50,7 @@ UPB_INLINE envoy_config_core_v3_SubstitutionFormatString* envoy_config_core_v3_S
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_SubstitutionFormatString* ret = envoy_config_core_v3_SubstitutionFormatString_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_SubstitutionFormatString_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_SubstitutionFormatString_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -58,13 +58,13 @@ UPB_INLINE envoy_config_core_v3_SubstitutionFormatString* envoy_config_core_v3_S
 }
 UPB_INLINE char* envoy_config_core_v3_SubstitutionFormatString_serialize(const envoy_config_core_v3_SubstitutionFormatString* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_SubstitutionFormatString_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_SubstitutionFormatString_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_SubstitutionFormatString_serialize_ex(const envoy_config_core_v3_SubstitutionFormatString* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_SubstitutionFormatString_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_SubstitutionFormatString_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {
@@ -134,7 +134,7 @@ UPB_INLINE void envoy_config_core_v3_SubstitutionFormatString_set_json_format(en
 UPB_INLINE struct google_protobuf_Struct* envoy_config_core_v3_SubstitutionFormatString_mutable_json_format(envoy_config_core_v3_SubstitutionFormatString* msg, upb_Arena* arena) {
   struct google_protobuf_Struct* sub = (struct google_protobuf_Struct*)envoy_config_core_v3_SubstitutionFormatString_json_format(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Struct*)_upb_Message_New(&google_protobuf_Struct_msginit, arena);
+    sub = (struct google_protobuf_Struct*)_upb_Message_New(&google_protobuf_Struct_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_SubstitutionFormatString_set_json_format(msg, sub);
   }
@@ -152,7 +152,7 @@ UPB_INLINE void envoy_config_core_v3_SubstitutionFormatString_set_text_format_so
 UPB_INLINE struct envoy_config_core_v3_DataSource* envoy_config_core_v3_SubstitutionFormatString_mutable_text_format_source(envoy_config_core_v3_SubstitutionFormatString* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_DataSource* sub = (struct envoy_config_core_v3_DataSource*)envoy_config_core_v3_SubstitutionFormatString_text_format_source(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_DataSource*)_upb_Message_New(&envoy_config_core_v3_DataSource_msginit, arena);
+    sub = (struct envoy_config_core_v3_DataSource*)_upb_Message_New(&envoy_config_core_v3_DataSource_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_SubstitutionFormatString_set_text_format_source(msg, sub);
   }
@@ -165,7 +165,7 @@ UPB_INLINE struct envoy_config_core_v3_TypedExtensionConfig** envoy_config_core_
   return (struct envoy_config_core_v3_TypedExtensionConfig**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(24, 40), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_core_v3_TypedExtensionConfig* envoy_config_core_v3_SubstitutionFormatString_add_formatters(envoy_config_core_v3_SubstitutionFormatString* msg, upb_Arena* arena) {
-  struct envoy_config_core_v3_TypedExtensionConfig* sub = (struct envoy_config_core_v3_TypedExtensionConfig*)_upb_Message_New(&envoy_config_core_v3_TypedExtensionConfig_msginit, arena);
+  struct envoy_config_core_v3_TypedExtensionConfig* sub = (struct envoy_config_core_v3_TypedExtensionConfig*)_upb_Message_New(&envoy_config_core_v3_TypedExtensionConfig_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(24, 40), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;

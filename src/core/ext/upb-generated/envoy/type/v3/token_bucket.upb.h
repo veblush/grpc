@@ -9,36 +9,36 @@
 #ifndef ENVOY_TYPE_V3_TOKEN_BUCKET_PROTO_UPB_H_
 #define ENVOY_TYPE_V3_TOKEN_BUCKET_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_type_v3_TokenBucket;
 typedef struct envoy_type_v3_TokenBucket envoy_type_v3_TokenBucket;
-extern const upb_MiniTable envoy_type_v3_TokenBucket_msginit;
+extern const upb_MiniTable envoy_type_v3_TokenBucket_msg_init;
 struct google_protobuf_Duration;
 struct google_protobuf_UInt32Value;
-extern const upb_MiniTable google_protobuf_Duration_msginit;
-extern const upb_MiniTable google_protobuf_UInt32Value_msginit;
+extern const upb_MiniTable google_protobuf_Duration_msg_init;
+extern const upb_MiniTable google_protobuf_UInt32Value_msg_init;
 
 
 
 /* envoy.type.v3.TokenBucket */
 
 UPB_INLINE envoy_type_v3_TokenBucket* envoy_type_v3_TokenBucket_new(upb_Arena* arena) {
-  return (envoy_type_v3_TokenBucket*)_upb_Message_New(&envoy_type_v3_TokenBucket_msginit, arena);
+  return (envoy_type_v3_TokenBucket*)_upb_Message_New(&envoy_type_v3_TokenBucket_msg_init, arena);
 }
 UPB_INLINE envoy_type_v3_TokenBucket* envoy_type_v3_TokenBucket_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_type_v3_TokenBucket* ret = envoy_type_v3_TokenBucket_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_TokenBucket_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_TokenBucket_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -48,7 +48,7 @@ UPB_INLINE envoy_type_v3_TokenBucket* envoy_type_v3_TokenBucket_parse_ex(const c
                            int options, upb_Arena* arena) {
   envoy_type_v3_TokenBucket* ret = envoy_type_v3_TokenBucket_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_TokenBucket_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_TokenBucket_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -56,13 +56,13 @@ UPB_INLINE envoy_type_v3_TokenBucket* envoy_type_v3_TokenBucket_parse_ex(const c
 }
 UPB_INLINE char* envoy_type_v3_TokenBucket_serialize(const envoy_type_v3_TokenBucket* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_TokenBucket_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_TokenBucket_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_type_v3_TokenBucket_serialize_ex(const envoy_type_v3_TokenBucket* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_TokenBucket_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_TokenBucket_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_type_v3_TokenBucket_clear_max_tokens(const envoy_type_v3_TokenBucket* msg) {
@@ -76,6 +76,7 @@ UPB_INLINE bool envoy_type_v3_TokenBucket_has_tokens_per_fill(const envoy_type_v
 }
 UPB_INLINE void envoy_type_v3_TokenBucket_clear_tokens_per_fill(const envoy_type_v3_TokenBucket* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(8, 8), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_UInt32Value* envoy_type_v3_TokenBucket_tokens_per_fill(const envoy_type_v3_TokenBucket* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(8, 8), const struct google_protobuf_UInt32Value*);
@@ -85,6 +86,7 @@ UPB_INLINE bool envoy_type_v3_TokenBucket_has_fill_interval(const envoy_type_v3_
 }
 UPB_INLINE void envoy_type_v3_TokenBucket_clear_fill_interval(const envoy_type_v3_TokenBucket* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(12, 16), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 2);
 }
 UPB_INLINE const struct google_protobuf_Duration* envoy_type_v3_TokenBucket_fill_interval(const envoy_type_v3_TokenBucket* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(12, 16), const struct google_protobuf_Duration*);
@@ -100,7 +102,7 @@ UPB_INLINE void envoy_type_v3_TokenBucket_set_tokens_per_fill(envoy_type_v3_Toke
 UPB_INLINE struct google_protobuf_UInt32Value* envoy_type_v3_TokenBucket_mutable_tokens_per_fill(envoy_type_v3_TokenBucket* msg, upb_Arena* arena) {
   struct google_protobuf_UInt32Value* sub = (struct google_protobuf_UInt32Value*)envoy_type_v3_TokenBucket_tokens_per_fill(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msginit, arena);
+    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msg_init, arena);
     if (!sub) return NULL;
     envoy_type_v3_TokenBucket_set_tokens_per_fill(msg, sub);
   }
@@ -113,7 +115,7 @@ UPB_INLINE void envoy_type_v3_TokenBucket_set_fill_interval(envoy_type_v3_TokenB
 UPB_INLINE struct google_protobuf_Duration* envoy_type_v3_TokenBucket_mutable_fill_interval(envoy_type_v3_TokenBucket* msg, upb_Arena* arena) {
   struct google_protobuf_Duration* sub = (struct google_protobuf_Duration*)envoy_type_v3_TokenBucket_fill_interval(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msginit, arena);
+    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msg_init, arena);
     if (!sub) return NULL;
     envoy_type_v3_TokenBucket_set_fill_interval(msg, sub);
   }

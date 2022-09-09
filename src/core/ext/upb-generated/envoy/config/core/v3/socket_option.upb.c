@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/core/v3/socket_option.upb.h"
 #include "udpa/annotations/status.upb.h"
@@ -24,14 +25,14 @@ static const upb_MiniTable_Field envoy_config_core_v3_SocketOption__fields[6] = 
   {6, UPB_SIZE(4, 4), UPB_SIZE(0, 0), kUpb_NoSub, 5, kUpb_FieldMode_Scalar | (kUpb_FieldRep_4Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_core_v3_SocketOption_msginit = {
+const upb_MiniTable envoy_config_core_v3_SocketOption_msg_init = {
   NULL,
   &envoy_config_core_v3_SocketOption__fields[0],
   UPB_SIZE(40, 56), 6, kUpb_ExtMode_NonExtendable, 6, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_config_core_v3_SocketOption_msginit,
+  &envoy_config_core_v3_SocketOption_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_core_v3_socket_option_proto_upb_file_layout = {

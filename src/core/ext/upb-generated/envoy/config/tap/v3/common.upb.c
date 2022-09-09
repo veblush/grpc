@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/tap/v3/common.upb.h"
 #include "envoy/config/common/matcher/v3/matcher.upb.h"
@@ -23,10 +24,10 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_config_tap_v3_TapConfig_submsgs[4] = {
-  {.submsg = &envoy_config_tap_v3_MatchPredicate_msginit},
-  {.submsg = &envoy_config_tap_v3_OutputConfig_msginit},
-  {.submsg = &envoy_config_core_v3_RuntimeFractionalPercent_msginit},
-  {.submsg = &envoy_config_common_matcher_v3_MatchPredicate_msginit},
+  {.submsg = &envoy_config_tap_v3_MatchPredicate_msg_init},
+  {.submsg = &envoy_config_tap_v3_OutputConfig_msg_init},
+  {.submsg = &envoy_config_core_v3_RuntimeFractionalPercent_msg_init},
+  {.submsg = &envoy_config_common_matcher_v3_MatchPredicate_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_tap_v3_TapConfig__fields[4] = {
@@ -36,22 +37,22 @@ static const upb_MiniTable_Field envoy_config_tap_v3_TapConfig__fields[4] = {
   {4, UPB_SIZE(16, 32), UPB_SIZE(4, 4), 3, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_tap_v3_TapConfig_msginit = {
+const upb_MiniTable envoy_config_tap_v3_TapConfig_msg_init = {
   &envoy_config_tap_v3_TapConfig_submsgs[0],
   &envoy_config_tap_v3_TapConfig__fields[0],
   UPB_SIZE(24, 40), 4, kUpb_ExtMode_NonExtendable, 4, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_tap_v3_MatchPredicate_submsgs[9] = {
-  {.submsg = &envoy_config_tap_v3_MatchPredicate_MatchSet_msginit},
-  {.submsg = &envoy_config_tap_v3_MatchPredicate_MatchSet_msginit},
-  {.submsg = &envoy_config_tap_v3_MatchPredicate_msginit},
-  {.submsg = &envoy_config_tap_v3_HttpHeadersMatch_msginit},
-  {.submsg = &envoy_config_tap_v3_HttpHeadersMatch_msginit},
-  {.submsg = &envoy_config_tap_v3_HttpHeadersMatch_msginit},
-  {.submsg = &envoy_config_tap_v3_HttpHeadersMatch_msginit},
-  {.submsg = &envoy_config_tap_v3_HttpGenericBodyMatch_msginit},
-  {.submsg = &envoy_config_tap_v3_HttpGenericBodyMatch_msginit},
+  {.submsg = &envoy_config_tap_v3_MatchPredicate_MatchSet_msg_init},
+  {.submsg = &envoy_config_tap_v3_MatchPredicate_MatchSet_msg_init},
+  {.submsg = &envoy_config_tap_v3_MatchPredicate_msg_init},
+  {.submsg = &envoy_config_tap_v3_HttpHeadersMatch_msg_init},
+  {.submsg = &envoy_config_tap_v3_HttpHeadersMatch_msg_init},
+  {.submsg = &envoy_config_tap_v3_HttpHeadersMatch_msg_init},
+  {.submsg = &envoy_config_tap_v3_HttpHeadersMatch_msg_init},
+  {.submsg = &envoy_config_tap_v3_HttpGenericBodyMatch_msg_init},
+  {.submsg = &envoy_config_tap_v3_HttpGenericBodyMatch_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_tap_v3_MatchPredicate__fields[10] = {
@@ -67,42 +68,42 @@ static const upb_MiniTable_Field envoy_config_tap_v3_MatchPredicate__fields[10] 
   {10, UPB_SIZE(4, 8), UPB_SIZE(-1, -1), 8, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_tap_v3_MatchPredicate_msginit = {
+const upb_MiniTable envoy_config_tap_v3_MatchPredicate_msg_init = {
   &envoy_config_tap_v3_MatchPredicate_submsgs[0],
   &envoy_config_tap_v3_MatchPredicate__fields[0],
   UPB_SIZE(8, 16), 10, kUpb_ExtMode_NonExtendable, 10, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_tap_v3_MatchPredicate_MatchSet_submsgs[1] = {
-  {.submsg = &envoy_config_tap_v3_MatchPredicate_msginit},
+  {.submsg = &envoy_config_tap_v3_MatchPredicate_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_tap_v3_MatchPredicate_MatchSet__fields[1] = {
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_tap_v3_MatchPredicate_MatchSet_msginit = {
+const upb_MiniTable envoy_config_tap_v3_MatchPredicate_MatchSet_msg_init = {
   &envoy_config_tap_v3_MatchPredicate_MatchSet_submsgs[0],
   &envoy_config_tap_v3_MatchPredicate_MatchSet__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_tap_v3_HttpHeadersMatch_submsgs[1] = {
-  {.submsg = &envoy_config_route_v3_HeaderMatcher_msginit},
+  {.submsg = &envoy_config_route_v3_HeaderMatcher_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_tap_v3_HttpHeadersMatch__fields[1] = {
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_tap_v3_HttpHeadersMatch_msginit = {
+const upb_MiniTable envoy_config_tap_v3_HttpHeadersMatch_msg_init = {
   &envoy_config_tap_v3_HttpHeadersMatch_submsgs[0],
   &envoy_config_tap_v3_HttpHeadersMatch__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_tap_v3_HttpGenericBodyMatch_submsgs[1] = {
-  {.submsg = &envoy_config_tap_v3_HttpGenericBodyMatch_GenericTextMatch_msginit},
+  {.submsg = &envoy_config_tap_v3_HttpGenericBodyMatch_GenericTextMatch_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_tap_v3_HttpGenericBodyMatch__fields[2] = {
@@ -110,7 +111,7 @@ static const upb_MiniTable_Field envoy_config_tap_v3_HttpGenericBodyMatch__field
   {2, UPB_SIZE(4, 8), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_tap_v3_HttpGenericBodyMatch_msginit = {
+const upb_MiniTable envoy_config_tap_v3_HttpGenericBodyMatch_msg_init = {
   &envoy_config_tap_v3_HttpGenericBodyMatch_submsgs[0],
   &envoy_config_tap_v3_HttpGenericBodyMatch__fields[0],
   UPB_SIZE(8, 16), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
@@ -121,16 +122,16 @@ static const upb_MiniTable_Field envoy_config_tap_v3_HttpGenericBodyMatch_Generi
   {2, UPB_SIZE(4, 8), UPB_SIZE(-1, -1), kUpb_NoSub, 12, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_tap_v3_HttpGenericBodyMatch_GenericTextMatch_msginit = {
+const upb_MiniTable envoy_config_tap_v3_HttpGenericBodyMatch_GenericTextMatch_msg_init = {
   NULL,
   &envoy_config_tap_v3_HttpGenericBodyMatch_GenericTextMatch__fields[0],
   UPB_SIZE(16, 24), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_tap_v3_OutputConfig_submsgs[3] = {
-  {.submsg = &envoy_config_tap_v3_OutputSink_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
+  {.submsg = &envoy_config_tap_v3_OutputSink_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_tap_v3_OutputConfig__fields[4] = {
@@ -140,17 +141,17 @@ static const upb_MiniTable_Field envoy_config_tap_v3_OutputConfig__fields[4] = {
   {4, UPB_SIZE(1, 1), UPB_SIZE(0, 0), kUpb_NoSub, 8, kUpb_FieldMode_Scalar | (kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_tap_v3_OutputConfig_msginit = {
+const upb_MiniTable envoy_config_tap_v3_OutputConfig_msg_init = {
   &envoy_config_tap_v3_OutputConfig_submsgs[0],
   &envoy_config_tap_v3_OutputConfig__fields[0],
   UPB_SIZE(16, 32), 4, kUpb_ExtMode_NonExtendable, 4, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_tap_v3_OutputSink_submsgs[4] = {
-  {.submsg = &envoy_config_tap_v3_StreamingAdminSink_msginit},
-  {.submsg = &envoy_config_tap_v3_FilePerTapSink_msginit},
-  {.submsg = &envoy_config_tap_v3_StreamingGrpcSink_msginit},
-  {.submsg = &envoy_config_tap_v3_BufferedAdminSink_msginit},
+  {.submsg = &envoy_config_tap_v3_StreamingAdminSink_msg_init},
+  {.submsg = &envoy_config_tap_v3_FilePerTapSink_msg_init},
+  {.submsg = &envoy_config_tap_v3_StreamingGrpcSink_msg_init},
+  {.submsg = &envoy_config_tap_v3_BufferedAdminSink_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_tap_v3_OutputSink__fields[5] = {
@@ -161,20 +162,20 @@ static const upb_MiniTable_Field envoy_config_tap_v3_OutputSink__fields[5] = {
   {5, UPB_SIZE(8, 8), UPB_SIZE(-5, -5), 3, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_tap_v3_OutputSink_msginit = {
+const upb_MiniTable envoy_config_tap_v3_OutputSink_msg_init = {
   &envoy_config_tap_v3_OutputSink_submsgs[0],
   &envoy_config_tap_v3_OutputSink__fields[0],
   UPB_SIZE(16, 16), 5, kUpb_ExtMode_NonExtendable, 5, 255, 0,
 };
 
-const upb_MiniTable envoy_config_tap_v3_StreamingAdminSink_msginit = {
+const upb_MiniTable envoy_config_tap_v3_StreamingAdminSink_msg_init = {
   NULL,
   NULL,
   UPB_SIZE(0, 0), 0, kUpb_ExtMode_NonExtendable, 0, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_tap_v3_BufferedAdminSink_submsgs[1] = {
-  {.submsg = &google_protobuf_Duration_msginit},
+  {.submsg = &google_protobuf_Duration_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_tap_v3_BufferedAdminSink__fields[2] = {
@@ -182,7 +183,7 @@ static const upb_MiniTable_Field envoy_config_tap_v3_BufferedAdminSink__fields[2
   {2, UPB_SIZE(4, 8), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_tap_v3_BufferedAdminSink_msginit = {
+const upb_MiniTable envoy_config_tap_v3_BufferedAdminSink_msg_init = {
   &envoy_config_tap_v3_BufferedAdminSink_submsgs[0],
   &envoy_config_tap_v3_BufferedAdminSink__fields[0],
   UPB_SIZE(16, 24), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
@@ -192,14 +193,14 @@ static const upb_MiniTable_Field envoy_config_tap_v3_FilePerTapSink__fields[1] =
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_tap_v3_FilePerTapSink_msginit = {
+const upb_MiniTable envoy_config_tap_v3_FilePerTapSink_msg_init = {
   NULL,
   &envoy_config_tap_v3_FilePerTapSink__fields[0],
   UPB_SIZE(8, 16), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_tap_v3_StreamingGrpcSink_submsgs[1] = {
-  {.submsg = &envoy_config_core_v3_GrpcService_msginit},
+  {.submsg = &envoy_config_core_v3_GrpcService_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_tap_v3_StreamingGrpcSink__fields[2] = {
@@ -207,25 +208,25 @@ static const upb_MiniTable_Field envoy_config_tap_v3_StreamingGrpcSink__fields[2
   {2, UPB_SIZE(12, 24), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_tap_v3_StreamingGrpcSink_msginit = {
+const upb_MiniTable envoy_config_tap_v3_StreamingGrpcSink_msg_init = {
   &envoy_config_tap_v3_StreamingGrpcSink_submsgs[0],
   &envoy_config_tap_v3_StreamingGrpcSink__fields[0],
   UPB_SIZE(16, 32), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[12] = {
-  &envoy_config_tap_v3_TapConfig_msginit,
-  &envoy_config_tap_v3_MatchPredicate_msginit,
-  &envoy_config_tap_v3_MatchPredicate_MatchSet_msginit,
-  &envoy_config_tap_v3_HttpHeadersMatch_msginit,
-  &envoy_config_tap_v3_HttpGenericBodyMatch_msginit,
-  &envoy_config_tap_v3_HttpGenericBodyMatch_GenericTextMatch_msginit,
-  &envoy_config_tap_v3_OutputConfig_msginit,
-  &envoy_config_tap_v3_OutputSink_msginit,
-  &envoy_config_tap_v3_StreamingAdminSink_msginit,
-  &envoy_config_tap_v3_BufferedAdminSink_msginit,
-  &envoy_config_tap_v3_FilePerTapSink_msginit,
-  &envoy_config_tap_v3_StreamingGrpcSink_msginit,
+  &envoy_config_tap_v3_TapConfig_msg_init,
+  &envoy_config_tap_v3_MatchPredicate_msg_init,
+  &envoy_config_tap_v3_MatchPredicate_MatchSet_msg_init,
+  &envoy_config_tap_v3_HttpHeadersMatch_msg_init,
+  &envoy_config_tap_v3_HttpGenericBodyMatch_msg_init,
+  &envoy_config_tap_v3_HttpGenericBodyMatch_GenericTextMatch_msg_init,
+  &envoy_config_tap_v3_OutputConfig_msg_init,
+  &envoy_config_tap_v3_OutputSink_msg_init,
+  &envoy_config_tap_v3_StreamingAdminSink_msg_init,
+  &envoy_config_tap_v3_BufferedAdminSink_msg_init,
+  &envoy_config_tap_v3_FilePerTapSink_msg_init,
+  &envoy_config_tap_v3_StreamingGrpcSink_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_tap_v3_common_proto_upb_file_layout = {

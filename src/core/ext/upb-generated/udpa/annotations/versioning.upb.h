@@ -9,35 +9,35 @@
 #ifndef UDPA_ANNOTATIONS_VERSIONING_PROTO_UPB_H_
 #define UDPA_ANNOTATIONS_VERSIONING_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct udpa_annotations_VersioningAnnotation;
 typedef struct udpa_annotations_VersioningAnnotation udpa_annotations_VersioningAnnotation;
-extern const upb_MiniTable udpa_annotations_VersioningAnnotation_msginit;
+extern const upb_MiniTable udpa_annotations_VersioningAnnotation_msg_init;
 extern const upb_MiniTable_Extension udpa_annotations_versioning_ext;
 struct google_protobuf_MessageOptions;
-extern const upb_MiniTable google_protobuf_MessageOptions_msginit;
+extern const upb_MiniTable google_protobuf_MessageOptions_msg_init;
 
 
 
 /* udpa.annotations.VersioningAnnotation */
 
 UPB_INLINE udpa_annotations_VersioningAnnotation* udpa_annotations_VersioningAnnotation_new(upb_Arena* arena) {
-  return (udpa_annotations_VersioningAnnotation*)_upb_Message_New(&udpa_annotations_VersioningAnnotation_msginit, arena);
+  return (udpa_annotations_VersioningAnnotation*)_upb_Message_New(&udpa_annotations_VersioningAnnotation_msg_init, arena);
 }
 UPB_INLINE udpa_annotations_VersioningAnnotation* udpa_annotations_VersioningAnnotation_parse(const char* buf, size_t size, upb_Arena* arena) {
   udpa_annotations_VersioningAnnotation* ret = udpa_annotations_VersioningAnnotation_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &udpa_annotations_VersioningAnnotation_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &udpa_annotations_VersioningAnnotation_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -47,7 +47,7 @@ UPB_INLINE udpa_annotations_VersioningAnnotation* udpa_annotations_VersioningAnn
                            int options, upb_Arena* arena) {
   udpa_annotations_VersioningAnnotation* ret = udpa_annotations_VersioningAnnotation_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &udpa_annotations_VersioningAnnotation_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &udpa_annotations_VersioningAnnotation_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -55,13 +55,13 @@ UPB_INLINE udpa_annotations_VersioningAnnotation* udpa_annotations_VersioningAnn
 }
 UPB_INLINE char* udpa_annotations_VersioningAnnotation_serialize(const udpa_annotations_VersioningAnnotation* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &udpa_annotations_VersioningAnnotation_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &udpa_annotations_VersioningAnnotation_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* udpa_annotations_VersioningAnnotation_serialize_ex(const udpa_annotations_VersioningAnnotation* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &udpa_annotations_VersioningAnnotation_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &udpa_annotations_VersioningAnnotation_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void udpa_annotations_VersioningAnnotation_clear_previous_message_type(const udpa_annotations_VersioningAnnotation* msg) {

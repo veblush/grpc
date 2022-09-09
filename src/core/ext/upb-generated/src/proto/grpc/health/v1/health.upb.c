@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "src/proto/grpc/health/v1/health.upb.h"
 
@@ -16,7 +17,7 @@ static const upb_MiniTable_Field grpc_health_v1_HealthCheckRequest__fields[1] = 
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable grpc_health_v1_HealthCheckRequest_msginit = {
+const upb_MiniTable grpc_health_v1_HealthCheckRequest_msg_init = {
   NULL,
   &grpc_health_v1_HealthCheckRequest__fields[0],
   UPB_SIZE(8, 16), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
@@ -26,15 +27,15 @@ static const upb_MiniTable_Field grpc_health_v1_HealthCheckResponse__fields[1] =
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 5, kUpb_FieldMode_Scalar | (kUpb_FieldRep_4Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable grpc_health_v1_HealthCheckResponse_msginit = {
+const upb_MiniTable grpc_health_v1_HealthCheckResponse_msg_init = {
   NULL,
   &grpc_health_v1_HealthCheckResponse__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[2] = {
-  &grpc_health_v1_HealthCheckRequest_msginit,
-  &grpc_health_v1_HealthCheckResponse_msginit,
+  &grpc_health_v1_HealthCheckRequest_msg_init,
+  &grpc_health_v1_HealthCheckResponse_msg_init,
 };
 
 const upb_MiniTable_File src_proto_grpc_health_v1_health_proto_upb_file_layout = {

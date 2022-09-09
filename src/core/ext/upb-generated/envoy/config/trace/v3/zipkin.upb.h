@@ -9,22 +9,22 @@
 #ifndef ENVOY_CONFIG_TRACE_V3_ZIPKIN_PROTO_UPB_H_
 #define ENVOY_CONFIG_TRACE_V3_ZIPKIN_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_config_trace_v3_ZipkinConfig;
 typedef struct envoy_config_trace_v3_ZipkinConfig envoy_config_trace_v3_ZipkinConfig;
-extern const upb_MiniTable envoy_config_trace_v3_ZipkinConfig_msginit;
+extern const upb_MiniTable envoy_config_trace_v3_ZipkinConfig_msg_init;
 struct google_protobuf_BoolValue;
-extern const upb_MiniTable google_protobuf_BoolValue_msginit;
+extern const upb_MiniTable google_protobuf_BoolValue_msg_init;
 
 typedef enum {
   envoy_config_trace_v3_ZipkinConfig_DEPRECATED_AND_UNAVAILABLE_DO_NOT_USE = 0,
@@ -38,12 +38,12 @@ typedef enum {
 /* envoy.config.trace.v3.ZipkinConfig */
 
 UPB_INLINE envoy_config_trace_v3_ZipkinConfig* envoy_config_trace_v3_ZipkinConfig_new(upb_Arena* arena) {
-  return (envoy_config_trace_v3_ZipkinConfig*)_upb_Message_New(&envoy_config_trace_v3_ZipkinConfig_msginit, arena);
+  return (envoy_config_trace_v3_ZipkinConfig*)_upb_Message_New(&envoy_config_trace_v3_ZipkinConfig_msg_init, arena);
 }
 UPB_INLINE envoy_config_trace_v3_ZipkinConfig* envoy_config_trace_v3_ZipkinConfig_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_trace_v3_ZipkinConfig* ret = envoy_config_trace_v3_ZipkinConfig_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_ZipkinConfig_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_ZipkinConfig_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -53,7 +53,7 @@ UPB_INLINE envoy_config_trace_v3_ZipkinConfig* envoy_config_trace_v3_ZipkinConfi
                            int options, upb_Arena* arena) {
   envoy_config_trace_v3_ZipkinConfig* ret = envoy_config_trace_v3_ZipkinConfig_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_ZipkinConfig_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_ZipkinConfig_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -61,13 +61,13 @@ UPB_INLINE envoy_config_trace_v3_ZipkinConfig* envoy_config_trace_v3_ZipkinConfi
 }
 UPB_INLINE char* envoy_config_trace_v3_ZipkinConfig_serialize(const envoy_config_trace_v3_ZipkinConfig* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_trace_v3_ZipkinConfig_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_trace_v3_ZipkinConfig_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_trace_v3_ZipkinConfig_serialize_ex(const envoy_config_trace_v3_ZipkinConfig* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_trace_v3_ZipkinConfig_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_trace_v3_ZipkinConfig_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_config_trace_v3_ZipkinConfig_clear_collector_cluster(const envoy_config_trace_v3_ZipkinConfig* msg) {
@@ -93,6 +93,7 @@ UPB_INLINE bool envoy_config_trace_v3_ZipkinConfig_has_shared_span_context(const
 }
 UPB_INLINE void envoy_config_trace_v3_ZipkinConfig_clear_shared_span_context(const envoy_config_trace_v3_ZipkinConfig* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(24, 40), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_BoolValue* envoy_config_trace_v3_ZipkinConfig_shared_span_context(const envoy_config_trace_v3_ZipkinConfig* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(24, 40), const struct google_protobuf_BoolValue*);
@@ -126,7 +127,7 @@ UPB_INLINE void envoy_config_trace_v3_ZipkinConfig_set_shared_span_context(envoy
 UPB_INLINE struct google_protobuf_BoolValue* envoy_config_trace_v3_ZipkinConfig_mutable_shared_span_context(envoy_config_trace_v3_ZipkinConfig* msg, upb_Arena* arena) {
   struct google_protobuf_BoolValue* sub = (struct google_protobuf_BoolValue*)envoy_config_trace_v3_ZipkinConfig_shared_span_context(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_BoolValue*)_upb_Message_New(&google_protobuf_BoolValue_msginit, arena);
+    sub = (struct google_protobuf_BoolValue*)_upb_Message_New(&google_protobuf_BoolValue_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_trace_v3_ZipkinConfig_set_shared_span_context(msg, sub);
   }

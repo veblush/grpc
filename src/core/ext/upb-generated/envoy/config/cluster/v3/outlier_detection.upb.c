@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/cluster/v3/outlier_detection.upb.h"
 #include "google/protobuf/duration.upb.h"
@@ -18,27 +19,27 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_config_cluster_v3_OutlierDetection_submsgs[21] = {
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_Duration_msginit},
-  {.submsg = &google_protobuf_Duration_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_Duration_msginit},
-  {.submsg = &google_protobuf_Duration_msginit},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_Duration_msg_init},
+  {.submsg = &google_protobuf_Duration_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_Duration_msg_init},
+  {.submsg = &google_protobuf_Duration_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_cluster_v3_OutlierDetection__fields[22] = {
@@ -66,14 +67,14 @@ static const upb_MiniTable_Field envoy_config_cluster_v3_OutlierDetection__field
   {22, UPB_SIZE(84, 168), UPB_SIZE(21, 21), 20, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_cluster_v3_OutlierDetection_msginit = {
+const upb_MiniTable envoy_config_cluster_v3_OutlierDetection_msg_init = {
   &envoy_config_cluster_v3_OutlierDetection_submsgs[0],
   &envoy_config_cluster_v3_OutlierDetection__fields[0],
   UPB_SIZE(88, 176), 22, kUpb_ExtMode_NonExtendable, 22, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_config_cluster_v3_OutlierDetection_msginit,
+  &envoy_config_cluster_v3_OutlierDetection_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_cluster_v3_outlier_detection_proto_upb_file_layout = {

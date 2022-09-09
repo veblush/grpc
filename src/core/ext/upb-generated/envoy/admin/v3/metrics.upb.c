@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/admin/v3/metrics.upb.h"
 #include "udpa/annotations/status.upb.h"
@@ -20,14 +21,14 @@ static const upb_MiniTable_Field envoy_admin_v3_SimpleMetric__fields[3] = {
   {3, UPB_SIZE(4, 8), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_admin_v3_SimpleMetric_msginit = {
+const upb_MiniTable envoy_admin_v3_SimpleMetric_msg_init = {
   NULL,
   &envoy_admin_v3_SimpleMetric__fields[0],
   UPB_SIZE(24, 32), 3, kUpb_ExtMode_NonExtendable, 3, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_admin_v3_SimpleMetric_msginit,
+  &envoy_admin_v3_SimpleMetric_msg_init,
 };
 
 const upb_MiniTable_File envoy_admin_v3_metrics_proto_upb_file_layout = {

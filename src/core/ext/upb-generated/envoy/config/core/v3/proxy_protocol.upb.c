@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/core/v3/proxy_protocol.upb.h"
 #include "udpa/annotations/status.upb.h"
@@ -17,14 +18,14 @@ static const upb_MiniTable_Field envoy_config_core_v3_ProxyProtocolConfig__field
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 5, kUpb_FieldMode_Scalar | (kUpb_FieldRep_4Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_core_v3_ProxyProtocolConfig_msginit = {
+const upb_MiniTable envoy_config_core_v3_ProxyProtocolConfig_msg_init = {
   NULL,
   &envoy_config_core_v3_ProxyProtocolConfig__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_config_core_v3_ProxyProtocolConfig_msginit,
+  &envoy_config_core_v3_ProxyProtocolConfig_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_core_v3_proxy_protocol_proto_upb_file_layout = {

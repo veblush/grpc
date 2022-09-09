@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "xds/core/v3/collection_entry.upb.h"
 #include "google/protobuf/any.upb.h"
@@ -17,8 +18,8 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub xds_core_v3_CollectionEntry_submsgs[2] = {
-  {.submsg = &xds_core_v3_ResourceLocator_msginit},
-  {.submsg = &xds_core_v3_CollectionEntry_InlineEntry_msginit},
+  {.submsg = &xds_core_v3_ResourceLocator_msg_init},
+  {.submsg = &xds_core_v3_CollectionEntry_InlineEntry_msg_init},
 };
 
 static const upb_MiniTable_Field xds_core_v3_CollectionEntry__fields[2] = {
@@ -26,14 +27,14 @@ static const upb_MiniTable_Field xds_core_v3_CollectionEntry__fields[2] = {
   {2, UPB_SIZE(4, 8), UPB_SIZE(-1, -1), 1, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_core_v3_CollectionEntry_msginit = {
+const upb_MiniTable xds_core_v3_CollectionEntry_msg_init = {
   &xds_core_v3_CollectionEntry_submsgs[0],
   &xds_core_v3_CollectionEntry__fields[0],
   UPB_SIZE(8, 16), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable_Sub xds_core_v3_CollectionEntry_InlineEntry_submsgs[1] = {
-  {.submsg = &google_protobuf_Any_msginit},
+  {.submsg = &google_protobuf_Any_msg_init},
 };
 
 static const upb_MiniTable_Field xds_core_v3_CollectionEntry_InlineEntry__fields[3] = {
@@ -42,15 +43,15 @@ static const upb_MiniTable_Field xds_core_v3_CollectionEntry_InlineEntry__fields
   {3, UPB_SIZE(20, 40), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_core_v3_CollectionEntry_InlineEntry_msginit = {
+const upb_MiniTable xds_core_v3_CollectionEntry_InlineEntry_msg_init = {
   &xds_core_v3_CollectionEntry_InlineEntry_submsgs[0],
   &xds_core_v3_CollectionEntry_InlineEntry__fields[0],
   UPB_SIZE(24, 48), 3, kUpb_ExtMode_NonExtendable, 3, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[2] = {
-  &xds_core_v3_CollectionEntry_msginit,
-  &xds_core_v3_CollectionEntry_InlineEntry_msginit,
+  &xds_core_v3_CollectionEntry_msg_init,
+  &xds_core_v3_CollectionEntry_InlineEntry_msg_init,
 };
 
 const upb_MiniTable_File xds_core_v3_collection_entry_proto_upb_file_layout = {

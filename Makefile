@@ -1164,14 +1164,12 @@ LIBGRPC_SRC = \
     src/core/ext/upb-generated/google/api/expr/v1alpha1/syntax.upb.c \
     src/core/ext/upb-generated/google/api/http.upb.c \
     src/core/ext/upb-generated/google/api/httpbody.upb.c \
-    src/core/ext/upb-generated/google/protobuf/any.upb.c \
-    src/core/ext/upb-generated/google/protobuf/descriptor.upb.c \
-    src/core/ext/upb-generated/google/protobuf/duration.upb.c \
-    src/core/ext/upb-generated/google/protobuf/empty.upb.c \
-    src/core/ext/upb-generated/google/protobuf/struct.upb.c \
-    src/core/ext/upb-generated/google/protobuf/timestamp.upb.c \
-    src/core/ext/upb-generated/google/protobuf/wrappers.upb.c \
     src/core/ext/upb-generated/google/rpc/status.upb.c \
+    src/core/ext/upb-generated/oogle/protobuf/any.upb.c \
+    src/core/ext/upb-generated/oogle/protobuf/duration.upb.c \
+    src/core/ext/upb-generated/oogle/protobuf/struct.upb.c \
+    src/core/ext/upb-generated/oogle/protobuf/timestamp.upb.c \
+    src/core/ext/upb-generated/oogle/protobuf/wrappers.upb.c \
     src/core/ext/upb-generated/opencensus/proto/trace/v1/trace_config.upb.c \
     src/core/ext/upb-generated/src/proto/grpc/gcp/altscontext.upb.c \
     src/core/ext/upb-generated/src/proto/grpc/gcp/handshaker.upb.c \
@@ -1309,14 +1307,8 @@ LIBGRPC_SRC = \
     src/core/ext/upbdefs-generated/google/api/expr/v1alpha1/syntax.upbdefs.c \
     src/core/ext/upbdefs-generated/google/api/http.upbdefs.c \
     src/core/ext/upbdefs-generated/google/api/httpbody.upbdefs.c \
-    src/core/ext/upbdefs-generated/google/protobuf/any.upbdefs.c \
-    src/core/ext/upbdefs-generated/google/protobuf/descriptor.upbdefs.c \
-    src/core/ext/upbdefs-generated/google/protobuf/duration.upbdefs.c \
-    src/core/ext/upbdefs-generated/google/protobuf/empty.upbdefs.c \
-    src/core/ext/upbdefs-generated/google/protobuf/struct.upbdefs.c \
-    src/core/ext/upbdefs-generated/google/protobuf/timestamp.upbdefs.c \
-    src/core/ext/upbdefs-generated/google/protobuf/wrappers.upbdefs.c \
     src/core/ext/upbdefs-generated/google/rpc/status.upbdefs.c \
+    src/core/ext/upbdefs-generated/oogle/protobuf/struct.upbdefs.c \
     src/core/ext/upbdefs-generated/opencensus/proto/trace/v1/trace_config.upbdefs.c \
     src/core/ext/upbdefs-generated/src/proto/grpc/lookup/v1/rls_config.upbdefs.c \
     src/core/ext/upbdefs-generated/udpa/annotations/migrate.upbdefs.c \
@@ -1825,14 +1817,10 @@ LIBGRPC_UNSECURE_SRC = \
     src/core/ext/transport/inproc/inproc_transport.cc \
     src/core/ext/upb-generated/google/api/annotations.upb.c \
     src/core/ext/upb-generated/google/api/http.upb.c \
-    src/core/ext/upb-generated/google/protobuf/any.upb.c \
-    src/core/ext/upb-generated/google/protobuf/descriptor.upb.c \
-    src/core/ext/upb-generated/google/protobuf/duration.upb.c \
-    src/core/ext/upb-generated/google/protobuf/empty.upb.c \
-    src/core/ext/upb-generated/google/protobuf/struct.upb.c \
-    src/core/ext/upb-generated/google/protobuf/timestamp.upb.c \
-    src/core/ext/upb-generated/google/protobuf/wrappers.upb.c \
     src/core/ext/upb-generated/google/rpc/status.upb.c \
+    src/core/ext/upb-generated/oogle/protobuf/any.upb.c \
+    src/core/ext/upb-generated/oogle/protobuf/duration.upb.c \
+    src/core/ext/upb-generated/oogle/protobuf/timestamp.upb.c \
     src/core/ext/upb-generated/src/proto/grpc/health/v1/health.upb.c \
     src/core/ext/upb-generated/src/proto/grpc/lb/v1/load_balancer.upb.c \
     src/core/ext/upb-generated/src/proto/grpc/lookup/v1/rls.upb.c \
@@ -2912,6 +2900,8 @@ src/core/ext/upb-generated/envoy/type/v3/token_bucket.upb.c: $(OPENSSL_DEP)
 src/core/ext/upb-generated/google/api/expr/v1alpha1/checked.upb.c: $(OPENSSL_DEP)
 src/core/ext/upb-generated/google/api/expr/v1alpha1/syntax.upb.c: $(OPENSSL_DEP)
 src/core/ext/upb-generated/google/api/httpbody.upb.c: $(OPENSSL_DEP)
+src/core/ext/upb-generated/oogle/protobuf/struct.upb.c: $(OPENSSL_DEP)
+src/core/ext/upb-generated/oogle/protobuf/wrappers.upb.c: $(OPENSSL_DEP)
 src/core/ext/upb-generated/opencensus/proto/trace/v1/trace_config.upb.c: $(OPENSSL_DEP)
 src/core/ext/upb-generated/src/proto/grpc/gcp/altscontext.upb.c: $(OPENSSL_DEP)
 src/core/ext/upb-generated/src/proto/grpc/gcp/handshaker.upb.c: $(OPENSSL_DEP)
@@ -3043,13 +3033,8 @@ src/core/ext/upbdefs-generated/google/api/expr/v1alpha1/checked.upbdefs.c: $(OPE
 src/core/ext/upbdefs-generated/google/api/expr/v1alpha1/syntax.upbdefs.c: $(OPENSSL_DEP)
 src/core/ext/upbdefs-generated/google/api/http.upbdefs.c: $(OPENSSL_DEP)
 src/core/ext/upbdefs-generated/google/api/httpbody.upbdefs.c: $(OPENSSL_DEP)
-src/core/ext/upbdefs-generated/google/protobuf/any.upbdefs.c: $(OPENSSL_DEP)
-src/core/ext/upbdefs-generated/google/protobuf/duration.upbdefs.c: $(OPENSSL_DEP)
-src/core/ext/upbdefs-generated/google/protobuf/empty.upbdefs.c: $(OPENSSL_DEP)
-src/core/ext/upbdefs-generated/google/protobuf/struct.upbdefs.c: $(OPENSSL_DEP)
-src/core/ext/upbdefs-generated/google/protobuf/timestamp.upbdefs.c: $(OPENSSL_DEP)
-src/core/ext/upbdefs-generated/google/protobuf/wrappers.upbdefs.c: $(OPENSSL_DEP)
 src/core/ext/upbdefs-generated/google/rpc/status.upbdefs.c: $(OPENSSL_DEP)
+src/core/ext/upbdefs-generated/oogle/protobuf/struct.upbdefs.c: $(OPENSSL_DEP)
 src/core/ext/upbdefs-generated/opencensus/proto/trace/v1/trace_config.upbdefs.c: $(OPENSSL_DEP)
 src/core/ext/upbdefs-generated/src/proto/grpc/lookup/v1/rls_config.upbdefs.c: $(OPENSSL_DEP)
 src/core/ext/upbdefs-generated/udpa/annotations/migrate.upbdefs.c: $(OPENSSL_DEP)

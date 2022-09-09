@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "xds/annotations/v3/versioning.upb.h"
 #include "google/protobuf/descriptor.upb.h"
@@ -17,22 +18,22 @@ static const upb_MiniTable_Field xds_annotations_v3_VersioningAnnotation__fields
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_annotations_v3_VersioningAnnotation_msginit = {
+const upb_MiniTable xds_annotations_v3_VersioningAnnotation_msg_init = {
   NULL,
   &xds_annotations_v3_VersioningAnnotation__fields[0],
   UPB_SIZE(8, 16), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &xds_annotations_v3_VersioningAnnotation_msginit,
+  &xds_annotations_v3_VersioningAnnotation_msg_init,
 };
 
-extern const upb_MiniTable google_protobuf_MessageOptions_msginit;
-extern const upb_MiniTable xds_annotations_v3_VersioningAnnotation_msginit;
+extern const upb_MiniTable google_protobuf_MessageOptions_msg_init;
+extern const upb_MiniTable xds_annotations_v3_VersioningAnnotation_msg_init;
 const upb_MiniTable_Extension xds_annotations_v3_versioning_ext = {
   {92389011, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Scalar | kUpb_LabelFlags_IsExtension | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
-  &google_protobuf_MessageOptions_msginit,
-  {.submsg = &xds_annotations_v3_VersioningAnnotation_msginit},
+  &google_protobuf_MessageOptions_msg_init,
+  {.submsg = &xds_annotations_v3_VersioningAnnotation_msg_init},
 
 };
 

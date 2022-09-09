@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/type/v3/token_bucket.upb.h"
 #include "google/protobuf/duration.upb.h"
@@ -18,8 +19,8 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_type_v3_TokenBucket_submsgs[2] = {
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_Duration_msginit},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_Duration_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_type_v3_TokenBucket__fields[3] = {
@@ -28,14 +29,14 @@ static const upb_MiniTable_Field envoy_type_v3_TokenBucket__fields[3] = {
   {3, UPB_SIZE(12, 16), UPB_SIZE(2, 2), 1, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_type_v3_TokenBucket_msginit = {
+const upb_MiniTable envoy_type_v3_TokenBucket_msg_init = {
   &envoy_type_v3_TokenBucket_submsgs[0],
   &envoy_type_v3_TokenBucket__fields[0],
   UPB_SIZE(16, 24), 3, kUpb_ExtMode_NonExtendable, 3, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_type_v3_TokenBucket_msginit,
+  &envoy_type_v3_TokenBucket_msg_init,
 };
 
 const upb_MiniTable_File envoy_type_v3_token_bucket_proto_upb_file_layout = {

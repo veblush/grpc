@@ -9,36 +9,36 @@
 #ifndef ENVOY_EXTENSIONS_FILTERS_HTTP_ROUTER_V3_ROUTER_PROTO_UPB_H_
 #define ENVOY_EXTENSIONS_FILTERS_HTTP_ROUTER_V3_ROUTER_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_extensions_filters_http_router_v3_Router;
 typedef struct envoy_extensions_filters_http_router_v3_Router envoy_extensions_filters_http_router_v3_Router;
-extern const upb_MiniTable envoy_extensions_filters_http_router_v3_Router_msginit;
+extern const upb_MiniTable envoy_extensions_filters_http_router_v3_Router_msg_init;
 struct envoy_config_accesslog_v3_AccessLog;
 struct google_protobuf_BoolValue;
-extern const upb_MiniTable envoy_config_accesslog_v3_AccessLog_msginit;
-extern const upb_MiniTable google_protobuf_BoolValue_msginit;
+extern const upb_MiniTable envoy_config_accesslog_v3_AccessLog_msg_init;
+extern const upb_MiniTable google_protobuf_BoolValue_msg_init;
 
 
 
 /* envoy.extensions.filters.http.router.v3.Router */
 
 UPB_INLINE envoy_extensions_filters_http_router_v3_Router* envoy_extensions_filters_http_router_v3_Router_new(upb_Arena* arena) {
-  return (envoy_extensions_filters_http_router_v3_Router*)_upb_Message_New(&envoy_extensions_filters_http_router_v3_Router_msginit, arena);
+  return (envoy_extensions_filters_http_router_v3_Router*)_upb_Message_New(&envoy_extensions_filters_http_router_v3_Router_msg_init, arena);
 }
 UPB_INLINE envoy_extensions_filters_http_router_v3_Router* envoy_extensions_filters_http_router_v3_Router_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_extensions_filters_http_router_v3_Router* ret = envoy_extensions_filters_http_router_v3_Router_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_extensions_filters_http_router_v3_Router_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_extensions_filters_http_router_v3_Router_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -48,7 +48,7 @@ UPB_INLINE envoy_extensions_filters_http_router_v3_Router* envoy_extensions_filt
                            int options, upb_Arena* arena) {
   envoy_extensions_filters_http_router_v3_Router* ret = envoy_extensions_filters_http_router_v3_Router_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_extensions_filters_http_router_v3_Router_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_extensions_filters_http_router_v3_Router_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -56,13 +56,13 @@ UPB_INLINE envoy_extensions_filters_http_router_v3_Router* envoy_extensions_filt
 }
 UPB_INLINE char* envoy_extensions_filters_http_router_v3_Router_serialize(const envoy_extensions_filters_http_router_v3_Router* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_extensions_filters_http_router_v3_Router_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_extensions_filters_http_router_v3_Router_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_extensions_filters_http_router_v3_Router_serialize_ex(const envoy_extensions_filters_http_router_v3_Router* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_extensions_filters_http_router_v3_Router_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_extensions_filters_http_router_v3_Router_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_extensions_filters_http_router_v3_Router_has_dynamic_stats(const envoy_extensions_filters_http_router_v3_Router* msg) {
@@ -70,6 +70,7 @@ UPB_INLINE bool envoy_extensions_filters_http_router_v3_Router_has_dynamic_stats
 }
 UPB_INLINE void envoy_extensions_filters_http_router_v3_Router_clear_dynamic_stats(const envoy_extensions_filters_http_router_v3_Router* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(8, 8), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_BoolValue* envoy_extensions_filters_http_router_v3_Router_dynamic_stats(const envoy_extensions_filters_http_router_v3_Router* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(8, 8), const struct google_protobuf_BoolValue*);
@@ -121,7 +122,7 @@ UPB_INLINE void envoy_extensions_filters_http_router_v3_Router_set_dynamic_stats
 UPB_INLINE struct google_protobuf_BoolValue* envoy_extensions_filters_http_router_v3_Router_mutable_dynamic_stats(envoy_extensions_filters_http_router_v3_Router* msg, upb_Arena* arena) {
   struct google_protobuf_BoolValue* sub = (struct google_protobuf_BoolValue*)envoy_extensions_filters_http_router_v3_Router_dynamic_stats(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_BoolValue*)_upb_Message_New(&google_protobuf_BoolValue_msginit, arena);
+    sub = (struct google_protobuf_BoolValue*)_upb_Message_New(&google_protobuf_BoolValue_msg_init, arena);
     if (!sub) return NULL;
     envoy_extensions_filters_http_router_v3_Router_set_dynamic_stats(msg, sub);
   }
@@ -137,7 +138,7 @@ UPB_INLINE struct envoy_config_accesslog_v3_AccessLog** envoy_extensions_filters
   return (struct envoy_config_accesslog_v3_AccessLog**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(12, 16), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_accesslog_v3_AccessLog* envoy_extensions_filters_http_router_v3_Router_add_upstream_log(envoy_extensions_filters_http_router_v3_Router* msg, upb_Arena* arena) {
-  struct envoy_config_accesslog_v3_AccessLog* sub = (struct envoy_config_accesslog_v3_AccessLog*)_upb_Message_New(&envoy_config_accesslog_v3_AccessLog_msginit, arena);
+  struct envoy_config_accesslog_v3_AccessLog* sub = (struct envoy_config_accesslog_v3_AccessLog*)_upb_Message_New(&envoy_config_accesslog_v3_AccessLog_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(12, 16), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;

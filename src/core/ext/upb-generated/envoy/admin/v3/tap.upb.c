@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/admin/v3/tap.upb.h"
 #include "envoy/config/tap/v3/common.upb.h"
@@ -17,7 +18,7 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_admin_v3_TapRequest_submsgs[1] = {
-  {.submsg = &envoy_config_tap_v3_TapConfig_msginit},
+  {.submsg = &envoy_config_tap_v3_TapConfig_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_admin_v3_TapRequest__fields[2] = {
@@ -25,14 +26,14 @@ static const upb_MiniTable_Field envoy_admin_v3_TapRequest__fields[2] = {
   {2, UPB_SIZE(12, 24), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_admin_v3_TapRequest_msginit = {
+const upb_MiniTable envoy_admin_v3_TapRequest_msg_init = {
   &envoy_admin_v3_TapRequest_submsgs[0],
   &envoy_admin_v3_TapRequest__fields[0],
   UPB_SIZE(16, 32), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_admin_v3_TapRequest_msginit,
+  &envoy_admin_v3_TapRequest_msg_init,
 };
 
 const upb_MiniTable_File envoy_admin_v3_tap_proto_upb_file_layout = {

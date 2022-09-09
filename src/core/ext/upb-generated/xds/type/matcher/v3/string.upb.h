@@ -9,37 +9,36 @@
 #ifndef XDS_TYPE_MATCHER_V3_STRING_PROTO_UPB_H_
 #define XDS_TYPE_MATCHER_V3_STRING_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct xds_type_matcher_v3_StringMatcher;
-struct xds_type_matcher_v3_ListStringMatcher;
 typedef struct xds_type_matcher_v3_StringMatcher xds_type_matcher_v3_StringMatcher;
 typedef struct xds_type_matcher_v3_ListStringMatcher xds_type_matcher_v3_ListStringMatcher;
-extern const upb_MiniTable xds_type_matcher_v3_StringMatcher_msginit;
-extern const upb_MiniTable xds_type_matcher_v3_ListStringMatcher_msginit;
+extern const upb_MiniTable xds_type_matcher_v3_StringMatcher_msg_init;
+extern const upb_MiniTable xds_type_matcher_v3_ListStringMatcher_msg_init;
 struct xds_type_matcher_v3_RegexMatcher;
-extern const upb_MiniTable xds_type_matcher_v3_RegexMatcher_msginit;
+extern const upb_MiniTable xds_type_matcher_v3_RegexMatcher_msg_init;
 
 
 
 /* xds.type.matcher.v3.StringMatcher */
 
 UPB_INLINE xds_type_matcher_v3_StringMatcher* xds_type_matcher_v3_StringMatcher_new(upb_Arena* arena) {
-  return (xds_type_matcher_v3_StringMatcher*)_upb_Message_New(&xds_type_matcher_v3_StringMatcher_msginit, arena);
+  return (xds_type_matcher_v3_StringMatcher*)_upb_Message_New(&xds_type_matcher_v3_StringMatcher_msg_init, arena);
 }
 UPB_INLINE xds_type_matcher_v3_StringMatcher* xds_type_matcher_v3_StringMatcher_parse(const char* buf, size_t size, upb_Arena* arena) {
   xds_type_matcher_v3_StringMatcher* ret = xds_type_matcher_v3_StringMatcher_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_type_matcher_v3_StringMatcher_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &xds_type_matcher_v3_StringMatcher_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -49,7 +48,7 @@ UPB_INLINE xds_type_matcher_v3_StringMatcher* xds_type_matcher_v3_StringMatcher_
                            int options, upb_Arena* arena) {
   xds_type_matcher_v3_StringMatcher* ret = xds_type_matcher_v3_StringMatcher_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_type_matcher_v3_StringMatcher_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &xds_type_matcher_v3_StringMatcher_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -57,13 +56,13 @@ UPB_INLINE xds_type_matcher_v3_StringMatcher* xds_type_matcher_v3_StringMatcher_
 }
 UPB_INLINE char* xds_type_matcher_v3_StringMatcher_serialize(const xds_type_matcher_v3_StringMatcher* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_type_matcher_v3_StringMatcher_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_type_matcher_v3_StringMatcher_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* xds_type_matcher_v3_StringMatcher_serialize_ex(const xds_type_matcher_v3_StringMatcher* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_type_matcher_v3_StringMatcher_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_type_matcher_v3_StringMatcher_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {
@@ -144,7 +143,7 @@ UPB_INLINE void xds_type_matcher_v3_StringMatcher_set_safe_regex(xds_type_matche
 UPB_INLINE struct xds_type_matcher_v3_RegexMatcher* xds_type_matcher_v3_StringMatcher_mutable_safe_regex(xds_type_matcher_v3_StringMatcher* msg, upb_Arena* arena) {
   struct xds_type_matcher_v3_RegexMatcher* sub = (struct xds_type_matcher_v3_RegexMatcher*)xds_type_matcher_v3_StringMatcher_safe_regex(msg);
   if (sub == NULL) {
-    sub = (struct xds_type_matcher_v3_RegexMatcher*)_upb_Message_New(&xds_type_matcher_v3_RegexMatcher_msginit, arena);
+    sub = (struct xds_type_matcher_v3_RegexMatcher*)_upb_Message_New(&xds_type_matcher_v3_RegexMatcher_msg_init, arena);
     if (!sub) return NULL;
     xds_type_matcher_v3_StringMatcher_set_safe_regex(msg, sub);
   }
@@ -160,12 +159,12 @@ UPB_INLINE void xds_type_matcher_v3_StringMatcher_set_contains(xds_type_matcher_
 /* xds.type.matcher.v3.ListStringMatcher */
 
 UPB_INLINE xds_type_matcher_v3_ListStringMatcher* xds_type_matcher_v3_ListStringMatcher_new(upb_Arena* arena) {
-  return (xds_type_matcher_v3_ListStringMatcher*)_upb_Message_New(&xds_type_matcher_v3_ListStringMatcher_msginit, arena);
+  return (xds_type_matcher_v3_ListStringMatcher*)_upb_Message_New(&xds_type_matcher_v3_ListStringMatcher_msg_init, arena);
 }
 UPB_INLINE xds_type_matcher_v3_ListStringMatcher* xds_type_matcher_v3_ListStringMatcher_parse(const char* buf, size_t size, upb_Arena* arena) {
   xds_type_matcher_v3_ListStringMatcher* ret = xds_type_matcher_v3_ListStringMatcher_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_type_matcher_v3_ListStringMatcher_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &xds_type_matcher_v3_ListStringMatcher_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -175,7 +174,7 @@ UPB_INLINE xds_type_matcher_v3_ListStringMatcher* xds_type_matcher_v3_ListString
                            int options, upb_Arena* arena) {
   xds_type_matcher_v3_ListStringMatcher* ret = xds_type_matcher_v3_ListStringMatcher_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_type_matcher_v3_ListStringMatcher_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &xds_type_matcher_v3_ListStringMatcher_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -183,13 +182,13 @@ UPB_INLINE xds_type_matcher_v3_ListStringMatcher* xds_type_matcher_v3_ListString
 }
 UPB_INLINE char* xds_type_matcher_v3_ListStringMatcher_serialize(const xds_type_matcher_v3_ListStringMatcher* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_type_matcher_v3_ListStringMatcher_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_type_matcher_v3_ListStringMatcher_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* xds_type_matcher_v3_ListStringMatcher_serialize_ex(const xds_type_matcher_v3_ListStringMatcher* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_type_matcher_v3_ListStringMatcher_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_type_matcher_v3_ListStringMatcher_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool xds_type_matcher_v3_ListStringMatcher_has_patterns(const xds_type_matcher_v3_ListStringMatcher* msg) {
@@ -209,7 +208,7 @@ UPB_INLINE xds_type_matcher_v3_StringMatcher** xds_type_matcher_v3_ListStringMat
   return (xds_type_matcher_v3_StringMatcher**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(0, 0), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct xds_type_matcher_v3_StringMatcher* xds_type_matcher_v3_ListStringMatcher_add_patterns(xds_type_matcher_v3_ListStringMatcher* msg, upb_Arena* arena) {
-  struct xds_type_matcher_v3_StringMatcher* sub = (struct xds_type_matcher_v3_StringMatcher*)_upb_Message_New(&xds_type_matcher_v3_StringMatcher_msginit, arena);
+  struct xds_type_matcher_v3_StringMatcher* sub = (struct xds_type_matcher_v3_StringMatcher*)_upb_Message_New(&xds_type_matcher_v3_StringMatcher_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(0, 0), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;

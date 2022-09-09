@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/trace/v3/dynamic_ot.upb.h"
 #include "google/protobuf/struct.upb.h"
@@ -18,7 +19,7 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_config_trace_v3_DynamicOtConfig_submsgs[1] = {
-  {.submsg = &google_protobuf_Struct_msginit},
+  {.submsg = &google_protobuf_Struct_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_trace_v3_DynamicOtConfig__fields[2] = {
@@ -26,14 +27,14 @@ static const upb_MiniTable_Field envoy_config_trace_v3_DynamicOtConfig__fields[2
   {2, UPB_SIZE(12, 24), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_trace_v3_DynamicOtConfig_msginit = {
+const upb_MiniTable envoy_config_trace_v3_DynamicOtConfig_msg_init = {
   &envoy_config_trace_v3_DynamicOtConfig_submsgs[0],
   &envoy_config_trace_v3_DynamicOtConfig__fields[0],
   UPB_SIZE(16, 32), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_config_trace_v3_DynamicOtConfig_msginit,
+  &envoy_config_trace_v3_DynamicOtConfig_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_trace_v3_dynamic_ot_proto_upb_file_layout = {

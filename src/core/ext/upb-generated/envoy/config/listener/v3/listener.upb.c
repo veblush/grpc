@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/listener/v3/listener.upb.h"
 #include "envoy/config/accesslog/v3/accesslog.upb.h"
@@ -31,57 +32,57 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_config_listener_v3_AdditionalAddress_submsgs[1] = {
-  {.submsg = &envoy_config_core_v3_Address_msginit},
+  {.submsg = &envoy_config_core_v3_Address_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_listener_v3_AdditionalAddress__fields[1] = {
   {1, UPB_SIZE(4, 8), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_listener_v3_AdditionalAddress_msginit = {
+const upb_MiniTable envoy_config_listener_v3_AdditionalAddress_msg_init = {
   &envoy_config_listener_v3_AdditionalAddress_submsgs[0],
   &envoy_config_listener_v3_AdditionalAddress__fields[0],
   UPB_SIZE(8, 16), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_listener_v3_ListenerCollection_submsgs[1] = {
-  {.submsg = &xds_core_v3_CollectionEntry_msginit},
+  {.submsg = &xds_core_v3_CollectionEntry_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_listener_v3_ListenerCollection__fields[1] = {
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_listener_v3_ListenerCollection_msginit = {
+const upb_MiniTable envoy_config_listener_v3_ListenerCollection_msg_init = {
   &envoy_config_listener_v3_ListenerCollection_submsgs[0],
   &envoy_config_listener_v3_ListenerCollection__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_listener_v3_Listener_submsgs[23] = {
-  {.submsg = &envoy_config_core_v3_Address_msginit},
-  {.submsg = &envoy_config_listener_v3_FilterChain_msginit},
-  {.submsg = &google_protobuf_BoolValue_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &envoy_config_core_v3_Metadata_msginit},
-  {.submsg = &envoy_config_listener_v3_Listener_DeprecatedV1_msginit},
-  {.submsg = &envoy_config_listener_v3_ListenerFilter_msginit},
-  {.submsg = &google_protobuf_BoolValue_msginit},
-  {.submsg = &google_protobuf_BoolValue_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &envoy_config_core_v3_SocketOption_msginit},
-  {.submsg = &google_protobuf_Duration_msginit},
-  {.submsg = &envoy_config_listener_v3_UdpListenerConfig_msginit},
-  {.submsg = &envoy_config_listener_v3_ApiListener_msginit},
-  {.submsg = &envoy_config_listener_v3_Listener_ConnectionBalanceConfig_msginit},
-  {.submsg = &envoy_config_accesslog_v3_AccessLog_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &envoy_config_listener_v3_FilterChain_msginit},
-  {.submsg = &google_protobuf_BoolValue_msginit},
-  {.submsg = &envoy_config_listener_v3_Listener_InternalListenerConfig_msginit},
-  {.submsg = &google_protobuf_BoolValue_msginit},
-  {.submsg = &xds_type_matcher_v3_Matcher_msginit},
-  {.submsg = &envoy_config_listener_v3_AdditionalAddress_msginit},
+  {.submsg = &envoy_config_core_v3_Address_msg_init},
+  {.submsg = &envoy_config_listener_v3_FilterChain_msg_init},
+  {.submsg = &google_protobuf_BoolValue_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &envoy_config_core_v3_Metadata_msg_init},
+  {.submsg = &envoy_config_listener_v3_Listener_DeprecatedV1_msg_init},
+  {.submsg = &envoy_config_listener_v3_ListenerFilter_msg_init},
+  {.submsg = &google_protobuf_BoolValue_msg_init},
+  {.submsg = &google_protobuf_BoolValue_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &envoy_config_core_v3_SocketOption_msg_init},
+  {.submsg = &google_protobuf_Duration_msg_init},
+  {.submsg = &envoy_config_listener_v3_UdpListenerConfig_msg_init},
+  {.submsg = &envoy_config_listener_v3_ApiListener_msg_init},
+  {.submsg = &envoy_config_listener_v3_Listener_ConnectionBalanceConfig_msg_init},
+  {.submsg = &envoy_config_accesslog_v3_AccessLog_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &envoy_config_listener_v3_FilterChain_msg_init},
+  {.submsg = &google_protobuf_BoolValue_msg_init},
+  {.submsg = &envoy_config_listener_v3_Listener_InternalListenerConfig_msg_init},
+  {.submsg = &google_protobuf_BoolValue_msg_init},
+  {.submsg = &xds_type_matcher_v3_Matcher_msg_init},
+  {.submsg = &envoy_config_listener_v3_AdditionalAddress_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_listener_v3_Listener__fields[31] = {
@@ -118,29 +119,29 @@ static const upb_MiniTable_Field envoy_config_listener_v3_Listener__fields[31] =
   {33, UPB_SIZE(124, 224), UPB_SIZE(0, 0), 22, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_listener_v3_Listener_msginit = {
+const upb_MiniTable envoy_config_listener_v3_Listener_msg_init = {
   &envoy_config_listener_v3_Listener_submsgs[0],
   &envoy_config_listener_v3_Listener__fields[0],
   UPB_SIZE(136, 240), 31, kUpb_ExtMode_NonExtendable, 13, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_listener_v3_Listener_DeprecatedV1_submsgs[1] = {
-  {.submsg = &google_protobuf_BoolValue_msginit},
+  {.submsg = &google_protobuf_BoolValue_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_listener_v3_Listener_DeprecatedV1__fields[1] = {
   {1, UPB_SIZE(4, 8), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_listener_v3_Listener_DeprecatedV1_msginit = {
+const upb_MiniTable envoy_config_listener_v3_Listener_DeprecatedV1_msg_init = {
   &envoy_config_listener_v3_Listener_DeprecatedV1_submsgs[0],
   &envoy_config_listener_v3_Listener_DeprecatedV1__fields[0],
   UPB_SIZE(8, 16), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_listener_v3_Listener_ConnectionBalanceConfig_submsgs[2] = {
-  {.submsg = &envoy_config_listener_v3_Listener_ConnectionBalanceConfig_ExactBalance_msginit},
-  {.submsg = &envoy_config_core_v3_TypedExtensionConfig_msginit},
+  {.submsg = &envoy_config_listener_v3_Listener_ConnectionBalanceConfig_ExactBalance_msg_init},
+  {.submsg = &envoy_config_core_v3_TypedExtensionConfig_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_listener_v3_Listener_ConnectionBalanceConfig__fields[2] = {
@@ -148,32 +149,32 @@ static const upb_MiniTable_Field envoy_config_listener_v3_Listener_ConnectionBal
   {2, UPB_SIZE(4, 8), UPB_SIZE(-1, -1), 1, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_listener_v3_Listener_ConnectionBalanceConfig_msginit = {
+const upb_MiniTable envoy_config_listener_v3_Listener_ConnectionBalanceConfig_msg_init = {
   &envoy_config_listener_v3_Listener_ConnectionBalanceConfig_submsgs[0],
   &envoy_config_listener_v3_Listener_ConnectionBalanceConfig__fields[0],
   UPB_SIZE(8, 16), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
-const upb_MiniTable envoy_config_listener_v3_Listener_ConnectionBalanceConfig_ExactBalance_msginit = {
+const upb_MiniTable envoy_config_listener_v3_Listener_ConnectionBalanceConfig_ExactBalance_msg_init = {
   NULL,
   NULL,
   UPB_SIZE(0, 0), 0, kUpb_ExtMode_NonExtendable, 0, 255, 0,
 };
 
-const upb_MiniTable envoy_config_listener_v3_Listener_InternalListenerConfig_msginit = {
+const upb_MiniTable envoy_config_listener_v3_Listener_InternalListenerConfig_msg_init = {
   NULL,
   NULL,
   UPB_SIZE(0, 0), 0, kUpb_ExtMode_NonExtendable, 0, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[7] = {
-  &envoy_config_listener_v3_AdditionalAddress_msginit,
-  &envoy_config_listener_v3_ListenerCollection_msginit,
-  &envoy_config_listener_v3_Listener_msginit,
-  &envoy_config_listener_v3_Listener_DeprecatedV1_msginit,
-  &envoy_config_listener_v3_Listener_ConnectionBalanceConfig_msginit,
-  &envoy_config_listener_v3_Listener_ConnectionBalanceConfig_ExactBalance_msginit,
-  &envoy_config_listener_v3_Listener_InternalListenerConfig_msginit,
+  &envoy_config_listener_v3_AdditionalAddress_msg_init,
+  &envoy_config_listener_v3_ListenerCollection_msg_init,
+  &envoy_config_listener_v3_Listener_msg_init,
+  &envoy_config_listener_v3_Listener_DeprecatedV1_msg_init,
+  &envoy_config_listener_v3_Listener_ConnectionBalanceConfig_msg_init,
+  &envoy_config_listener_v3_Listener_ConnectionBalanceConfig_ExactBalance_msg_init,
+  &envoy_config_listener_v3_Listener_InternalListenerConfig_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_listener_v3_listener_proto_upb_file_layout = {

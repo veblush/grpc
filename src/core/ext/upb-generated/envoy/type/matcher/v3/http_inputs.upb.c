@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/type/matcher/v3/http_inputs.upb.h"
 #include "udpa/annotations/status.upb.h"
@@ -18,7 +19,7 @@ static const upb_MiniTable_Field envoy_type_matcher_v3_HttpRequestHeaderMatchInp
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_type_matcher_v3_HttpRequestHeaderMatchInput_msginit = {
+const upb_MiniTable envoy_type_matcher_v3_HttpRequestHeaderMatchInput_msg_init = {
   NULL,
   &envoy_type_matcher_v3_HttpRequestHeaderMatchInput__fields[0],
   UPB_SIZE(8, 16), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
@@ -28,7 +29,7 @@ static const upb_MiniTable_Field envoy_type_matcher_v3_HttpRequestTrailerMatchIn
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_type_matcher_v3_HttpRequestTrailerMatchInput_msginit = {
+const upb_MiniTable envoy_type_matcher_v3_HttpRequestTrailerMatchInput_msg_init = {
   NULL,
   &envoy_type_matcher_v3_HttpRequestTrailerMatchInput__fields[0],
   UPB_SIZE(8, 16), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
@@ -38,7 +39,7 @@ static const upb_MiniTable_Field envoy_type_matcher_v3_HttpResponseHeaderMatchIn
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_type_matcher_v3_HttpResponseHeaderMatchInput_msginit = {
+const upb_MiniTable envoy_type_matcher_v3_HttpResponseHeaderMatchInput_msg_init = {
   NULL,
   &envoy_type_matcher_v3_HttpResponseHeaderMatchInput__fields[0],
   UPB_SIZE(8, 16), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
@@ -48,17 +49,17 @@ static const upb_MiniTable_Field envoy_type_matcher_v3_HttpResponseTrailerMatchI
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_type_matcher_v3_HttpResponseTrailerMatchInput_msginit = {
+const upb_MiniTable envoy_type_matcher_v3_HttpResponseTrailerMatchInput_msg_init = {
   NULL,
   &envoy_type_matcher_v3_HttpResponseTrailerMatchInput__fields[0],
   UPB_SIZE(8, 16), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[4] = {
-  &envoy_type_matcher_v3_HttpRequestHeaderMatchInput_msginit,
-  &envoy_type_matcher_v3_HttpRequestTrailerMatchInput_msginit,
-  &envoy_type_matcher_v3_HttpResponseHeaderMatchInput_msginit,
-  &envoy_type_matcher_v3_HttpResponseTrailerMatchInput_msginit,
+  &envoy_type_matcher_v3_HttpRequestHeaderMatchInput_msg_init,
+  &envoy_type_matcher_v3_HttpRequestTrailerMatchInput_msg_init,
+  &envoy_type_matcher_v3_HttpResponseHeaderMatchInput_msg_init,
+  &envoy_type_matcher_v3_HttpResponseTrailerMatchInput_msg_init,
 };
 
 const upb_MiniTable_File envoy_type_matcher_v3_http_inputs_proto_upb_file_layout = {

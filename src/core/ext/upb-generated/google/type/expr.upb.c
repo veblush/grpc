@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "google/type/expr.upb.h"
 
@@ -19,14 +20,14 @@ static const upb_MiniTable_Field google_type_Expr__fields[4] = {
   {4, UPB_SIZE(24, 48), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable google_type_Expr_msginit = {
+const upb_MiniTable google_type_Expr_msg_init = {
   NULL,
   &google_type_Expr__fields[0],
   UPB_SIZE(32, 64), 4, kUpb_ExtMode_NonExtendable, 4, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &google_type_Expr_msginit,
+  &google_type_Expr_msg_init,
 };
 
 const upb_MiniTable_File google_type_expr_proto_upb_file_layout = {

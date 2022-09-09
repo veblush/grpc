@@ -9,23 +9,22 @@
 #ifndef ENVOY_TYPE_V3_PERCENT_PROTO_UPB_H_
 #define ENVOY_TYPE_V3_PERCENT_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_type_v3_Percent;
-struct envoy_type_v3_FractionalPercent;
 typedef struct envoy_type_v3_Percent envoy_type_v3_Percent;
 typedef struct envoy_type_v3_FractionalPercent envoy_type_v3_FractionalPercent;
-extern const upb_MiniTable envoy_type_v3_Percent_msginit;
-extern const upb_MiniTable envoy_type_v3_FractionalPercent_msginit;
+extern const upb_MiniTable envoy_type_v3_Percent_msg_init;
+extern const upb_MiniTable envoy_type_v3_FractionalPercent_msg_init;
 
 typedef enum {
   envoy_type_v3_FractionalPercent_HUNDRED = 0,
@@ -38,12 +37,12 @@ typedef enum {
 /* envoy.type.v3.Percent */
 
 UPB_INLINE envoy_type_v3_Percent* envoy_type_v3_Percent_new(upb_Arena* arena) {
-  return (envoy_type_v3_Percent*)_upb_Message_New(&envoy_type_v3_Percent_msginit, arena);
+  return (envoy_type_v3_Percent*)_upb_Message_New(&envoy_type_v3_Percent_msg_init, arena);
 }
 UPB_INLINE envoy_type_v3_Percent* envoy_type_v3_Percent_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_type_v3_Percent* ret = envoy_type_v3_Percent_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_Percent_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_Percent_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -53,7 +52,7 @@ UPB_INLINE envoy_type_v3_Percent* envoy_type_v3_Percent_parse_ex(const char* buf
                            int options, upb_Arena* arena) {
   envoy_type_v3_Percent* ret = envoy_type_v3_Percent_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_Percent_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_Percent_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -61,13 +60,13 @@ UPB_INLINE envoy_type_v3_Percent* envoy_type_v3_Percent_parse_ex(const char* buf
 }
 UPB_INLINE char* envoy_type_v3_Percent_serialize(const envoy_type_v3_Percent* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_Percent_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_Percent_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_type_v3_Percent_serialize_ex(const envoy_type_v3_Percent* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_Percent_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_Percent_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_type_v3_Percent_clear_value(const envoy_type_v3_Percent* msg) {
@@ -84,12 +83,12 @@ UPB_INLINE void envoy_type_v3_Percent_set_value(envoy_type_v3_Percent *msg, doub
 /* envoy.type.v3.FractionalPercent */
 
 UPB_INLINE envoy_type_v3_FractionalPercent* envoy_type_v3_FractionalPercent_new(upb_Arena* arena) {
-  return (envoy_type_v3_FractionalPercent*)_upb_Message_New(&envoy_type_v3_FractionalPercent_msginit, arena);
+  return (envoy_type_v3_FractionalPercent*)_upb_Message_New(&envoy_type_v3_FractionalPercent_msg_init, arena);
 }
 UPB_INLINE envoy_type_v3_FractionalPercent* envoy_type_v3_FractionalPercent_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_type_v3_FractionalPercent* ret = envoy_type_v3_FractionalPercent_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_FractionalPercent_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_FractionalPercent_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -99,7 +98,7 @@ UPB_INLINE envoy_type_v3_FractionalPercent* envoy_type_v3_FractionalPercent_pars
                            int options, upb_Arena* arena) {
   envoy_type_v3_FractionalPercent* ret = envoy_type_v3_FractionalPercent_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_FractionalPercent_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_FractionalPercent_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -107,13 +106,13 @@ UPB_INLINE envoy_type_v3_FractionalPercent* envoy_type_v3_FractionalPercent_pars
 }
 UPB_INLINE char* envoy_type_v3_FractionalPercent_serialize(const envoy_type_v3_FractionalPercent* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_FractionalPercent_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_FractionalPercent_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_type_v3_FractionalPercent_serialize_ex(const envoy_type_v3_FractionalPercent* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_FractionalPercent_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_FractionalPercent_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_type_v3_FractionalPercent_clear_numerator(const envoy_type_v3_FractionalPercent* msg) {

@@ -77,7 +77,7 @@ def grpc_deps():
 
     native.bind(
         name = "protobuf_clib",
-        actual = "@com_google_protobuf//:protoc_lib",
+        actual = "@com_google_protobuf//src/google/protobuf/compiler:code_generator",
     )
 
     native.bind(

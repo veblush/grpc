@@ -9,39 +9,38 @@
 #ifndef ENVOY_CONFIG_TRACE_V3_SKYWALKING_PROTO_UPB_H_
 #define ENVOY_CONFIG_TRACE_V3_SKYWALKING_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_config_trace_v3_SkyWalkingConfig;
-struct envoy_config_trace_v3_ClientConfig;
 typedef struct envoy_config_trace_v3_SkyWalkingConfig envoy_config_trace_v3_SkyWalkingConfig;
 typedef struct envoy_config_trace_v3_ClientConfig envoy_config_trace_v3_ClientConfig;
-extern const upb_MiniTable envoy_config_trace_v3_SkyWalkingConfig_msginit;
-extern const upb_MiniTable envoy_config_trace_v3_ClientConfig_msginit;
+extern const upb_MiniTable envoy_config_trace_v3_SkyWalkingConfig_msg_init;
+extern const upb_MiniTable envoy_config_trace_v3_ClientConfig_msg_init;
 struct envoy_config_core_v3_GrpcService;
 struct google_protobuf_UInt32Value;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_msginit;
-extern const upb_MiniTable google_protobuf_UInt32Value_msginit;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_msg_init;
+extern const upb_MiniTable google_protobuf_UInt32Value_msg_init;
 
 
 
 /* envoy.config.trace.v3.SkyWalkingConfig */
 
 UPB_INLINE envoy_config_trace_v3_SkyWalkingConfig* envoy_config_trace_v3_SkyWalkingConfig_new(upb_Arena* arena) {
-  return (envoy_config_trace_v3_SkyWalkingConfig*)_upb_Message_New(&envoy_config_trace_v3_SkyWalkingConfig_msginit, arena);
+  return (envoy_config_trace_v3_SkyWalkingConfig*)_upb_Message_New(&envoy_config_trace_v3_SkyWalkingConfig_msg_init, arena);
 }
 UPB_INLINE envoy_config_trace_v3_SkyWalkingConfig* envoy_config_trace_v3_SkyWalkingConfig_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_trace_v3_SkyWalkingConfig* ret = envoy_config_trace_v3_SkyWalkingConfig_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_SkyWalkingConfig_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_SkyWalkingConfig_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -51,7 +50,7 @@ UPB_INLINE envoy_config_trace_v3_SkyWalkingConfig* envoy_config_trace_v3_SkyWalk
                            int options, upb_Arena* arena) {
   envoy_config_trace_v3_SkyWalkingConfig* ret = envoy_config_trace_v3_SkyWalkingConfig_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_SkyWalkingConfig_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_SkyWalkingConfig_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -59,13 +58,13 @@ UPB_INLINE envoy_config_trace_v3_SkyWalkingConfig* envoy_config_trace_v3_SkyWalk
 }
 UPB_INLINE char* envoy_config_trace_v3_SkyWalkingConfig_serialize(const envoy_config_trace_v3_SkyWalkingConfig* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_trace_v3_SkyWalkingConfig_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_trace_v3_SkyWalkingConfig_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_trace_v3_SkyWalkingConfig_serialize_ex(const envoy_config_trace_v3_SkyWalkingConfig* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_trace_v3_SkyWalkingConfig_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_trace_v3_SkyWalkingConfig_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_config_trace_v3_SkyWalkingConfig_has_grpc_service(const envoy_config_trace_v3_SkyWalkingConfig* msg) {
@@ -73,6 +72,7 @@ UPB_INLINE bool envoy_config_trace_v3_SkyWalkingConfig_has_grpc_service(const en
 }
 UPB_INLINE void envoy_config_trace_v3_SkyWalkingConfig_clear_grpc_service(const envoy_config_trace_v3_SkyWalkingConfig* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct envoy_config_core_v3_GrpcService* envoy_config_trace_v3_SkyWalkingConfig_grpc_service(const envoy_config_trace_v3_SkyWalkingConfig* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const struct envoy_config_core_v3_GrpcService*);
@@ -82,6 +82,7 @@ UPB_INLINE bool envoy_config_trace_v3_SkyWalkingConfig_has_client_config(const e
 }
 UPB_INLINE void envoy_config_trace_v3_SkyWalkingConfig_clear_client_config(const envoy_config_trace_v3_SkyWalkingConfig* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(8, 16), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 2);
 }
 UPB_INLINE const envoy_config_trace_v3_ClientConfig* envoy_config_trace_v3_SkyWalkingConfig_client_config(const envoy_config_trace_v3_SkyWalkingConfig* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(8, 16), const envoy_config_trace_v3_ClientConfig*);
@@ -94,7 +95,7 @@ UPB_INLINE void envoy_config_trace_v3_SkyWalkingConfig_set_grpc_service(envoy_co
 UPB_INLINE struct envoy_config_core_v3_GrpcService* envoy_config_trace_v3_SkyWalkingConfig_mutable_grpc_service(envoy_config_trace_v3_SkyWalkingConfig* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_GrpcService* sub = (struct envoy_config_core_v3_GrpcService*)envoy_config_trace_v3_SkyWalkingConfig_grpc_service(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_GrpcService*)_upb_Message_New(&envoy_config_core_v3_GrpcService_msginit, arena);
+    sub = (struct envoy_config_core_v3_GrpcService*)_upb_Message_New(&envoy_config_core_v3_GrpcService_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_trace_v3_SkyWalkingConfig_set_grpc_service(msg, sub);
   }
@@ -107,7 +108,7 @@ UPB_INLINE void envoy_config_trace_v3_SkyWalkingConfig_set_client_config(envoy_c
 UPB_INLINE struct envoy_config_trace_v3_ClientConfig* envoy_config_trace_v3_SkyWalkingConfig_mutable_client_config(envoy_config_trace_v3_SkyWalkingConfig* msg, upb_Arena* arena) {
   struct envoy_config_trace_v3_ClientConfig* sub = (struct envoy_config_trace_v3_ClientConfig*)envoy_config_trace_v3_SkyWalkingConfig_client_config(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_trace_v3_ClientConfig*)_upb_Message_New(&envoy_config_trace_v3_ClientConfig_msginit, arena);
+    sub = (struct envoy_config_trace_v3_ClientConfig*)_upb_Message_New(&envoy_config_trace_v3_ClientConfig_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_trace_v3_SkyWalkingConfig_set_client_config(msg, sub);
   }
@@ -117,12 +118,12 @@ UPB_INLINE struct envoy_config_trace_v3_ClientConfig* envoy_config_trace_v3_SkyW
 /* envoy.config.trace.v3.ClientConfig */
 
 UPB_INLINE envoy_config_trace_v3_ClientConfig* envoy_config_trace_v3_ClientConfig_new(upb_Arena* arena) {
-  return (envoy_config_trace_v3_ClientConfig*)_upb_Message_New(&envoy_config_trace_v3_ClientConfig_msginit, arena);
+  return (envoy_config_trace_v3_ClientConfig*)_upb_Message_New(&envoy_config_trace_v3_ClientConfig_msg_init, arena);
 }
 UPB_INLINE envoy_config_trace_v3_ClientConfig* envoy_config_trace_v3_ClientConfig_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_trace_v3_ClientConfig* ret = envoy_config_trace_v3_ClientConfig_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_ClientConfig_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_ClientConfig_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -132,7 +133,7 @@ UPB_INLINE envoy_config_trace_v3_ClientConfig* envoy_config_trace_v3_ClientConfi
                            int options, upb_Arena* arena) {
   envoy_config_trace_v3_ClientConfig* ret = envoy_config_trace_v3_ClientConfig_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_ClientConfig_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_ClientConfig_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -140,13 +141,13 @@ UPB_INLINE envoy_config_trace_v3_ClientConfig* envoy_config_trace_v3_ClientConfi
 }
 UPB_INLINE char* envoy_config_trace_v3_ClientConfig_serialize(const envoy_config_trace_v3_ClientConfig* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_trace_v3_ClientConfig_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_trace_v3_ClientConfig_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_trace_v3_ClientConfig_serialize_ex(const envoy_config_trace_v3_ClientConfig* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_trace_v3_ClientConfig_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_trace_v3_ClientConfig_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {
@@ -182,6 +183,7 @@ UPB_INLINE bool envoy_config_trace_v3_ClientConfig_has_max_cache_size(const envo
 }
 UPB_INLINE void envoy_config_trace_v3_ClientConfig_clear_max_cache_size(const envoy_config_trace_v3_ClientConfig* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(32, 56), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_UInt32Value* envoy_config_trace_v3_ClientConfig_max_cache_size(const envoy_config_trace_v3_ClientConfig* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(32, 56), const struct google_protobuf_UInt32Value*);
@@ -203,7 +205,7 @@ UPB_INLINE void envoy_config_trace_v3_ClientConfig_set_max_cache_size(envoy_conf
 UPB_INLINE struct google_protobuf_UInt32Value* envoy_config_trace_v3_ClientConfig_mutable_max_cache_size(envoy_config_trace_v3_ClientConfig* msg, upb_Arena* arena) {
   struct google_protobuf_UInt32Value* sub = (struct google_protobuf_UInt32Value*)envoy_config_trace_v3_ClientConfig_max_cache_size(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msginit, arena);
+    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_trace_v3_ClientConfig_set_max_cache_size(msg, sub);
   }

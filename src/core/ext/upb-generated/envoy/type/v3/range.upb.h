@@ -9,38 +9,36 @@
 #ifndef ENVOY_TYPE_V3_RANGE_PROTO_UPB_H_
 #define ENVOY_TYPE_V3_RANGE_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_type_v3_Int64Range;
-struct envoy_type_v3_Int32Range;
-struct envoy_type_v3_DoubleRange;
 typedef struct envoy_type_v3_Int64Range envoy_type_v3_Int64Range;
 typedef struct envoy_type_v3_Int32Range envoy_type_v3_Int32Range;
 typedef struct envoy_type_v3_DoubleRange envoy_type_v3_DoubleRange;
-extern const upb_MiniTable envoy_type_v3_Int64Range_msginit;
-extern const upb_MiniTable envoy_type_v3_Int32Range_msginit;
-extern const upb_MiniTable envoy_type_v3_DoubleRange_msginit;
+extern const upb_MiniTable envoy_type_v3_Int64Range_msg_init;
+extern const upb_MiniTable envoy_type_v3_Int32Range_msg_init;
+extern const upb_MiniTable envoy_type_v3_DoubleRange_msg_init;
 
 
 
 /* envoy.type.v3.Int64Range */
 
 UPB_INLINE envoy_type_v3_Int64Range* envoy_type_v3_Int64Range_new(upb_Arena* arena) {
-  return (envoy_type_v3_Int64Range*)_upb_Message_New(&envoy_type_v3_Int64Range_msginit, arena);
+  return (envoy_type_v3_Int64Range*)_upb_Message_New(&envoy_type_v3_Int64Range_msg_init, arena);
 }
 UPB_INLINE envoy_type_v3_Int64Range* envoy_type_v3_Int64Range_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_type_v3_Int64Range* ret = envoy_type_v3_Int64Range_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_Int64Range_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_Int64Range_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -50,7 +48,7 @@ UPB_INLINE envoy_type_v3_Int64Range* envoy_type_v3_Int64Range_parse_ex(const cha
                            int options, upb_Arena* arena) {
   envoy_type_v3_Int64Range* ret = envoy_type_v3_Int64Range_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_Int64Range_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_Int64Range_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -58,13 +56,13 @@ UPB_INLINE envoy_type_v3_Int64Range* envoy_type_v3_Int64Range_parse_ex(const cha
 }
 UPB_INLINE char* envoy_type_v3_Int64Range_serialize(const envoy_type_v3_Int64Range* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_Int64Range_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_Int64Range_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_type_v3_Int64Range_serialize_ex(const envoy_type_v3_Int64Range* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_Int64Range_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_Int64Range_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_type_v3_Int64Range_clear_start(const envoy_type_v3_Int64Range* msg) {
@@ -90,12 +88,12 @@ UPB_INLINE void envoy_type_v3_Int64Range_set_end(envoy_type_v3_Int64Range *msg, 
 /* envoy.type.v3.Int32Range */
 
 UPB_INLINE envoy_type_v3_Int32Range* envoy_type_v3_Int32Range_new(upb_Arena* arena) {
-  return (envoy_type_v3_Int32Range*)_upb_Message_New(&envoy_type_v3_Int32Range_msginit, arena);
+  return (envoy_type_v3_Int32Range*)_upb_Message_New(&envoy_type_v3_Int32Range_msg_init, arena);
 }
 UPB_INLINE envoy_type_v3_Int32Range* envoy_type_v3_Int32Range_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_type_v3_Int32Range* ret = envoy_type_v3_Int32Range_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_Int32Range_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_Int32Range_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -105,7 +103,7 @@ UPB_INLINE envoy_type_v3_Int32Range* envoy_type_v3_Int32Range_parse_ex(const cha
                            int options, upb_Arena* arena) {
   envoy_type_v3_Int32Range* ret = envoy_type_v3_Int32Range_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_Int32Range_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_Int32Range_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -113,13 +111,13 @@ UPB_INLINE envoy_type_v3_Int32Range* envoy_type_v3_Int32Range_parse_ex(const cha
 }
 UPB_INLINE char* envoy_type_v3_Int32Range_serialize(const envoy_type_v3_Int32Range* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_Int32Range_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_Int32Range_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_type_v3_Int32Range_serialize_ex(const envoy_type_v3_Int32Range* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_Int32Range_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_Int32Range_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_type_v3_Int32Range_clear_start(const envoy_type_v3_Int32Range* msg) {
@@ -145,12 +143,12 @@ UPB_INLINE void envoy_type_v3_Int32Range_set_end(envoy_type_v3_Int32Range *msg, 
 /* envoy.type.v3.DoubleRange */
 
 UPB_INLINE envoy_type_v3_DoubleRange* envoy_type_v3_DoubleRange_new(upb_Arena* arena) {
-  return (envoy_type_v3_DoubleRange*)_upb_Message_New(&envoy_type_v3_DoubleRange_msginit, arena);
+  return (envoy_type_v3_DoubleRange*)_upb_Message_New(&envoy_type_v3_DoubleRange_msg_init, arena);
 }
 UPB_INLINE envoy_type_v3_DoubleRange* envoy_type_v3_DoubleRange_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_type_v3_DoubleRange* ret = envoy_type_v3_DoubleRange_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_DoubleRange_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_DoubleRange_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -160,7 +158,7 @@ UPB_INLINE envoy_type_v3_DoubleRange* envoy_type_v3_DoubleRange_parse_ex(const c
                            int options, upb_Arena* arena) {
   envoy_type_v3_DoubleRange* ret = envoy_type_v3_DoubleRange_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_DoubleRange_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_DoubleRange_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -168,13 +166,13 @@ UPB_INLINE envoy_type_v3_DoubleRange* envoy_type_v3_DoubleRange_parse_ex(const c
 }
 UPB_INLINE char* envoy_type_v3_DoubleRange_serialize(const envoy_type_v3_DoubleRange* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_DoubleRange_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_DoubleRange_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_type_v3_DoubleRange_serialize_ex(const envoy_type_v3_DoubleRange* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_DoubleRange_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_DoubleRange_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_type_v3_DoubleRange_clear_start(const envoy_type_v3_DoubleRange* msg) {

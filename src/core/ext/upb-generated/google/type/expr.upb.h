@@ -9,32 +9,32 @@
 #ifndef GOOGLE_TYPE_EXPR_PROTO_UPB_H_
 #define GOOGLE_TYPE_EXPR_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct google_type_Expr;
 typedef struct google_type_Expr google_type_Expr;
-extern const upb_MiniTable google_type_Expr_msginit;
+extern const upb_MiniTable google_type_Expr_msg_init;
 
 
 
 /* google.type.Expr */
 
 UPB_INLINE google_type_Expr* google_type_Expr_new(upb_Arena* arena) {
-  return (google_type_Expr*)_upb_Message_New(&google_type_Expr_msginit, arena);
+  return (google_type_Expr*)_upb_Message_New(&google_type_Expr_msg_init, arena);
 }
 UPB_INLINE google_type_Expr* google_type_Expr_parse(const char* buf, size_t size, upb_Arena* arena) {
   google_type_Expr* ret = google_type_Expr_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &google_type_Expr_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &google_type_Expr_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -44,7 +44,7 @@ UPB_INLINE google_type_Expr* google_type_Expr_parse_ex(const char* buf, size_t s
                            int options, upb_Arena* arena) {
   google_type_Expr* ret = google_type_Expr_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &google_type_Expr_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &google_type_Expr_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -52,13 +52,13 @@ UPB_INLINE google_type_Expr* google_type_Expr_parse_ex(const char* buf, size_t s
 }
 UPB_INLINE char* google_type_Expr_serialize(const google_type_Expr* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &google_type_Expr_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &google_type_Expr_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* google_type_Expr_serialize_ex(const google_type_Expr* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &google_type_Expr_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &google_type_Expr_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void google_type_Expr_clear_expression(const google_type_Expr* msg) {

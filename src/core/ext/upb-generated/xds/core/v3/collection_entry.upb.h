@@ -9,39 +9,38 @@
 #ifndef XDS_CORE_V3_COLLECTION_ENTRY_PROTO_UPB_H_
 #define XDS_CORE_V3_COLLECTION_ENTRY_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct xds_core_v3_CollectionEntry;
-struct xds_core_v3_CollectionEntry_InlineEntry;
 typedef struct xds_core_v3_CollectionEntry xds_core_v3_CollectionEntry;
 typedef struct xds_core_v3_CollectionEntry_InlineEntry xds_core_v3_CollectionEntry_InlineEntry;
-extern const upb_MiniTable xds_core_v3_CollectionEntry_msginit;
-extern const upb_MiniTable xds_core_v3_CollectionEntry_InlineEntry_msginit;
+extern const upb_MiniTable xds_core_v3_CollectionEntry_msg_init;
+extern const upb_MiniTable xds_core_v3_CollectionEntry_InlineEntry_msg_init;
 struct google_protobuf_Any;
 struct xds_core_v3_ResourceLocator;
-extern const upb_MiniTable google_protobuf_Any_msginit;
-extern const upb_MiniTable xds_core_v3_ResourceLocator_msginit;
+extern const upb_MiniTable google_protobuf_Any_msg_init;
+extern const upb_MiniTable xds_core_v3_ResourceLocator_msg_init;
 
 
 
 /* xds.core.v3.CollectionEntry */
 
 UPB_INLINE xds_core_v3_CollectionEntry* xds_core_v3_CollectionEntry_new(upb_Arena* arena) {
-  return (xds_core_v3_CollectionEntry*)_upb_Message_New(&xds_core_v3_CollectionEntry_msginit, arena);
+  return (xds_core_v3_CollectionEntry*)_upb_Message_New(&xds_core_v3_CollectionEntry_msg_init, arena);
 }
 UPB_INLINE xds_core_v3_CollectionEntry* xds_core_v3_CollectionEntry_parse(const char* buf, size_t size, upb_Arena* arena) {
   xds_core_v3_CollectionEntry* ret = xds_core_v3_CollectionEntry_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_core_v3_CollectionEntry_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &xds_core_v3_CollectionEntry_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -51,7 +50,7 @@ UPB_INLINE xds_core_v3_CollectionEntry* xds_core_v3_CollectionEntry_parse_ex(con
                            int options, upb_Arena* arena) {
   xds_core_v3_CollectionEntry* ret = xds_core_v3_CollectionEntry_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_core_v3_CollectionEntry_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &xds_core_v3_CollectionEntry_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -59,13 +58,13 @@ UPB_INLINE xds_core_v3_CollectionEntry* xds_core_v3_CollectionEntry_parse_ex(con
 }
 UPB_INLINE char* xds_core_v3_CollectionEntry_serialize(const xds_core_v3_CollectionEntry* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_core_v3_CollectionEntry_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_core_v3_CollectionEntry_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* xds_core_v3_CollectionEntry_serialize_ex(const xds_core_v3_CollectionEntry* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_core_v3_CollectionEntry_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_core_v3_CollectionEntry_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {
@@ -101,7 +100,7 @@ UPB_INLINE void xds_core_v3_CollectionEntry_set_locator(xds_core_v3_CollectionEn
 UPB_INLINE struct xds_core_v3_ResourceLocator* xds_core_v3_CollectionEntry_mutable_locator(xds_core_v3_CollectionEntry* msg, upb_Arena* arena) {
   struct xds_core_v3_ResourceLocator* sub = (struct xds_core_v3_ResourceLocator*)xds_core_v3_CollectionEntry_locator(msg);
   if (sub == NULL) {
-    sub = (struct xds_core_v3_ResourceLocator*)_upb_Message_New(&xds_core_v3_ResourceLocator_msginit, arena);
+    sub = (struct xds_core_v3_ResourceLocator*)_upb_Message_New(&xds_core_v3_ResourceLocator_msg_init, arena);
     if (!sub) return NULL;
     xds_core_v3_CollectionEntry_set_locator(msg, sub);
   }
@@ -113,7 +112,7 @@ UPB_INLINE void xds_core_v3_CollectionEntry_set_inline_entry(xds_core_v3_Collect
 UPB_INLINE struct xds_core_v3_CollectionEntry_InlineEntry* xds_core_v3_CollectionEntry_mutable_inline_entry(xds_core_v3_CollectionEntry* msg, upb_Arena* arena) {
   struct xds_core_v3_CollectionEntry_InlineEntry* sub = (struct xds_core_v3_CollectionEntry_InlineEntry*)xds_core_v3_CollectionEntry_inline_entry(msg);
   if (sub == NULL) {
-    sub = (struct xds_core_v3_CollectionEntry_InlineEntry*)_upb_Message_New(&xds_core_v3_CollectionEntry_InlineEntry_msginit, arena);
+    sub = (struct xds_core_v3_CollectionEntry_InlineEntry*)_upb_Message_New(&xds_core_v3_CollectionEntry_InlineEntry_msg_init, arena);
     if (!sub) return NULL;
     xds_core_v3_CollectionEntry_set_inline_entry(msg, sub);
   }
@@ -123,12 +122,12 @@ UPB_INLINE struct xds_core_v3_CollectionEntry_InlineEntry* xds_core_v3_Collectio
 /* xds.core.v3.CollectionEntry.InlineEntry */
 
 UPB_INLINE xds_core_v3_CollectionEntry_InlineEntry* xds_core_v3_CollectionEntry_InlineEntry_new(upb_Arena* arena) {
-  return (xds_core_v3_CollectionEntry_InlineEntry*)_upb_Message_New(&xds_core_v3_CollectionEntry_InlineEntry_msginit, arena);
+  return (xds_core_v3_CollectionEntry_InlineEntry*)_upb_Message_New(&xds_core_v3_CollectionEntry_InlineEntry_msg_init, arena);
 }
 UPB_INLINE xds_core_v3_CollectionEntry_InlineEntry* xds_core_v3_CollectionEntry_InlineEntry_parse(const char* buf, size_t size, upb_Arena* arena) {
   xds_core_v3_CollectionEntry_InlineEntry* ret = xds_core_v3_CollectionEntry_InlineEntry_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_core_v3_CollectionEntry_InlineEntry_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &xds_core_v3_CollectionEntry_InlineEntry_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -138,7 +137,7 @@ UPB_INLINE xds_core_v3_CollectionEntry_InlineEntry* xds_core_v3_CollectionEntry_
                            int options, upb_Arena* arena) {
   xds_core_v3_CollectionEntry_InlineEntry* ret = xds_core_v3_CollectionEntry_InlineEntry_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_core_v3_CollectionEntry_InlineEntry_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &xds_core_v3_CollectionEntry_InlineEntry_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -146,13 +145,13 @@ UPB_INLINE xds_core_v3_CollectionEntry_InlineEntry* xds_core_v3_CollectionEntry_
 }
 UPB_INLINE char* xds_core_v3_CollectionEntry_InlineEntry_serialize(const xds_core_v3_CollectionEntry_InlineEntry* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_core_v3_CollectionEntry_InlineEntry_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_core_v3_CollectionEntry_InlineEntry_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* xds_core_v3_CollectionEntry_InlineEntry_serialize_ex(const xds_core_v3_CollectionEntry_InlineEntry* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_core_v3_CollectionEntry_InlineEntry_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_core_v3_CollectionEntry_InlineEntry_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void xds_core_v3_CollectionEntry_InlineEntry_clear_name(const xds_core_v3_CollectionEntry_InlineEntry* msg) {
@@ -172,6 +171,7 @@ UPB_INLINE bool xds_core_v3_CollectionEntry_InlineEntry_has_resource(const xds_c
 }
 UPB_INLINE void xds_core_v3_CollectionEntry_InlineEntry_clear_resource(const xds_core_v3_CollectionEntry_InlineEntry* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(20, 40), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_Any* xds_core_v3_CollectionEntry_InlineEntry_resource(const xds_core_v3_CollectionEntry_InlineEntry* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(20, 40), const struct google_protobuf_Any*);
@@ -190,7 +190,7 @@ UPB_INLINE void xds_core_v3_CollectionEntry_InlineEntry_set_resource(xds_core_v3
 UPB_INLINE struct google_protobuf_Any* xds_core_v3_CollectionEntry_InlineEntry_mutable_resource(xds_core_v3_CollectionEntry_InlineEntry* msg, upb_Arena* arena) {
   struct google_protobuf_Any* sub = (struct google_protobuf_Any*)xds_core_v3_CollectionEntry_InlineEntry_resource(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Any*)_upb_Message_New(&google_protobuf_Any_msginit, arena);
+    sub = (struct google_protobuf_Any*)_upb_Message_New(&google_protobuf_Any_msg_init, arena);
     if (!sub) return NULL;
     xds_core_v3_CollectionEntry_InlineEntry_set_resource(msg, sub);
   }

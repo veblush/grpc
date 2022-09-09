@@ -9,34 +9,34 @@
 #ifndef XDS_CORE_V3_RESOURCE_NAME_PROTO_UPB_H_
 #define XDS_CORE_V3_RESOURCE_NAME_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct xds_core_v3_ResourceName;
 typedef struct xds_core_v3_ResourceName xds_core_v3_ResourceName;
-extern const upb_MiniTable xds_core_v3_ResourceName_msginit;
+extern const upb_MiniTable xds_core_v3_ResourceName_msg_init;
 struct xds_core_v3_ContextParams;
-extern const upb_MiniTable xds_core_v3_ContextParams_msginit;
+extern const upb_MiniTable xds_core_v3_ContextParams_msg_init;
 
 
 
 /* xds.core.v3.ResourceName */
 
 UPB_INLINE xds_core_v3_ResourceName* xds_core_v3_ResourceName_new(upb_Arena* arena) {
-  return (xds_core_v3_ResourceName*)_upb_Message_New(&xds_core_v3_ResourceName_msginit, arena);
+  return (xds_core_v3_ResourceName*)_upb_Message_New(&xds_core_v3_ResourceName_msg_init, arena);
 }
 UPB_INLINE xds_core_v3_ResourceName* xds_core_v3_ResourceName_parse(const char* buf, size_t size, upb_Arena* arena) {
   xds_core_v3_ResourceName* ret = xds_core_v3_ResourceName_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_core_v3_ResourceName_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &xds_core_v3_ResourceName_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -46,7 +46,7 @@ UPB_INLINE xds_core_v3_ResourceName* xds_core_v3_ResourceName_parse_ex(const cha
                            int options, upb_Arena* arena) {
   xds_core_v3_ResourceName* ret = xds_core_v3_ResourceName_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_core_v3_ResourceName_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &xds_core_v3_ResourceName_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -54,13 +54,13 @@ UPB_INLINE xds_core_v3_ResourceName* xds_core_v3_ResourceName_parse_ex(const cha
 }
 UPB_INLINE char* xds_core_v3_ResourceName_serialize(const xds_core_v3_ResourceName* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_core_v3_ResourceName_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_core_v3_ResourceName_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* xds_core_v3_ResourceName_serialize_ex(const xds_core_v3_ResourceName* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_core_v3_ResourceName_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_core_v3_ResourceName_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void xds_core_v3_ResourceName_clear_id(const xds_core_v3_ResourceName* msg) {
@@ -86,6 +86,7 @@ UPB_INLINE bool xds_core_v3_ResourceName_has_context(const xds_core_v3_ResourceN
 }
 UPB_INLINE void xds_core_v3_ResourceName_clear_context(const xds_core_v3_ResourceName* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(28, 56), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct xds_core_v3_ContextParams* xds_core_v3_ResourceName_context(const xds_core_v3_ResourceName* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(28, 56), const struct xds_core_v3_ContextParams*);
@@ -107,7 +108,7 @@ UPB_INLINE void xds_core_v3_ResourceName_set_context(xds_core_v3_ResourceName *m
 UPB_INLINE struct xds_core_v3_ContextParams* xds_core_v3_ResourceName_mutable_context(xds_core_v3_ResourceName* msg, upb_Arena* arena) {
   struct xds_core_v3_ContextParams* sub = (struct xds_core_v3_ContextParams*)xds_core_v3_ResourceName_context(msg);
   if (sub == NULL) {
-    sub = (struct xds_core_v3_ContextParams*)_upb_Message_New(&xds_core_v3_ContextParams_msginit, arena);
+    sub = (struct xds_core_v3_ContextParams*)_upb_Message_New(&xds_core_v3_ContextParams_msg_init, arena);
     if (!sub) return NULL;
     xds_core_v3_ResourceName_set_context(msg, sub);
   }

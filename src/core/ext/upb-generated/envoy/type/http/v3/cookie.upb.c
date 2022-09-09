@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/type/http/v3/cookie.upb.h"
 #include "google/protobuf/duration.upb.h"
@@ -16,7 +17,7 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_type_http_v3_Cookie_submsgs[1] = {
-  {.submsg = &google_protobuf_Duration_msginit},
+  {.submsg = &google_protobuf_Duration_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_type_http_v3_Cookie__fields[3] = {
@@ -25,14 +26,14 @@ static const upb_MiniTable_Field envoy_type_http_v3_Cookie__fields[3] = {
   {3, UPB_SIZE(16, 32), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_type_http_v3_Cookie_msginit = {
+const upb_MiniTable envoy_type_http_v3_Cookie_msg_init = {
   &envoy_type_http_v3_Cookie_submsgs[0],
   &envoy_type_http_v3_Cookie__fields[0],
   UPB_SIZE(24, 48), 3, kUpb_ExtMode_NonExtendable, 3, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_type_http_v3_Cookie_msginit,
+  &envoy_type_http_v3_Cookie_msg_init,
 };
 
 const upb_MiniTable_File envoy_type_http_v3_cookie_proto_upb_file_layout = {

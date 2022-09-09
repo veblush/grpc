@@ -7,13 +7,14 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "src/proto/grpc/lookup/v1/rls.upb.h"
 
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub grpc_lookup_v1_RouteLookupRequest_submsgs[1] = {
-  {.submsg = &grpc_lookup_v1_RouteLookupRequest_KeyMapEntry_msginit},
+  {.submsg = &grpc_lookup_v1_RouteLookupRequest_KeyMapEntry_msg_init},
 };
 
 static const upb_MiniTable_Field grpc_lookup_v1_RouteLookupRequest__fields[4] = {
@@ -23,7 +24,7 @@ static const upb_MiniTable_Field grpc_lookup_v1_RouteLookupRequest__fields[4] = 
   {6, UPB_SIZE(16, 32), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable grpc_lookup_v1_RouteLookupRequest_msginit = {
+const upb_MiniTable grpc_lookup_v1_RouteLookupRequest_msg_init = {
   &grpc_lookup_v1_RouteLookupRequest_submsgs[0],
   &grpc_lookup_v1_RouteLookupRequest__fields[0],
   UPB_SIZE(24, 48), 4, kUpb_ExtMode_NonExtendable, 0, 255, 0,
@@ -34,7 +35,7 @@ static const upb_MiniTable_Field grpc_lookup_v1_RouteLookupRequest_KeyMapEntry__
   {2, UPB_SIZE(8, 16), UPB_SIZE(0, 0), kUpb_NoSub, 12, kUpb_FieldMode_Scalar | (kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable grpc_lookup_v1_RouteLookupRequest_KeyMapEntry_msginit = {
+const upb_MiniTable grpc_lookup_v1_RouteLookupRequest_KeyMapEntry_msg_init = {
   NULL,
   &grpc_lookup_v1_RouteLookupRequest_KeyMapEntry__fields[0],
   UPB_SIZE(16, 32), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
@@ -45,16 +46,16 @@ static const upb_MiniTable_Field grpc_lookup_v1_RouteLookupResponse__fields[2] =
   {3, UPB_SIZE(8, 16), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable grpc_lookup_v1_RouteLookupResponse_msginit = {
+const upb_MiniTable grpc_lookup_v1_RouteLookupResponse_msg_init = {
   NULL,
   &grpc_lookup_v1_RouteLookupResponse__fields[0],
   UPB_SIZE(16, 24), 2, kUpb_ExtMode_NonExtendable, 0, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[3] = {
-  &grpc_lookup_v1_RouteLookupRequest_msginit,
-  &grpc_lookup_v1_RouteLookupRequest_KeyMapEntry_msginit,
-  &grpc_lookup_v1_RouteLookupResponse_msginit,
+  &grpc_lookup_v1_RouteLookupRequest_msg_init,
+  &grpc_lookup_v1_RouteLookupRequest_KeyMapEntry_msg_init,
+  &grpc_lookup_v1_RouteLookupResponse_msg_init,
 };
 
 const upb_MiniTable_File src_proto_grpc_lookup_v1_rls_proto_upb_file_layout = {

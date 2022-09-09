@@ -9,34 +9,34 @@
 #ifndef GOOGLE_API_HTTPBODY_PROTO_UPB_H_
 #define GOOGLE_API_HTTPBODY_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct google_api_HttpBody;
 typedef struct google_api_HttpBody google_api_HttpBody;
-extern const upb_MiniTable google_api_HttpBody_msginit;
+extern const upb_MiniTable google_api_HttpBody_msg_init;
 struct google_protobuf_Any;
-extern const upb_MiniTable google_protobuf_Any_msginit;
+extern const upb_MiniTable google_protobuf_Any_msg_init;
 
 
 
 /* google.api.HttpBody */
 
 UPB_INLINE google_api_HttpBody* google_api_HttpBody_new(upb_Arena* arena) {
-  return (google_api_HttpBody*)_upb_Message_New(&google_api_HttpBody_msginit, arena);
+  return (google_api_HttpBody*)_upb_Message_New(&google_api_HttpBody_msg_init, arena);
 }
 UPB_INLINE google_api_HttpBody* google_api_HttpBody_parse(const char* buf, size_t size, upb_Arena* arena) {
   google_api_HttpBody* ret = google_api_HttpBody_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &google_api_HttpBody_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &google_api_HttpBody_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -46,7 +46,7 @@ UPB_INLINE google_api_HttpBody* google_api_HttpBody_parse_ex(const char* buf, si
                            int options, upb_Arena* arena) {
   google_api_HttpBody* ret = google_api_HttpBody_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &google_api_HttpBody_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &google_api_HttpBody_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -54,13 +54,13 @@ UPB_INLINE google_api_HttpBody* google_api_HttpBody_parse_ex(const char* buf, si
 }
 UPB_INLINE char* google_api_HttpBody_serialize(const google_api_HttpBody* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &google_api_HttpBody_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &google_api_HttpBody_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* google_api_HttpBody_serialize_ex(const google_api_HttpBody* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &google_api_HttpBody_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &google_api_HttpBody_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void google_api_HttpBody_clear_content_type(const google_api_HttpBody* msg) {
@@ -98,7 +98,7 @@ UPB_INLINE struct google_protobuf_Any** google_api_HttpBody_resize_extensions(go
   return (struct google_protobuf_Any**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(16, 32), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct google_protobuf_Any* google_api_HttpBody_add_extensions(google_api_HttpBody* msg, upb_Arena* arena) {
-  struct google_protobuf_Any* sub = (struct google_protobuf_Any*)_upb_Message_New(&google_protobuf_Any_msginit, arena);
+  struct google_protobuf_Any* sub = (struct google_protobuf_Any*)_upb_Message_New(&google_protobuf_Any_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(16, 32), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;

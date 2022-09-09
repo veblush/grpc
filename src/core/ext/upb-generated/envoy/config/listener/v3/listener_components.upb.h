@@ -9,24 +9,18 @@
 #ifndef ENVOY_CONFIG_LISTENER_V3_LISTENER_COMPONENTS_PROTO_UPB_H_
 #define ENVOY_CONFIG_LISTENER_V3_LISTENER_COMPONENTS_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_config_listener_v3_Filter;
-struct envoy_config_listener_v3_FilterChainMatch;
-struct envoy_config_listener_v3_FilterChain;
-struct envoy_config_listener_v3_FilterChain_OnDemandConfiguration;
-struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate;
-struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet;
-struct envoy_config_listener_v3_ListenerFilter;
 typedef struct envoy_config_listener_v3_Filter envoy_config_listener_v3_Filter;
 typedef struct envoy_config_listener_v3_FilterChainMatch envoy_config_listener_v3_FilterChainMatch;
 typedef struct envoy_config_listener_v3_FilterChain envoy_config_listener_v3_FilterChain;
@@ -34,13 +28,13 @@ typedef struct envoy_config_listener_v3_FilterChain_OnDemandConfiguration envoy_
 typedef struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate envoy_config_listener_v3_ListenerFilterChainMatchPredicate;
 typedef struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet;
 typedef struct envoy_config_listener_v3_ListenerFilter envoy_config_listener_v3_ListenerFilter;
-extern const upb_MiniTable envoy_config_listener_v3_Filter_msginit;
-extern const upb_MiniTable envoy_config_listener_v3_FilterChainMatch_msginit;
-extern const upb_MiniTable envoy_config_listener_v3_FilterChain_msginit;
-extern const upb_MiniTable envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msginit;
-extern const upb_MiniTable envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msginit;
-extern const upb_MiniTable envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msginit;
-extern const upb_MiniTable envoy_config_listener_v3_ListenerFilter_msginit;
+extern const upb_MiniTable envoy_config_listener_v3_Filter_msg_init;
+extern const upb_MiniTable envoy_config_listener_v3_FilterChainMatch_msg_init;
+extern const upb_MiniTable envoy_config_listener_v3_FilterChain_msg_init;
+extern const upb_MiniTable envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msg_init;
+extern const upb_MiniTable envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msg_init;
+extern const upb_MiniTable envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msg_init;
+extern const upb_MiniTable envoy_config_listener_v3_ListenerFilter_msg_init;
 struct envoy_config_core_v3_CidrRange;
 struct envoy_config_core_v3_ExtensionConfigSource;
 struct envoy_config_core_v3_Metadata;
@@ -50,15 +44,15 @@ struct google_protobuf_Any;
 struct google_protobuf_BoolValue;
 struct google_protobuf_Duration;
 struct google_protobuf_UInt32Value;
-extern const upb_MiniTable envoy_config_core_v3_CidrRange_msginit;
-extern const upb_MiniTable envoy_config_core_v3_ExtensionConfigSource_msginit;
-extern const upb_MiniTable envoy_config_core_v3_Metadata_msginit;
-extern const upb_MiniTable envoy_config_core_v3_TransportSocket_msginit;
-extern const upb_MiniTable envoy_type_v3_Int32Range_msginit;
-extern const upb_MiniTable google_protobuf_Any_msginit;
-extern const upb_MiniTable google_protobuf_BoolValue_msginit;
-extern const upb_MiniTable google_protobuf_Duration_msginit;
-extern const upb_MiniTable google_protobuf_UInt32Value_msginit;
+extern const upb_MiniTable envoy_config_core_v3_CidrRange_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_ExtensionConfigSource_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_Metadata_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_TransportSocket_msg_init;
+extern const upb_MiniTable envoy_type_v3_Int32Range_msg_init;
+extern const upb_MiniTable google_protobuf_Any_msg_init;
+extern const upb_MiniTable google_protobuf_BoolValue_msg_init;
+extern const upb_MiniTable google_protobuf_Duration_msg_init;
+extern const upb_MiniTable google_protobuf_UInt32Value_msg_init;
 
 typedef enum {
   envoy_config_listener_v3_FilterChainMatch_ANY = 0,
@@ -71,12 +65,12 @@ typedef enum {
 /* envoy.config.listener.v3.Filter */
 
 UPB_INLINE envoy_config_listener_v3_Filter* envoy_config_listener_v3_Filter_new(upb_Arena* arena) {
-  return (envoy_config_listener_v3_Filter*)_upb_Message_New(&envoy_config_listener_v3_Filter_msginit, arena);
+  return (envoy_config_listener_v3_Filter*)_upb_Message_New(&envoy_config_listener_v3_Filter_msg_init, arena);
 }
 UPB_INLINE envoy_config_listener_v3_Filter* envoy_config_listener_v3_Filter_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_listener_v3_Filter* ret = envoy_config_listener_v3_Filter_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_Filter_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_Filter_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -86,7 +80,7 @@ UPB_INLINE envoy_config_listener_v3_Filter* envoy_config_listener_v3_Filter_pars
                            int options, upb_Arena* arena) {
   envoy_config_listener_v3_Filter* ret = envoy_config_listener_v3_Filter_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_Filter_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_Filter_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -94,13 +88,13 @@ UPB_INLINE envoy_config_listener_v3_Filter* envoy_config_listener_v3_Filter_pars
 }
 UPB_INLINE char* envoy_config_listener_v3_Filter_serialize(const envoy_config_listener_v3_Filter* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_Filter_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_Filter_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_listener_v3_Filter_serialize_ex(const envoy_config_listener_v3_Filter* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_Filter_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_Filter_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {
@@ -145,7 +139,7 @@ UPB_INLINE void envoy_config_listener_v3_Filter_set_typed_config(envoy_config_li
 UPB_INLINE struct google_protobuf_Any* envoy_config_listener_v3_Filter_mutable_typed_config(envoy_config_listener_v3_Filter* msg, upb_Arena* arena) {
   struct google_protobuf_Any* sub = (struct google_protobuf_Any*)envoy_config_listener_v3_Filter_typed_config(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Any*)_upb_Message_New(&google_protobuf_Any_msginit, arena);
+    sub = (struct google_protobuf_Any*)_upb_Message_New(&google_protobuf_Any_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_Filter_set_typed_config(msg, sub);
   }
@@ -157,7 +151,7 @@ UPB_INLINE void envoy_config_listener_v3_Filter_set_config_discovery(envoy_confi
 UPB_INLINE struct envoy_config_core_v3_ExtensionConfigSource* envoy_config_listener_v3_Filter_mutable_config_discovery(envoy_config_listener_v3_Filter* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_ExtensionConfigSource* sub = (struct envoy_config_core_v3_ExtensionConfigSource*)envoy_config_listener_v3_Filter_config_discovery(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_ExtensionConfigSource*)_upb_Message_New(&envoy_config_core_v3_ExtensionConfigSource_msginit, arena);
+    sub = (struct envoy_config_core_v3_ExtensionConfigSource*)_upb_Message_New(&envoy_config_core_v3_ExtensionConfigSource_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_Filter_set_config_discovery(msg, sub);
   }
@@ -167,12 +161,12 @@ UPB_INLINE struct envoy_config_core_v3_ExtensionConfigSource* envoy_config_liste
 /* envoy.config.listener.v3.FilterChainMatch */
 
 UPB_INLINE envoy_config_listener_v3_FilterChainMatch* envoy_config_listener_v3_FilterChainMatch_new(upb_Arena* arena) {
-  return (envoy_config_listener_v3_FilterChainMatch*)_upb_Message_New(&envoy_config_listener_v3_FilterChainMatch_msginit, arena);
+  return (envoy_config_listener_v3_FilterChainMatch*)_upb_Message_New(&envoy_config_listener_v3_FilterChainMatch_msg_init, arena);
 }
 UPB_INLINE envoy_config_listener_v3_FilterChainMatch* envoy_config_listener_v3_FilterChainMatch_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_listener_v3_FilterChainMatch* ret = envoy_config_listener_v3_FilterChainMatch_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_FilterChainMatch_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_FilterChainMatch_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -182,7 +176,7 @@ UPB_INLINE envoy_config_listener_v3_FilterChainMatch* envoy_config_listener_v3_F
                            int options, upb_Arena* arena) {
   envoy_config_listener_v3_FilterChainMatch* ret = envoy_config_listener_v3_FilterChainMatch_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_FilterChainMatch_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_FilterChainMatch_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -190,13 +184,13 @@ UPB_INLINE envoy_config_listener_v3_FilterChainMatch* envoy_config_listener_v3_F
 }
 UPB_INLINE char* envoy_config_listener_v3_FilterChainMatch_serialize(const envoy_config_listener_v3_FilterChainMatch* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_FilterChainMatch_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_FilterChainMatch_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_listener_v3_FilterChainMatch_serialize_ex(const envoy_config_listener_v3_FilterChainMatch* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_FilterChainMatch_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_FilterChainMatch_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_config_listener_v3_FilterChainMatch_has_prefix_ranges(const envoy_config_listener_v3_FilterChainMatch* msg) {
@@ -219,6 +213,7 @@ UPB_INLINE bool envoy_config_listener_v3_FilterChainMatch_has_suffix_len(const e
 }
 UPB_INLINE void envoy_config_listener_v3_FilterChainMatch_clear_suffix_len(const envoy_config_listener_v3_FilterChainMatch* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(20, 32), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_UInt32Value* envoy_config_listener_v3_FilterChainMatch_suffix_len(const envoy_config_listener_v3_FilterChainMatch* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(20, 32), const struct google_protobuf_UInt32Value*);
@@ -243,6 +238,7 @@ UPB_INLINE bool envoy_config_listener_v3_FilterChainMatch_has_destination_port(c
 }
 UPB_INLINE void envoy_config_listener_v3_FilterChainMatch_clear_destination_port(const envoy_config_listener_v3_FilterChainMatch* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(32, 56), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 2);
 }
 UPB_INLINE const struct google_protobuf_UInt32Value* envoy_config_listener_v3_FilterChainMatch_destination_port(const envoy_config_listener_v3_FilterChainMatch* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(32, 56), const struct google_protobuf_UInt32Value*);
@@ -288,7 +284,7 @@ UPB_INLINE struct envoy_config_core_v3_CidrRange** envoy_config_listener_v3_Filt
   return (struct envoy_config_core_v3_CidrRange**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(8, 8), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_core_v3_CidrRange* envoy_config_listener_v3_FilterChainMatch_add_prefix_ranges(envoy_config_listener_v3_FilterChainMatch* msg, upb_Arena* arena) {
-  struct envoy_config_core_v3_CidrRange* sub = (struct envoy_config_core_v3_CidrRange*)_upb_Message_New(&envoy_config_core_v3_CidrRange_msginit, arena);
+  struct envoy_config_core_v3_CidrRange* sub = (struct envoy_config_core_v3_CidrRange*)_upb_Message_New(&envoy_config_core_v3_CidrRange_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(8, 8), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -303,7 +299,7 @@ UPB_INLINE void envoy_config_listener_v3_FilterChainMatch_set_suffix_len(envoy_c
 UPB_INLINE struct google_protobuf_UInt32Value* envoy_config_listener_v3_FilterChainMatch_mutable_suffix_len(envoy_config_listener_v3_FilterChainMatch* msg, upb_Arena* arena) {
   struct google_protobuf_UInt32Value* sub = (struct google_protobuf_UInt32Value*)envoy_config_listener_v3_FilterChainMatch_suffix_len(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msginit, arena);
+    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_FilterChainMatch_set_suffix_len(msg, sub);
   }
@@ -316,7 +312,7 @@ UPB_INLINE struct envoy_config_core_v3_CidrRange** envoy_config_listener_v3_Filt
   return (struct envoy_config_core_v3_CidrRange**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(24, 40), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_core_v3_CidrRange* envoy_config_listener_v3_FilterChainMatch_add_source_prefix_ranges(envoy_config_listener_v3_FilterChainMatch* msg, upb_Arena* arena) {
-  struct envoy_config_core_v3_CidrRange* sub = (struct envoy_config_core_v3_CidrRange*)_upb_Message_New(&envoy_config_core_v3_CidrRange_msginit, arena);
+  struct envoy_config_core_v3_CidrRange* sub = (struct envoy_config_core_v3_CidrRange*)_upb_Message_New(&envoy_config_core_v3_CidrRange_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(24, 40), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -337,7 +333,7 @@ UPB_INLINE void envoy_config_listener_v3_FilterChainMatch_set_destination_port(e
 UPB_INLINE struct google_protobuf_UInt32Value* envoy_config_listener_v3_FilterChainMatch_mutable_destination_port(envoy_config_listener_v3_FilterChainMatch* msg, upb_Arena* arena) {
   struct google_protobuf_UInt32Value* sub = (struct google_protobuf_UInt32Value*)envoy_config_listener_v3_FilterChainMatch_destination_port(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msginit, arena);
+    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_FilterChainMatch_set_destination_port(msg, sub);
   }
@@ -374,7 +370,7 @@ UPB_INLINE struct envoy_config_core_v3_CidrRange** envoy_config_listener_v3_Filt
   return (struct envoy_config_core_v3_CidrRange**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(52, 96), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_core_v3_CidrRange* envoy_config_listener_v3_FilterChainMatch_add_direct_source_prefix_ranges(envoy_config_listener_v3_FilterChainMatch* msg, upb_Arena* arena) {
-  struct envoy_config_core_v3_CidrRange* sub = (struct envoy_config_core_v3_CidrRange*)_upb_Message_New(&envoy_config_core_v3_CidrRange_msginit, arena);
+  struct envoy_config_core_v3_CidrRange* sub = (struct envoy_config_core_v3_CidrRange*)_upb_Message_New(&envoy_config_core_v3_CidrRange_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(52, 96), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -383,12 +379,12 @@ UPB_INLINE struct envoy_config_core_v3_CidrRange* envoy_config_listener_v3_Filte
 /* envoy.config.listener.v3.FilterChain */
 
 UPB_INLINE envoy_config_listener_v3_FilterChain* envoy_config_listener_v3_FilterChain_new(upb_Arena* arena) {
-  return (envoy_config_listener_v3_FilterChain*)_upb_Message_New(&envoy_config_listener_v3_FilterChain_msginit, arena);
+  return (envoy_config_listener_v3_FilterChain*)_upb_Message_New(&envoy_config_listener_v3_FilterChain_msg_init, arena);
 }
 UPB_INLINE envoy_config_listener_v3_FilterChain* envoy_config_listener_v3_FilterChain_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_listener_v3_FilterChain* ret = envoy_config_listener_v3_FilterChain_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_FilterChain_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_FilterChain_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -398,7 +394,7 @@ UPB_INLINE envoy_config_listener_v3_FilterChain* envoy_config_listener_v3_Filter
                            int options, upb_Arena* arena) {
   envoy_config_listener_v3_FilterChain* ret = envoy_config_listener_v3_FilterChain_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_FilterChain_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_FilterChain_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -406,13 +402,13 @@ UPB_INLINE envoy_config_listener_v3_FilterChain* envoy_config_listener_v3_Filter
 }
 UPB_INLINE char* envoy_config_listener_v3_FilterChain_serialize(const envoy_config_listener_v3_FilterChain* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_FilterChain_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_FilterChain_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_listener_v3_FilterChain_serialize_ex(const envoy_config_listener_v3_FilterChain* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_FilterChain_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_FilterChain_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_config_listener_v3_FilterChain_has_filter_chain_match(const envoy_config_listener_v3_FilterChain* msg) {
@@ -420,6 +416,7 @@ UPB_INLINE bool envoy_config_listener_v3_FilterChain_has_filter_chain_match(cons
 }
 UPB_INLINE void envoy_config_listener_v3_FilterChain_clear_filter_chain_match(const envoy_config_listener_v3_FilterChain* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const envoy_config_listener_v3_FilterChainMatch* envoy_config_listener_v3_FilterChain_filter_chain_match(const envoy_config_listener_v3_FilterChain* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const envoy_config_listener_v3_FilterChainMatch*);
@@ -438,6 +435,7 @@ UPB_INLINE bool envoy_config_listener_v3_FilterChain_has_use_proxy_proto(const e
 }
 UPB_INLINE void envoy_config_listener_v3_FilterChain_clear_use_proxy_proto(const envoy_config_listener_v3_FilterChain* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(12, 24), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 2);
 }
 UPB_INLINE const struct google_protobuf_BoolValue* envoy_config_listener_v3_FilterChain_use_proxy_proto(const envoy_config_listener_v3_FilterChain* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(12, 24), const struct google_protobuf_BoolValue*);
@@ -447,6 +445,7 @@ UPB_INLINE bool envoy_config_listener_v3_FilterChain_has_metadata(const envoy_co
 }
 UPB_INLINE void envoy_config_listener_v3_FilterChain_clear_metadata(const envoy_config_listener_v3_FilterChain* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(16, 32), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 3);
 }
 UPB_INLINE const struct envoy_config_core_v3_Metadata* envoy_config_listener_v3_FilterChain_metadata(const envoy_config_listener_v3_FilterChain* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(16, 32), const struct envoy_config_core_v3_Metadata*);
@@ -456,6 +455,7 @@ UPB_INLINE bool envoy_config_listener_v3_FilterChain_has_transport_socket(const 
 }
 UPB_INLINE void envoy_config_listener_v3_FilterChain_clear_transport_socket(const envoy_config_listener_v3_FilterChain* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(20, 40), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 4);
 }
 UPB_INLINE const struct envoy_config_core_v3_TransportSocket* envoy_config_listener_v3_FilterChain_transport_socket(const envoy_config_listener_v3_FilterChain* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(20, 40), const struct envoy_config_core_v3_TransportSocket*);
@@ -471,6 +471,7 @@ UPB_INLINE bool envoy_config_listener_v3_FilterChain_has_on_demand_configuration
 }
 UPB_INLINE void envoy_config_listener_v3_FilterChain_clear_on_demand_configuration(const envoy_config_listener_v3_FilterChain* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(32, 64), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 5);
 }
 UPB_INLINE const envoy_config_listener_v3_FilterChain_OnDemandConfiguration* envoy_config_listener_v3_FilterChain_on_demand_configuration(const envoy_config_listener_v3_FilterChain* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(32, 64), const envoy_config_listener_v3_FilterChain_OnDemandConfiguration*);
@@ -480,6 +481,7 @@ UPB_INLINE bool envoy_config_listener_v3_FilterChain_has_transport_socket_connec
 }
 UPB_INLINE void envoy_config_listener_v3_FilterChain_clear_transport_socket_connect_timeout(const envoy_config_listener_v3_FilterChain* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(36, 72), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 6);
 }
 UPB_INLINE const struct google_protobuf_Duration* envoy_config_listener_v3_FilterChain_transport_socket_connect_timeout(const envoy_config_listener_v3_FilterChain* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(36, 72), const struct google_protobuf_Duration*);
@@ -492,7 +494,7 @@ UPB_INLINE void envoy_config_listener_v3_FilterChain_set_filter_chain_match(envo
 UPB_INLINE struct envoy_config_listener_v3_FilterChainMatch* envoy_config_listener_v3_FilterChain_mutable_filter_chain_match(envoy_config_listener_v3_FilterChain* msg, upb_Arena* arena) {
   struct envoy_config_listener_v3_FilterChainMatch* sub = (struct envoy_config_listener_v3_FilterChainMatch*)envoy_config_listener_v3_FilterChain_filter_chain_match(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_listener_v3_FilterChainMatch*)_upb_Message_New(&envoy_config_listener_v3_FilterChainMatch_msginit, arena);
+    sub = (struct envoy_config_listener_v3_FilterChainMatch*)_upb_Message_New(&envoy_config_listener_v3_FilterChainMatch_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_FilterChain_set_filter_chain_match(msg, sub);
   }
@@ -505,7 +507,7 @@ UPB_INLINE envoy_config_listener_v3_Filter** envoy_config_listener_v3_FilterChai
   return (envoy_config_listener_v3_Filter**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(8, 16), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_listener_v3_Filter* envoy_config_listener_v3_FilterChain_add_filters(envoy_config_listener_v3_FilterChain* msg, upb_Arena* arena) {
-  struct envoy_config_listener_v3_Filter* sub = (struct envoy_config_listener_v3_Filter*)_upb_Message_New(&envoy_config_listener_v3_Filter_msginit, arena);
+  struct envoy_config_listener_v3_Filter* sub = (struct envoy_config_listener_v3_Filter*)_upb_Message_New(&envoy_config_listener_v3_Filter_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(8, 16), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -517,7 +519,7 @@ UPB_INLINE void envoy_config_listener_v3_FilterChain_set_use_proxy_proto(envoy_c
 UPB_INLINE struct google_protobuf_BoolValue* envoy_config_listener_v3_FilterChain_mutable_use_proxy_proto(envoy_config_listener_v3_FilterChain* msg, upb_Arena* arena) {
   struct google_protobuf_BoolValue* sub = (struct google_protobuf_BoolValue*)envoy_config_listener_v3_FilterChain_use_proxy_proto(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_BoolValue*)_upb_Message_New(&google_protobuf_BoolValue_msginit, arena);
+    sub = (struct google_protobuf_BoolValue*)_upb_Message_New(&google_protobuf_BoolValue_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_FilterChain_set_use_proxy_proto(msg, sub);
   }
@@ -530,7 +532,7 @@ UPB_INLINE void envoy_config_listener_v3_FilterChain_set_metadata(envoy_config_l
 UPB_INLINE struct envoy_config_core_v3_Metadata* envoy_config_listener_v3_FilterChain_mutable_metadata(envoy_config_listener_v3_FilterChain* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_Metadata* sub = (struct envoy_config_core_v3_Metadata*)envoy_config_listener_v3_FilterChain_metadata(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_Metadata*)_upb_Message_New(&envoy_config_core_v3_Metadata_msginit, arena);
+    sub = (struct envoy_config_core_v3_Metadata*)_upb_Message_New(&envoy_config_core_v3_Metadata_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_FilterChain_set_metadata(msg, sub);
   }
@@ -543,7 +545,7 @@ UPB_INLINE void envoy_config_listener_v3_FilterChain_set_transport_socket(envoy_
 UPB_INLINE struct envoy_config_core_v3_TransportSocket* envoy_config_listener_v3_FilterChain_mutable_transport_socket(envoy_config_listener_v3_FilterChain* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_TransportSocket* sub = (struct envoy_config_core_v3_TransportSocket*)envoy_config_listener_v3_FilterChain_transport_socket(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_TransportSocket*)_upb_Message_New(&envoy_config_core_v3_TransportSocket_msginit, arena);
+    sub = (struct envoy_config_core_v3_TransportSocket*)_upb_Message_New(&envoy_config_core_v3_TransportSocket_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_FilterChain_set_transport_socket(msg, sub);
   }
@@ -559,7 +561,7 @@ UPB_INLINE void envoy_config_listener_v3_FilterChain_set_on_demand_configuration
 UPB_INLINE struct envoy_config_listener_v3_FilterChain_OnDemandConfiguration* envoy_config_listener_v3_FilterChain_mutable_on_demand_configuration(envoy_config_listener_v3_FilterChain* msg, upb_Arena* arena) {
   struct envoy_config_listener_v3_FilterChain_OnDemandConfiguration* sub = (struct envoy_config_listener_v3_FilterChain_OnDemandConfiguration*)envoy_config_listener_v3_FilterChain_on_demand_configuration(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_listener_v3_FilterChain_OnDemandConfiguration*)_upb_Message_New(&envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msginit, arena);
+    sub = (struct envoy_config_listener_v3_FilterChain_OnDemandConfiguration*)_upb_Message_New(&envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_FilterChain_set_on_demand_configuration(msg, sub);
   }
@@ -572,7 +574,7 @@ UPB_INLINE void envoy_config_listener_v3_FilterChain_set_transport_socket_connec
 UPB_INLINE struct google_protobuf_Duration* envoy_config_listener_v3_FilterChain_mutable_transport_socket_connect_timeout(envoy_config_listener_v3_FilterChain* msg, upb_Arena* arena) {
   struct google_protobuf_Duration* sub = (struct google_protobuf_Duration*)envoy_config_listener_v3_FilterChain_transport_socket_connect_timeout(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msginit, arena);
+    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_FilterChain_set_transport_socket_connect_timeout(msg, sub);
   }
@@ -582,12 +584,12 @@ UPB_INLINE struct google_protobuf_Duration* envoy_config_listener_v3_FilterChain
 /* envoy.config.listener.v3.FilterChain.OnDemandConfiguration */
 
 UPB_INLINE envoy_config_listener_v3_FilterChain_OnDemandConfiguration* envoy_config_listener_v3_FilterChain_OnDemandConfiguration_new(upb_Arena* arena) {
-  return (envoy_config_listener_v3_FilterChain_OnDemandConfiguration*)_upb_Message_New(&envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msginit, arena);
+  return (envoy_config_listener_v3_FilterChain_OnDemandConfiguration*)_upb_Message_New(&envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msg_init, arena);
 }
 UPB_INLINE envoy_config_listener_v3_FilterChain_OnDemandConfiguration* envoy_config_listener_v3_FilterChain_OnDemandConfiguration_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_listener_v3_FilterChain_OnDemandConfiguration* ret = envoy_config_listener_v3_FilterChain_OnDemandConfiguration_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -597,7 +599,7 @@ UPB_INLINE envoy_config_listener_v3_FilterChain_OnDemandConfiguration* envoy_con
                            int options, upb_Arena* arena) {
   envoy_config_listener_v3_FilterChain_OnDemandConfiguration* ret = envoy_config_listener_v3_FilterChain_OnDemandConfiguration_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -605,13 +607,13 @@ UPB_INLINE envoy_config_listener_v3_FilterChain_OnDemandConfiguration* envoy_con
 }
 UPB_INLINE char* envoy_config_listener_v3_FilterChain_OnDemandConfiguration_serialize(const envoy_config_listener_v3_FilterChain_OnDemandConfiguration* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_listener_v3_FilterChain_OnDemandConfiguration_serialize_ex(const envoy_config_listener_v3_FilterChain_OnDemandConfiguration* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_FilterChain_OnDemandConfiguration_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_config_listener_v3_FilterChain_OnDemandConfiguration_has_rebuild_timeout(const envoy_config_listener_v3_FilterChain_OnDemandConfiguration* msg) {
@@ -619,6 +621,7 @@ UPB_INLINE bool envoy_config_listener_v3_FilterChain_OnDemandConfiguration_has_r
 }
 UPB_INLINE void envoy_config_listener_v3_FilterChain_OnDemandConfiguration_clear_rebuild_timeout(const envoy_config_listener_v3_FilterChain_OnDemandConfiguration* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_Duration* envoy_config_listener_v3_FilterChain_OnDemandConfiguration_rebuild_timeout(const envoy_config_listener_v3_FilterChain_OnDemandConfiguration* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const struct google_protobuf_Duration*);
@@ -631,7 +634,7 @@ UPB_INLINE void envoy_config_listener_v3_FilterChain_OnDemandConfiguration_set_r
 UPB_INLINE struct google_protobuf_Duration* envoy_config_listener_v3_FilterChain_OnDemandConfiguration_mutable_rebuild_timeout(envoy_config_listener_v3_FilterChain_OnDemandConfiguration* msg, upb_Arena* arena) {
   struct google_protobuf_Duration* sub = (struct google_protobuf_Duration*)envoy_config_listener_v3_FilterChain_OnDemandConfiguration_rebuild_timeout(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msginit, arena);
+    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_FilterChain_OnDemandConfiguration_set_rebuild_timeout(msg, sub);
   }
@@ -641,12 +644,12 @@ UPB_INLINE struct google_protobuf_Duration* envoy_config_listener_v3_FilterChain
 /* envoy.config.listener.v3.ListenerFilterChainMatchPredicate */
 
 UPB_INLINE envoy_config_listener_v3_ListenerFilterChainMatchPredicate* envoy_config_listener_v3_ListenerFilterChainMatchPredicate_new(upb_Arena* arena) {
-  return (envoy_config_listener_v3_ListenerFilterChainMatchPredicate*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msginit, arena);
+  return (envoy_config_listener_v3_ListenerFilterChainMatchPredicate*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msg_init, arena);
 }
 UPB_INLINE envoy_config_listener_v3_ListenerFilterChainMatchPredicate* envoy_config_listener_v3_ListenerFilterChainMatchPredicate_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_listener_v3_ListenerFilterChainMatchPredicate* ret = envoy_config_listener_v3_ListenerFilterChainMatchPredicate_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -656,7 +659,7 @@ UPB_INLINE envoy_config_listener_v3_ListenerFilterChainMatchPredicate* envoy_con
                            int options, upb_Arena* arena) {
   envoy_config_listener_v3_ListenerFilterChainMatchPredicate* ret = envoy_config_listener_v3_ListenerFilterChainMatchPredicate_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -664,13 +667,13 @@ UPB_INLINE envoy_config_listener_v3_ListenerFilterChainMatchPredicate* envoy_con
 }
 UPB_INLINE char* envoy_config_listener_v3_ListenerFilterChainMatchPredicate_serialize(const envoy_config_listener_v3_ListenerFilterChainMatchPredicate* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_listener_v3_ListenerFilterChainMatchPredicate_serialize_ex(const envoy_config_listener_v3_ListenerFilterChainMatchPredicate* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {
@@ -736,7 +739,7 @@ UPB_INLINE void envoy_config_listener_v3_ListenerFilterChainMatchPredicate_set_o
 UPB_INLINE struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* envoy_config_listener_v3_ListenerFilterChainMatchPredicate_mutable_or_match(envoy_config_listener_v3_ListenerFilterChainMatchPredicate* msg, upb_Arena* arena) {
   struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet*)envoy_config_listener_v3_ListenerFilterChainMatchPredicate_or_match(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msginit, arena);
+    sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_ListenerFilterChainMatchPredicate_set_or_match(msg, sub);
   }
@@ -748,7 +751,7 @@ UPB_INLINE void envoy_config_listener_v3_ListenerFilterChainMatchPredicate_set_a
 UPB_INLINE struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* envoy_config_listener_v3_ListenerFilterChainMatchPredicate_mutable_and_match(envoy_config_listener_v3_ListenerFilterChainMatchPredicate* msg, upb_Arena* arena) {
   struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet*)envoy_config_listener_v3_ListenerFilterChainMatchPredicate_and_match(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msginit, arena);
+    sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_ListenerFilterChainMatchPredicate_set_and_match(msg, sub);
   }
@@ -760,7 +763,7 @@ UPB_INLINE void envoy_config_listener_v3_ListenerFilterChainMatchPredicate_set_n
 UPB_INLINE struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate* envoy_config_listener_v3_ListenerFilterChainMatchPredicate_mutable_not_match(envoy_config_listener_v3_ListenerFilterChainMatchPredicate* msg, upb_Arena* arena) {
   struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate* sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate*)envoy_config_listener_v3_ListenerFilterChainMatchPredicate_not_match(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msginit, arena);
+    sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_ListenerFilterChainMatchPredicate_set_not_match(msg, sub);
   }
@@ -775,7 +778,7 @@ UPB_INLINE void envoy_config_listener_v3_ListenerFilterChainMatchPredicate_set_d
 UPB_INLINE struct envoy_type_v3_Int32Range* envoy_config_listener_v3_ListenerFilterChainMatchPredicate_mutable_destination_port_range(envoy_config_listener_v3_ListenerFilterChainMatchPredicate* msg, upb_Arena* arena) {
   struct envoy_type_v3_Int32Range* sub = (struct envoy_type_v3_Int32Range*)envoy_config_listener_v3_ListenerFilterChainMatchPredicate_destination_port_range(msg);
   if (sub == NULL) {
-    sub = (struct envoy_type_v3_Int32Range*)_upb_Message_New(&envoy_type_v3_Int32Range_msginit, arena);
+    sub = (struct envoy_type_v3_Int32Range*)_upb_Message_New(&envoy_type_v3_Int32Range_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_ListenerFilterChainMatchPredicate_set_destination_port_range(msg, sub);
   }
@@ -785,12 +788,12 @@ UPB_INLINE struct envoy_type_v3_Int32Range* envoy_config_listener_v3_ListenerFil
 /* envoy.config.listener.v3.ListenerFilterChainMatchPredicate.MatchSet */
 
 UPB_INLINE envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_new(upb_Arena* arena) {
-  return (envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msginit, arena);
+  return (envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msg_init, arena);
 }
 UPB_INLINE envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* ret = envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -800,7 +803,7 @@ UPB_INLINE envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* 
                            int options, upb_Arena* arena) {
   envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* ret = envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -808,13 +811,13 @@ UPB_INLINE envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* 
 }
 UPB_INLINE char* envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_serialize(const envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_serialize_ex(const envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_has_rules(const envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* msg) {
@@ -834,7 +837,7 @@ UPB_INLINE envoy_config_listener_v3_ListenerFilterChainMatchPredicate** envoy_co
   return (envoy_config_listener_v3_ListenerFilterChainMatchPredicate**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(0, 0), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate* envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_add_rules(envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet* msg, upb_Arena* arena) {
-  struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate* sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msginit, arena);
+  struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate* sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(0, 0), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -843,12 +846,12 @@ UPB_INLINE struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate* en
 /* envoy.config.listener.v3.ListenerFilter */
 
 UPB_INLINE envoy_config_listener_v3_ListenerFilter* envoy_config_listener_v3_ListenerFilter_new(upb_Arena* arena) {
-  return (envoy_config_listener_v3_ListenerFilter*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilter_msginit, arena);
+  return (envoy_config_listener_v3_ListenerFilter*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilter_msg_init, arena);
 }
 UPB_INLINE envoy_config_listener_v3_ListenerFilter* envoy_config_listener_v3_ListenerFilter_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_listener_v3_ListenerFilter* ret = envoy_config_listener_v3_ListenerFilter_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_ListenerFilter_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_ListenerFilter_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -858,7 +861,7 @@ UPB_INLINE envoy_config_listener_v3_ListenerFilter* envoy_config_listener_v3_Lis
                            int options, upb_Arena* arena) {
   envoy_config_listener_v3_ListenerFilter* ret = envoy_config_listener_v3_ListenerFilter_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_ListenerFilter_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_listener_v3_ListenerFilter_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -866,13 +869,13 @@ UPB_INLINE envoy_config_listener_v3_ListenerFilter* envoy_config_listener_v3_Lis
 }
 UPB_INLINE char* envoy_config_listener_v3_ListenerFilter_serialize(const envoy_config_listener_v3_ListenerFilter* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_ListenerFilter_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_ListenerFilter_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_listener_v3_ListenerFilter_serialize_ex(const envoy_config_listener_v3_ListenerFilter* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_listener_v3_ListenerFilter_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_listener_v3_ListenerFilter_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {
@@ -903,6 +906,7 @@ UPB_INLINE bool envoy_config_listener_v3_ListenerFilter_has_filter_disabled(cons
 }
 UPB_INLINE void envoy_config_listener_v3_ListenerFilter_clear_filter_disabled(const envoy_config_listener_v3_ListenerFilter* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(16, 24), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const envoy_config_listener_v3_ListenerFilterChainMatchPredicate* envoy_config_listener_v3_ListenerFilter_filter_disabled(const envoy_config_listener_v3_ListenerFilter* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(16, 24), const envoy_config_listener_v3_ListenerFilterChainMatchPredicate*);
@@ -926,7 +930,7 @@ UPB_INLINE void envoy_config_listener_v3_ListenerFilter_set_typed_config(envoy_c
 UPB_INLINE struct google_protobuf_Any* envoy_config_listener_v3_ListenerFilter_mutable_typed_config(envoy_config_listener_v3_ListenerFilter* msg, upb_Arena* arena) {
   struct google_protobuf_Any* sub = (struct google_protobuf_Any*)envoy_config_listener_v3_ListenerFilter_typed_config(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Any*)_upb_Message_New(&google_protobuf_Any_msginit, arena);
+    sub = (struct google_protobuf_Any*)_upb_Message_New(&google_protobuf_Any_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_ListenerFilter_set_typed_config(msg, sub);
   }
@@ -939,7 +943,7 @@ UPB_INLINE void envoy_config_listener_v3_ListenerFilter_set_filter_disabled(envo
 UPB_INLINE struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate* envoy_config_listener_v3_ListenerFilter_mutable_filter_disabled(envoy_config_listener_v3_ListenerFilter* msg, upb_Arena* arena) {
   struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate* sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate*)envoy_config_listener_v3_ListenerFilter_filter_disabled(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msginit, arena);
+    sub = (struct envoy_config_listener_v3_ListenerFilterChainMatchPredicate*)_upb_Message_New(&envoy_config_listener_v3_ListenerFilterChainMatchPredicate_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_ListenerFilter_set_filter_disabled(msg, sub);
   }
@@ -951,7 +955,7 @@ UPB_INLINE void envoy_config_listener_v3_ListenerFilter_set_config_discovery(env
 UPB_INLINE struct envoy_config_core_v3_ExtensionConfigSource* envoy_config_listener_v3_ListenerFilter_mutable_config_discovery(envoy_config_listener_v3_ListenerFilter* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_ExtensionConfigSource* sub = (struct envoy_config_core_v3_ExtensionConfigSource*)envoy_config_listener_v3_ListenerFilter_config_discovery(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_ExtensionConfigSource*)_upb_Message_New(&envoy_config_core_v3_ExtensionConfigSource_msginit, arena);
+    sub = (struct envoy_config_core_v3_ExtensionConfigSource*)_upb_Message_New(&envoy_config_core_v3_ExtensionConfigSource_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_listener_v3_ListenerFilter_set_config_discovery(msg, sub);
   }

@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/extensions/load_balancing_policies/ring_hash/v3/ring_hash.upb.h"
 #include "google/protobuf/wrappers.upb.h"
@@ -16,9 +17,9 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_extensions_load_balancing_policies_ring_hash_v3_RingHash_submsgs[3] = {
-  {.submsg = &google_protobuf_UInt64Value_msginit},
-  {.submsg = &google_protobuf_UInt64Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
+  {.submsg = &google_protobuf_UInt64Value_msg_init},
+  {.submsg = &google_protobuf_UInt64Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_extensions_load_balancing_policies_ring_hash_v3_RingHash__fields[5] = {
@@ -29,14 +30,14 @@ static const upb_MiniTable_Field envoy_extensions_load_balancing_policies_ring_h
   {5, UPB_SIZE(20, 32), UPB_SIZE(3, 3), 2, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_extensions_load_balancing_policies_ring_hash_v3_RingHash_msginit = {
+const upb_MiniTable envoy_extensions_load_balancing_policies_ring_hash_v3_RingHash_msg_init = {
   &envoy_extensions_load_balancing_policies_ring_hash_v3_RingHash_submsgs[0],
   &envoy_extensions_load_balancing_policies_ring_hash_v3_RingHash__fields[0],
   UPB_SIZE(24, 40), 5, kUpb_ExtMode_NonExtendable, 5, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_extensions_load_balancing_policies_ring_hash_v3_RingHash_msginit,
+  &envoy_extensions_load_balancing_policies_ring_hash_v3_RingHash_msg_init,
 };
 
 const upb_MiniTable_File envoy_extensions_load_balancing_policies_ring_hash_v3_ring_hash_proto_upb_file_layout = {

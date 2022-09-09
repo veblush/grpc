@@ -9,35 +9,34 @@
 #ifndef XDS_CORE_V3_CONTEXT_PARAMS_PROTO_UPB_H_
 #define XDS_CORE_V3_CONTEXT_PARAMS_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct xds_core_v3_ContextParams;
-struct xds_core_v3_ContextParams_ParamsEntry;
 typedef struct xds_core_v3_ContextParams xds_core_v3_ContextParams;
 typedef struct xds_core_v3_ContextParams_ParamsEntry xds_core_v3_ContextParams_ParamsEntry;
-extern const upb_MiniTable xds_core_v3_ContextParams_msginit;
-extern const upb_MiniTable xds_core_v3_ContextParams_ParamsEntry_msginit;
+extern const upb_MiniTable xds_core_v3_ContextParams_msg_init;
+extern const upb_MiniTable xds_core_v3_ContextParams_ParamsEntry_msg_init;
 
 
 
 /* xds.core.v3.ContextParams */
 
 UPB_INLINE xds_core_v3_ContextParams* xds_core_v3_ContextParams_new(upb_Arena* arena) {
-  return (xds_core_v3_ContextParams*)_upb_Message_New(&xds_core_v3_ContextParams_msginit, arena);
+  return (xds_core_v3_ContextParams*)_upb_Message_New(&xds_core_v3_ContextParams_msg_init, arena);
 }
 UPB_INLINE xds_core_v3_ContextParams* xds_core_v3_ContextParams_parse(const char* buf, size_t size, upb_Arena* arena) {
   xds_core_v3_ContextParams* ret = xds_core_v3_ContextParams_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_core_v3_ContextParams_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &xds_core_v3_ContextParams_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -47,7 +46,7 @@ UPB_INLINE xds_core_v3_ContextParams* xds_core_v3_ContextParams_parse_ex(const c
                            int options, upb_Arena* arena) {
   xds_core_v3_ContextParams* ret = xds_core_v3_ContextParams_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_core_v3_ContextParams_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &xds_core_v3_ContextParams_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -55,13 +54,13 @@ UPB_INLINE xds_core_v3_ContextParams* xds_core_v3_ContextParams_parse_ex(const c
 }
 UPB_INLINE char* xds_core_v3_ContextParams_serialize(const xds_core_v3_ContextParams* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_core_v3_ContextParams_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_core_v3_ContextParams_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* xds_core_v3_ContextParams_serialize_ex(const xds_core_v3_ContextParams* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_core_v3_ContextParams_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_core_v3_ContextParams_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool xds_core_v3_ContextParams_has_params(const xds_core_v3_ContextParams* msg) {

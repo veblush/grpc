@@ -9,35 +9,34 @@
 #ifndef ENVOY_CONFIG_CORE_V3_GRPC_METHOD_LIST_PROTO_UPB_H_
 #define ENVOY_CONFIG_CORE_V3_GRPC_METHOD_LIST_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_config_core_v3_GrpcMethodList;
-struct envoy_config_core_v3_GrpcMethodList_Service;
 typedef struct envoy_config_core_v3_GrpcMethodList envoy_config_core_v3_GrpcMethodList;
 typedef struct envoy_config_core_v3_GrpcMethodList_Service envoy_config_core_v3_GrpcMethodList_Service;
-extern const upb_MiniTable envoy_config_core_v3_GrpcMethodList_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcMethodList_Service_msginit;
+extern const upb_MiniTable envoy_config_core_v3_GrpcMethodList_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcMethodList_Service_msg_init;
 
 
 
 /* envoy.config.core.v3.GrpcMethodList */
 
 UPB_INLINE envoy_config_core_v3_GrpcMethodList* envoy_config_core_v3_GrpcMethodList_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcMethodList*)_upb_Message_New(&envoy_config_core_v3_GrpcMethodList_msginit, arena);
+  return (envoy_config_core_v3_GrpcMethodList*)_upb_Message_New(&envoy_config_core_v3_GrpcMethodList_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcMethodList* envoy_config_core_v3_GrpcMethodList_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcMethodList* ret = envoy_config_core_v3_GrpcMethodList_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcMethodList_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcMethodList_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -47,7 +46,7 @@ UPB_INLINE envoy_config_core_v3_GrpcMethodList* envoy_config_core_v3_GrpcMethodL
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcMethodList* ret = envoy_config_core_v3_GrpcMethodList_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcMethodList_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcMethodList_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -55,13 +54,13 @@ UPB_INLINE envoy_config_core_v3_GrpcMethodList* envoy_config_core_v3_GrpcMethodL
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcMethodList_serialize(const envoy_config_core_v3_GrpcMethodList* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcMethodList_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcMethodList_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcMethodList_serialize_ex(const envoy_config_core_v3_GrpcMethodList* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcMethodList_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcMethodList_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_config_core_v3_GrpcMethodList_has_services(const envoy_config_core_v3_GrpcMethodList* msg) {
@@ -81,7 +80,7 @@ UPB_INLINE envoy_config_core_v3_GrpcMethodList_Service** envoy_config_core_v3_Gr
   return (envoy_config_core_v3_GrpcMethodList_Service**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(0, 0), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_core_v3_GrpcMethodList_Service* envoy_config_core_v3_GrpcMethodList_add_services(envoy_config_core_v3_GrpcMethodList* msg, upb_Arena* arena) {
-  struct envoy_config_core_v3_GrpcMethodList_Service* sub = (struct envoy_config_core_v3_GrpcMethodList_Service*)_upb_Message_New(&envoy_config_core_v3_GrpcMethodList_Service_msginit, arena);
+  struct envoy_config_core_v3_GrpcMethodList_Service* sub = (struct envoy_config_core_v3_GrpcMethodList_Service*)_upb_Message_New(&envoy_config_core_v3_GrpcMethodList_Service_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(0, 0), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -90,12 +89,12 @@ UPB_INLINE struct envoy_config_core_v3_GrpcMethodList_Service* envoy_config_core
 /* envoy.config.core.v3.GrpcMethodList.Service */
 
 UPB_INLINE envoy_config_core_v3_GrpcMethodList_Service* envoy_config_core_v3_GrpcMethodList_Service_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcMethodList_Service*)_upb_Message_New(&envoy_config_core_v3_GrpcMethodList_Service_msginit, arena);
+  return (envoy_config_core_v3_GrpcMethodList_Service*)_upb_Message_New(&envoy_config_core_v3_GrpcMethodList_Service_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcMethodList_Service* envoy_config_core_v3_GrpcMethodList_Service_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcMethodList_Service* ret = envoy_config_core_v3_GrpcMethodList_Service_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcMethodList_Service_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcMethodList_Service_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -105,7 +104,7 @@ UPB_INLINE envoy_config_core_v3_GrpcMethodList_Service* envoy_config_core_v3_Grp
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcMethodList_Service* ret = envoy_config_core_v3_GrpcMethodList_Service_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcMethodList_Service_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcMethodList_Service_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -113,13 +112,13 @@ UPB_INLINE envoy_config_core_v3_GrpcMethodList_Service* envoy_config_core_v3_Grp
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcMethodList_Service_serialize(const envoy_config_core_v3_GrpcMethodList_Service* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcMethodList_Service_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcMethodList_Service_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcMethodList_Service_serialize_ex(const envoy_config_core_v3_GrpcMethodList_Service* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcMethodList_Service_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcMethodList_Service_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_config_core_v3_GrpcMethodList_Service_clear_name(const envoy_config_core_v3_GrpcMethodList_Service* msg) {

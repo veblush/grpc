@@ -9,40 +9,38 @@
 #ifndef ENVOY_TYPE_MATCHER_V3_REGEX_PROTO_UPB_H_
 #define ENVOY_TYPE_MATCHER_V3_REGEX_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_type_matcher_v3_RegexMatcher;
-struct envoy_type_matcher_v3_RegexMatcher_GoogleRE2;
-struct envoy_type_matcher_v3_RegexMatchAndSubstitute;
 typedef struct envoy_type_matcher_v3_RegexMatcher envoy_type_matcher_v3_RegexMatcher;
 typedef struct envoy_type_matcher_v3_RegexMatcher_GoogleRE2 envoy_type_matcher_v3_RegexMatcher_GoogleRE2;
 typedef struct envoy_type_matcher_v3_RegexMatchAndSubstitute envoy_type_matcher_v3_RegexMatchAndSubstitute;
-extern const upb_MiniTable envoy_type_matcher_v3_RegexMatcher_msginit;
-extern const upb_MiniTable envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msginit;
-extern const upb_MiniTable envoy_type_matcher_v3_RegexMatchAndSubstitute_msginit;
+extern const upb_MiniTable envoy_type_matcher_v3_RegexMatcher_msg_init;
+extern const upb_MiniTable envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msg_init;
+extern const upb_MiniTable envoy_type_matcher_v3_RegexMatchAndSubstitute_msg_init;
 struct google_protobuf_UInt32Value;
-extern const upb_MiniTable google_protobuf_UInt32Value_msginit;
+extern const upb_MiniTable google_protobuf_UInt32Value_msg_init;
 
 
 
 /* envoy.type.matcher.v3.RegexMatcher */
 
 UPB_INLINE envoy_type_matcher_v3_RegexMatcher* envoy_type_matcher_v3_RegexMatcher_new(upb_Arena* arena) {
-  return (envoy_type_matcher_v3_RegexMatcher*)_upb_Message_New(&envoy_type_matcher_v3_RegexMatcher_msginit, arena);
+  return (envoy_type_matcher_v3_RegexMatcher*)_upb_Message_New(&envoy_type_matcher_v3_RegexMatcher_msg_init, arena);
 }
 UPB_INLINE envoy_type_matcher_v3_RegexMatcher* envoy_type_matcher_v3_RegexMatcher_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_type_matcher_v3_RegexMatcher* ret = envoy_type_matcher_v3_RegexMatcher_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_matcher_v3_RegexMatcher_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_type_matcher_v3_RegexMatcher_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -52,7 +50,7 @@ UPB_INLINE envoy_type_matcher_v3_RegexMatcher* envoy_type_matcher_v3_RegexMatche
                            int options, upb_Arena* arena) {
   envoy_type_matcher_v3_RegexMatcher* ret = envoy_type_matcher_v3_RegexMatcher_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_matcher_v3_RegexMatcher_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_type_matcher_v3_RegexMatcher_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -60,13 +58,13 @@ UPB_INLINE envoy_type_matcher_v3_RegexMatcher* envoy_type_matcher_v3_RegexMatche
 }
 UPB_INLINE char* envoy_type_matcher_v3_RegexMatcher_serialize(const envoy_type_matcher_v3_RegexMatcher* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_matcher_v3_RegexMatcher_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_matcher_v3_RegexMatcher_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_type_matcher_v3_RegexMatcher_serialize_ex(const envoy_type_matcher_v3_RegexMatcher* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_matcher_v3_RegexMatcher_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_matcher_v3_RegexMatcher_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {
@@ -98,7 +96,7 @@ UPB_INLINE void envoy_type_matcher_v3_RegexMatcher_set_google_re2(envoy_type_mat
 UPB_INLINE struct envoy_type_matcher_v3_RegexMatcher_GoogleRE2* envoy_type_matcher_v3_RegexMatcher_mutable_google_re2(envoy_type_matcher_v3_RegexMatcher* msg, upb_Arena* arena) {
   struct envoy_type_matcher_v3_RegexMatcher_GoogleRE2* sub = (struct envoy_type_matcher_v3_RegexMatcher_GoogleRE2*)envoy_type_matcher_v3_RegexMatcher_google_re2(msg);
   if (sub == NULL) {
-    sub = (struct envoy_type_matcher_v3_RegexMatcher_GoogleRE2*)_upb_Message_New(&envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msginit, arena);
+    sub = (struct envoy_type_matcher_v3_RegexMatcher_GoogleRE2*)_upb_Message_New(&envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msg_init, arena);
     if (!sub) return NULL;
     envoy_type_matcher_v3_RegexMatcher_set_google_re2(msg, sub);
   }
@@ -111,12 +109,12 @@ UPB_INLINE void envoy_type_matcher_v3_RegexMatcher_set_regex(envoy_type_matcher_
 /* envoy.type.matcher.v3.RegexMatcher.GoogleRE2 */
 
 UPB_INLINE envoy_type_matcher_v3_RegexMatcher_GoogleRE2* envoy_type_matcher_v3_RegexMatcher_GoogleRE2_new(upb_Arena* arena) {
-  return (envoy_type_matcher_v3_RegexMatcher_GoogleRE2*)_upb_Message_New(&envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msginit, arena);
+  return (envoy_type_matcher_v3_RegexMatcher_GoogleRE2*)_upb_Message_New(&envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msg_init, arena);
 }
 UPB_INLINE envoy_type_matcher_v3_RegexMatcher_GoogleRE2* envoy_type_matcher_v3_RegexMatcher_GoogleRE2_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_type_matcher_v3_RegexMatcher_GoogleRE2* ret = envoy_type_matcher_v3_RegexMatcher_GoogleRE2_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -126,7 +124,7 @@ UPB_INLINE envoy_type_matcher_v3_RegexMatcher_GoogleRE2* envoy_type_matcher_v3_R
                            int options, upb_Arena* arena) {
   envoy_type_matcher_v3_RegexMatcher_GoogleRE2* ret = envoy_type_matcher_v3_RegexMatcher_GoogleRE2_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -134,13 +132,13 @@ UPB_INLINE envoy_type_matcher_v3_RegexMatcher_GoogleRE2* envoy_type_matcher_v3_R
 }
 UPB_INLINE char* envoy_type_matcher_v3_RegexMatcher_GoogleRE2_serialize(const envoy_type_matcher_v3_RegexMatcher_GoogleRE2* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_type_matcher_v3_RegexMatcher_GoogleRE2_serialize_ex(const envoy_type_matcher_v3_RegexMatcher_GoogleRE2* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_matcher_v3_RegexMatcher_GoogleRE2_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_type_matcher_v3_RegexMatcher_GoogleRE2_has_max_program_size(const envoy_type_matcher_v3_RegexMatcher_GoogleRE2* msg) {
@@ -148,6 +146,7 @@ UPB_INLINE bool envoy_type_matcher_v3_RegexMatcher_GoogleRE2_has_max_program_siz
 }
 UPB_INLINE void envoy_type_matcher_v3_RegexMatcher_GoogleRE2_clear_max_program_size(const envoy_type_matcher_v3_RegexMatcher_GoogleRE2* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_UInt32Value* envoy_type_matcher_v3_RegexMatcher_GoogleRE2_max_program_size(const envoy_type_matcher_v3_RegexMatcher_GoogleRE2* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const struct google_protobuf_UInt32Value*);
@@ -160,7 +159,7 @@ UPB_INLINE void envoy_type_matcher_v3_RegexMatcher_GoogleRE2_set_max_program_siz
 UPB_INLINE struct google_protobuf_UInt32Value* envoy_type_matcher_v3_RegexMatcher_GoogleRE2_mutable_max_program_size(envoy_type_matcher_v3_RegexMatcher_GoogleRE2* msg, upb_Arena* arena) {
   struct google_protobuf_UInt32Value* sub = (struct google_protobuf_UInt32Value*)envoy_type_matcher_v3_RegexMatcher_GoogleRE2_max_program_size(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msginit, arena);
+    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msg_init, arena);
     if (!sub) return NULL;
     envoy_type_matcher_v3_RegexMatcher_GoogleRE2_set_max_program_size(msg, sub);
   }
@@ -170,12 +169,12 @@ UPB_INLINE struct google_protobuf_UInt32Value* envoy_type_matcher_v3_RegexMatche
 /* envoy.type.matcher.v3.RegexMatchAndSubstitute */
 
 UPB_INLINE envoy_type_matcher_v3_RegexMatchAndSubstitute* envoy_type_matcher_v3_RegexMatchAndSubstitute_new(upb_Arena* arena) {
-  return (envoy_type_matcher_v3_RegexMatchAndSubstitute*)_upb_Message_New(&envoy_type_matcher_v3_RegexMatchAndSubstitute_msginit, arena);
+  return (envoy_type_matcher_v3_RegexMatchAndSubstitute*)_upb_Message_New(&envoy_type_matcher_v3_RegexMatchAndSubstitute_msg_init, arena);
 }
 UPB_INLINE envoy_type_matcher_v3_RegexMatchAndSubstitute* envoy_type_matcher_v3_RegexMatchAndSubstitute_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_type_matcher_v3_RegexMatchAndSubstitute* ret = envoy_type_matcher_v3_RegexMatchAndSubstitute_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_matcher_v3_RegexMatchAndSubstitute_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_type_matcher_v3_RegexMatchAndSubstitute_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -185,7 +184,7 @@ UPB_INLINE envoy_type_matcher_v3_RegexMatchAndSubstitute* envoy_type_matcher_v3_
                            int options, upb_Arena* arena) {
   envoy_type_matcher_v3_RegexMatchAndSubstitute* ret = envoy_type_matcher_v3_RegexMatchAndSubstitute_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_matcher_v3_RegexMatchAndSubstitute_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_type_matcher_v3_RegexMatchAndSubstitute_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -193,13 +192,13 @@ UPB_INLINE envoy_type_matcher_v3_RegexMatchAndSubstitute* envoy_type_matcher_v3_
 }
 UPB_INLINE char* envoy_type_matcher_v3_RegexMatchAndSubstitute_serialize(const envoy_type_matcher_v3_RegexMatchAndSubstitute* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_matcher_v3_RegexMatchAndSubstitute_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_matcher_v3_RegexMatchAndSubstitute_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_type_matcher_v3_RegexMatchAndSubstitute_serialize_ex(const envoy_type_matcher_v3_RegexMatchAndSubstitute* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_matcher_v3_RegexMatchAndSubstitute_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_matcher_v3_RegexMatchAndSubstitute_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_type_matcher_v3_RegexMatchAndSubstitute_has_pattern(const envoy_type_matcher_v3_RegexMatchAndSubstitute* msg) {
@@ -207,6 +206,7 @@ UPB_INLINE bool envoy_type_matcher_v3_RegexMatchAndSubstitute_has_pattern(const 
 }
 UPB_INLINE void envoy_type_matcher_v3_RegexMatchAndSubstitute_clear_pattern(const envoy_type_matcher_v3_RegexMatchAndSubstitute* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const envoy_type_matcher_v3_RegexMatcher* envoy_type_matcher_v3_RegexMatchAndSubstitute_pattern(const envoy_type_matcher_v3_RegexMatchAndSubstitute* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const envoy_type_matcher_v3_RegexMatcher*);
@@ -225,7 +225,7 @@ UPB_INLINE void envoy_type_matcher_v3_RegexMatchAndSubstitute_set_pattern(envoy_
 UPB_INLINE struct envoy_type_matcher_v3_RegexMatcher* envoy_type_matcher_v3_RegexMatchAndSubstitute_mutable_pattern(envoy_type_matcher_v3_RegexMatchAndSubstitute* msg, upb_Arena* arena) {
   struct envoy_type_matcher_v3_RegexMatcher* sub = (struct envoy_type_matcher_v3_RegexMatcher*)envoy_type_matcher_v3_RegexMatchAndSubstitute_pattern(msg);
   if (sub == NULL) {
-    sub = (struct envoy_type_matcher_v3_RegexMatcher*)_upb_Message_New(&envoy_type_matcher_v3_RegexMatcher_msginit, arena);
+    sub = (struct envoy_type_matcher_v3_RegexMatcher*)_upb_Message_New(&envoy_type_matcher_v3_RegexMatcher_msg_init, arena);
     if (!sub) return NULL;
     envoy_type_matcher_v3_RegexMatchAndSubstitute_set_pattern(msg, sub);
   }

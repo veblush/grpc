@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/type/v3/range.upb.h"
 #include "udpa/annotations/status.upb.h"
@@ -19,7 +20,7 @@ static const upb_MiniTable_Field envoy_type_v3_Int64Range__fields[2] = {
   {2, UPB_SIZE(8, 8), UPB_SIZE(0, 0), kUpb_NoSub, 3, kUpb_FieldMode_Scalar | (kUpb_FieldRep_8Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_type_v3_Int64Range_msginit = {
+const upb_MiniTable envoy_type_v3_Int64Range_msg_init = {
   NULL,
   &envoy_type_v3_Int64Range__fields[0],
   UPB_SIZE(16, 16), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
@@ -30,7 +31,7 @@ static const upb_MiniTable_Field envoy_type_v3_Int32Range__fields[2] = {
   {2, UPB_SIZE(4, 4), UPB_SIZE(0, 0), kUpb_NoSub, 5, kUpb_FieldMode_Scalar | (kUpb_FieldRep_4Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_type_v3_Int32Range_msginit = {
+const upb_MiniTable envoy_type_v3_Int32Range_msg_init = {
   NULL,
   &envoy_type_v3_Int32Range__fields[0],
   UPB_SIZE(8, 8), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
@@ -41,16 +42,16 @@ static const upb_MiniTable_Field envoy_type_v3_DoubleRange__fields[2] = {
   {2, UPB_SIZE(8, 8), UPB_SIZE(0, 0), kUpb_NoSub, 1, kUpb_FieldMode_Scalar | (kUpb_FieldRep_8Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_type_v3_DoubleRange_msginit = {
+const upb_MiniTable envoy_type_v3_DoubleRange_msg_init = {
   NULL,
   &envoy_type_v3_DoubleRange__fields[0],
   UPB_SIZE(16, 16), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[3] = {
-  &envoy_type_v3_Int64Range_msginit,
-  &envoy_type_v3_Int32Range_msginit,
-  &envoy_type_v3_DoubleRange_msginit,
+  &envoy_type_v3_Int64Range_msg_init,
+  &envoy_type_v3_Int32Range_msg_init,
+  &envoy_type_v3_DoubleRange_msg_init,
 };
 
 const upb_MiniTable_File envoy_type_v3_range_proto_upb_file_layout = {

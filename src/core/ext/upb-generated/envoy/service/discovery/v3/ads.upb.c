@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/service/discovery/v3/ads.upb.h"
 #include "envoy/service/discovery/v3/discovery.upb.h"
@@ -15,14 +16,14 @@
 
 #include "upb/port_def.inc"
 
-const upb_MiniTable envoy_service_discovery_v3_AdsDummy_msginit = {
+const upb_MiniTable envoy_service_discovery_v3_AdsDummy_msg_init = {
   NULL,
   NULL,
   UPB_SIZE(0, 0), 0, kUpb_ExtMode_NonExtendable, 0, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_service_discovery_v3_AdsDummy_msginit,
+  &envoy_service_discovery_v3_AdsDummy_msg_init,
 };
 
 const upb_MiniTable_File envoy_service_discovery_v3_ads_proto_upb_file_layout = {

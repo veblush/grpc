@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/trace/v3/skywalking.upb.h"
 #include "envoy/config/core/v3/grpc_service.upb.h"
@@ -19,8 +20,8 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_config_trace_v3_SkyWalkingConfig_submsgs[2] = {
-  {.submsg = &envoy_config_core_v3_GrpcService_msginit},
-  {.submsg = &envoy_config_trace_v3_ClientConfig_msginit},
+  {.submsg = &envoy_config_core_v3_GrpcService_msg_init},
+  {.submsg = &envoy_config_trace_v3_ClientConfig_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_trace_v3_SkyWalkingConfig__fields[2] = {
@@ -28,14 +29,14 @@ static const upb_MiniTable_Field envoy_config_trace_v3_SkyWalkingConfig__fields[
   {2, UPB_SIZE(8, 16), UPB_SIZE(2, 2), 1, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_trace_v3_SkyWalkingConfig_msginit = {
+const upb_MiniTable envoy_config_trace_v3_SkyWalkingConfig_msg_init = {
   &envoy_config_trace_v3_SkyWalkingConfig_submsgs[0],
   &envoy_config_trace_v3_SkyWalkingConfig__fields[0],
   UPB_SIZE(16, 24), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_trace_v3_ClientConfig_submsgs[1] = {
-  {.submsg = &google_protobuf_UInt32Value_msginit},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_trace_v3_ClientConfig__fields[4] = {
@@ -45,15 +46,15 @@ static const upb_MiniTable_Field envoy_config_trace_v3_ClientConfig__fields[4] =
   {4, UPB_SIZE(32, 56), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_trace_v3_ClientConfig_msginit = {
+const upb_MiniTable envoy_config_trace_v3_ClientConfig_msg_init = {
   &envoy_config_trace_v3_ClientConfig_submsgs[0],
   &envoy_config_trace_v3_ClientConfig__fields[0],
   UPB_SIZE(40, 64), 4, kUpb_ExtMode_NonExtendable, 4, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[2] = {
-  &envoy_config_trace_v3_SkyWalkingConfig_msginit,
-  &envoy_config_trace_v3_ClientConfig_msginit,
+  &envoy_config_trace_v3_SkyWalkingConfig_msg_init,
+  &envoy_config_trace_v3_ClientConfig_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_trace_v3_skywalking_proto_upb_file_layout = {

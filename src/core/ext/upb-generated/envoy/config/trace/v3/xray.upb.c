@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/trace/v3/xray.upb.h"
 #include "envoy/config/core/v3/address.upb.h"
@@ -20,9 +21,9 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_config_trace_v3_XRayConfig_submsgs[3] = {
-  {.submsg = &envoy_config_core_v3_SocketAddress_msginit},
-  {.submsg = &envoy_config_core_v3_DataSource_msginit},
-  {.submsg = &envoy_config_trace_v3_XRayConfig_SegmentFields_msginit},
+  {.submsg = &envoy_config_core_v3_SocketAddress_msg_init},
+  {.submsg = &envoy_config_core_v3_DataSource_msg_init},
+  {.submsg = &envoy_config_trace_v3_XRayConfig_SegmentFields_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_trace_v3_XRayConfig__fields[4] = {
@@ -32,14 +33,14 @@ static const upb_MiniTable_Field envoy_config_trace_v3_XRayConfig__fields[4] = {
   {4, UPB_SIZE(20, 40), UPB_SIZE(3, 3), 2, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_trace_v3_XRayConfig_msginit = {
+const upb_MiniTable envoy_config_trace_v3_XRayConfig_msg_init = {
   &envoy_config_trace_v3_XRayConfig_submsgs[0],
   &envoy_config_trace_v3_XRayConfig__fields[0],
   UPB_SIZE(24, 48), 4, kUpb_ExtMode_NonExtendable, 4, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_trace_v3_XRayConfig_SegmentFields_submsgs[1] = {
-  {.submsg = &google_protobuf_Struct_msginit},
+  {.submsg = &google_protobuf_Struct_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_trace_v3_XRayConfig_SegmentFields__fields[2] = {
@@ -47,15 +48,15 @@ static const upb_MiniTable_Field envoy_config_trace_v3_XRayConfig_SegmentFields_
   {2, UPB_SIZE(12, 24), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_trace_v3_XRayConfig_SegmentFields_msginit = {
+const upb_MiniTable envoy_config_trace_v3_XRayConfig_SegmentFields_msg_init = {
   &envoy_config_trace_v3_XRayConfig_SegmentFields_submsgs[0],
   &envoy_config_trace_v3_XRayConfig_SegmentFields__fields[0],
   UPB_SIZE(16, 32), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[2] = {
-  &envoy_config_trace_v3_XRayConfig_msginit,
-  &envoy_config_trace_v3_XRayConfig_SegmentFields_msginit,
+  &envoy_config_trace_v3_XRayConfig_msg_init,
+  &envoy_config_trace_v3_XRayConfig_SegmentFields_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_trace_v3_xray_proto_upb_file_layout = {

@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "udpa/annotations/security.upb.h"
 #include "udpa/annotations/status.upb.h"
@@ -19,22 +20,22 @@ static const upb_MiniTable_Field udpa_annotations_FieldSecurityAnnotation__field
   {2, UPB_SIZE(1, 1), UPB_SIZE(0, 0), kUpb_NoSub, 8, kUpb_FieldMode_Scalar | (kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable udpa_annotations_FieldSecurityAnnotation_msginit = {
+const upb_MiniTable udpa_annotations_FieldSecurityAnnotation_msg_init = {
   NULL,
   &udpa_annotations_FieldSecurityAnnotation__fields[0],
   UPB_SIZE(8, 8), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &udpa_annotations_FieldSecurityAnnotation_msginit,
+  &udpa_annotations_FieldSecurityAnnotation_msg_init,
 };
 
-extern const upb_MiniTable google_protobuf_FieldOptions_msginit;
-extern const upb_MiniTable udpa_annotations_FieldSecurityAnnotation_msginit;
+extern const upb_MiniTable google_protobuf_FieldOptions_msg_init;
+extern const upb_MiniTable udpa_annotations_FieldSecurityAnnotation_msg_init;
 const upb_MiniTable_Extension udpa_annotations_security_ext = {
   {11122993, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Scalar | kUpb_LabelFlags_IsExtension | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
-  &google_protobuf_FieldOptions_msginit,
-  {.submsg = &udpa_annotations_FieldSecurityAnnotation_msginit},
+  &google_protobuf_FieldOptions_msg_init,
+  {.submsg = &udpa_annotations_FieldSecurityAnnotation_msg_init},
 
 };
 

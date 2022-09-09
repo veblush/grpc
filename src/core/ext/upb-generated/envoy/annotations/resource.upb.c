@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/annotations/resource.upb.h"
 #include "google/protobuf/descriptor.upb.h"
@@ -17,22 +18,22 @@ static const upb_MiniTable_Field envoy_annotations_ResourceAnnotation__fields[1]
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_annotations_ResourceAnnotation_msginit = {
+const upb_MiniTable envoy_annotations_ResourceAnnotation_msg_init = {
   NULL,
   &envoy_annotations_ResourceAnnotation__fields[0],
   UPB_SIZE(8, 16), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_annotations_ResourceAnnotation_msginit,
+  &envoy_annotations_ResourceAnnotation_msg_init,
 };
 
-extern const upb_MiniTable envoy_annotations_ResourceAnnotation_msginit;
-extern const upb_MiniTable google_protobuf_ServiceOptions_msginit;
+extern const upb_MiniTable envoy_annotations_ResourceAnnotation_msg_init;
+extern const upb_MiniTable google_protobuf_ServiceOptions_msg_init;
 const upb_MiniTable_Extension envoy_annotations_resource_ext = {
   {265073217, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Scalar | kUpb_LabelFlags_IsExtension | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
-  &google_protobuf_ServiceOptions_msginit,
-  {.submsg = &envoy_annotations_ResourceAnnotation_msginit},
+  &google_protobuf_ServiceOptions_msg_init,
+  {.submsg = &envoy_annotations_ResourceAnnotation_msg_init},
 
 };
 

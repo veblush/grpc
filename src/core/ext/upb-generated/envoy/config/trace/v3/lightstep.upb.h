@@ -9,22 +9,22 @@
 #ifndef ENVOY_CONFIG_TRACE_V3_LIGHTSTEP_PROTO_UPB_H_
 #define ENVOY_CONFIG_TRACE_V3_LIGHTSTEP_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_config_trace_v3_LightstepConfig;
 typedef struct envoy_config_trace_v3_LightstepConfig envoy_config_trace_v3_LightstepConfig;
-extern const upb_MiniTable envoy_config_trace_v3_LightstepConfig_msginit;
+extern const upb_MiniTable envoy_config_trace_v3_LightstepConfig_msg_init;
 struct envoy_config_core_v3_DataSource;
-extern const upb_MiniTable envoy_config_core_v3_DataSource_msginit;
+extern const upb_MiniTable envoy_config_core_v3_DataSource_msg_init;
 
 typedef enum {
   envoy_config_trace_v3_LightstepConfig_ENVOY = 0,
@@ -38,12 +38,12 @@ typedef enum {
 /* envoy.config.trace.v3.LightstepConfig */
 
 UPB_INLINE envoy_config_trace_v3_LightstepConfig* envoy_config_trace_v3_LightstepConfig_new(upb_Arena* arena) {
-  return (envoy_config_trace_v3_LightstepConfig*)_upb_Message_New(&envoy_config_trace_v3_LightstepConfig_msginit, arena);
+  return (envoy_config_trace_v3_LightstepConfig*)_upb_Message_New(&envoy_config_trace_v3_LightstepConfig_msg_init, arena);
 }
 UPB_INLINE envoy_config_trace_v3_LightstepConfig* envoy_config_trace_v3_LightstepConfig_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_trace_v3_LightstepConfig* ret = envoy_config_trace_v3_LightstepConfig_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_LightstepConfig_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_LightstepConfig_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -53,7 +53,7 @@ UPB_INLINE envoy_config_trace_v3_LightstepConfig* envoy_config_trace_v3_Lightste
                            int options, upb_Arena* arena) {
   envoy_config_trace_v3_LightstepConfig* ret = envoy_config_trace_v3_LightstepConfig_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_LightstepConfig_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_LightstepConfig_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -61,13 +61,13 @@ UPB_INLINE envoy_config_trace_v3_LightstepConfig* envoy_config_trace_v3_Lightste
 }
 UPB_INLINE char* envoy_config_trace_v3_LightstepConfig_serialize(const envoy_config_trace_v3_LightstepConfig* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_trace_v3_LightstepConfig_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_trace_v3_LightstepConfig_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_trace_v3_LightstepConfig_serialize_ex(const envoy_config_trace_v3_LightstepConfig* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_trace_v3_LightstepConfig_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_trace_v3_LightstepConfig_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_config_trace_v3_LightstepConfig_clear_collector_cluster(const envoy_config_trace_v3_LightstepConfig* msg) {
@@ -93,6 +93,7 @@ UPB_INLINE bool envoy_config_trace_v3_LightstepConfig_has_access_token(const env
 }
 UPB_INLINE void envoy_config_trace_v3_LightstepConfig_clear_access_token(const envoy_config_trace_v3_LightstepConfig* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(24, 48), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct envoy_config_core_v3_DataSource* envoy_config_trace_v3_LightstepConfig_access_token(const envoy_config_trace_v3_LightstepConfig* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(24, 48), const struct envoy_config_core_v3_DataSource*);
@@ -120,7 +121,7 @@ UPB_INLINE void envoy_config_trace_v3_LightstepConfig_set_access_token(envoy_con
 UPB_INLINE struct envoy_config_core_v3_DataSource* envoy_config_trace_v3_LightstepConfig_mutable_access_token(envoy_config_trace_v3_LightstepConfig* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_DataSource* sub = (struct envoy_config_core_v3_DataSource*)envoy_config_trace_v3_LightstepConfig_access_token(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_DataSource*)_upb_Message_New(&envoy_config_core_v3_DataSource_msginit, arena);
+    sub = (struct envoy_config_core_v3_DataSource*)_upb_Message_New(&envoy_config_core_v3_DataSource_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_trace_v3_LightstepConfig_set_access_token(msg, sub);
   }

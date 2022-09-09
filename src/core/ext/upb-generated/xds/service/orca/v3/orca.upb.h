@@ -9,34 +9,34 @@
 #ifndef XDS_SERVICE_ORCA_V3_ORCA_PROTO_UPB_H_
 #define XDS_SERVICE_ORCA_V3_ORCA_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct xds_service_orca_v3_OrcaLoadReportRequest;
 typedef struct xds_service_orca_v3_OrcaLoadReportRequest xds_service_orca_v3_OrcaLoadReportRequest;
-extern const upb_MiniTable xds_service_orca_v3_OrcaLoadReportRequest_msginit;
+extern const upb_MiniTable xds_service_orca_v3_OrcaLoadReportRequest_msg_init;
 struct google_protobuf_Duration;
-extern const upb_MiniTable google_protobuf_Duration_msginit;
+extern const upb_MiniTable google_protobuf_Duration_msg_init;
 
 
 
 /* xds.service.orca.v3.OrcaLoadReportRequest */
 
 UPB_INLINE xds_service_orca_v3_OrcaLoadReportRequest* xds_service_orca_v3_OrcaLoadReportRequest_new(upb_Arena* arena) {
-  return (xds_service_orca_v3_OrcaLoadReportRequest*)_upb_Message_New(&xds_service_orca_v3_OrcaLoadReportRequest_msginit, arena);
+  return (xds_service_orca_v3_OrcaLoadReportRequest*)_upb_Message_New(&xds_service_orca_v3_OrcaLoadReportRequest_msg_init, arena);
 }
 UPB_INLINE xds_service_orca_v3_OrcaLoadReportRequest* xds_service_orca_v3_OrcaLoadReportRequest_parse(const char* buf, size_t size, upb_Arena* arena) {
   xds_service_orca_v3_OrcaLoadReportRequest* ret = xds_service_orca_v3_OrcaLoadReportRequest_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_service_orca_v3_OrcaLoadReportRequest_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &xds_service_orca_v3_OrcaLoadReportRequest_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -46,7 +46,7 @@ UPB_INLINE xds_service_orca_v3_OrcaLoadReportRequest* xds_service_orca_v3_OrcaLo
                            int options, upb_Arena* arena) {
   xds_service_orca_v3_OrcaLoadReportRequest* ret = xds_service_orca_v3_OrcaLoadReportRequest_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_service_orca_v3_OrcaLoadReportRequest_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &xds_service_orca_v3_OrcaLoadReportRequest_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -54,13 +54,13 @@ UPB_INLINE xds_service_orca_v3_OrcaLoadReportRequest* xds_service_orca_v3_OrcaLo
 }
 UPB_INLINE char* xds_service_orca_v3_OrcaLoadReportRequest_serialize(const xds_service_orca_v3_OrcaLoadReportRequest* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_service_orca_v3_OrcaLoadReportRequest_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_service_orca_v3_OrcaLoadReportRequest_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* xds_service_orca_v3_OrcaLoadReportRequest_serialize_ex(const xds_service_orca_v3_OrcaLoadReportRequest* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_service_orca_v3_OrcaLoadReportRequest_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_service_orca_v3_OrcaLoadReportRequest_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool xds_service_orca_v3_OrcaLoadReportRequest_has_report_interval(const xds_service_orca_v3_OrcaLoadReportRequest* msg) {
@@ -68,6 +68,7 @@ UPB_INLINE bool xds_service_orca_v3_OrcaLoadReportRequest_has_report_interval(co
 }
 UPB_INLINE void xds_service_orca_v3_OrcaLoadReportRequest_clear_report_interval(const xds_service_orca_v3_OrcaLoadReportRequest* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_Duration* xds_service_orca_v3_OrcaLoadReportRequest_report_interval(const xds_service_orca_v3_OrcaLoadReportRequest* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const struct google_protobuf_Duration*);
@@ -86,7 +87,7 @@ UPB_INLINE void xds_service_orca_v3_OrcaLoadReportRequest_set_report_interval(xd
 UPB_INLINE struct google_protobuf_Duration* xds_service_orca_v3_OrcaLoadReportRequest_mutable_report_interval(xds_service_orca_v3_OrcaLoadReportRequest* msg, upb_Arena* arena) {
   struct google_protobuf_Duration* sub = (struct google_protobuf_Duration*)xds_service_orca_v3_OrcaLoadReportRequest_report_interval(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msginit, arena);
+    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msg_init, arena);
     if (!sub) return NULL;
     xds_service_orca_v3_OrcaLoadReportRequest_set_report_interval(msg, sub);
   }

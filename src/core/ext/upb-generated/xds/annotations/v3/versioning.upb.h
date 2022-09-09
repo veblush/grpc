@@ -9,35 +9,35 @@
 #ifndef XDS_ANNOTATIONS_V3_VERSIONING_PROTO_UPB_H_
 #define XDS_ANNOTATIONS_V3_VERSIONING_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct xds_annotations_v3_VersioningAnnotation;
 typedef struct xds_annotations_v3_VersioningAnnotation xds_annotations_v3_VersioningAnnotation;
-extern const upb_MiniTable xds_annotations_v3_VersioningAnnotation_msginit;
+extern const upb_MiniTable xds_annotations_v3_VersioningAnnotation_msg_init;
 extern const upb_MiniTable_Extension xds_annotations_v3_versioning_ext;
 struct google_protobuf_MessageOptions;
-extern const upb_MiniTable google_protobuf_MessageOptions_msginit;
+extern const upb_MiniTable google_protobuf_MessageOptions_msg_init;
 
 
 
 /* xds.annotations.v3.VersioningAnnotation */
 
 UPB_INLINE xds_annotations_v3_VersioningAnnotation* xds_annotations_v3_VersioningAnnotation_new(upb_Arena* arena) {
-  return (xds_annotations_v3_VersioningAnnotation*)_upb_Message_New(&xds_annotations_v3_VersioningAnnotation_msginit, arena);
+  return (xds_annotations_v3_VersioningAnnotation*)_upb_Message_New(&xds_annotations_v3_VersioningAnnotation_msg_init, arena);
 }
 UPB_INLINE xds_annotations_v3_VersioningAnnotation* xds_annotations_v3_VersioningAnnotation_parse(const char* buf, size_t size, upb_Arena* arena) {
   xds_annotations_v3_VersioningAnnotation* ret = xds_annotations_v3_VersioningAnnotation_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_annotations_v3_VersioningAnnotation_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &xds_annotations_v3_VersioningAnnotation_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -47,7 +47,7 @@ UPB_INLINE xds_annotations_v3_VersioningAnnotation* xds_annotations_v3_Versionin
                            int options, upb_Arena* arena) {
   xds_annotations_v3_VersioningAnnotation* ret = xds_annotations_v3_VersioningAnnotation_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_annotations_v3_VersioningAnnotation_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &xds_annotations_v3_VersioningAnnotation_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -55,13 +55,13 @@ UPB_INLINE xds_annotations_v3_VersioningAnnotation* xds_annotations_v3_Versionin
 }
 UPB_INLINE char* xds_annotations_v3_VersioningAnnotation_serialize(const xds_annotations_v3_VersioningAnnotation* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_annotations_v3_VersioningAnnotation_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_annotations_v3_VersioningAnnotation_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* xds_annotations_v3_VersioningAnnotation_serialize_ex(const xds_annotations_v3_VersioningAnnotation* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_annotations_v3_VersioningAnnotation_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_annotations_v3_VersioningAnnotation_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void xds_annotations_v3_VersioningAnnotation_clear_previous_message_type(const xds_annotations_v3_VersioningAnnotation* msg) {

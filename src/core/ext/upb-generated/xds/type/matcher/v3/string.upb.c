@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "xds/type/matcher/v3/string.upb.h"
 #include "xds/type/matcher/v3/regex.upb.h"
@@ -15,7 +16,7 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub xds_type_matcher_v3_StringMatcher_submsgs[1] = {
-  {.submsg = &xds_type_matcher_v3_RegexMatcher_msginit},
+  {.submsg = &xds_type_matcher_v3_RegexMatcher_msg_init},
 };
 
 static const upb_MiniTable_Field xds_type_matcher_v3_StringMatcher__fields[6] = {
@@ -27,29 +28,29 @@ static const upb_MiniTable_Field xds_type_matcher_v3_StringMatcher__fields[6] = 
   {7, UPB_SIZE(8, 8), UPB_SIZE(-5, -5), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_type_matcher_v3_StringMatcher_msginit = {
+const upb_MiniTable xds_type_matcher_v3_StringMatcher_msg_init = {
   &xds_type_matcher_v3_StringMatcher_submsgs[0],
   &xds_type_matcher_v3_StringMatcher__fields[0],
   UPB_SIZE(16, 24), 6, kUpb_ExtMode_NonExtendable, 3, 255, 0,
 };
 
 static const upb_MiniTable_Sub xds_type_matcher_v3_ListStringMatcher_submsgs[1] = {
-  {.submsg = &xds_type_matcher_v3_StringMatcher_msginit},
+  {.submsg = &xds_type_matcher_v3_StringMatcher_msg_init},
 };
 
 static const upb_MiniTable_Field xds_type_matcher_v3_ListStringMatcher__fields[1] = {
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_type_matcher_v3_ListStringMatcher_msginit = {
+const upb_MiniTable xds_type_matcher_v3_ListStringMatcher_msg_init = {
   &xds_type_matcher_v3_ListStringMatcher_submsgs[0],
   &xds_type_matcher_v3_ListStringMatcher__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[2] = {
-  &xds_type_matcher_v3_StringMatcher_msginit,
-  &xds_type_matcher_v3_ListStringMatcher_msginit,
+  &xds_type_matcher_v3_StringMatcher_msg_init,
+  &xds_type_matcher_v3_ListStringMatcher_msg_init,
 };
 
 const upb_MiniTable_File xds_type_matcher_v3_string_proto_upb_file_layout = {

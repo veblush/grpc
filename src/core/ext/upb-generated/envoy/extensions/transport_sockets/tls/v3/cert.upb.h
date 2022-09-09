@@ -9,15 +9,16 @@
 #ifndef ENVOY_EXTENSIONS_TRANSPORT_SOCKETS_TLS_V3_CERT_PROTO_UPB_H_
 #define ENVOY_EXTENSIONS_TRANSPORT_SOCKETS_TLS_V3_CERT_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 /* Public Imports. */
-#include "envoy/extensions/transport_sockets/tls/v3/cert.upb.h"
-#include "envoy/extensions/transport_sockets/tls/v3/cert.upb.h"
-#include "envoy/extensions/transport_sockets/tls/v3/cert.upb.h"
+#include "envoy/extensions/transport_sockets/tls/v3/common.upb.h"
+#include "envoy/extensions/transport_sockets/tls/v3/secret.upb.h"
+#include "envoy/extensions/transport_sockets/tls/v3/tls.upb.h"
 
 #include "upb/port_def.inc"
 

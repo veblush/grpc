@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "google/api/annotations.upb.h"
 #include "google/api/http.upb.h"
@@ -14,12 +15,12 @@
 
 #include "upb/port_def.inc"
 
-extern const upb_MiniTable google_api_HttpRule_msginit;
-extern const upb_MiniTable google_protobuf_MethodOptions_msginit;
+extern const upb_MiniTable google_api_HttpRule_msg_init;
+extern const upb_MiniTable google_protobuf_MethodOptions_msg_init;
 const upb_MiniTable_Extension google_api_http_ext = {
   {72295728, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Scalar | kUpb_LabelFlags_IsExtension | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
-  &google_protobuf_MethodOptions_msginit,
-  {.submsg = &google_api_HttpRule_msginit},
+  &google_protobuf_MethodOptions_msg_init,
+  {.submsg = &google_api_HttpRule_msg_init},
 
 };
 

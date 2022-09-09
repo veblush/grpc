@@ -9,32 +9,32 @@
 #ifndef ENVOY_ADMIN_V3_MEMORY_PROTO_UPB_H_
 #define ENVOY_ADMIN_V3_MEMORY_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_admin_v3_Memory;
 typedef struct envoy_admin_v3_Memory envoy_admin_v3_Memory;
-extern const upb_MiniTable envoy_admin_v3_Memory_msginit;
+extern const upb_MiniTable envoy_admin_v3_Memory_msg_init;
 
 
 
 /* envoy.admin.v3.Memory */
 
 UPB_INLINE envoy_admin_v3_Memory* envoy_admin_v3_Memory_new(upb_Arena* arena) {
-  return (envoy_admin_v3_Memory*)_upb_Message_New(&envoy_admin_v3_Memory_msginit, arena);
+  return (envoy_admin_v3_Memory*)_upb_Message_New(&envoy_admin_v3_Memory_msg_init, arena);
 }
 UPB_INLINE envoy_admin_v3_Memory* envoy_admin_v3_Memory_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_admin_v3_Memory* ret = envoy_admin_v3_Memory_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_Memory_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_Memory_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -44,7 +44,7 @@ UPB_INLINE envoy_admin_v3_Memory* envoy_admin_v3_Memory_parse_ex(const char* buf
                            int options, upb_Arena* arena) {
   envoy_admin_v3_Memory* ret = envoy_admin_v3_Memory_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_Memory_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_Memory_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -52,13 +52,13 @@ UPB_INLINE envoy_admin_v3_Memory* envoy_admin_v3_Memory_parse_ex(const char* buf
 }
 UPB_INLINE char* envoy_admin_v3_Memory_serialize(const envoy_admin_v3_Memory* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_Memory_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_Memory_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_admin_v3_Memory_serialize_ex(const envoy_admin_v3_Memory* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_Memory_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_Memory_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_admin_v3_Memory_clear_allocated(const envoy_admin_v3_Memory* msg) {

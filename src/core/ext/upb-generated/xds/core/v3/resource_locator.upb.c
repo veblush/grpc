@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "xds/core/v3/resource_locator.upb.h"
 #include "xds/annotations/v3/status.upb.h"
@@ -16,8 +17,8 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub xds_core_v3_ResourceLocator_submsgs[2] = {
-  {.submsg = &xds_core_v3_ContextParams_msginit},
-  {.submsg = &xds_core_v3_ResourceLocator_Directive_msginit},
+  {.submsg = &xds_core_v3_ContextParams_msg_init},
+  {.submsg = &xds_core_v3_ResourceLocator_Directive_msg_init},
 };
 
 static const upb_MiniTable_Field xds_core_v3_ResourceLocator__fields[6] = {
@@ -29,14 +30,14 @@ static const upb_MiniTable_Field xds_core_v3_ResourceLocator__fields[6] = {
   {6, UPB_SIZE(32, 56), UPB_SIZE(0, 0), 1, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_core_v3_ResourceLocator_msginit = {
+const upb_MiniTable xds_core_v3_ResourceLocator_msg_init = {
   &xds_core_v3_ResourceLocator_submsgs[0],
   &xds_core_v3_ResourceLocator__fields[0],
   UPB_SIZE(40, 72), 6, kUpb_ExtMode_NonExtendable, 6, 255, 0,
 };
 
 static const upb_MiniTable_Sub xds_core_v3_ResourceLocator_Directive_submsgs[1] = {
-  {.submsg = &xds_core_v3_ResourceLocator_msginit},
+  {.submsg = &xds_core_v3_ResourceLocator_msg_init},
 };
 
 static const upb_MiniTable_Field xds_core_v3_ResourceLocator_Directive__fields[2] = {
@@ -44,15 +45,15 @@ static const upb_MiniTable_Field xds_core_v3_ResourceLocator_Directive__fields[2
   {2, UPB_SIZE(4, 8), UPB_SIZE(-1, -1), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_core_v3_ResourceLocator_Directive_msginit = {
+const upb_MiniTable xds_core_v3_ResourceLocator_Directive_msg_init = {
   &xds_core_v3_ResourceLocator_Directive_submsgs[0],
   &xds_core_v3_ResourceLocator_Directive__fields[0],
   UPB_SIZE(16, 24), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[2] = {
-  &xds_core_v3_ResourceLocator_msginit,
-  &xds_core_v3_ResourceLocator_Directive_msginit,
+  &xds_core_v3_ResourceLocator_msg_init,
+  &xds_core_v3_ResourceLocator_Directive_msg_init,
 };
 
 const upb_MiniTable_File xds_core_v3_resource_locator_proto_upb_file_layout = {

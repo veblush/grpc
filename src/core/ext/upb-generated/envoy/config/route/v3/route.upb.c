@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/route/v3/route.upb.h"
 #include "envoy/config/core/v3/base.upb.h"
@@ -20,14 +21,14 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_config_route_v3_RouteConfiguration_submsgs[8] = {
-  {.submsg = &envoy_config_route_v3_VirtualHost_msginit},
-  {.submsg = &envoy_config_core_v3_HeaderValueOption_msginit},
-  {.submsg = &envoy_config_core_v3_HeaderValueOption_msginit},
-  {.submsg = &google_protobuf_BoolValue_msginit},
-  {.submsg = &envoy_config_route_v3_Vhds_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &envoy_config_route_v3_ClusterSpecifierPlugin_msginit},
-  {.submsg = &envoy_config_route_v3_RouteAction_RequestMirrorPolicy_msginit},
+  {.submsg = &envoy_config_route_v3_VirtualHost_msg_init},
+  {.submsg = &envoy_config_core_v3_HeaderValueOption_msg_init},
+  {.submsg = &envoy_config_core_v3_HeaderValueOption_msg_init},
+  {.submsg = &google_protobuf_BoolValue_msg_init},
+  {.submsg = &envoy_config_route_v3_Vhds_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &envoy_config_route_v3_ClusterSpecifierPlugin_msg_init},
+  {.submsg = &envoy_config_route_v3_RouteAction_RequestMirrorPolicy_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_route_v3_RouteConfiguration__fields[15] = {
@@ -48,29 +49,29 @@ static const upb_MiniTable_Field envoy_config_route_v3_RouteConfiguration__field
   {15, UPB_SIZE(3, 3), UPB_SIZE(0, 0), kUpb_NoSub, 8, kUpb_FieldMode_Scalar | (kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_route_v3_RouteConfiguration_msginit = {
+const upb_MiniTable envoy_config_route_v3_RouteConfiguration_msg_init = {
   &envoy_config_route_v3_RouteConfiguration_submsgs[0],
   &envoy_config_route_v3_RouteConfiguration__fields[0],
   UPB_SIZE(56, 112), 15, kUpb_ExtMode_NonExtendable, 15, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_route_v3_Vhds_submsgs[1] = {
-  {.submsg = &envoy_config_core_v3_ConfigSource_msginit},
+  {.submsg = &envoy_config_core_v3_ConfigSource_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_route_v3_Vhds__fields[1] = {
   {1, UPB_SIZE(4, 8), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_route_v3_Vhds_msginit = {
+const upb_MiniTable envoy_config_route_v3_Vhds_msg_init = {
   &envoy_config_route_v3_Vhds_submsgs[0],
   &envoy_config_route_v3_Vhds__fields[0],
   UPB_SIZE(8, 16), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[2] = {
-  &envoy_config_route_v3_RouteConfiguration_msginit,
-  &envoy_config_route_v3_Vhds_msginit,
+  &envoy_config_route_v3_RouteConfiguration_msg_init,
+  &envoy_config_route_v3_Vhds_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_route_v3_route_proto_upb_file_layout = {

@@ -9,24 +9,24 @@
 #ifndef ENVOY_CONFIG_TRACE_V3_OPENCENSUS_PROTO_UPB_H_
 #define ENVOY_CONFIG_TRACE_V3_OPENCENSUS_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_config_trace_v3_OpenCensusConfig;
 typedef struct envoy_config_trace_v3_OpenCensusConfig envoy_config_trace_v3_OpenCensusConfig;
-extern const upb_MiniTable envoy_config_trace_v3_OpenCensusConfig_msginit;
+extern const upb_MiniTable envoy_config_trace_v3_OpenCensusConfig_msg_init;
 struct envoy_config_core_v3_GrpcService;
 struct opencensus_proto_trace_v1_TraceConfig;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_msginit;
-extern const upb_MiniTable opencensus_proto_trace_v1_TraceConfig_msginit;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_msg_init;
+extern const upb_MiniTable opencensus_proto_trace_v1_TraceConfig_msg_init;
 
 typedef enum {
   envoy_config_trace_v3_OpenCensusConfig_NONE = 0,
@@ -41,12 +41,12 @@ typedef enum {
 /* envoy.config.trace.v3.OpenCensusConfig */
 
 UPB_INLINE envoy_config_trace_v3_OpenCensusConfig* envoy_config_trace_v3_OpenCensusConfig_new(upb_Arena* arena) {
-  return (envoy_config_trace_v3_OpenCensusConfig*)_upb_Message_New(&envoy_config_trace_v3_OpenCensusConfig_msginit, arena);
+  return (envoy_config_trace_v3_OpenCensusConfig*)_upb_Message_New(&envoy_config_trace_v3_OpenCensusConfig_msg_init, arena);
 }
 UPB_INLINE envoy_config_trace_v3_OpenCensusConfig* envoy_config_trace_v3_OpenCensusConfig_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_trace_v3_OpenCensusConfig* ret = envoy_config_trace_v3_OpenCensusConfig_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_OpenCensusConfig_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_OpenCensusConfig_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -56,7 +56,7 @@ UPB_INLINE envoy_config_trace_v3_OpenCensusConfig* envoy_config_trace_v3_OpenCen
                            int options, upb_Arena* arena) {
   envoy_config_trace_v3_OpenCensusConfig* ret = envoy_config_trace_v3_OpenCensusConfig_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_OpenCensusConfig_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_trace_v3_OpenCensusConfig_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -64,13 +64,13 @@ UPB_INLINE envoy_config_trace_v3_OpenCensusConfig* envoy_config_trace_v3_OpenCen
 }
 UPB_INLINE char* envoy_config_trace_v3_OpenCensusConfig_serialize(const envoy_config_trace_v3_OpenCensusConfig* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_trace_v3_OpenCensusConfig_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_trace_v3_OpenCensusConfig_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_trace_v3_OpenCensusConfig_serialize_ex(const envoy_config_trace_v3_OpenCensusConfig* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_trace_v3_OpenCensusConfig_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_trace_v3_OpenCensusConfig_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_config_trace_v3_OpenCensusConfig_has_trace_config(const envoy_config_trace_v3_OpenCensusConfig* msg) {
@@ -78,6 +78,7 @@ UPB_INLINE bool envoy_config_trace_v3_OpenCensusConfig_has_trace_config(const en
 }
 UPB_INLINE void envoy_config_trace_v3_OpenCensusConfig_clear_trace_config(const envoy_config_trace_v3_OpenCensusConfig* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(8, 8), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct opencensus_proto_trace_v1_TraceConfig* envoy_config_trace_v3_OpenCensusConfig_trace_config(const envoy_config_trace_v3_OpenCensusConfig* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(8, 8), const struct opencensus_proto_trace_v1_TraceConfig*);
@@ -147,6 +148,7 @@ UPB_INLINE bool envoy_config_trace_v3_OpenCensusConfig_has_stackdriver_grpc_serv
 }
 UPB_INLINE void envoy_config_trace_v3_OpenCensusConfig_clear_stackdriver_grpc_service(const envoy_config_trace_v3_OpenCensusConfig* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(52, 96), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 2);
 }
 UPB_INLINE const struct envoy_config_core_v3_GrpcService* envoy_config_trace_v3_OpenCensusConfig_stackdriver_grpc_service(const envoy_config_trace_v3_OpenCensusConfig* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(52, 96), const struct envoy_config_core_v3_GrpcService*);
@@ -156,6 +158,7 @@ UPB_INLINE bool envoy_config_trace_v3_OpenCensusConfig_has_ocagent_grpc_service(
 }
 UPB_INLINE void envoy_config_trace_v3_OpenCensusConfig_clear_ocagent_grpc_service(const envoy_config_trace_v3_OpenCensusConfig* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(56, 104), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 3);
 }
 UPB_INLINE const struct envoy_config_core_v3_GrpcService* envoy_config_trace_v3_OpenCensusConfig_ocagent_grpc_service(const envoy_config_trace_v3_OpenCensusConfig* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(56, 104), const struct envoy_config_core_v3_GrpcService*);
@@ -168,7 +171,7 @@ UPB_INLINE void envoy_config_trace_v3_OpenCensusConfig_set_trace_config(envoy_co
 UPB_INLINE struct opencensus_proto_trace_v1_TraceConfig* envoy_config_trace_v3_OpenCensusConfig_mutable_trace_config(envoy_config_trace_v3_OpenCensusConfig* msg, upb_Arena* arena) {
   struct opencensus_proto_trace_v1_TraceConfig* sub = (struct opencensus_proto_trace_v1_TraceConfig*)envoy_config_trace_v3_OpenCensusConfig_trace_config(msg);
   if (sub == NULL) {
-    sub = (struct opencensus_proto_trace_v1_TraceConfig*)_upb_Message_New(&opencensus_proto_trace_v1_TraceConfig_msginit, arena);
+    sub = (struct opencensus_proto_trace_v1_TraceConfig*)_upb_Message_New(&opencensus_proto_trace_v1_TraceConfig_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_trace_v3_OpenCensusConfig_set_trace_config(msg, sub);
   }
@@ -223,7 +226,7 @@ UPB_INLINE void envoy_config_trace_v3_OpenCensusConfig_set_stackdriver_grpc_serv
 UPB_INLINE struct envoy_config_core_v3_GrpcService* envoy_config_trace_v3_OpenCensusConfig_mutable_stackdriver_grpc_service(envoy_config_trace_v3_OpenCensusConfig* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_GrpcService* sub = (struct envoy_config_core_v3_GrpcService*)envoy_config_trace_v3_OpenCensusConfig_stackdriver_grpc_service(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_GrpcService*)_upb_Message_New(&envoy_config_core_v3_GrpcService_msginit, arena);
+    sub = (struct envoy_config_core_v3_GrpcService*)_upb_Message_New(&envoy_config_core_v3_GrpcService_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_trace_v3_OpenCensusConfig_set_stackdriver_grpc_service(msg, sub);
   }
@@ -236,7 +239,7 @@ UPB_INLINE void envoy_config_trace_v3_OpenCensusConfig_set_ocagent_grpc_service(
 UPB_INLINE struct envoy_config_core_v3_GrpcService* envoy_config_trace_v3_OpenCensusConfig_mutable_ocagent_grpc_service(envoy_config_trace_v3_OpenCensusConfig* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_GrpcService* sub = (struct envoy_config_core_v3_GrpcService*)envoy_config_trace_v3_OpenCensusConfig_ocagent_grpc_service(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_GrpcService*)_upb_Message_New(&envoy_config_core_v3_GrpcService_msginit, arena);
+    sub = (struct envoy_config_core_v3_GrpcService*)_upb_Message_New(&envoy_config_core_v3_GrpcService_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_trace_v3_OpenCensusConfig_set_ocagent_grpc_service(msg, sub);
   }

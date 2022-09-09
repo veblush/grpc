@@ -9,11 +9,12 @@
 #ifndef ENVOY_ANNOTATIONS_DEPRECATION_PROTO_UPB_H_
 #define ENVOY_ANNOTATIONS_DEPRECATION_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
@@ -26,8 +27,8 @@ extern const upb_MiniTable_Extension envoy_annotations_disallowed_by_default_enu
 extern const upb_MiniTable_Extension envoy_annotations_deprecated_at_minor_version_enum_ext;
 struct google_protobuf_EnumValueOptions;
 struct google_protobuf_FieldOptions;
-extern const upb_MiniTable google_protobuf_EnumValueOptions_msginit;
-extern const upb_MiniTable google_protobuf_FieldOptions_msginit;
+extern const upb_MiniTable google_protobuf_EnumValueOptions_msg_init;
+extern const upb_MiniTable google_protobuf_FieldOptions_msg_init;
 
 
 UPB_INLINE bool envoy_annotations_has_disallowed_by_default(const struct google_protobuf_FieldOptions* msg) {

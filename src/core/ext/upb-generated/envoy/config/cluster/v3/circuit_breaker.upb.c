@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/cluster/v3/circuit_breaker.upb.h"
 #include "envoy/config/core/v3/base.upb.h"
@@ -19,8 +20,8 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_config_cluster_v3_CircuitBreakers_submsgs[2] = {
-  {.submsg = &envoy_config_cluster_v3_CircuitBreakers_Thresholds_msginit},
-  {.submsg = &envoy_config_cluster_v3_CircuitBreakers_Thresholds_msginit},
+  {.submsg = &envoy_config_cluster_v3_CircuitBreakers_Thresholds_msg_init},
+  {.submsg = &envoy_config_cluster_v3_CircuitBreakers_Thresholds_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_cluster_v3_CircuitBreakers__fields[2] = {
@@ -28,19 +29,19 @@ static const upb_MiniTable_Field envoy_config_cluster_v3_CircuitBreakers__fields
   {2, UPB_SIZE(4, 8), UPB_SIZE(0, 0), 1, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_cluster_v3_CircuitBreakers_msginit = {
+const upb_MiniTable envoy_config_cluster_v3_CircuitBreakers_msg_init = {
   &envoy_config_cluster_v3_CircuitBreakers_submsgs[0],
   &envoy_config_cluster_v3_CircuitBreakers__fields[0],
   UPB_SIZE(8, 16), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_cluster_v3_CircuitBreakers_Thresholds_submsgs[6] = {
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
-  {.submsg = &envoy_config_cluster_v3_CircuitBreakers_Thresholds_RetryBudget_msginit},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
+  {.submsg = &envoy_config_cluster_v3_CircuitBreakers_Thresholds_RetryBudget_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_cluster_v3_CircuitBreakers_Thresholds__fields[8] = {
@@ -54,15 +55,15 @@ static const upb_MiniTable_Field envoy_config_cluster_v3_CircuitBreakers_Thresho
   {8, UPB_SIZE(32, 56), UPB_SIZE(6, 6), 5, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_cluster_v3_CircuitBreakers_Thresholds_msginit = {
+const upb_MiniTable envoy_config_cluster_v3_CircuitBreakers_Thresholds_msg_init = {
   &envoy_config_cluster_v3_CircuitBreakers_Thresholds_submsgs[0],
   &envoy_config_cluster_v3_CircuitBreakers_Thresholds__fields[0],
   UPB_SIZE(40, 64), 8, kUpb_ExtMode_NonExtendable, 8, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_cluster_v3_CircuitBreakers_Thresholds_RetryBudget_submsgs[2] = {
-  {.submsg = &envoy_type_v3_Percent_msginit},
-  {.submsg = &google_protobuf_UInt32Value_msginit},
+  {.submsg = &envoy_type_v3_Percent_msg_init},
+  {.submsg = &google_protobuf_UInt32Value_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_cluster_v3_CircuitBreakers_Thresholds_RetryBudget__fields[2] = {
@@ -70,16 +71,16 @@ static const upb_MiniTable_Field envoy_config_cluster_v3_CircuitBreakers_Thresho
   {2, UPB_SIZE(8, 16), UPB_SIZE(2, 2), 1, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_cluster_v3_CircuitBreakers_Thresholds_RetryBudget_msginit = {
+const upb_MiniTable envoy_config_cluster_v3_CircuitBreakers_Thresholds_RetryBudget_msg_init = {
   &envoy_config_cluster_v3_CircuitBreakers_Thresholds_RetryBudget_submsgs[0],
   &envoy_config_cluster_v3_CircuitBreakers_Thresholds_RetryBudget__fields[0],
   UPB_SIZE(16, 24), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[3] = {
-  &envoy_config_cluster_v3_CircuitBreakers_msginit,
-  &envoy_config_cluster_v3_CircuitBreakers_Thresholds_msginit,
-  &envoy_config_cluster_v3_CircuitBreakers_Thresholds_RetryBudget_msginit,
+  &envoy_config_cluster_v3_CircuitBreakers_msg_init,
+  &envoy_config_cluster_v3_CircuitBreakers_Thresholds_msg_init,
+  &envoy_config_cluster_v3_CircuitBreakers_Thresholds_RetryBudget_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_cluster_v3_circuit_breaker_proto_upb_file_layout = {

@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "xds/data/orca/v3/orca_load_report.upb.h"
 #include "validate/validate.upb.h"
@@ -14,8 +15,8 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub xds_data_orca_v3_OrcaLoadReport_submsgs[2] = {
-  {.submsg = &xds_data_orca_v3_OrcaLoadReport_RequestCostEntry_msginit},
-  {.submsg = &xds_data_orca_v3_OrcaLoadReport_UtilizationEntry_msginit},
+  {.submsg = &xds_data_orca_v3_OrcaLoadReport_RequestCostEntry_msg_init},
+  {.submsg = &xds_data_orca_v3_OrcaLoadReport_UtilizationEntry_msg_init},
 };
 
 static const upb_MiniTable_Field xds_data_orca_v3_OrcaLoadReport__fields[5] = {
@@ -26,7 +27,7 @@ static const upb_MiniTable_Field xds_data_orca_v3_OrcaLoadReport__fields[5] = {
   {5, UPB_SIZE(4, 8), UPB_SIZE(0, 0), 1, 11, kUpb_FieldMode_Map | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_data_orca_v3_OrcaLoadReport_msginit = {
+const upb_MiniTable xds_data_orca_v3_OrcaLoadReport_msg_init = {
   &xds_data_orca_v3_OrcaLoadReport_submsgs[0],
   &xds_data_orca_v3_OrcaLoadReport__fields[0],
   UPB_SIZE(32, 40), 5, kUpb_ExtMode_NonExtendable, 5, 255, 0,
@@ -37,7 +38,7 @@ static const upb_MiniTable_Field xds_data_orca_v3_OrcaLoadReport_RequestCostEntr
   {2, UPB_SIZE(8, 16), UPB_SIZE(0, 0), kUpb_NoSub, 1, kUpb_FieldMode_Scalar | (kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_data_orca_v3_OrcaLoadReport_RequestCostEntry_msginit = {
+const upb_MiniTable xds_data_orca_v3_OrcaLoadReport_RequestCostEntry_msg_init = {
   NULL,
   &xds_data_orca_v3_OrcaLoadReport_RequestCostEntry__fields[0],
   UPB_SIZE(16, 32), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
@@ -48,16 +49,16 @@ static const upb_MiniTable_Field xds_data_orca_v3_OrcaLoadReport_UtilizationEntr
   {2, UPB_SIZE(8, 16), UPB_SIZE(0, 0), kUpb_NoSub, 1, kUpb_FieldMode_Scalar | (kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_data_orca_v3_OrcaLoadReport_UtilizationEntry_msginit = {
+const upb_MiniTable xds_data_orca_v3_OrcaLoadReport_UtilizationEntry_msg_init = {
   NULL,
   &xds_data_orca_v3_OrcaLoadReport_UtilizationEntry__fields[0],
   UPB_SIZE(16, 32), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[3] = {
-  &xds_data_orca_v3_OrcaLoadReport_msginit,
-  &xds_data_orca_v3_OrcaLoadReport_RequestCostEntry_msginit,
-  &xds_data_orca_v3_OrcaLoadReport_UtilizationEntry_msginit,
+  &xds_data_orca_v3_OrcaLoadReport_msg_init,
+  &xds_data_orca_v3_OrcaLoadReport_RequestCostEntry_msg_init,
+  &xds_data_orca_v3_OrcaLoadReport_UtilizationEntry_msg_init,
 };
 
 const upb_MiniTable_File xds_data_orca_v3_orca_load_report_proto_upb_file_layout = {

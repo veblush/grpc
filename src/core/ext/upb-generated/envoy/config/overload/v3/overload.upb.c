@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/overload/v3/overload.upb.h"
 #include "envoy/type/v3/percent.upb.h"
@@ -19,7 +20,7 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_config_overload_v3_ResourceMonitor_submsgs[1] = {
-  {.submsg = &google_protobuf_Any_msginit},
+  {.submsg = &google_protobuf_Any_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_overload_v3_ResourceMonitor__fields[2] = {
@@ -27,7 +28,7 @@ static const upb_MiniTable_Field envoy_config_overload_v3_ResourceMonitor__field
   {3, UPB_SIZE(12, 24), UPB_SIZE(-1, -1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_overload_v3_ResourceMonitor_msginit = {
+const upb_MiniTable envoy_config_overload_v3_ResourceMonitor_msg_init = {
   &envoy_config_overload_v3_ResourceMonitor_submsgs[0],
   &envoy_config_overload_v3_ResourceMonitor__fields[0],
   UPB_SIZE(16, 32), 2, kUpb_ExtMode_NonExtendable, 1, 255, 0,
@@ -37,7 +38,7 @@ static const upb_MiniTable_Field envoy_config_overload_v3_ThresholdTrigger__fiel
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 1, kUpb_FieldMode_Scalar | (kUpb_FieldRep_8Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_overload_v3_ThresholdTrigger_msginit = {
+const upb_MiniTable envoy_config_overload_v3_ThresholdTrigger_msg_init = {
   NULL,
   &envoy_config_overload_v3_ThresholdTrigger__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
@@ -48,15 +49,15 @@ static const upb_MiniTable_Field envoy_config_overload_v3_ScaledTrigger__fields[
   {2, UPB_SIZE(8, 8), UPB_SIZE(0, 0), kUpb_NoSub, 1, kUpb_FieldMode_Scalar | (kUpb_FieldRep_8Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_overload_v3_ScaledTrigger_msginit = {
+const upb_MiniTable envoy_config_overload_v3_ScaledTrigger_msg_init = {
   NULL,
   &envoy_config_overload_v3_ScaledTrigger__fields[0],
   UPB_SIZE(16, 16), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_overload_v3_Trigger_submsgs[2] = {
-  {.submsg = &envoy_config_overload_v3_ThresholdTrigger_msginit},
-  {.submsg = &envoy_config_overload_v3_ScaledTrigger_msginit},
+  {.submsg = &envoy_config_overload_v3_ThresholdTrigger_msg_init},
+  {.submsg = &envoy_config_overload_v3_ScaledTrigger_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_overload_v3_Trigger__fields[3] = {
@@ -65,29 +66,29 @@ static const upb_MiniTable_Field envoy_config_overload_v3_Trigger__fields[3] = {
   {3, UPB_SIZE(12, 24), UPB_SIZE(-1, -1), 1, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_overload_v3_Trigger_msginit = {
+const upb_MiniTable envoy_config_overload_v3_Trigger_msg_init = {
   &envoy_config_overload_v3_Trigger_submsgs[0],
   &envoy_config_overload_v3_Trigger__fields[0],
   UPB_SIZE(16, 32), 3, kUpb_ExtMode_NonExtendable, 3, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_overload_v3_ScaleTimersOverloadActionConfig_submsgs[1] = {
-  {.submsg = &envoy_config_overload_v3_ScaleTimersOverloadActionConfig_ScaleTimer_msginit},
+  {.submsg = &envoy_config_overload_v3_ScaleTimersOverloadActionConfig_ScaleTimer_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_overload_v3_ScaleTimersOverloadActionConfig__fields[1] = {
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_overload_v3_ScaleTimersOverloadActionConfig_msginit = {
+const upb_MiniTable envoy_config_overload_v3_ScaleTimersOverloadActionConfig_msg_init = {
   &envoy_config_overload_v3_ScaleTimersOverloadActionConfig_submsgs[0],
   &envoy_config_overload_v3_ScaleTimersOverloadActionConfig__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_overload_v3_ScaleTimersOverloadActionConfig_ScaleTimer_submsgs[2] = {
-  {.submsg = &google_protobuf_Duration_msginit},
-  {.submsg = &envoy_type_v3_Percent_msginit},
+  {.submsg = &google_protobuf_Duration_msg_init},
+  {.submsg = &envoy_type_v3_Percent_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_overload_v3_ScaleTimersOverloadActionConfig_ScaleTimer__fields[3] = {
@@ -96,15 +97,15 @@ static const upb_MiniTable_Field envoy_config_overload_v3_ScaleTimersOverloadAct
   {3, UPB_SIZE(8, 8), UPB_SIZE(-5, -5), 1, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_overload_v3_ScaleTimersOverloadActionConfig_ScaleTimer_msginit = {
+const upb_MiniTable envoy_config_overload_v3_ScaleTimersOverloadActionConfig_ScaleTimer_msg_init = {
   &envoy_config_overload_v3_ScaleTimersOverloadActionConfig_ScaleTimer_submsgs[0],
   &envoy_config_overload_v3_ScaleTimersOverloadActionConfig_ScaleTimer__fields[0],
   UPB_SIZE(16, 16), 3, kUpb_ExtMode_NonExtendable, 3, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_overload_v3_OverloadAction_submsgs[2] = {
-  {.submsg = &envoy_config_overload_v3_Trigger_msginit},
-  {.submsg = &google_protobuf_Any_msginit},
+  {.submsg = &envoy_config_overload_v3_Trigger_msg_init},
+  {.submsg = &google_protobuf_Any_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_overload_v3_OverloadAction__fields[3] = {
@@ -113,7 +114,7 @@ static const upb_MiniTable_Field envoy_config_overload_v3_OverloadAction__fields
   {3, UPB_SIZE(16, 32), UPB_SIZE(1, 1), 1, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_overload_v3_OverloadAction_msginit = {
+const upb_MiniTable envoy_config_overload_v3_OverloadAction_msg_init = {
   &envoy_config_overload_v3_OverloadAction_submsgs[0],
   &envoy_config_overload_v3_OverloadAction__fields[0],
   UPB_SIZE(24, 40), 3, kUpb_ExtMode_NonExtendable, 3, 255, 0,
@@ -123,17 +124,17 @@ static const upb_MiniTable_Field envoy_config_overload_v3_BufferFactoryConfig__f
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 13, kUpb_FieldMode_Scalar | (kUpb_FieldRep_4Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_overload_v3_BufferFactoryConfig_msginit = {
+const upb_MiniTable envoy_config_overload_v3_BufferFactoryConfig_msg_init = {
   NULL,
   &envoy_config_overload_v3_BufferFactoryConfig__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_overload_v3_OverloadManager_submsgs[4] = {
-  {.submsg = &google_protobuf_Duration_msginit},
-  {.submsg = &envoy_config_overload_v3_ResourceMonitor_msginit},
-  {.submsg = &envoy_config_overload_v3_OverloadAction_msginit},
-  {.submsg = &envoy_config_overload_v3_BufferFactoryConfig_msginit},
+  {.submsg = &google_protobuf_Duration_msg_init},
+  {.submsg = &envoy_config_overload_v3_ResourceMonitor_msg_init},
+  {.submsg = &envoy_config_overload_v3_OverloadAction_msg_init},
+  {.submsg = &envoy_config_overload_v3_BufferFactoryConfig_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_overload_v3_OverloadManager__fields[4] = {
@@ -143,22 +144,22 @@ static const upb_MiniTable_Field envoy_config_overload_v3_OverloadManager__field
   {4, UPB_SIZE(16, 32), UPB_SIZE(2, 2), 3, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_overload_v3_OverloadManager_msginit = {
+const upb_MiniTable envoy_config_overload_v3_OverloadManager_msg_init = {
   &envoy_config_overload_v3_OverloadManager_submsgs[0],
   &envoy_config_overload_v3_OverloadManager__fields[0],
   UPB_SIZE(24, 40), 4, kUpb_ExtMode_NonExtendable, 4, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[9] = {
-  &envoy_config_overload_v3_ResourceMonitor_msginit,
-  &envoy_config_overload_v3_ThresholdTrigger_msginit,
-  &envoy_config_overload_v3_ScaledTrigger_msginit,
-  &envoy_config_overload_v3_Trigger_msginit,
-  &envoy_config_overload_v3_ScaleTimersOverloadActionConfig_msginit,
-  &envoy_config_overload_v3_ScaleTimersOverloadActionConfig_ScaleTimer_msginit,
-  &envoy_config_overload_v3_OverloadAction_msginit,
-  &envoy_config_overload_v3_BufferFactoryConfig_msginit,
-  &envoy_config_overload_v3_OverloadManager_msginit,
+  &envoy_config_overload_v3_ResourceMonitor_msg_init,
+  &envoy_config_overload_v3_ThresholdTrigger_msg_init,
+  &envoy_config_overload_v3_ScaledTrigger_msg_init,
+  &envoy_config_overload_v3_Trigger_msg_init,
+  &envoy_config_overload_v3_ScaleTimersOverloadActionConfig_msg_init,
+  &envoy_config_overload_v3_ScaleTimersOverloadActionConfig_ScaleTimer_msg_init,
+  &envoy_config_overload_v3_OverloadAction_msg_init,
+  &envoy_config_overload_v3_BufferFactoryConfig_msg_init,
+  &envoy_config_overload_v3_OverloadManager_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_overload_v3_overload_proto_upb_file_layout = {

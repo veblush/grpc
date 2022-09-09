@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/service/status/v3/csds.upb.h"
 #include "envoy/admin/v3/config_dump_shared.upb.h"
@@ -22,8 +23,8 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_service_status_v3_ClientStatusRequest_submsgs[2] = {
-  {.submsg = &envoy_type_matcher_v3_NodeMatcher_msginit},
-  {.submsg = &envoy_config_core_v3_Node_msginit},
+  {.submsg = &envoy_type_matcher_v3_NodeMatcher_msg_init},
+  {.submsg = &envoy_config_core_v3_Node_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_service_status_v3_ClientStatusRequest__fields[2] = {
@@ -31,18 +32,18 @@ static const upb_MiniTable_Field envoy_service_status_v3_ClientStatusRequest__fi
   {2, UPB_SIZE(8, 16), UPB_SIZE(1, 1), 1, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_service_status_v3_ClientStatusRequest_msginit = {
+const upb_MiniTable envoy_service_status_v3_ClientStatusRequest_msg_init = {
   &envoy_service_status_v3_ClientStatusRequest_submsgs[0],
   &envoy_service_status_v3_ClientStatusRequest__fields[0],
   UPB_SIZE(16, 24), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_service_status_v3_PerXdsConfig_submsgs[5] = {
-  {.submsg = &envoy_admin_v3_ListenersConfigDump_msginit},
-  {.submsg = &envoy_admin_v3_ClustersConfigDump_msginit},
-  {.submsg = &envoy_admin_v3_RoutesConfigDump_msginit},
-  {.submsg = &envoy_admin_v3_ScopedRoutesConfigDump_msginit},
-  {.submsg = &envoy_admin_v3_EndpointsConfigDump_msginit},
+  {.submsg = &envoy_admin_v3_ListenersConfigDump_msg_init},
+  {.submsg = &envoy_admin_v3_ClustersConfigDump_msg_init},
+  {.submsg = &envoy_admin_v3_RoutesConfigDump_msg_init},
+  {.submsg = &envoy_admin_v3_ScopedRoutesConfigDump_msg_init},
+  {.submsg = &envoy_admin_v3_EndpointsConfigDump_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_service_status_v3_PerXdsConfig__fields[7] = {
@@ -55,16 +56,16 @@ static const upb_MiniTable_Field envoy_service_status_v3_PerXdsConfig__fields[7]
   {7, UPB_SIZE(8, 8), UPB_SIZE(0, 0), kUpb_NoSub, 5, kUpb_FieldMode_Scalar | (kUpb_FieldRep_4Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_service_status_v3_PerXdsConfig_msginit = {
+const upb_MiniTable envoy_service_status_v3_PerXdsConfig_msg_init = {
   &envoy_service_status_v3_PerXdsConfig_submsgs[0],
   &envoy_service_status_v3_PerXdsConfig__fields[0],
   UPB_SIZE(16, 24), 7, kUpb_ExtMode_NonExtendable, 7, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_service_status_v3_ClientConfig_submsgs[3] = {
-  {.submsg = &envoy_config_core_v3_Node_msginit},
-  {.submsg = &envoy_service_status_v3_PerXdsConfig_msginit},
-  {.submsg = &envoy_service_status_v3_ClientConfig_GenericXdsConfig_msginit},
+  {.submsg = &envoy_config_core_v3_Node_msg_init},
+  {.submsg = &envoy_service_status_v3_PerXdsConfig_msg_init},
+  {.submsg = &envoy_service_status_v3_ClientConfig_GenericXdsConfig_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_service_status_v3_ClientConfig__fields[3] = {
@@ -73,16 +74,16 @@ static const upb_MiniTable_Field envoy_service_status_v3_ClientConfig__fields[3]
   {3, UPB_SIZE(12, 24), UPB_SIZE(0, 0), 2, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_service_status_v3_ClientConfig_msginit = {
+const upb_MiniTable envoy_service_status_v3_ClientConfig_msg_init = {
   &envoy_service_status_v3_ClientConfig_submsgs[0],
   &envoy_service_status_v3_ClientConfig__fields[0],
   UPB_SIZE(16, 32), 3, kUpb_ExtMode_NonExtendable, 3, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_service_status_v3_ClientConfig_GenericXdsConfig_submsgs[3] = {
-  {.submsg = &google_protobuf_Any_msginit},
-  {.submsg = &google_protobuf_Timestamp_msginit},
-  {.submsg = &envoy_admin_v3_UpdateFailureState_msginit},
+  {.submsg = &google_protobuf_Any_msg_init},
+  {.submsg = &google_protobuf_Timestamp_msg_init},
+  {.submsg = &envoy_admin_v3_UpdateFailureState_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_service_status_v3_ClientConfig_GenericXdsConfig__fields[9] = {
@@ -97,32 +98,32 @@ static const upb_MiniTable_Field envoy_service_status_v3_ClientConfig_GenericXds
   {9, UPB_SIZE(12, 12), UPB_SIZE(0, 0), kUpb_NoSub, 8, kUpb_FieldMode_Scalar | (kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_service_status_v3_ClientConfig_GenericXdsConfig_msginit = {
+const upb_MiniTable envoy_service_status_v3_ClientConfig_GenericXdsConfig_msg_init = {
   &envoy_service_status_v3_ClientConfig_GenericXdsConfig_submsgs[0],
   &envoy_service_status_v3_ClientConfig_GenericXdsConfig__fields[0],
   UPB_SIZE(56, 88), 9, kUpb_ExtMode_NonExtendable, 9, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_service_status_v3_ClientStatusResponse_submsgs[1] = {
-  {.submsg = &envoy_service_status_v3_ClientConfig_msginit},
+  {.submsg = &envoy_service_status_v3_ClientConfig_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_service_status_v3_ClientStatusResponse__fields[1] = {
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_service_status_v3_ClientStatusResponse_msginit = {
+const upb_MiniTable envoy_service_status_v3_ClientStatusResponse_msg_init = {
   &envoy_service_status_v3_ClientStatusResponse_submsgs[0],
   &envoy_service_status_v3_ClientStatusResponse__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[5] = {
-  &envoy_service_status_v3_ClientStatusRequest_msginit,
-  &envoy_service_status_v3_PerXdsConfig_msginit,
-  &envoy_service_status_v3_ClientConfig_msginit,
-  &envoy_service_status_v3_ClientConfig_GenericXdsConfig_msginit,
-  &envoy_service_status_v3_ClientStatusResponse_msginit,
+  &envoy_service_status_v3_ClientStatusRequest_msg_init,
+  &envoy_service_status_v3_PerXdsConfig_msg_init,
+  &envoy_service_status_v3_ClientConfig_msg_init,
+  &envoy_service_status_v3_ClientConfig_GenericXdsConfig_msg_init,
+  &envoy_service_status_v3_ClientStatusResponse_msg_init,
 };
 
 const upb_MiniTable_File envoy_service_status_v3_csds_proto_upb_file_layout = {

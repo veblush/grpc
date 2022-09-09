@@ -9,35 +9,34 @@
 #ifndef ENVOY_ADMIN_V3_INIT_DUMP_PROTO_UPB_H_
 #define ENVOY_ADMIN_V3_INIT_DUMP_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_admin_v3_UnreadyTargetsDumps;
-struct envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump;
 typedef struct envoy_admin_v3_UnreadyTargetsDumps envoy_admin_v3_UnreadyTargetsDumps;
 typedef struct envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump;
-extern const upb_MiniTable envoy_admin_v3_UnreadyTargetsDumps_msginit;
-extern const upb_MiniTable envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msginit;
+extern const upb_MiniTable envoy_admin_v3_UnreadyTargetsDumps_msg_init;
+extern const upb_MiniTable envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msg_init;
 
 
 
 /* envoy.admin.v3.UnreadyTargetsDumps */
 
 UPB_INLINE envoy_admin_v3_UnreadyTargetsDumps* envoy_admin_v3_UnreadyTargetsDumps_new(upb_Arena* arena) {
-  return (envoy_admin_v3_UnreadyTargetsDumps*)_upb_Message_New(&envoy_admin_v3_UnreadyTargetsDumps_msginit, arena);
+  return (envoy_admin_v3_UnreadyTargetsDumps*)_upb_Message_New(&envoy_admin_v3_UnreadyTargetsDumps_msg_init, arena);
 }
 UPB_INLINE envoy_admin_v3_UnreadyTargetsDumps* envoy_admin_v3_UnreadyTargetsDumps_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_admin_v3_UnreadyTargetsDumps* ret = envoy_admin_v3_UnreadyTargetsDumps_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_UnreadyTargetsDumps_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_UnreadyTargetsDumps_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -47,7 +46,7 @@ UPB_INLINE envoy_admin_v3_UnreadyTargetsDumps* envoy_admin_v3_UnreadyTargetsDump
                            int options, upb_Arena* arena) {
   envoy_admin_v3_UnreadyTargetsDumps* ret = envoy_admin_v3_UnreadyTargetsDumps_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_UnreadyTargetsDumps_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_UnreadyTargetsDumps_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -55,13 +54,13 @@ UPB_INLINE envoy_admin_v3_UnreadyTargetsDumps* envoy_admin_v3_UnreadyTargetsDump
 }
 UPB_INLINE char* envoy_admin_v3_UnreadyTargetsDumps_serialize(const envoy_admin_v3_UnreadyTargetsDumps* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_UnreadyTargetsDumps_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_UnreadyTargetsDumps_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_admin_v3_UnreadyTargetsDumps_serialize_ex(const envoy_admin_v3_UnreadyTargetsDumps* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_UnreadyTargetsDumps_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_UnreadyTargetsDumps_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_admin_v3_UnreadyTargetsDumps_has_unready_targets_dumps(const envoy_admin_v3_UnreadyTargetsDumps* msg) {
@@ -81,7 +80,7 @@ UPB_INLINE envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump** envoy_admin_v
   return (envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(0, 0), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump* envoy_admin_v3_UnreadyTargetsDumps_add_unready_targets_dumps(envoy_admin_v3_UnreadyTargetsDumps* msg, upb_Arena* arena) {
-  struct envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump* sub = (struct envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump*)_upb_Message_New(&envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msginit, arena);
+  struct envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump* sub = (struct envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump*)_upb_Message_New(&envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(0, 0), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -90,12 +89,12 @@ UPB_INLINE struct envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump* envoy_a
 /* envoy.admin.v3.UnreadyTargetsDumps.UnreadyTargetsDump */
 
 UPB_INLINE envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump* envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_new(upb_Arena* arena) {
-  return (envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump*)_upb_Message_New(&envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msginit, arena);
+  return (envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump*)_upb_Message_New(&envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msg_init, arena);
 }
 UPB_INLINE envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump* envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump* ret = envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -105,7 +104,7 @@ UPB_INLINE envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump* envoy_admin_v3
                            int options, upb_Arena* arena) {
   envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump* ret = envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -113,13 +112,13 @@ UPB_INLINE envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump* envoy_admin_v3
 }
 UPB_INLINE char* envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_serialize(const envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_serialize_ex(const envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump_clear_name(const envoy_admin_v3_UnreadyTargetsDumps_UnreadyTargetsDump* msg) {

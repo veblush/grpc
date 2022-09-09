@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/extensions/transport_sockets/tls/v3/tls_spiffe_validator_config.upb.h"
 #include "envoy/config/core/v3/base.upb.h"
@@ -16,21 +17,21 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_submsgs[1] = {
-  {.submsg = &envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_TrustDomain_msginit},
+  {.submsg = &envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_TrustDomain_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig__fields[1] = {
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_msginit = {
+const upb_MiniTable envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_msg_init = {
   &envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_submsgs[0],
   &envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_TrustDomain_submsgs[1] = {
-  {.submsg = &envoy_config_core_v3_DataSource_msginit},
+  {.submsg = &envoy_config_core_v3_DataSource_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_TrustDomain__fields[2] = {
@@ -38,15 +39,15 @@ static const upb_MiniTable_Field envoy_extensions_transport_sockets_tls_v3_SPIFF
   {2, UPB_SIZE(12, 24), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_TrustDomain_msginit = {
+const upb_MiniTable envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_TrustDomain_msg_init = {
   &envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_TrustDomain_submsgs[0],
   &envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_TrustDomain__fields[0],
   UPB_SIZE(16, 32), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[2] = {
-  &envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_msginit,
-  &envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_TrustDomain_msginit,
+  &envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_msg_init,
+  &envoy_extensions_transport_sockets_tls_v3_SPIFFECertValidatorConfig_TrustDomain_msg_init,
 };
 
 const upb_MiniTable_File envoy_extensions_transport_sockets_tls_v3_tls_spiffe_validator_config_proto_upb_file_layout = {

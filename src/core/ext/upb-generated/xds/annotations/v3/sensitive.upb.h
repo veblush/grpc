@@ -9,11 +9,12 @@
 #ifndef XDS_ANNOTATIONS_V3_SENSITIVE_PROTO_UPB_H_
 #define XDS_ANNOTATIONS_V3_SENSITIVE_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
@@ -22,7 +23,7 @@ extern "C" {
 
 extern const upb_MiniTable_Extension xds_annotations_v3_sensitive_ext;
 struct google_protobuf_FieldOptions;
-extern const upb_MiniTable google_protobuf_FieldOptions_msginit;
+extern const upb_MiniTable google_protobuf_FieldOptions_msg_init;
 
 
 UPB_INLINE bool xds_annotations_v3_has_sensitive(const struct google_protobuf_FieldOptions* msg) {

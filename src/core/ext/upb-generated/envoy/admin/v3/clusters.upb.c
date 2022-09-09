@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/admin/v3/clusters.upb.h"
 #include "envoy/admin/v3/metrics.upb.h"
@@ -21,24 +22,24 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_admin_v3_Clusters_submsgs[1] = {
-  {.submsg = &envoy_admin_v3_ClusterStatus_msginit},
+  {.submsg = &envoy_admin_v3_ClusterStatus_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_admin_v3_Clusters__fields[1] = {
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_admin_v3_Clusters_msginit = {
+const upb_MiniTable envoy_admin_v3_Clusters_msg_init = {
   &envoy_admin_v3_Clusters_submsgs[0],
   &envoy_admin_v3_Clusters__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_admin_v3_ClusterStatus_submsgs[4] = {
-  {.submsg = &envoy_type_v3_Percent_msginit},
-  {.submsg = &envoy_admin_v3_HostStatus_msginit},
-  {.submsg = &envoy_type_v3_Percent_msginit},
-  {.submsg = &envoy_config_cluster_v3_CircuitBreakers_msginit},
+  {.submsg = &envoy_type_v3_Percent_msg_init},
+  {.submsg = &envoy_admin_v3_HostStatus_msg_init},
+  {.submsg = &envoy_type_v3_Percent_msg_init},
+  {.submsg = &envoy_config_cluster_v3_CircuitBreakers_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_admin_v3_ClusterStatus__fields[7] = {
@@ -51,19 +52,19 @@ static const upb_MiniTable_Field envoy_admin_v3_ClusterStatus__fields[7] = {
   {7, UPB_SIZE(28, 56), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_admin_v3_ClusterStatus_msginit = {
+const upb_MiniTable envoy_admin_v3_ClusterStatus_msg_init = {
   &envoy_admin_v3_ClusterStatus_submsgs[0],
   &envoy_admin_v3_ClusterStatus__fields[0],
   UPB_SIZE(40, 72), 7, kUpb_ExtMode_NonExtendable, 7, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_admin_v3_HostStatus_submsgs[6] = {
-  {.submsg = &envoy_config_core_v3_Address_msginit},
-  {.submsg = &envoy_admin_v3_SimpleMetric_msginit},
-  {.submsg = &envoy_admin_v3_HostHealthStatus_msginit},
-  {.submsg = &envoy_type_v3_Percent_msginit},
-  {.submsg = &envoy_type_v3_Percent_msginit},
-  {.submsg = &envoy_config_core_v3_Locality_msginit},
+  {.submsg = &envoy_config_core_v3_Address_msg_init},
+  {.submsg = &envoy_admin_v3_SimpleMetric_msg_init},
+  {.submsg = &envoy_admin_v3_HostHealthStatus_msg_init},
+  {.submsg = &envoy_type_v3_Percent_msg_init},
+  {.submsg = &envoy_type_v3_Percent_msg_init},
+  {.submsg = &envoy_config_core_v3_Locality_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_admin_v3_HostStatus__fields[9] = {
@@ -78,7 +79,7 @@ static const upb_MiniTable_Field envoy_admin_v3_HostStatus__fields[9] = {
   {9, UPB_SIZE(40, 72), UPB_SIZE(5, 5), 5, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_admin_v3_HostStatus_msginit = {
+const upb_MiniTable envoy_admin_v3_HostStatus_msg_init = {
   &envoy_admin_v3_HostStatus_submsgs[0],
   &envoy_admin_v3_HostStatus__fields[0],
   UPB_SIZE(48, 80), 9, kUpb_ExtMode_NonExtendable, 9, 255, 0,
@@ -95,17 +96,17 @@ static const upb_MiniTable_Field envoy_admin_v3_HostHealthStatus__fields[8] = {
   {8, UPB_SIZE(12, 12), UPB_SIZE(0, 0), kUpb_NoSub, 8, kUpb_FieldMode_Scalar | (kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_admin_v3_HostHealthStatus_msginit = {
+const upb_MiniTable envoy_admin_v3_HostHealthStatus_msg_init = {
   NULL,
   &envoy_admin_v3_HostHealthStatus__fields[0],
   UPB_SIZE(16, 16), 8, kUpb_ExtMode_NonExtendable, 8, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[4] = {
-  &envoy_admin_v3_Clusters_msginit,
-  &envoy_admin_v3_ClusterStatus_msginit,
-  &envoy_admin_v3_HostStatus_msginit,
-  &envoy_admin_v3_HostHealthStatus_msginit,
+  &envoy_admin_v3_Clusters_msg_init,
+  &envoy_admin_v3_ClusterStatus_msg_init,
+  &envoy_admin_v3_HostStatus_msg_init,
+  &envoy_admin_v3_HostHealthStatus_msg_init,
 };
 
 const upb_MiniTable_File envoy_admin_v3_clusters_proto_upb_file_layout = {

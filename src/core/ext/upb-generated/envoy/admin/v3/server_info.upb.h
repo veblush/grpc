@@ -9,27 +9,26 @@
 #ifndef ENVOY_ADMIN_V3_SERVER_INFO_PROTO_UPB_H_
 #define ENVOY_ADMIN_V3_SERVER_INFO_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_admin_v3_ServerInfo;
-struct envoy_admin_v3_CommandLineOptions;
 typedef struct envoy_admin_v3_ServerInfo envoy_admin_v3_ServerInfo;
 typedef struct envoy_admin_v3_CommandLineOptions envoy_admin_v3_CommandLineOptions;
-extern const upb_MiniTable envoy_admin_v3_ServerInfo_msginit;
-extern const upb_MiniTable envoy_admin_v3_CommandLineOptions_msginit;
+extern const upb_MiniTable envoy_admin_v3_ServerInfo_msg_init;
+extern const upb_MiniTable envoy_admin_v3_CommandLineOptions_msg_init;
 struct envoy_config_core_v3_Node;
 struct google_protobuf_Duration;
-extern const upb_MiniTable envoy_config_core_v3_Node_msginit;
-extern const upb_MiniTable google_protobuf_Duration_msginit;
+extern const upb_MiniTable envoy_config_core_v3_Node_msg_init;
+extern const upb_MiniTable google_protobuf_Duration_msg_init;
 
 typedef enum {
   envoy_admin_v3_CommandLineOptions_Gradual = 0,
@@ -59,12 +58,12 @@ typedef enum {
 /* envoy.admin.v3.ServerInfo */
 
 UPB_INLINE envoy_admin_v3_ServerInfo* envoy_admin_v3_ServerInfo_new(upb_Arena* arena) {
-  return (envoy_admin_v3_ServerInfo*)_upb_Message_New(&envoy_admin_v3_ServerInfo_msginit, arena);
+  return (envoy_admin_v3_ServerInfo*)_upb_Message_New(&envoy_admin_v3_ServerInfo_msg_init, arena);
 }
 UPB_INLINE envoy_admin_v3_ServerInfo* envoy_admin_v3_ServerInfo_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_admin_v3_ServerInfo* ret = envoy_admin_v3_ServerInfo_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_ServerInfo_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_ServerInfo_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -74,7 +73,7 @@ UPB_INLINE envoy_admin_v3_ServerInfo* envoy_admin_v3_ServerInfo_parse_ex(const c
                            int options, upb_Arena* arena) {
   envoy_admin_v3_ServerInfo* ret = envoy_admin_v3_ServerInfo_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_ServerInfo_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_ServerInfo_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -82,13 +81,13 @@ UPB_INLINE envoy_admin_v3_ServerInfo* envoy_admin_v3_ServerInfo_parse_ex(const c
 }
 UPB_INLINE char* envoy_admin_v3_ServerInfo_serialize(const envoy_admin_v3_ServerInfo* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_ServerInfo_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_ServerInfo_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_admin_v3_ServerInfo_serialize_ex(const envoy_admin_v3_ServerInfo* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_ServerInfo_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_ServerInfo_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_admin_v3_ServerInfo_clear_version(const envoy_admin_v3_ServerInfo* msg) {
@@ -108,6 +107,7 @@ UPB_INLINE bool envoy_admin_v3_ServerInfo_has_uptime_current_epoch(const envoy_a
 }
 UPB_INLINE void envoy_admin_v3_ServerInfo_clear_uptime_current_epoch(const envoy_admin_v3_ServerInfo* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(16, 24), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_Duration* envoy_admin_v3_ServerInfo_uptime_current_epoch(const envoy_admin_v3_ServerInfo* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(16, 24), const struct google_protobuf_Duration*);
@@ -117,6 +117,7 @@ UPB_INLINE bool envoy_admin_v3_ServerInfo_has_uptime_all_epochs(const envoy_admi
 }
 UPB_INLINE void envoy_admin_v3_ServerInfo_clear_uptime_all_epochs(const envoy_admin_v3_ServerInfo* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(20, 32), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 2);
 }
 UPB_INLINE const struct google_protobuf_Duration* envoy_admin_v3_ServerInfo_uptime_all_epochs(const envoy_admin_v3_ServerInfo* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(20, 32), const struct google_protobuf_Duration*);
@@ -132,6 +133,7 @@ UPB_INLINE bool envoy_admin_v3_ServerInfo_has_command_line_options(const envoy_a
 }
 UPB_INLINE void envoy_admin_v3_ServerInfo_clear_command_line_options(const envoy_admin_v3_ServerInfo* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(32, 56), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 3);
 }
 UPB_INLINE const envoy_admin_v3_CommandLineOptions* envoy_admin_v3_ServerInfo_command_line_options(const envoy_admin_v3_ServerInfo* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(32, 56), const envoy_admin_v3_CommandLineOptions*);
@@ -141,6 +143,7 @@ UPB_INLINE bool envoy_admin_v3_ServerInfo_has_node(const envoy_admin_v3_ServerIn
 }
 UPB_INLINE void envoy_admin_v3_ServerInfo_clear_node(const envoy_admin_v3_ServerInfo* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(36, 64), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 4);
 }
 UPB_INLINE const struct envoy_config_core_v3_Node* envoy_admin_v3_ServerInfo_node(const envoy_admin_v3_ServerInfo* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(36, 64), const struct envoy_config_core_v3_Node*);
@@ -159,7 +162,7 @@ UPB_INLINE void envoy_admin_v3_ServerInfo_set_uptime_current_epoch(envoy_admin_v
 UPB_INLINE struct google_protobuf_Duration* envoy_admin_v3_ServerInfo_mutable_uptime_current_epoch(envoy_admin_v3_ServerInfo* msg, upb_Arena* arena) {
   struct google_protobuf_Duration* sub = (struct google_protobuf_Duration*)envoy_admin_v3_ServerInfo_uptime_current_epoch(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msginit, arena);
+    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msg_init, arena);
     if (!sub) return NULL;
     envoy_admin_v3_ServerInfo_set_uptime_current_epoch(msg, sub);
   }
@@ -172,7 +175,7 @@ UPB_INLINE void envoy_admin_v3_ServerInfo_set_uptime_all_epochs(envoy_admin_v3_S
 UPB_INLINE struct google_protobuf_Duration* envoy_admin_v3_ServerInfo_mutable_uptime_all_epochs(envoy_admin_v3_ServerInfo* msg, upb_Arena* arena) {
   struct google_protobuf_Duration* sub = (struct google_protobuf_Duration*)envoy_admin_v3_ServerInfo_uptime_all_epochs(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msginit, arena);
+    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msg_init, arena);
     if (!sub) return NULL;
     envoy_admin_v3_ServerInfo_set_uptime_all_epochs(msg, sub);
   }
@@ -188,7 +191,7 @@ UPB_INLINE void envoy_admin_v3_ServerInfo_set_command_line_options(envoy_admin_v
 UPB_INLINE struct envoy_admin_v3_CommandLineOptions* envoy_admin_v3_ServerInfo_mutable_command_line_options(envoy_admin_v3_ServerInfo* msg, upb_Arena* arena) {
   struct envoy_admin_v3_CommandLineOptions* sub = (struct envoy_admin_v3_CommandLineOptions*)envoy_admin_v3_ServerInfo_command_line_options(msg);
   if (sub == NULL) {
-    sub = (struct envoy_admin_v3_CommandLineOptions*)_upb_Message_New(&envoy_admin_v3_CommandLineOptions_msginit, arena);
+    sub = (struct envoy_admin_v3_CommandLineOptions*)_upb_Message_New(&envoy_admin_v3_CommandLineOptions_msg_init, arena);
     if (!sub) return NULL;
     envoy_admin_v3_ServerInfo_set_command_line_options(msg, sub);
   }
@@ -201,7 +204,7 @@ UPB_INLINE void envoy_admin_v3_ServerInfo_set_node(envoy_admin_v3_ServerInfo *ms
 UPB_INLINE struct envoy_config_core_v3_Node* envoy_admin_v3_ServerInfo_mutable_node(envoy_admin_v3_ServerInfo* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_Node* sub = (struct envoy_config_core_v3_Node*)envoy_admin_v3_ServerInfo_node(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_Node*)_upb_Message_New(&envoy_config_core_v3_Node_msginit, arena);
+    sub = (struct envoy_config_core_v3_Node*)_upb_Message_New(&envoy_config_core_v3_Node_msg_init, arena);
     if (!sub) return NULL;
     envoy_admin_v3_ServerInfo_set_node(msg, sub);
   }
@@ -211,12 +214,12 @@ UPB_INLINE struct envoy_config_core_v3_Node* envoy_admin_v3_ServerInfo_mutable_n
 /* envoy.admin.v3.CommandLineOptions */
 
 UPB_INLINE envoy_admin_v3_CommandLineOptions* envoy_admin_v3_CommandLineOptions_new(upb_Arena* arena) {
-  return (envoy_admin_v3_CommandLineOptions*)_upb_Message_New(&envoy_admin_v3_CommandLineOptions_msginit, arena);
+  return (envoy_admin_v3_CommandLineOptions*)_upb_Message_New(&envoy_admin_v3_CommandLineOptions_msg_init, arena);
 }
 UPB_INLINE envoy_admin_v3_CommandLineOptions* envoy_admin_v3_CommandLineOptions_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_admin_v3_CommandLineOptions* ret = envoy_admin_v3_CommandLineOptions_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_CommandLineOptions_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_CommandLineOptions_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -226,7 +229,7 @@ UPB_INLINE envoy_admin_v3_CommandLineOptions* envoy_admin_v3_CommandLineOptions_
                            int options, upb_Arena* arena) {
   envoy_admin_v3_CommandLineOptions* ret = envoy_admin_v3_CommandLineOptions_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_CommandLineOptions_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_CommandLineOptions_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -234,13 +237,13 @@ UPB_INLINE envoy_admin_v3_CommandLineOptions* envoy_admin_v3_CommandLineOptions_
 }
 UPB_INLINE char* envoy_admin_v3_CommandLineOptions_serialize(const envoy_admin_v3_CommandLineOptions* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_CommandLineOptions_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_CommandLineOptions_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_admin_v3_CommandLineOptions_serialize_ex(const envoy_admin_v3_CommandLineOptions* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_CommandLineOptions_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_CommandLineOptions_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_admin_v3_CommandLineOptions_clear_base_id(const envoy_admin_v3_CommandLineOptions* msg) {
@@ -332,6 +335,7 @@ UPB_INLINE bool envoy_admin_v3_CommandLineOptions_has_file_flush_interval(const 
 }
 UPB_INLINE void envoy_admin_v3_CommandLineOptions_clear_file_flush_interval(const envoy_admin_v3_CommandLineOptions* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(132, 216), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_Duration* envoy_admin_v3_CommandLineOptions_file_flush_interval(const envoy_admin_v3_CommandLineOptions* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(132, 216), const struct google_protobuf_Duration*);
@@ -341,6 +345,7 @@ UPB_INLINE bool envoy_admin_v3_CommandLineOptions_has_drain_time(const envoy_adm
 }
 UPB_INLINE void envoy_admin_v3_CommandLineOptions_clear_drain_time(const envoy_admin_v3_CommandLineOptions* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(136, 224), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 2);
 }
 UPB_INLINE const struct google_protobuf_Duration* envoy_admin_v3_CommandLineOptions_drain_time(const envoy_admin_v3_CommandLineOptions* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(136, 224), const struct google_protobuf_Duration*);
@@ -350,6 +355,7 @@ UPB_INLINE bool envoy_admin_v3_CommandLineOptions_has_parent_shutdown_time(const
 }
 UPB_INLINE void envoy_admin_v3_CommandLineOptions_clear_parent_shutdown_time(const envoy_admin_v3_CommandLineOptions* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(140, 232), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 3);
 }
 UPB_INLINE const struct google_protobuf_Duration* envoy_admin_v3_CommandLineOptions_parent_shutdown_time(const envoy_admin_v3_CommandLineOptions* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(140, 232), const struct google_protobuf_Duration*);
@@ -506,7 +512,7 @@ UPB_INLINE void envoy_admin_v3_CommandLineOptions_set_file_flush_interval(envoy_
 UPB_INLINE struct google_protobuf_Duration* envoy_admin_v3_CommandLineOptions_mutable_file_flush_interval(envoy_admin_v3_CommandLineOptions* msg, upb_Arena* arena) {
   struct google_protobuf_Duration* sub = (struct google_protobuf_Duration*)envoy_admin_v3_CommandLineOptions_file_flush_interval(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msginit, arena);
+    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msg_init, arena);
     if (!sub) return NULL;
     envoy_admin_v3_CommandLineOptions_set_file_flush_interval(msg, sub);
   }
@@ -519,7 +525,7 @@ UPB_INLINE void envoy_admin_v3_CommandLineOptions_set_drain_time(envoy_admin_v3_
 UPB_INLINE struct google_protobuf_Duration* envoy_admin_v3_CommandLineOptions_mutable_drain_time(envoy_admin_v3_CommandLineOptions* msg, upb_Arena* arena) {
   struct google_protobuf_Duration* sub = (struct google_protobuf_Duration*)envoy_admin_v3_CommandLineOptions_drain_time(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msginit, arena);
+    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msg_init, arena);
     if (!sub) return NULL;
     envoy_admin_v3_CommandLineOptions_set_drain_time(msg, sub);
   }
@@ -532,7 +538,7 @@ UPB_INLINE void envoy_admin_v3_CommandLineOptions_set_parent_shutdown_time(envoy
 UPB_INLINE struct google_protobuf_Duration* envoy_admin_v3_CommandLineOptions_mutable_parent_shutdown_time(envoy_admin_v3_CommandLineOptions* msg, upb_Arena* arena) {
   struct google_protobuf_Duration* sub = (struct google_protobuf_Duration*)envoy_admin_v3_CommandLineOptions_parent_shutdown_time(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msginit, arena);
+    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msg_init, arena);
     if (!sub) return NULL;
     envoy_admin_v3_CommandLineOptions_set_parent_shutdown_time(msg, sub);
   }

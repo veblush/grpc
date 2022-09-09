@@ -9,38 +9,36 @@
 #ifndef XDS_DATA_ORCA_V3_ORCA_LOAD_REPORT_PROTO_UPB_H_
 #define XDS_DATA_ORCA_V3_ORCA_LOAD_REPORT_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct xds_data_orca_v3_OrcaLoadReport;
-struct xds_data_orca_v3_OrcaLoadReport_RequestCostEntry;
-struct xds_data_orca_v3_OrcaLoadReport_UtilizationEntry;
 typedef struct xds_data_orca_v3_OrcaLoadReport xds_data_orca_v3_OrcaLoadReport;
 typedef struct xds_data_orca_v3_OrcaLoadReport_RequestCostEntry xds_data_orca_v3_OrcaLoadReport_RequestCostEntry;
 typedef struct xds_data_orca_v3_OrcaLoadReport_UtilizationEntry xds_data_orca_v3_OrcaLoadReport_UtilizationEntry;
-extern const upb_MiniTable xds_data_orca_v3_OrcaLoadReport_msginit;
-extern const upb_MiniTable xds_data_orca_v3_OrcaLoadReport_RequestCostEntry_msginit;
-extern const upb_MiniTable xds_data_orca_v3_OrcaLoadReport_UtilizationEntry_msginit;
+extern const upb_MiniTable xds_data_orca_v3_OrcaLoadReport_msg_init;
+extern const upb_MiniTable xds_data_orca_v3_OrcaLoadReport_RequestCostEntry_msg_init;
+extern const upb_MiniTable xds_data_orca_v3_OrcaLoadReport_UtilizationEntry_msg_init;
 
 
 
 /* xds.data.orca.v3.OrcaLoadReport */
 
 UPB_INLINE xds_data_orca_v3_OrcaLoadReport* xds_data_orca_v3_OrcaLoadReport_new(upb_Arena* arena) {
-  return (xds_data_orca_v3_OrcaLoadReport*)_upb_Message_New(&xds_data_orca_v3_OrcaLoadReport_msginit, arena);
+  return (xds_data_orca_v3_OrcaLoadReport*)_upb_Message_New(&xds_data_orca_v3_OrcaLoadReport_msg_init, arena);
 }
 UPB_INLINE xds_data_orca_v3_OrcaLoadReport* xds_data_orca_v3_OrcaLoadReport_parse(const char* buf, size_t size, upb_Arena* arena) {
   xds_data_orca_v3_OrcaLoadReport* ret = xds_data_orca_v3_OrcaLoadReport_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_data_orca_v3_OrcaLoadReport_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &xds_data_orca_v3_OrcaLoadReport_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -50,7 +48,7 @@ UPB_INLINE xds_data_orca_v3_OrcaLoadReport* xds_data_orca_v3_OrcaLoadReport_pars
                            int options, upb_Arena* arena) {
   xds_data_orca_v3_OrcaLoadReport* ret = xds_data_orca_v3_OrcaLoadReport_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &xds_data_orca_v3_OrcaLoadReport_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &xds_data_orca_v3_OrcaLoadReport_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -58,13 +56,13 @@ UPB_INLINE xds_data_orca_v3_OrcaLoadReport* xds_data_orca_v3_OrcaLoadReport_pars
 }
 UPB_INLINE char* xds_data_orca_v3_OrcaLoadReport_serialize(const xds_data_orca_v3_OrcaLoadReport* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_data_orca_v3_OrcaLoadReport_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_data_orca_v3_OrcaLoadReport_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* xds_data_orca_v3_OrcaLoadReport_serialize_ex(const xds_data_orca_v3_OrcaLoadReport* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &xds_data_orca_v3_OrcaLoadReport_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &xds_data_orca_v3_OrcaLoadReport_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void xds_data_orca_v3_OrcaLoadReport_clear_cpu_utilization(const xds_data_orca_v3_OrcaLoadReport* msg) {

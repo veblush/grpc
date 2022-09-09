@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "xds/type/matcher/v3/matcher.upb.h"
 #include "xds/annotations/v3/status.upb.h"
@@ -17,9 +18,9 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub xds_type_matcher_v3_Matcher_submsgs[3] = {
-  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_msginit},
-  {.submsg = &xds_type_matcher_v3_Matcher_MatcherTree_msginit},
-  {.submsg = &xds_type_matcher_v3_Matcher_OnMatch_msginit},
+  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_msg_init},
+  {.submsg = &xds_type_matcher_v3_Matcher_MatcherTree_msg_init},
+  {.submsg = &xds_type_matcher_v3_Matcher_OnMatch_msg_init},
 };
 
 static const upb_MiniTable_Field xds_type_matcher_v3_Matcher__fields[3] = {
@@ -28,15 +29,15 @@ static const upb_MiniTable_Field xds_type_matcher_v3_Matcher__fields[3] = {
   {3, UPB_SIZE(8, 8), UPB_SIZE(1, 1), 2, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_type_matcher_v3_Matcher_msginit = {
+const upb_MiniTable xds_type_matcher_v3_Matcher_msg_init = {
   &xds_type_matcher_v3_Matcher_submsgs[0],
   &xds_type_matcher_v3_Matcher__fields[0],
   UPB_SIZE(16, 24), 3, kUpb_ExtMode_NonExtendable, 3, 255, 0,
 };
 
 static const upb_MiniTable_Sub xds_type_matcher_v3_Matcher_OnMatch_submsgs[2] = {
-  {.submsg = &xds_type_matcher_v3_Matcher_msginit},
-  {.submsg = &xds_core_v3_TypedExtensionConfig_msginit},
+  {.submsg = &xds_type_matcher_v3_Matcher_msg_init},
+  {.submsg = &xds_core_v3_TypedExtensionConfig_msg_init},
 };
 
 static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_OnMatch__fields[2] = {
@@ -44,31 +45,31 @@ static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_OnMatch__fields[2] 
   {2, UPB_SIZE(4, 8), UPB_SIZE(-1, -1), 1, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_type_matcher_v3_Matcher_OnMatch_msginit = {
+const upb_MiniTable xds_type_matcher_v3_Matcher_OnMatch_msg_init = {
   &xds_type_matcher_v3_Matcher_OnMatch_submsgs[0],
   &xds_type_matcher_v3_Matcher_OnMatch__fields[0],
   UPB_SIZE(8, 16), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable_Sub xds_type_matcher_v3_Matcher_MatcherList_submsgs[1] = {
-  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_FieldMatcher_msginit},
+  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_FieldMatcher_msg_init},
 };
 
 static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_MatcherList__fields[1] = {
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherList_msginit = {
+const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherList_msg_init = {
   &xds_type_matcher_v3_Matcher_MatcherList_submsgs[0],
   &xds_type_matcher_v3_Matcher_MatcherList__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub xds_type_matcher_v3_Matcher_MatcherList_Predicate_submsgs[4] = {
-  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_Predicate_SinglePredicate_msginit},
-  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_Predicate_PredicateList_msginit},
-  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_Predicate_PredicateList_msginit},
-  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_Predicate_msginit},
+  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_Predicate_SinglePredicate_msg_init},
+  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_Predicate_PredicateList_msg_init},
+  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_Predicate_PredicateList_msg_init},
+  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_Predicate_msg_init},
 };
 
 static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_MatcherList_Predicate__fields[4] = {
@@ -78,16 +79,16 @@ static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_MatcherList_Predica
   {4, UPB_SIZE(4, 8), UPB_SIZE(-1, -1), 3, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherList_Predicate_msginit = {
+const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherList_Predicate_msg_init = {
   &xds_type_matcher_v3_Matcher_MatcherList_Predicate_submsgs[0],
   &xds_type_matcher_v3_Matcher_MatcherList_Predicate__fields[0],
   UPB_SIZE(8, 16), 4, kUpb_ExtMode_NonExtendable, 4, 255, 0,
 };
 
 static const upb_MiniTable_Sub xds_type_matcher_v3_Matcher_MatcherList_Predicate_SinglePredicate_submsgs[3] = {
-  {.submsg = &xds_core_v3_TypedExtensionConfig_msginit},
-  {.submsg = &xds_type_matcher_v3_StringMatcher_msginit},
-  {.submsg = &xds_core_v3_TypedExtensionConfig_msginit},
+  {.submsg = &xds_core_v3_TypedExtensionConfig_msg_init},
+  {.submsg = &xds_type_matcher_v3_StringMatcher_msg_init},
+  {.submsg = &xds_core_v3_TypedExtensionConfig_msg_init},
 };
 
 static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_MatcherList_Predicate_SinglePredicate__fields[3] = {
@@ -96,29 +97,29 @@ static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_MatcherList_Predica
   {3, UPB_SIZE(12, 16), UPB_SIZE(-5, -5), 2, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherList_Predicate_SinglePredicate_msginit = {
+const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherList_Predicate_SinglePredicate_msg_init = {
   &xds_type_matcher_v3_Matcher_MatcherList_Predicate_SinglePredicate_submsgs[0],
   &xds_type_matcher_v3_Matcher_MatcherList_Predicate_SinglePredicate__fields[0],
   UPB_SIZE(16, 24), 3, kUpb_ExtMode_NonExtendable, 3, 255, 0,
 };
 
 static const upb_MiniTable_Sub xds_type_matcher_v3_Matcher_MatcherList_Predicate_PredicateList_submsgs[1] = {
-  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_Predicate_msginit},
+  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_Predicate_msg_init},
 };
 
 static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_MatcherList_Predicate_PredicateList__fields[1] = {
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherList_Predicate_PredicateList_msginit = {
+const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherList_Predicate_PredicateList_msg_init = {
   &xds_type_matcher_v3_Matcher_MatcherList_Predicate_PredicateList_submsgs[0],
   &xds_type_matcher_v3_Matcher_MatcherList_Predicate_PredicateList__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub xds_type_matcher_v3_Matcher_MatcherList_FieldMatcher_submsgs[2] = {
-  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_Predicate_msginit},
-  {.submsg = &xds_type_matcher_v3_Matcher_OnMatch_msginit},
+  {.submsg = &xds_type_matcher_v3_Matcher_MatcherList_Predicate_msg_init},
+  {.submsg = &xds_type_matcher_v3_Matcher_OnMatch_msg_init},
 };
 
 static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_MatcherList_FieldMatcher__fields[2] = {
@@ -126,17 +127,17 @@ static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_MatcherList_FieldMa
   {2, UPB_SIZE(8, 16), UPB_SIZE(2, 2), 1, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherList_FieldMatcher_msginit = {
+const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherList_FieldMatcher_msg_init = {
   &xds_type_matcher_v3_Matcher_MatcherList_FieldMatcher_submsgs[0],
   &xds_type_matcher_v3_Matcher_MatcherList_FieldMatcher__fields[0],
   UPB_SIZE(16, 24), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable_Sub xds_type_matcher_v3_Matcher_MatcherTree_submsgs[4] = {
-  {.submsg = &xds_core_v3_TypedExtensionConfig_msginit},
-  {.submsg = &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_msginit},
-  {.submsg = &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_msginit},
-  {.submsg = &xds_core_v3_TypedExtensionConfig_msginit},
+  {.submsg = &xds_core_v3_TypedExtensionConfig_msg_init},
+  {.submsg = &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_msg_init},
+  {.submsg = &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_msg_init},
+  {.submsg = &xds_core_v3_TypedExtensionConfig_msg_init},
 };
 
 static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_MatcherTree__fields[4] = {
@@ -146,28 +147,28 @@ static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_MatcherTree__fields
   {4, UPB_SIZE(12, 16), UPB_SIZE(-5, -5), 3, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherTree_msginit = {
+const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherTree_msg_init = {
   &xds_type_matcher_v3_Matcher_MatcherTree_submsgs[0],
   &xds_type_matcher_v3_Matcher_MatcherTree__fields[0],
   UPB_SIZE(16, 24), 4, kUpb_ExtMode_NonExtendable, 4, 255, 0,
 };
 
 static const upb_MiniTable_Sub xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_submsgs[1] = {
-  {.submsg = &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_MapEntry_msginit},
+  {.submsg = &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_MapEntry_msg_init},
 };
 
 static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_MatcherTree_MatchMap__fields[1] = {
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Map | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_msginit = {
+const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_msg_init = {
   &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_submsgs[0],
   &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_MapEntry_submsgs[1] = {
-  {.submsg = &xds_type_matcher_v3_Matcher_OnMatch_msginit},
+  {.submsg = &xds_type_matcher_v3_Matcher_OnMatch_msg_init},
 };
 
 static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_MapEntry__fields[2] = {
@@ -175,23 +176,23 @@ static const upb_MiniTable_Field xds_type_matcher_v3_Matcher_MatcherTree_MatchMa
   {2, UPB_SIZE(8, 16), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_MapEntry_msginit = {
+const upb_MiniTable xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_MapEntry_msg_init = {
   &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_MapEntry_submsgs[0],
   &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_MapEntry__fields[0],
   UPB_SIZE(16, 32), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[10] = {
-  &xds_type_matcher_v3_Matcher_msginit,
-  &xds_type_matcher_v3_Matcher_OnMatch_msginit,
-  &xds_type_matcher_v3_Matcher_MatcherList_msginit,
-  &xds_type_matcher_v3_Matcher_MatcherList_Predicate_msginit,
-  &xds_type_matcher_v3_Matcher_MatcherList_Predicate_SinglePredicate_msginit,
-  &xds_type_matcher_v3_Matcher_MatcherList_Predicate_PredicateList_msginit,
-  &xds_type_matcher_v3_Matcher_MatcherList_FieldMatcher_msginit,
-  &xds_type_matcher_v3_Matcher_MatcherTree_msginit,
-  &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_msginit,
-  &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_MapEntry_msginit,
+  &xds_type_matcher_v3_Matcher_msg_init,
+  &xds_type_matcher_v3_Matcher_OnMatch_msg_init,
+  &xds_type_matcher_v3_Matcher_MatcherList_msg_init,
+  &xds_type_matcher_v3_Matcher_MatcherList_Predicate_msg_init,
+  &xds_type_matcher_v3_Matcher_MatcherList_Predicate_SinglePredicate_msg_init,
+  &xds_type_matcher_v3_Matcher_MatcherList_Predicate_PredicateList_msg_init,
+  &xds_type_matcher_v3_Matcher_MatcherList_FieldMatcher_msg_init,
+  &xds_type_matcher_v3_Matcher_MatcherTree_msg_init,
+  &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_msg_init,
+  &xds_type_matcher_v3_Matcher_MatcherTree_MatchMap_MapEntry_msg_init,
 };
 
 const upb_MiniTable_File xds_type_matcher_v3_matcher_proto_upb_file_layout = {

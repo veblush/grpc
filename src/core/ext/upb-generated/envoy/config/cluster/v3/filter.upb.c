@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/cluster/v3/filter.upb.h"
 #include "google/protobuf/any.upb.h"
@@ -17,7 +18,7 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_config_cluster_v3_Filter_submsgs[1] = {
-  {.submsg = &google_protobuf_Any_msginit},
+  {.submsg = &google_protobuf_Any_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_cluster_v3_Filter__fields[2] = {
@@ -25,14 +26,14 @@ static const upb_MiniTable_Field envoy_config_cluster_v3_Filter__fields[2] = {
   {2, UPB_SIZE(12, 24), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_cluster_v3_Filter_msginit = {
+const upb_MiniTable envoy_config_cluster_v3_Filter_msg_init = {
   &envoy_config_cluster_v3_Filter_submsgs[0],
   &envoy_config_cluster_v3_Filter__fields[0],
   UPB_SIZE(16, 32), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_config_cluster_v3_Filter_msginit,
+  &envoy_config_cluster_v3_Filter_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_cluster_v3_filter_proto_upb_file_layout = {

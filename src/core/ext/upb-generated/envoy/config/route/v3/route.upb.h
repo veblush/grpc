@@ -9,23 +9,22 @@
 #ifndef ENVOY_CONFIG_ROUTE_V3_ROUTE_PROTO_UPB_H_
 #define ENVOY_CONFIG_ROUTE_V3_ROUTE_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_config_route_v3_RouteConfiguration;
-struct envoy_config_route_v3_Vhds;
 typedef struct envoy_config_route_v3_RouteConfiguration envoy_config_route_v3_RouteConfiguration;
 typedef struct envoy_config_route_v3_Vhds envoy_config_route_v3_Vhds;
-extern const upb_MiniTable envoy_config_route_v3_RouteConfiguration_msginit;
-extern const upb_MiniTable envoy_config_route_v3_Vhds_msginit;
+extern const upb_MiniTable envoy_config_route_v3_RouteConfiguration_msg_init;
+extern const upb_MiniTable envoy_config_route_v3_Vhds_msg_init;
 struct envoy_config_core_v3_ConfigSource;
 struct envoy_config_core_v3_HeaderValueOption;
 struct envoy_config_route_v3_ClusterSpecifierPlugin;
@@ -33,25 +32,25 @@ struct envoy_config_route_v3_RouteAction_RequestMirrorPolicy;
 struct envoy_config_route_v3_VirtualHost;
 struct google_protobuf_BoolValue;
 struct google_protobuf_UInt32Value;
-extern const upb_MiniTable envoy_config_core_v3_ConfigSource_msginit;
-extern const upb_MiniTable envoy_config_core_v3_HeaderValueOption_msginit;
-extern const upb_MiniTable envoy_config_route_v3_ClusterSpecifierPlugin_msginit;
-extern const upb_MiniTable envoy_config_route_v3_RouteAction_RequestMirrorPolicy_msginit;
-extern const upb_MiniTable envoy_config_route_v3_VirtualHost_msginit;
-extern const upb_MiniTable google_protobuf_BoolValue_msginit;
-extern const upb_MiniTable google_protobuf_UInt32Value_msginit;
+extern const upb_MiniTable envoy_config_core_v3_ConfigSource_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_HeaderValueOption_msg_init;
+extern const upb_MiniTable envoy_config_route_v3_ClusterSpecifierPlugin_msg_init;
+extern const upb_MiniTable envoy_config_route_v3_RouteAction_RequestMirrorPolicy_msg_init;
+extern const upb_MiniTable envoy_config_route_v3_VirtualHost_msg_init;
+extern const upb_MiniTable google_protobuf_BoolValue_msg_init;
+extern const upb_MiniTable google_protobuf_UInt32Value_msg_init;
 
 
 
 /* envoy.config.route.v3.RouteConfiguration */
 
 UPB_INLINE envoy_config_route_v3_RouteConfiguration* envoy_config_route_v3_RouteConfiguration_new(upb_Arena* arena) {
-  return (envoy_config_route_v3_RouteConfiguration*)_upb_Message_New(&envoy_config_route_v3_RouteConfiguration_msginit, arena);
+  return (envoy_config_route_v3_RouteConfiguration*)_upb_Message_New(&envoy_config_route_v3_RouteConfiguration_msg_init, arena);
 }
 UPB_INLINE envoy_config_route_v3_RouteConfiguration* envoy_config_route_v3_RouteConfiguration_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_route_v3_RouteConfiguration* ret = envoy_config_route_v3_RouteConfiguration_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_route_v3_RouteConfiguration_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_route_v3_RouteConfiguration_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -61,7 +60,7 @@ UPB_INLINE envoy_config_route_v3_RouteConfiguration* envoy_config_route_v3_Route
                            int options, upb_Arena* arena) {
   envoy_config_route_v3_RouteConfiguration* ret = envoy_config_route_v3_RouteConfiguration_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_route_v3_RouteConfiguration_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_route_v3_RouteConfiguration_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -69,13 +68,13 @@ UPB_INLINE envoy_config_route_v3_RouteConfiguration* envoy_config_route_v3_Route
 }
 UPB_INLINE char* envoy_config_route_v3_RouteConfiguration_serialize(const envoy_config_route_v3_RouteConfiguration* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_route_v3_RouteConfiguration_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_route_v3_RouteConfiguration_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_route_v3_RouteConfiguration_serialize_ex(const envoy_config_route_v3_RouteConfiguration* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_route_v3_RouteConfiguration_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_route_v3_RouteConfiguration_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_config_route_v3_RouteConfiguration_clear_name(const envoy_config_route_v3_RouteConfiguration* msg) {
@@ -128,6 +127,7 @@ UPB_INLINE bool envoy_config_route_v3_RouteConfiguration_has_validate_clusters(c
 }
 UPB_INLINE void envoy_config_route_v3_RouteConfiguration_clear_validate_clusters(const envoy_config_route_v3_RouteConfiguration* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(32, 64), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_BoolValue* envoy_config_route_v3_RouteConfiguration_validate_clusters(const envoy_config_route_v3_RouteConfiguration* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(32, 64), const struct google_protobuf_BoolValue*);
@@ -143,6 +143,7 @@ UPB_INLINE bool envoy_config_route_v3_RouteConfiguration_has_vhds(const envoy_co
 }
 UPB_INLINE void envoy_config_route_v3_RouteConfiguration_clear_vhds(const envoy_config_route_v3_RouteConfiguration* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(40, 80), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 2);
 }
 UPB_INLINE const envoy_config_route_v3_Vhds* envoy_config_route_v3_RouteConfiguration_vhds(const envoy_config_route_v3_RouteConfiguration* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(40, 80), const envoy_config_route_v3_Vhds*);
@@ -158,6 +159,7 @@ UPB_INLINE bool envoy_config_route_v3_RouteConfiguration_has_max_direct_response
 }
 UPB_INLINE void envoy_config_route_v3_RouteConfiguration_clear_max_direct_response_body_size_bytes(const envoy_config_route_v3_RouteConfiguration* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(44, 88), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 3);
 }
 UPB_INLINE const struct google_protobuf_UInt32Value* envoy_config_route_v3_RouteConfiguration_max_direct_response_body_size_bytes(const envoy_config_route_v3_RouteConfiguration* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(44, 88), const struct google_protobuf_UInt32Value*);
@@ -203,7 +205,7 @@ UPB_INLINE struct envoy_config_route_v3_VirtualHost** envoy_config_route_v3_Rout
   return (struct envoy_config_route_v3_VirtualHost**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(12, 24), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_route_v3_VirtualHost* envoy_config_route_v3_RouteConfiguration_add_virtual_hosts(envoy_config_route_v3_RouteConfiguration* msg, upb_Arena* arena) {
-  struct envoy_config_route_v3_VirtualHost* sub = (struct envoy_config_route_v3_VirtualHost*)_upb_Message_New(&envoy_config_route_v3_VirtualHost_msginit, arena);
+  struct envoy_config_route_v3_VirtualHost* sub = (struct envoy_config_route_v3_VirtualHost*)_upb_Message_New(&envoy_config_route_v3_VirtualHost_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(12, 24), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -224,7 +226,7 @@ UPB_INLINE struct envoy_config_core_v3_HeaderValueOption** envoy_config_route_v3
   return (struct envoy_config_core_v3_HeaderValueOption**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(20, 40), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_core_v3_HeaderValueOption* envoy_config_route_v3_RouteConfiguration_add_response_headers_to_add(envoy_config_route_v3_RouteConfiguration* msg, upb_Arena* arena) {
-  struct envoy_config_core_v3_HeaderValueOption* sub = (struct envoy_config_core_v3_HeaderValueOption*)_upb_Message_New(&envoy_config_core_v3_HeaderValueOption_msginit, arena);
+  struct envoy_config_core_v3_HeaderValueOption* sub = (struct envoy_config_core_v3_HeaderValueOption*)_upb_Message_New(&envoy_config_core_v3_HeaderValueOption_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(20, 40), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -245,7 +247,7 @@ UPB_INLINE struct envoy_config_core_v3_HeaderValueOption** envoy_config_route_v3
   return (struct envoy_config_core_v3_HeaderValueOption**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(28, 56), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_core_v3_HeaderValueOption* envoy_config_route_v3_RouteConfiguration_add_request_headers_to_add(envoy_config_route_v3_RouteConfiguration* msg, upb_Arena* arena) {
-  struct envoy_config_core_v3_HeaderValueOption* sub = (struct envoy_config_core_v3_HeaderValueOption*)_upb_Message_New(&envoy_config_core_v3_HeaderValueOption_msginit, arena);
+  struct envoy_config_core_v3_HeaderValueOption* sub = (struct envoy_config_core_v3_HeaderValueOption*)_upb_Message_New(&envoy_config_core_v3_HeaderValueOption_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(28, 56), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -257,7 +259,7 @@ UPB_INLINE void envoy_config_route_v3_RouteConfiguration_set_validate_clusters(e
 UPB_INLINE struct google_protobuf_BoolValue* envoy_config_route_v3_RouteConfiguration_mutable_validate_clusters(envoy_config_route_v3_RouteConfiguration* msg, upb_Arena* arena) {
   struct google_protobuf_BoolValue* sub = (struct google_protobuf_BoolValue*)envoy_config_route_v3_RouteConfiguration_validate_clusters(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_BoolValue*)_upb_Message_New(&google_protobuf_BoolValue_msginit, arena);
+    sub = (struct google_protobuf_BoolValue*)_upb_Message_New(&google_protobuf_BoolValue_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_route_v3_RouteConfiguration_set_validate_clusters(msg, sub);
   }
@@ -279,7 +281,7 @@ UPB_INLINE void envoy_config_route_v3_RouteConfiguration_set_vhds(envoy_config_r
 UPB_INLINE struct envoy_config_route_v3_Vhds* envoy_config_route_v3_RouteConfiguration_mutable_vhds(envoy_config_route_v3_RouteConfiguration* msg, upb_Arena* arena) {
   struct envoy_config_route_v3_Vhds* sub = (struct envoy_config_route_v3_Vhds*)envoy_config_route_v3_RouteConfiguration_vhds(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_route_v3_Vhds*)_upb_Message_New(&envoy_config_route_v3_Vhds_msginit, arena);
+    sub = (struct envoy_config_route_v3_Vhds*)_upb_Message_New(&envoy_config_route_v3_Vhds_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_route_v3_RouteConfiguration_set_vhds(msg, sub);
   }
@@ -295,7 +297,7 @@ UPB_INLINE void envoy_config_route_v3_RouteConfiguration_set_max_direct_response
 UPB_INLINE struct google_protobuf_UInt32Value* envoy_config_route_v3_RouteConfiguration_mutable_max_direct_response_body_size_bytes(envoy_config_route_v3_RouteConfiguration* msg, upb_Arena* arena) {
   struct google_protobuf_UInt32Value* sub = (struct google_protobuf_UInt32Value*)envoy_config_route_v3_RouteConfiguration_max_direct_response_body_size_bytes(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msginit, arena);
+    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_route_v3_RouteConfiguration_set_max_direct_response_body_size_bytes(msg, sub);
   }
@@ -308,7 +310,7 @@ UPB_INLINE struct envoy_config_route_v3_ClusterSpecifierPlugin** envoy_config_ro
   return (struct envoy_config_route_v3_ClusterSpecifierPlugin**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(48, 96), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_route_v3_ClusterSpecifierPlugin* envoy_config_route_v3_RouteConfiguration_add_cluster_specifier_plugins(envoy_config_route_v3_RouteConfiguration* msg, upb_Arena* arena) {
-  struct envoy_config_route_v3_ClusterSpecifierPlugin* sub = (struct envoy_config_route_v3_ClusterSpecifierPlugin*)_upb_Message_New(&envoy_config_route_v3_ClusterSpecifierPlugin_msginit, arena);
+  struct envoy_config_route_v3_ClusterSpecifierPlugin* sub = (struct envoy_config_route_v3_ClusterSpecifierPlugin*)_upb_Message_New(&envoy_config_route_v3_ClusterSpecifierPlugin_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(48, 96), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -320,7 +322,7 @@ UPB_INLINE struct envoy_config_route_v3_RouteAction_RequestMirrorPolicy** envoy_
   return (struct envoy_config_route_v3_RouteAction_RequestMirrorPolicy**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(52, 104), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_route_v3_RouteAction_RequestMirrorPolicy* envoy_config_route_v3_RouteConfiguration_add_request_mirror_policies(envoy_config_route_v3_RouteConfiguration* msg, upb_Arena* arena) {
-  struct envoy_config_route_v3_RouteAction_RequestMirrorPolicy* sub = (struct envoy_config_route_v3_RouteAction_RequestMirrorPolicy*)_upb_Message_New(&envoy_config_route_v3_RouteAction_RequestMirrorPolicy_msginit, arena);
+  struct envoy_config_route_v3_RouteAction_RequestMirrorPolicy* sub = (struct envoy_config_route_v3_RouteAction_RequestMirrorPolicy*)_upb_Message_New(&envoy_config_route_v3_RouteAction_RequestMirrorPolicy_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(52, 104), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -335,12 +337,12 @@ UPB_INLINE void envoy_config_route_v3_RouteConfiguration_set_ignore_path_paramet
 /* envoy.config.route.v3.Vhds */
 
 UPB_INLINE envoy_config_route_v3_Vhds* envoy_config_route_v3_Vhds_new(upb_Arena* arena) {
-  return (envoy_config_route_v3_Vhds*)_upb_Message_New(&envoy_config_route_v3_Vhds_msginit, arena);
+  return (envoy_config_route_v3_Vhds*)_upb_Message_New(&envoy_config_route_v3_Vhds_msg_init, arena);
 }
 UPB_INLINE envoy_config_route_v3_Vhds* envoy_config_route_v3_Vhds_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_route_v3_Vhds* ret = envoy_config_route_v3_Vhds_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_route_v3_Vhds_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_route_v3_Vhds_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -350,7 +352,7 @@ UPB_INLINE envoy_config_route_v3_Vhds* envoy_config_route_v3_Vhds_parse_ex(const
                            int options, upb_Arena* arena) {
   envoy_config_route_v3_Vhds* ret = envoy_config_route_v3_Vhds_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_route_v3_Vhds_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_route_v3_Vhds_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -358,13 +360,13 @@ UPB_INLINE envoy_config_route_v3_Vhds* envoy_config_route_v3_Vhds_parse_ex(const
 }
 UPB_INLINE char* envoy_config_route_v3_Vhds_serialize(const envoy_config_route_v3_Vhds* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_route_v3_Vhds_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_route_v3_Vhds_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_route_v3_Vhds_serialize_ex(const envoy_config_route_v3_Vhds* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_route_v3_Vhds_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_route_v3_Vhds_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_config_route_v3_Vhds_has_config_source(const envoy_config_route_v3_Vhds* msg) {
@@ -372,6 +374,7 @@ UPB_INLINE bool envoy_config_route_v3_Vhds_has_config_source(const envoy_config_
 }
 UPB_INLINE void envoy_config_route_v3_Vhds_clear_config_source(const envoy_config_route_v3_Vhds* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct envoy_config_core_v3_ConfigSource* envoy_config_route_v3_Vhds_config_source(const envoy_config_route_v3_Vhds* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const struct envoy_config_core_v3_ConfigSource*);
@@ -384,7 +387,7 @@ UPB_INLINE void envoy_config_route_v3_Vhds_set_config_source(envoy_config_route_
 UPB_INLINE struct envoy_config_core_v3_ConfigSource* envoy_config_route_v3_Vhds_mutable_config_source(envoy_config_route_v3_Vhds* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_ConfigSource* sub = (struct envoy_config_core_v3_ConfigSource*)envoy_config_route_v3_Vhds_config_source(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_ConfigSource*)_upb_Message_New(&envoy_config_core_v3_ConfigSource_msginit, arena);
+    sub = (struct envoy_config_core_v3_ConfigSource*)_upb_Message_New(&envoy_config_core_v3_ConfigSource_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_route_v3_Vhds_set_config_source(msg, sub);
   }

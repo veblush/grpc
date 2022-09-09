@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/extensions/filters/http/rbac/v3/rbac.upb.h"
 #include "envoy/config/rbac/v3/rbac.upb.h"
@@ -19,10 +20,10 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_extensions_filters_http_rbac_v3_RBAC_submsgs[4] = {
-  {.submsg = &envoy_config_rbac_v3_RBAC_msginit},
-  {.submsg = &envoy_config_rbac_v3_RBAC_msginit},
-  {.submsg = &xds_type_matcher_v3_Matcher_msginit},
-  {.submsg = &xds_type_matcher_v3_Matcher_msginit},
+  {.submsg = &envoy_config_rbac_v3_RBAC_msg_init},
+  {.submsg = &envoy_config_rbac_v3_RBAC_msg_init},
+  {.submsg = &xds_type_matcher_v3_Matcher_msg_init},
+  {.submsg = &xds_type_matcher_v3_Matcher_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_extensions_filters_http_rbac_v3_RBAC__fields[5] = {
@@ -33,29 +34,29 @@ static const upb_MiniTable_Field envoy_extensions_filters_http_rbac_v3_RBAC__fie
   {5, UPB_SIZE(24, 48), UPB_SIZE(4, 4), 3, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_extensions_filters_http_rbac_v3_RBAC_msginit = {
+const upb_MiniTable envoy_extensions_filters_http_rbac_v3_RBAC_msg_init = {
   &envoy_extensions_filters_http_rbac_v3_RBAC_submsgs[0],
   &envoy_extensions_filters_http_rbac_v3_RBAC__fields[0],
   UPB_SIZE(32, 56), 5, kUpb_ExtMode_NonExtendable, 5, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_extensions_filters_http_rbac_v3_RBACPerRoute_submsgs[1] = {
-  {.submsg = &envoy_extensions_filters_http_rbac_v3_RBAC_msginit},
+  {.submsg = &envoy_extensions_filters_http_rbac_v3_RBAC_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_extensions_filters_http_rbac_v3_RBACPerRoute__fields[1] = {
   {2, UPB_SIZE(4, 8), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_extensions_filters_http_rbac_v3_RBACPerRoute_msginit = {
+const upb_MiniTable envoy_extensions_filters_http_rbac_v3_RBACPerRoute_msg_init = {
   &envoy_extensions_filters_http_rbac_v3_RBACPerRoute_submsgs[0],
   &envoy_extensions_filters_http_rbac_v3_RBACPerRoute__fields[0],
   UPB_SIZE(8, 16), 1, kUpb_ExtMode_NonExtendable, 0, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[2] = {
-  &envoy_extensions_filters_http_rbac_v3_RBAC_msginit,
-  &envoy_extensions_filters_http_rbac_v3_RBACPerRoute_msginit,
+  &envoy_extensions_filters_http_rbac_v3_RBAC_msg_init,
+  &envoy_extensions_filters_http_rbac_v3_RBACPerRoute_msg_init,
 };
 
 const upb_MiniTable_File envoy_extensions_filters_http_rbac_v3_rbac_proto_upb_file_layout = {

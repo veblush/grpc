@@ -9,46 +9,42 @@
 #ifndef ENVOY_ADMIN_V3_CERTS_PROTO_UPB_H_
 #define ENVOY_ADMIN_V3_CERTS_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_admin_v3_Certificates;
-struct envoy_admin_v3_Certificate;
-struct envoy_admin_v3_CertificateDetails;
-struct envoy_admin_v3_CertificateDetails_OcspDetails;
-struct envoy_admin_v3_SubjectAlternateName;
 typedef struct envoy_admin_v3_Certificates envoy_admin_v3_Certificates;
 typedef struct envoy_admin_v3_Certificate envoy_admin_v3_Certificate;
 typedef struct envoy_admin_v3_CertificateDetails envoy_admin_v3_CertificateDetails;
 typedef struct envoy_admin_v3_CertificateDetails_OcspDetails envoy_admin_v3_CertificateDetails_OcspDetails;
 typedef struct envoy_admin_v3_SubjectAlternateName envoy_admin_v3_SubjectAlternateName;
-extern const upb_MiniTable envoy_admin_v3_Certificates_msginit;
-extern const upb_MiniTable envoy_admin_v3_Certificate_msginit;
-extern const upb_MiniTable envoy_admin_v3_CertificateDetails_msginit;
-extern const upb_MiniTable envoy_admin_v3_CertificateDetails_OcspDetails_msginit;
-extern const upb_MiniTable envoy_admin_v3_SubjectAlternateName_msginit;
+extern const upb_MiniTable envoy_admin_v3_Certificates_msg_init;
+extern const upb_MiniTable envoy_admin_v3_Certificate_msg_init;
+extern const upb_MiniTable envoy_admin_v3_CertificateDetails_msg_init;
+extern const upb_MiniTable envoy_admin_v3_CertificateDetails_OcspDetails_msg_init;
+extern const upb_MiniTable envoy_admin_v3_SubjectAlternateName_msg_init;
 struct google_protobuf_Timestamp;
-extern const upb_MiniTable google_protobuf_Timestamp_msginit;
+extern const upb_MiniTable google_protobuf_Timestamp_msg_init;
 
 
 
 /* envoy.admin.v3.Certificates */
 
 UPB_INLINE envoy_admin_v3_Certificates* envoy_admin_v3_Certificates_new(upb_Arena* arena) {
-  return (envoy_admin_v3_Certificates*)_upb_Message_New(&envoy_admin_v3_Certificates_msginit, arena);
+  return (envoy_admin_v3_Certificates*)_upb_Message_New(&envoy_admin_v3_Certificates_msg_init, arena);
 }
 UPB_INLINE envoy_admin_v3_Certificates* envoy_admin_v3_Certificates_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_admin_v3_Certificates* ret = envoy_admin_v3_Certificates_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_Certificates_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_Certificates_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -58,7 +54,7 @@ UPB_INLINE envoy_admin_v3_Certificates* envoy_admin_v3_Certificates_parse_ex(con
                            int options, upb_Arena* arena) {
   envoy_admin_v3_Certificates* ret = envoy_admin_v3_Certificates_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_Certificates_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_Certificates_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -66,13 +62,13 @@ UPB_INLINE envoy_admin_v3_Certificates* envoy_admin_v3_Certificates_parse_ex(con
 }
 UPB_INLINE char* envoy_admin_v3_Certificates_serialize(const envoy_admin_v3_Certificates* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_Certificates_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_Certificates_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_admin_v3_Certificates_serialize_ex(const envoy_admin_v3_Certificates* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_Certificates_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_Certificates_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_admin_v3_Certificates_has_certificates(const envoy_admin_v3_Certificates* msg) {
@@ -92,7 +88,7 @@ UPB_INLINE envoy_admin_v3_Certificate** envoy_admin_v3_Certificates_resize_certi
   return (envoy_admin_v3_Certificate**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(0, 0), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_admin_v3_Certificate* envoy_admin_v3_Certificates_add_certificates(envoy_admin_v3_Certificates* msg, upb_Arena* arena) {
-  struct envoy_admin_v3_Certificate* sub = (struct envoy_admin_v3_Certificate*)_upb_Message_New(&envoy_admin_v3_Certificate_msginit, arena);
+  struct envoy_admin_v3_Certificate* sub = (struct envoy_admin_v3_Certificate*)_upb_Message_New(&envoy_admin_v3_Certificate_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(0, 0), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -101,12 +97,12 @@ UPB_INLINE struct envoy_admin_v3_Certificate* envoy_admin_v3_Certificates_add_ce
 /* envoy.admin.v3.Certificate */
 
 UPB_INLINE envoy_admin_v3_Certificate* envoy_admin_v3_Certificate_new(upb_Arena* arena) {
-  return (envoy_admin_v3_Certificate*)_upb_Message_New(&envoy_admin_v3_Certificate_msginit, arena);
+  return (envoy_admin_v3_Certificate*)_upb_Message_New(&envoy_admin_v3_Certificate_msg_init, arena);
 }
 UPB_INLINE envoy_admin_v3_Certificate* envoy_admin_v3_Certificate_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_admin_v3_Certificate* ret = envoy_admin_v3_Certificate_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_Certificate_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_Certificate_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -116,7 +112,7 @@ UPB_INLINE envoy_admin_v3_Certificate* envoy_admin_v3_Certificate_parse_ex(const
                            int options, upb_Arena* arena) {
   envoy_admin_v3_Certificate* ret = envoy_admin_v3_Certificate_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_Certificate_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_Certificate_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -124,13 +120,13 @@ UPB_INLINE envoy_admin_v3_Certificate* envoy_admin_v3_Certificate_parse_ex(const
 }
 UPB_INLINE char* envoy_admin_v3_Certificate_serialize(const envoy_admin_v3_Certificate* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_Certificate_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_Certificate_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_admin_v3_Certificate_serialize_ex(const envoy_admin_v3_Certificate* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_Certificate_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_Certificate_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_admin_v3_Certificate_has_ca_cert(const envoy_admin_v3_Certificate* msg) {
@@ -159,7 +155,7 @@ UPB_INLINE envoy_admin_v3_CertificateDetails** envoy_admin_v3_Certificate_resize
   return (envoy_admin_v3_CertificateDetails**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(0, 0), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_admin_v3_CertificateDetails* envoy_admin_v3_Certificate_add_ca_cert(envoy_admin_v3_Certificate* msg, upb_Arena* arena) {
-  struct envoy_admin_v3_CertificateDetails* sub = (struct envoy_admin_v3_CertificateDetails*)_upb_Message_New(&envoy_admin_v3_CertificateDetails_msginit, arena);
+  struct envoy_admin_v3_CertificateDetails* sub = (struct envoy_admin_v3_CertificateDetails*)_upb_Message_New(&envoy_admin_v3_CertificateDetails_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(0, 0), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -171,7 +167,7 @@ UPB_INLINE envoy_admin_v3_CertificateDetails** envoy_admin_v3_Certificate_resize
   return (envoy_admin_v3_CertificateDetails**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(4, 8), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_admin_v3_CertificateDetails* envoy_admin_v3_Certificate_add_cert_chain(envoy_admin_v3_Certificate* msg, upb_Arena* arena) {
-  struct envoy_admin_v3_CertificateDetails* sub = (struct envoy_admin_v3_CertificateDetails*)_upb_Message_New(&envoy_admin_v3_CertificateDetails_msginit, arena);
+  struct envoy_admin_v3_CertificateDetails* sub = (struct envoy_admin_v3_CertificateDetails*)_upb_Message_New(&envoy_admin_v3_CertificateDetails_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(4, 8), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -180,12 +176,12 @@ UPB_INLINE struct envoy_admin_v3_CertificateDetails* envoy_admin_v3_Certificate_
 /* envoy.admin.v3.CertificateDetails */
 
 UPB_INLINE envoy_admin_v3_CertificateDetails* envoy_admin_v3_CertificateDetails_new(upb_Arena* arena) {
-  return (envoy_admin_v3_CertificateDetails*)_upb_Message_New(&envoy_admin_v3_CertificateDetails_msginit, arena);
+  return (envoy_admin_v3_CertificateDetails*)_upb_Message_New(&envoy_admin_v3_CertificateDetails_msg_init, arena);
 }
 UPB_INLINE envoy_admin_v3_CertificateDetails* envoy_admin_v3_CertificateDetails_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_admin_v3_CertificateDetails* ret = envoy_admin_v3_CertificateDetails_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_CertificateDetails_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_CertificateDetails_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -195,7 +191,7 @@ UPB_INLINE envoy_admin_v3_CertificateDetails* envoy_admin_v3_CertificateDetails_
                            int options, upb_Arena* arena) {
   envoy_admin_v3_CertificateDetails* ret = envoy_admin_v3_CertificateDetails_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_CertificateDetails_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_CertificateDetails_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -203,13 +199,13 @@ UPB_INLINE envoy_admin_v3_CertificateDetails* envoy_admin_v3_CertificateDetails_
 }
 UPB_INLINE char* envoy_admin_v3_CertificateDetails_serialize(const envoy_admin_v3_CertificateDetails* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_CertificateDetails_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_CertificateDetails_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_admin_v3_CertificateDetails_serialize_ex(const envoy_admin_v3_CertificateDetails* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_CertificateDetails_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_CertificateDetails_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_admin_v3_CertificateDetails_clear_path(const envoy_admin_v3_CertificateDetails* msg) {
@@ -244,6 +240,7 @@ UPB_INLINE bool envoy_admin_v3_CertificateDetails_has_valid_from(const envoy_adm
 }
 UPB_INLINE void envoy_admin_v3_CertificateDetails_clear_valid_from(const envoy_admin_v3_CertificateDetails* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(24, 48), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_Timestamp* envoy_admin_v3_CertificateDetails_valid_from(const envoy_admin_v3_CertificateDetails* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(24, 48), const struct google_protobuf_Timestamp*);
@@ -253,6 +250,7 @@ UPB_INLINE bool envoy_admin_v3_CertificateDetails_has_expiration_time(const envo
 }
 UPB_INLINE void envoy_admin_v3_CertificateDetails_clear_expiration_time(const envoy_admin_v3_CertificateDetails* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(28, 56), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 2);
 }
 UPB_INLINE const struct google_protobuf_Timestamp* envoy_admin_v3_CertificateDetails_expiration_time(const envoy_admin_v3_CertificateDetails* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(28, 56), const struct google_protobuf_Timestamp*);
@@ -262,6 +260,7 @@ UPB_INLINE bool envoy_admin_v3_CertificateDetails_has_ocsp_details(const envoy_a
 }
 UPB_INLINE void envoy_admin_v3_CertificateDetails_clear_ocsp_details(const envoy_admin_v3_CertificateDetails* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(32, 64), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 3);
 }
 UPB_INLINE const envoy_admin_v3_CertificateDetails_OcspDetails* envoy_admin_v3_CertificateDetails_ocsp_details(const envoy_admin_v3_CertificateDetails* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(32, 64), const envoy_admin_v3_CertificateDetails_OcspDetails*);
@@ -280,7 +279,7 @@ UPB_INLINE envoy_admin_v3_SubjectAlternateName** envoy_admin_v3_CertificateDetai
   return (envoy_admin_v3_SubjectAlternateName**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(20, 40), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_admin_v3_SubjectAlternateName* envoy_admin_v3_CertificateDetails_add_subject_alt_names(envoy_admin_v3_CertificateDetails* msg, upb_Arena* arena) {
-  struct envoy_admin_v3_SubjectAlternateName* sub = (struct envoy_admin_v3_SubjectAlternateName*)_upb_Message_New(&envoy_admin_v3_SubjectAlternateName_msginit, arena);
+  struct envoy_admin_v3_SubjectAlternateName* sub = (struct envoy_admin_v3_SubjectAlternateName*)_upb_Message_New(&envoy_admin_v3_SubjectAlternateName_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(20, 40), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -295,7 +294,7 @@ UPB_INLINE void envoy_admin_v3_CertificateDetails_set_valid_from(envoy_admin_v3_
 UPB_INLINE struct google_protobuf_Timestamp* envoy_admin_v3_CertificateDetails_mutable_valid_from(envoy_admin_v3_CertificateDetails* msg, upb_Arena* arena) {
   struct google_protobuf_Timestamp* sub = (struct google_protobuf_Timestamp*)envoy_admin_v3_CertificateDetails_valid_from(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Timestamp*)_upb_Message_New(&google_protobuf_Timestamp_msginit, arena);
+    sub = (struct google_protobuf_Timestamp*)_upb_Message_New(&google_protobuf_Timestamp_msg_init, arena);
     if (!sub) return NULL;
     envoy_admin_v3_CertificateDetails_set_valid_from(msg, sub);
   }
@@ -308,7 +307,7 @@ UPB_INLINE void envoy_admin_v3_CertificateDetails_set_expiration_time(envoy_admi
 UPB_INLINE struct google_protobuf_Timestamp* envoy_admin_v3_CertificateDetails_mutable_expiration_time(envoy_admin_v3_CertificateDetails* msg, upb_Arena* arena) {
   struct google_protobuf_Timestamp* sub = (struct google_protobuf_Timestamp*)envoy_admin_v3_CertificateDetails_expiration_time(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Timestamp*)_upb_Message_New(&google_protobuf_Timestamp_msginit, arena);
+    sub = (struct google_protobuf_Timestamp*)_upb_Message_New(&google_protobuf_Timestamp_msg_init, arena);
     if (!sub) return NULL;
     envoy_admin_v3_CertificateDetails_set_expiration_time(msg, sub);
   }
@@ -321,7 +320,7 @@ UPB_INLINE void envoy_admin_v3_CertificateDetails_set_ocsp_details(envoy_admin_v
 UPB_INLINE struct envoy_admin_v3_CertificateDetails_OcspDetails* envoy_admin_v3_CertificateDetails_mutable_ocsp_details(envoy_admin_v3_CertificateDetails* msg, upb_Arena* arena) {
   struct envoy_admin_v3_CertificateDetails_OcspDetails* sub = (struct envoy_admin_v3_CertificateDetails_OcspDetails*)envoy_admin_v3_CertificateDetails_ocsp_details(msg);
   if (sub == NULL) {
-    sub = (struct envoy_admin_v3_CertificateDetails_OcspDetails*)_upb_Message_New(&envoy_admin_v3_CertificateDetails_OcspDetails_msginit, arena);
+    sub = (struct envoy_admin_v3_CertificateDetails_OcspDetails*)_upb_Message_New(&envoy_admin_v3_CertificateDetails_OcspDetails_msg_init, arena);
     if (!sub) return NULL;
     envoy_admin_v3_CertificateDetails_set_ocsp_details(msg, sub);
   }
@@ -331,12 +330,12 @@ UPB_INLINE struct envoy_admin_v3_CertificateDetails_OcspDetails* envoy_admin_v3_
 /* envoy.admin.v3.CertificateDetails.OcspDetails */
 
 UPB_INLINE envoy_admin_v3_CertificateDetails_OcspDetails* envoy_admin_v3_CertificateDetails_OcspDetails_new(upb_Arena* arena) {
-  return (envoy_admin_v3_CertificateDetails_OcspDetails*)_upb_Message_New(&envoy_admin_v3_CertificateDetails_OcspDetails_msginit, arena);
+  return (envoy_admin_v3_CertificateDetails_OcspDetails*)_upb_Message_New(&envoy_admin_v3_CertificateDetails_OcspDetails_msg_init, arena);
 }
 UPB_INLINE envoy_admin_v3_CertificateDetails_OcspDetails* envoy_admin_v3_CertificateDetails_OcspDetails_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_admin_v3_CertificateDetails_OcspDetails* ret = envoy_admin_v3_CertificateDetails_OcspDetails_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_CertificateDetails_OcspDetails_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_CertificateDetails_OcspDetails_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -346,7 +345,7 @@ UPB_INLINE envoy_admin_v3_CertificateDetails_OcspDetails* envoy_admin_v3_Certifi
                            int options, upb_Arena* arena) {
   envoy_admin_v3_CertificateDetails_OcspDetails* ret = envoy_admin_v3_CertificateDetails_OcspDetails_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_CertificateDetails_OcspDetails_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_CertificateDetails_OcspDetails_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -354,13 +353,13 @@ UPB_INLINE envoy_admin_v3_CertificateDetails_OcspDetails* envoy_admin_v3_Certifi
 }
 UPB_INLINE char* envoy_admin_v3_CertificateDetails_OcspDetails_serialize(const envoy_admin_v3_CertificateDetails_OcspDetails* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_CertificateDetails_OcspDetails_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_CertificateDetails_OcspDetails_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_admin_v3_CertificateDetails_OcspDetails_serialize_ex(const envoy_admin_v3_CertificateDetails_OcspDetails* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_CertificateDetails_OcspDetails_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_CertificateDetails_OcspDetails_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_admin_v3_CertificateDetails_OcspDetails_has_valid_from(const envoy_admin_v3_CertificateDetails_OcspDetails* msg) {
@@ -368,6 +367,7 @@ UPB_INLINE bool envoy_admin_v3_CertificateDetails_OcspDetails_has_valid_from(con
 }
 UPB_INLINE void envoy_admin_v3_CertificateDetails_OcspDetails_clear_valid_from(const envoy_admin_v3_CertificateDetails_OcspDetails* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_Timestamp* envoy_admin_v3_CertificateDetails_OcspDetails_valid_from(const envoy_admin_v3_CertificateDetails_OcspDetails* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const struct google_protobuf_Timestamp*);
@@ -377,6 +377,7 @@ UPB_INLINE bool envoy_admin_v3_CertificateDetails_OcspDetails_has_expiration(con
 }
 UPB_INLINE void envoy_admin_v3_CertificateDetails_OcspDetails_clear_expiration(const envoy_admin_v3_CertificateDetails_OcspDetails* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(8, 16), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 2);
 }
 UPB_INLINE const struct google_protobuf_Timestamp* envoy_admin_v3_CertificateDetails_OcspDetails_expiration(const envoy_admin_v3_CertificateDetails_OcspDetails* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(8, 16), const struct google_protobuf_Timestamp*);
@@ -389,7 +390,7 @@ UPB_INLINE void envoy_admin_v3_CertificateDetails_OcspDetails_set_valid_from(env
 UPB_INLINE struct google_protobuf_Timestamp* envoy_admin_v3_CertificateDetails_OcspDetails_mutable_valid_from(envoy_admin_v3_CertificateDetails_OcspDetails* msg, upb_Arena* arena) {
   struct google_protobuf_Timestamp* sub = (struct google_protobuf_Timestamp*)envoy_admin_v3_CertificateDetails_OcspDetails_valid_from(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Timestamp*)_upb_Message_New(&google_protobuf_Timestamp_msginit, arena);
+    sub = (struct google_protobuf_Timestamp*)_upb_Message_New(&google_protobuf_Timestamp_msg_init, arena);
     if (!sub) return NULL;
     envoy_admin_v3_CertificateDetails_OcspDetails_set_valid_from(msg, sub);
   }
@@ -402,7 +403,7 @@ UPB_INLINE void envoy_admin_v3_CertificateDetails_OcspDetails_set_expiration(env
 UPB_INLINE struct google_protobuf_Timestamp* envoy_admin_v3_CertificateDetails_OcspDetails_mutable_expiration(envoy_admin_v3_CertificateDetails_OcspDetails* msg, upb_Arena* arena) {
   struct google_protobuf_Timestamp* sub = (struct google_protobuf_Timestamp*)envoy_admin_v3_CertificateDetails_OcspDetails_expiration(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Timestamp*)_upb_Message_New(&google_protobuf_Timestamp_msginit, arena);
+    sub = (struct google_protobuf_Timestamp*)_upb_Message_New(&google_protobuf_Timestamp_msg_init, arena);
     if (!sub) return NULL;
     envoy_admin_v3_CertificateDetails_OcspDetails_set_expiration(msg, sub);
   }
@@ -412,12 +413,12 @@ UPB_INLINE struct google_protobuf_Timestamp* envoy_admin_v3_CertificateDetails_O
 /* envoy.admin.v3.SubjectAlternateName */
 
 UPB_INLINE envoy_admin_v3_SubjectAlternateName* envoy_admin_v3_SubjectAlternateName_new(upb_Arena* arena) {
-  return (envoy_admin_v3_SubjectAlternateName*)_upb_Message_New(&envoy_admin_v3_SubjectAlternateName_msginit, arena);
+  return (envoy_admin_v3_SubjectAlternateName*)_upb_Message_New(&envoy_admin_v3_SubjectAlternateName_msg_init, arena);
 }
 UPB_INLINE envoy_admin_v3_SubjectAlternateName* envoy_admin_v3_SubjectAlternateName_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_admin_v3_SubjectAlternateName* ret = envoy_admin_v3_SubjectAlternateName_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_SubjectAlternateName_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_SubjectAlternateName_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -427,7 +428,7 @@ UPB_INLINE envoy_admin_v3_SubjectAlternateName* envoy_admin_v3_SubjectAlternateN
                            int options, upb_Arena* arena) {
   envoy_admin_v3_SubjectAlternateName* ret = envoy_admin_v3_SubjectAlternateName_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_admin_v3_SubjectAlternateName_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_admin_v3_SubjectAlternateName_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -435,13 +436,13 @@ UPB_INLINE envoy_admin_v3_SubjectAlternateName* envoy_admin_v3_SubjectAlternateN
 }
 UPB_INLINE char* envoy_admin_v3_SubjectAlternateName_serialize(const envoy_admin_v3_SubjectAlternateName* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_SubjectAlternateName_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_SubjectAlternateName_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_admin_v3_SubjectAlternateName_serialize_ex(const envoy_admin_v3_SubjectAlternateName* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_admin_v3_SubjectAlternateName_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_admin_v3_SubjectAlternateName_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {

@@ -7,16 +7,17 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "udpa/annotations/sensitive.upb.h"
 #include "google/protobuf/descriptor.upb.h"
 
 #include "upb/port_def.inc"
 
-extern const upb_MiniTable google_protobuf_FieldOptions_msginit;
+extern const upb_MiniTable google_protobuf_FieldOptions_msg_init;
 const upb_MiniTable_Extension udpa_annotations_sensitive_ext = {
   {76569463, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 8, kUpb_FieldMode_Scalar | kUpb_LabelFlags_IsExtension | (kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)},
-  &google_protobuf_FieldOptions_msginit,
+  &google_protobuf_FieldOptions_msg_init,
   {.submsg = NULL},
 
 };

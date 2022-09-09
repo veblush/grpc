@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/admin/v3/certs.upb.h"
 #include "google/protobuf/timestamp.upb.h"
@@ -16,22 +17,22 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_admin_v3_Certificates_submsgs[1] = {
-  {.submsg = &envoy_admin_v3_Certificate_msginit},
+  {.submsg = &envoy_admin_v3_Certificate_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_admin_v3_Certificates__fields[1] = {
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), 0, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_admin_v3_Certificates_msginit = {
+const upb_MiniTable envoy_admin_v3_Certificates_msg_init = {
   &envoy_admin_v3_Certificates_submsgs[0],
   &envoy_admin_v3_Certificates__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_admin_v3_Certificate_submsgs[2] = {
-  {.submsg = &envoy_admin_v3_CertificateDetails_msginit},
-  {.submsg = &envoy_admin_v3_CertificateDetails_msginit},
+  {.submsg = &envoy_admin_v3_CertificateDetails_msg_init},
+  {.submsg = &envoy_admin_v3_CertificateDetails_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_admin_v3_Certificate__fields[2] = {
@@ -39,17 +40,17 @@ static const upb_MiniTable_Field envoy_admin_v3_Certificate__fields[2] = {
   {2, UPB_SIZE(4, 8), UPB_SIZE(0, 0), 1, 11, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_admin_v3_Certificate_msginit = {
+const upb_MiniTable envoy_admin_v3_Certificate_msg_init = {
   &envoy_admin_v3_Certificate_submsgs[0],
   &envoy_admin_v3_Certificate__fields[0],
   UPB_SIZE(8, 16), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_admin_v3_CertificateDetails_submsgs[4] = {
-  {.submsg = &envoy_admin_v3_SubjectAlternateName_msginit},
-  {.submsg = &google_protobuf_Timestamp_msginit},
-  {.submsg = &google_protobuf_Timestamp_msginit},
-  {.submsg = &envoy_admin_v3_CertificateDetails_OcspDetails_msginit},
+  {.submsg = &envoy_admin_v3_SubjectAlternateName_msg_init},
+  {.submsg = &google_protobuf_Timestamp_msg_init},
+  {.submsg = &google_protobuf_Timestamp_msg_init},
+  {.submsg = &envoy_admin_v3_CertificateDetails_OcspDetails_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_admin_v3_CertificateDetails__fields[7] = {
@@ -62,15 +63,15 @@ static const upb_MiniTable_Field envoy_admin_v3_CertificateDetails__fields[7] = 
   {7, UPB_SIZE(32, 64), UPB_SIZE(3, 3), 3, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_admin_v3_CertificateDetails_msginit = {
+const upb_MiniTable envoy_admin_v3_CertificateDetails_msg_init = {
   &envoy_admin_v3_CertificateDetails_submsgs[0],
   &envoy_admin_v3_CertificateDetails__fields[0],
   UPB_SIZE(48, 80), 7, kUpb_ExtMode_NonExtendable, 7, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_admin_v3_CertificateDetails_OcspDetails_submsgs[2] = {
-  {.submsg = &google_protobuf_Timestamp_msginit},
-  {.submsg = &google_protobuf_Timestamp_msginit},
+  {.submsg = &google_protobuf_Timestamp_msg_init},
+  {.submsg = &google_protobuf_Timestamp_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_admin_v3_CertificateDetails_OcspDetails__fields[2] = {
@@ -78,7 +79,7 @@ static const upb_MiniTable_Field envoy_admin_v3_CertificateDetails_OcspDetails__
   {2, UPB_SIZE(8, 16), UPB_SIZE(2, 2), 1, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_admin_v3_CertificateDetails_OcspDetails_msginit = {
+const upb_MiniTable envoy_admin_v3_CertificateDetails_OcspDetails_msg_init = {
   &envoy_admin_v3_CertificateDetails_OcspDetails_submsgs[0],
   &envoy_admin_v3_CertificateDetails_OcspDetails__fields[0],
   UPB_SIZE(16, 24), 2, kUpb_ExtMode_NonExtendable, 2, 255, 0,
@@ -90,18 +91,18 @@ static const upb_MiniTable_Field envoy_admin_v3_SubjectAlternateName__fields[3] 
   {3, UPB_SIZE(4, 8), UPB_SIZE(-1, -1), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_admin_v3_SubjectAlternateName_msginit = {
+const upb_MiniTable envoy_admin_v3_SubjectAlternateName_msg_init = {
   NULL,
   &envoy_admin_v3_SubjectAlternateName__fields[0],
   UPB_SIZE(16, 24), 3, kUpb_ExtMode_NonExtendable, 3, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[5] = {
-  &envoy_admin_v3_Certificates_msginit,
-  &envoy_admin_v3_Certificate_msginit,
-  &envoy_admin_v3_CertificateDetails_msginit,
-  &envoy_admin_v3_CertificateDetails_OcspDetails_msginit,
-  &envoy_admin_v3_SubjectAlternateName_msginit,
+  &envoy_admin_v3_Certificates_msg_init,
+  &envoy_admin_v3_Certificate_msg_init,
+  &envoy_admin_v3_CertificateDetails_msg_init,
+  &envoy_admin_v3_CertificateDetails_OcspDetails_msg_init,
+  &envoy_admin_v3_SubjectAlternateName_msg_init,
 };
 
 const upb_MiniTable_File envoy_admin_v3_certs_proto_upb_file_layout = {

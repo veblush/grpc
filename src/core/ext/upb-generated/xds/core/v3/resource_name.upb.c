@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "xds/core/v3/resource_name.upb.h"
 #include "xds/annotations/v3/status.upb.h"
@@ -16,7 +17,7 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub xds_core_v3_ResourceName_submsgs[1] = {
-  {.submsg = &xds_core_v3_ContextParams_msginit},
+  {.submsg = &xds_core_v3_ContextParams_msg_init},
 };
 
 static const upb_MiniTable_Field xds_core_v3_ResourceName__fields[4] = {
@@ -26,14 +27,14 @@ static const upb_MiniTable_Field xds_core_v3_ResourceName__fields[4] = {
   {4, UPB_SIZE(28, 56), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable xds_core_v3_ResourceName_msginit = {
+const upb_MiniTable xds_core_v3_ResourceName_msg_init = {
   &xds_core_v3_ResourceName_submsgs[0],
   &xds_core_v3_ResourceName__fields[0],
   UPB_SIZE(32, 64), 4, kUpb_ExtMode_NonExtendable, 4, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &xds_core_v3_ResourceName_msginit,
+  &xds_core_v3_ResourceName_msg_init,
 };
 
 const upb_MiniTable_File xds_core_v3_resource_name_proto_upb_file_layout = {

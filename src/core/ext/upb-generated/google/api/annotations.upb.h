@@ -9,11 +9,12 @@
 #ifndef GOOGLE_API_ANNOTATIONS_PROTO_UPB_H_
 #define GOOGLE_API_ANNOTATIONS_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
@@ -22,7 +23,7 @@ extern "C" {
 
 extern const upb_MiniTable_Extension google_api_http_ext;
 struct google_protobuf_MethodOptions;
-extern const upb_MiniTable google_protobuf_MethodOptions_msginit;
+extern const upb_MiniTable google_protobuf_MethodOptions_msg_init;
 
 
 UPB_INLINE bool google_api_has_http(const struct google_protobuf_MethodOptions* msg) {

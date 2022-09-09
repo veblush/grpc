@@ -9,38 +9,36 @@
 #ifndef ENVOY_TYPE_V3_HASH_POLICY_PROTO_UPB_H_
 #define ENVOY_TYPE_V3_HASH_POLICY_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_type_v3_HashPolicy;
-struct envoy_type_v3_HashPolicy_SourceIp;
-struct envoy_type_v3_HashPolicy_FilterState;
 typedef struct envoy_type_v3_HashPolicy envoy_type_v3_HashPolicy;
 typedef struct envoy_type_v3_HashPolicy_SourceIp envoy_type_v3_HashPolicy_SourceIp;
 typedef struct envoy_type_v3_HashPolicy_FilterState envoy_type_v3_HashPolicy_FilterState;
-extern const upb_MiniTable envoy_type_v3_HashPolicy_msginit;
-extern const upb_MiniTable envoy_type_v3_HashPolicy_SourceIp_msginit;
-extern const upb_MiniTable envoy_type_v3_HashPolicy_FilterState_msginit;
+extern const upb_MiniTable envoy_type_v3_HashPolicy_msg_init;
+extern const upb_MiniTable envoy_type_v3_HashPolicy_SourceIp_msg_init;
+extern const upb_MiniTable envoy_type_v3_HashPolicy_FilterState_msg_init;
 
 
 
 /* envoy.type.v3.HashPolicy */
 
 UPB_INLINE envoy_type_v3_HashPolicy* envoy_type_v3_HashPolicy_new(upb_Arena* arena) {
-  return (envoy_type_v3_HashPolicy*)_upb_Message_New(&envoy_type_v3_HashPolicy_msginit, arena);
+  return (envoy_type_v3_HashPolicy*)_upb_Message_New(&envoy_type_v3_HashPolicy_msg_init, arena);
 }
 UPB_INLINE envoy_type_v3_HashPolicy* envoy_type_v3_HashPolicy_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_type_v3_HashPolicy* ret = envoy_type_v3_HashPolicy_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_HashPolicy_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_HashPolicy_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -50,7 +48,7 @@ UPB_INLINE envoy_type_v3_HashPolicy* envoy_type_v3_HashPolicy_parse_ex(const cha
                            int options, upb_Arena* arena) {
   envoy_type_v3_HashPolicy* ret = envoy_type_v3_HashPolicy_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_HashPolicy_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_HashPolicy_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -58,13 +56,13 @@ UPB_INLINE envoy_type_v3_HashPolicy* envoy_type_v3_HashPolicy_parse_ex(const cha
 }
 UPB_INLINE char* envoy_type_v3_HashPolicy_serialize(const envoy_type_v3_HashPolicy* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_HashPolicy_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_HashPolicy_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_type_v3_HashPolicy_serialize_ex(const envoy_type_v3_HashPolicy* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_HashPolicy_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_HashPolicy_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {
@@ -100,7 +98,7 @@ UPB_INLINE void envoy_type_v3_HashPolicy_set_source_ip(envoy_type_v3_HashPolicy 
 UPB_INLINE struct envoy_type_v3_HashPolicy_SourceIp* envoy_type_v3_HashPolicy_mutable_source_ip(envoy_type_v3_HashPolicy* msg, upb_Arena* arena) {
   struct envoy_type_v3_HashPolicy_SourceIp* sub = (struct envoy_type_v3_HashPolicy_SourceIp*)envoy_type_v3_HashPolicy_source_ip(msg);
   if (sub == NULL) {
-    sub = (struct envoy_type_v3_HashPolicy_SourceIp*)_upb_Message_New(&envoy_type_v3_HashPolicy_SourceIp_msginit, arena);
+    sub = (struct envoy_type_v3_HashPolicy_SourceIp*)_upb_Message_New(&envoy_type_v3_HashPolicy_SourceIp_msg_init, arena);
     if (!sub) return NULL;
     envoy_type_v3_HashPolicy_set_source_ip(msg, sub);
   }
@@ -112,7 +110,7 @@ UPB_INLINE void envoy_type_v3_HashPolicy_set_filter_state(envoy_type_v3_HashPoli
 UPB_INLINE struct envoy_type_v3_HashPolicy_FilterState* envoy_type_v3_HashPolicy_mutable_filter_state(envoy_type_v3_HashPolicy* msg, upb_Arena* arena) {
   struct envoy_type_v3_HashPolicy_FilterState* sub = (struct envoy_type_v3_HashPolicy_FilterState*)envoy_type_v3_HashPolicy_filter_state(msg);
   if (sub == NULL) {
-    sub = (struct envoy_type_v3_HashPolicy_FilterState*)_upb_Message_New(&envoy_type_v3_HashPolicy_FilterState_msginit, arena);
+    sub = (struct envoy_type_v3_HashPolicy_FilterState*)_upb_Message_New(&envoy_type_v3_HashPolicy_FilterState_msg_init, arena);
     if (!sub) return NULL;
     envoy_type_v3_HashPolicy_set_filter_state(msg, sub);
   }
@@ -122,12 +120,12 @@ UPB_INLINE struct envoy_type_v3_HashPolicy_FilterState* envoy_type_v3_HashPolicy
 /* envoy.type.v3.HashPolicy.SourceIp */
 
 UPB_INLINE envoy_type_v3_HashPolicy_SourceIp* envoy_type_v3_HashPolicy_SourceIp_new(upb_Arena* arena) {
-  return (envoy_type_v3_HashPolicy_SourceIp*)_upb_Message_New(&envoy_type_v3_HashPolicy_SourceIp_msginit, arena);
+  return (envoy_type_v3_HashPolicy_SourceIp*)_upb_Message_New(&envoy_type_v3_HashPolicy_SourceIp_msg_init, arena);
 }
 UPB_INLINE envoy_type_v3_HashPolicy_SourceIp* envoy_type_v3_HashPolicy_SourceIp_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_type_v3_HashPolicy_SourceIp* ret = envoy_type_v3_HashPolicy_SourceIp_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_HashPolicy_SourceIp_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_HashPolicy_SourceIp_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -137,7 +135,7 @@ UPB_INLINE envoy_type_v3_HashPolicy_SourceIp* envoy_type_v3_HashPolicy_SourceIp_
                            int options, upb_Arena* arena) {
   envoy_type_v3_HashPolicy_SourceIp* ret = envoy_type_v3_HashPolicy_SourceIp_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_HashPolicy_SourceIp_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_HashPolicy_SourceIp_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -145,13 +143,13 @@ UPB_INLINE envoy_type_v3_HashPolicy_SourceIp* envoy_type_v3_HashPolicy_SourceIp_
 }
 UPB_INLINE char* envoy_type_v3_HashPolicy_SourceIp_serialize(const envoy_type_v3_HashPolicy_SourceIp* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_HashPolicy_SourceIp_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_HashPolicy_SourceIp_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_type_v3_HashPolicy_SourceIp_serialize_ex(const envoy_type_v3_HashPolicy_SourceIp* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_HashPolicy_SourceIp_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_HashPolicy_SourceIp_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 
@@ -159,12 +157,12 @@ UPB_INLINE char* envoy_type_v3_HashPolicy_SourceIp_serialize_ex(const envoy_type
 /* envoy.type.v3.HashPolicy.FilterState */
 
 UPB_INLINE envoy_type_v3_HashPolicy_FilterState* envoy_type_v3_HashPolicy_FilterState_new(upb_Arena* arena) {
-  return (envoy_type_v3_HashPolicy_FilterState*)_upb_Message_New(&envoy_type_v3_HashPolicy_FilterState_msginit, arena);
+  return (envoy_type_v3_HashPolicy_FilterState*)_upb_Message_New(&envoy_type_v3_HashPolicy_FilterState_msg_init, arena);
 }
 UPB_INLINE envoy_type_v3_HashPolicy_FilterState* envoy_type_v3_HashPolicy_FilterState_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_type_v3_HashPolicy_FilterState* ret = envoy_type_v3_HashPolicy_FilterState_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_HashPolicy_FilterState_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_HashPolicy_FilterState_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -174,7 +172,7 @@ UPB_INLINE envoy_type_v3_HashPolicy_FilterState* envoy_type_v3_HashPolicy_Filter
                            int options, upb_Arena* arena) {
   envoy_type_v3_HashPolicy_FilterState* ret = envoy_type_v3_HashPolicy_FilterState_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_type_v3_HashPolicy_FilterState_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_type_v3_HashPolicy_FilterState_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -182,13 +180,13 @@ UPB_INLINE envoy_type_v3_HashPolicy_FilterState* envoy_type_v3_HashPolicy_Filter
 }
 UPB_INLINE char* envoy_type_v3_HashPolicy_FilterState_serialize(const envoy_type_v3_HashPolicy_FilterState* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_HashPolicy_FilterState_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_HashPolicy_FilterState_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_type_v3_HashPolicy_FilterState_serialize_ex(const envoy_type_v3_HashPolicy_FilterState* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_type_v3_HashPolicy_FilterState_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_type_v3_HashPolicy_FilterState_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_type_v3_HashPolicy_FilterState_clear_key(const envoy_type_v3_HashPolicy_FilterState* msg) {

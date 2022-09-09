@@ -9,20 +9,21 @@
 #ifndef ENVOY_CONFIG_TRACE_V3_TRACE_PROTO_UPB_H_
 #define ENVOY_CONFIG_TRACE_V3_TRACE_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 /* Public Imports. */
-#include "envoy/config/trace/v3/trace.upb.h"
-#include "envoy/config/trace/v3/trace.upb.h"
-#include "envoy/config/trace/v3/trace.upb.h"
-#include "envoy/config/trace/v3/trace.upb.h"
-#include "envoy/config/trace/v3/trace.upb.h"
-#include "envoy/config/trace/v3/trace.upb.h"
-#include "envoy/config/trace/v3/trace.upb.h"
-#include "envoy/config/trace/v3/trace.upb.h"
+#include "envoy/config/trace/v3/datadog.upb.h"
+#include "envoy/config/trace/v3/dynamic_ot.upb.h"
+#include "envoy/config/trace/v3/http_tracer.upb.h"
+#include "envoy/config/trace/v3/lightstep.upb.h"
+#include "envoy/config/trace/v3/opencensus.upb.h"
+#include "envoy/config/trace/v3/opentelemetry.upb.h"
+#include "envoy/config/trace/v3/service.upb.h"
+#include "envoy/config/trace/v3/zipkin.upb.h"
 
 #include "upb/port_def.inc"
 

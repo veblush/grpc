@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/type/matcher/v3/metadata.upb.h"
 #include "envoy/type/matcher/v3/value.upb.h"
@@ -17,8 +18,8 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_type_matcher_v3_MetadataMatcher_submsgs[2] = {
-  {.submsg = &envoy_type_matcher_v3_MetadataMatcher_PathSegment_msginit},
-  {.submsg = &envoy_type_matcher_v3_ValueMatcher_msginit},
+  {.submsg = &envoy_type_matcher_v3_MetadataMatcher_PathSegment_msg_init},
+  {.submsg = &envoy_type_matcher_v3_ValueMatcher_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_type_matcher_v3_MetadataMatcher__fields[4] = {
@@ -28,7 +29,7 @@ static const upb_MiniTable_Field envoy_type_matcher_v3_MetadataMatcher__fields[4
   {4, UPB_SIZE(1, 1), UPB_SIZE(0, 0), kUpb_NoSub, 8, kUpb_FieldMode_Scalar | (kUpb_FieldRep_1Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_type_matcher_v3_MetadataMatcher_msginit = {
+const upb_MiniTable envoy_type_matcher_v3_MetadataMatcher_msg_init = {
   &envoy_type_matcher_v3_MetadataMatcher_submsgs[0],
   &envoy_type_matcher_v3_MetadataMatcher__fields[0],
   UPB_SIZE(24, 40), 4, kUpb_ExtMode_NonExtendable, 4, 255, 0,
@@ -38,15 +39,15 @@ static const upb_MiniTable_Field envoy_type_matcher_v3_MetadataMatcher_PathSegme
   {1, UPB_SIZE(4, 8), UPB_SIZE(-1, -1), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_type_matcher_v3_MetadataMatcher_PathSegment_msginit = {
+const upb_MiniTable envoy_type_matcher_v3_MetadataMatcher_PathSegment_msg_init = {
   NULL,
   &envoy_type_matcher_v3_MetadataMatcher_PathSegment__fields[0],
   UPB_SIZE(16, 24), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[2] = {
-  &envoy_type_matcher_v3_MetadataMatcher_msginit,
-  &envoy_type_matcher_v3_MetadataMatcher_PathSegment_msginit,
+  &envoy_type_matcher_v3_MetadataMatcher_msg_init,
+  &envoy_type_matcher_v3_MetadataMatcher_PathSegment_msg_init,
 };
 
 const upb_MiniTable_File envoy_type_matcher_v3_metadata_proto_upb_file_layout = {

@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/trace/v3/http_tracer.upb.h"
 #include "google/protobuf/any.upb.h"
@@ -17,21 +18,21 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_config_trace_v3_Tracing_submsgs[1] = {
-  {.submsg = &envoy_config_trace_v3_Tracing_Http_msginit},
+  {.submsg = &envoy_config_trace_v3_Tracing_Http_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_trace_v3_Tracing__fields[1] = {
   {1, UPB_SIZE(4, 8), UPB_SIZE(1, 1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_trace_v3_Tracing_msginit = {
+const upb_MiniTable envoy_config_trace_v3_Tracing_msg_init = {
   &envoy_config_trace_v3_Tracing_submsgs[0],
   &envoy_config_trace_v3_Tracing__fields[0],
   UPB_SIZE(8, 16), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable_Sub envoy_config_trace_v3_Tracing_Http_submsgs[1] = {
-  {.submsg = &google_protobuf_Any_msginit},
+  {.submsg = &google_protobuf_Any_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_trace_v3_Tracing_Http__fields[2] = {
@@ -39,15 +40,15 @@ static const upb_MiniTable_Field envoy_config_trace_v3_Tracing_Http__fields[2] =
   {3, UPB_SIZE(12, 24), UPB_SIZE(-1, -1), 0, 11, kUpb_FieldMode_Scalar | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_trace_v3_Tracing_Http_msginit = {
+const upb_MiniTable envoy_config_trace_v3_Tracing_Http_msg_init = {
   &envoy_config_trace_v3_Tracing_Http_submsgs[0],
   &envoy_config_trace_v3_Tracing_Http__fields[0],
   UPB_SIZE(16, 32), 2, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[2] = {
-  &envoy_config_trace_v3_Tracing_msginit,
-  &envoy_config_trace_v3_Tracing_Http_msginit,
+  &envoy_config_trace_v3_Tracing_msg_init,
+  &envoy_config_trace_v3_Tracing_Http_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_trace_v3_http_tracer_proto_upb_file_layout = {

@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/config/trace/v3/zipkin.upb.h"
 #include "google/protobuf/wrappers.upb.h"
@@ -19,7 +20,7 @@
 #include "upb/port_def.inc"
 
 static const upb_MiniTable_Sub envoy_config_trace_v3_ZipkinConfig_submsgs[1] = {
-  {.submsg = &google_protobuf_BoolValue_msginit},
+  {.submsg = &google_protobuf_BoolValue_msg_init},
 };
 
 static const upb_MiniTable_Field envoy_config_trace_v3_ZipkinConfig__fields[6] = {
@@ -31,14 +32,14 @@ static const upb_MiniTable_Field envoy_config_trace_v3_ZipkinConfig__fields[6] =
   {6, UPB_SIZE(28, 48), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Scalar | (kUpb_FieldRep_StringView << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_config_trace_v3_ZipkinConfig_msginit = {
+const upb_MiniTable envoy_config_trace_v3_ZipkinConfig_msg_init = {
   &envoy_config_trace_v3_ZipkinConfig_submsgs[0],
   &envoy_config_trace_v3_ZipkinConfig__fields[0],
   UPB_SIZE(40, 64), 6, kUpb_ExtMode_NonExtendable, 6, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_config_trace_v3_ZipkinConfig_msginit,
+  &envoy_config_trace_v3_ZipkinConfig_msg_init,
 };
 
 const upb_MiniTable_File envoy_config_trace_v3_zipkin_proto_upb_file_layout = {

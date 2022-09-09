@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/extensions/clusters/aggregate/v3/cluster.upb.h"
 #include "udpa/annotations/status.upb.h"
@@ -19,14 +20,14 @@ static const upb_MiniTable_Field envoy_extensions_clusters_aggregate_v3_ClusterC
   {1, UPB_SIZE(0, 0), UPB_SIZE(0, 0), kUpb_NoSub, 9, kUpb_FieldMode_Array | (kUpb_FieldRep_Pointer << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_extensions_clusters_aggregate_v3_ClusterConfig_msginit = {
+const upb_MiniTable envoy_extensions_clusters_aggregate_v3_ClusterConfig_msg_init = {
   NULL,
   &envoy_extensions_clusters_aggregate_v3_ClusterConfig__fields[0],
   UPB_SIZE(8, 8), 1, kUpb_ExtMode_NonExtendable, 1, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_extensions_clusters_aggregate_v3_ClusterConfig_msginit,
+  &envoy_extensions_clusters_aggregate_v3_ClusterConfig_msg_init,
 };
 
 const upb_MiniTable_File envoy_extensions_clusters_aggregate_v3_cluster_proto_upb_file_layout = {

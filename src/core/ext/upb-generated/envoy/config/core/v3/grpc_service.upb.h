@@ -9,31 +9,18 @@
 #ifndef ENVOY_CONFIG_CORE_V3_GRPC_SERVICE_PROTO_UPB_H_
 #define ENVOY_CONFIG_CORE_V3_GRPC_SERVICE_PROTO_UPB_H_
 
-#include "upb/msg_internal.h"
 #include "upb/decode.h"
 #include "upb/decode_fast.h"
 #include "upb/encode.h"
 
+#include "upb/internal/array.h"
+#include "upb/msg_internal.h"
 #include "upb/port_def.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct envoy_config_core_v3_GrpcService;
-struct envoy_config_core_v3_GrpcService_EnvoyGrpc;
-struct envoy_config_core_v3_GrpcService_GoogleGrpc;
-struct envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials;
-struct envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials;
-struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials;
-struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials;
-struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials;
-struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials;
-struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin;
-struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService;
-struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs;
-struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value;
-struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_ArgsEntry;
 typedef struct envoy_config_core_v3_GrpcService envoy_config_core_v3_GrpcService;
 typedef struct envoy_config_core_v3_GrpcService_EnvoyGrpc envoy_config_core_v3_GrpcService_EnvoyGrpc;
 typedef struct envoy_config_core_v3_GrpcService_GoogleGrpc envoy_config_core_v3_GrpcService_GoogleGrpc;
@@ -48,20 +35,20 @@ typedef struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsSe
 typedef struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs;
 typedef struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value;
 typedef struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_ArgsEntry envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_ArgsEntry;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_EnvoyGrpc_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_msginit;
-extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_ArgsEntry_msginit;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_EnvoyGrpc_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_ArgsEntry_msg_init;
 struct envoy_config_core_v3_DataSource;
 struct envoy_config_core_v3_HeaderValue;
 struct google_protobuf_Any;
@@ -69,25 +56,25 @@ struct google_protobuf_Duration;
 struct google_protobuf_Empty;
 struct google_protobuf_Struct;
 struct google_protobuf_UInt32Value;
-extern const upb_MiniTable envoy_config_core_v3_DataSource_msginit;
-extern const upb_MiniTable envoy_config_core_v3_HeaderValue_msginit;
-extern const upb_MiniTable google_protobuf_Any_msginit;
-extern const upb_MiniTable google_protobuf_Duration_msginit;
-extern const upb_MiniTable google_protobuf_Empty_msginit;
-extern const upb_MiniTable google_protobuf_Struct_msginit;
-extern const upb_MiniTable google_protobuf_UInt32Value_msginit;
+extern const upb_MiniTable envoy_config_core_v3_DataSource_msg_init;
+extern const upb_MiniTable envoy_config_core_v3_HeaderValue_msg_init;
+extern const upb_MiniTable google_protobuf_Any_msg_init;
+extern const upb_MiniTable google_protobuf_Duration_msg_init;
+extern const upb_MiniTable google_protobuf_Empty_msg_init;
+extern const upb_MiniTable google_protobuf_Struct_msg_init;
+extern const upb_MiniTable google_protobuf_UInt32Value_msg_init;
 
 
 
 /* envoy.config.core.v3.GrpcService */
 
 UPB_INLINE envoy_config_core_v3_GrpcService* envoy_config_core_v3_GrpcService_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcService*)_upb_Message_New(&envoy_config_core_v3_GrpcService_msginit, arena);
+  return (envoy_config_core_v3_GrpcService*)_upb_Message_New(&envoy_config_core_v3_GrpcService_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcService* envoy_config_core_v3_GrpcService_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService* ret = envoy_config_core_v3_GrpcService_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -97,7 +84,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService* envoy_config_core_v3_GrpcService_pa
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService* ret = envoy_config_core_v3_GrpcService_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -105,13 +92,13 @@ UPB_INLINE envoy_config_core_v3_GrpcService* envoy_config_core_v3_GrpcService_pa
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_serialize(const envoy_config_core_v3_GrpcService* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_serialize_ex(const envoy_config_core_v3_GrpcService* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {
@@ -145,6 +132,7 @@ UPB_INLINE bool envoy_config_core_v3_GrpcService_has_timeout(const envoy_config_
 }
 UPB_INLINE void envoy_config_core_v3_GrpcService_clear_timeout(const envoy_config_core_v3_GrpcService* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(8, 8), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct google_protobuf_Duration* envoy_config_core_v3_GrpcService_timeout(const envoy_config_core_v3_GrpcService* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(8, 8), const struct google_protobuf_Duration*);
@@ -165,7 +153,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_set_envoy_grpc(envoy_config_cor
 UPB_INLINE struct envoy_config_core_v3_GrpcService_EnvoyGrpc* envoy_config_core_v3_GrpcService_mutable_envoy_grpc(envoy_config_core_v3_GrpcService* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_GrpcService_EnvoyGrpc* sub = (struct envoy_config_core_v3_GrpcService_EnvoyGrpc*)envoy_config_core_v3_GrpcService_envoy_grpc(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_GrpcService_EnvoyGrpc*)_upb_Message_New(&envoy_config_core_v3_GrpcService_EnvoyGrpc_msginit, arena);
+    sub = (struct envoy_config_core_v3_GrpcService_EnvoyGrpc*)_upb_Message_New(&envoy_config_core_v3_GrpcService_EnvoyGrpc_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_set_envoy_grpc(msg, sub);
   }
@@ -177,7 +165,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_set_google_grpc(envoy_config_co
 UPB_INLINE struct envoy_config_core_v3_GrpcService_GoogleGrpc* envoy_config_core_v3_GrpcService_mutable_google_grpc(envoy_config_core_v3_GrpcService* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_GrpcService_GoogleGrpc* sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc*)envoy_config_core_v3_GrpcService_google_grpc(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_msginit, arena);
+    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_set_google_grpc(msg, sub);
   }
@@ -190,7 +178,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_set_timeout(envoy_config_core_v
 UPB_INLINE struct google_protobuf_Duration* envoy_config_core_v3_GrpcService_mutable_timeout(envoy_config_core_v3_GrpcService* msg, upb_Arena* arena) {
   struct google_protobuf_Duration* sub = (struct google_protobuf_Duration*)envoy_config_core_v3_GrpcService_timeout(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msginit, arena);
+    sub = (struct google_protobuf_Duration*)_upb_Message_New(&google_protobuf_Duration_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_set_timeout(msg, sub);
   }
@@ -203,7 +191,7 @@ UPB_INLINE struct envoy_config_core_v3_HeaderValue** envoy_config_core_v3_GrpcSe
   return (struct envoy_config_core_v3_HeaderValue**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(12, 16), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_core_v3_HeaderValue* envoy_config_core_v3_GrpcService_add_initial_metadata(envoy_config_core_v3_GrpcService* msg, upb_Arena* arena) {
-  struct envoy_config_core_v3_HeaderValue* sub = (struct envoy_config_core_v3_HeaderValue*)_upb_Message_New(&envoy_config_core_v3_HeaderValue_msginit, arena);
+  struct envoy_config_core_v3_HeaderValue* sub = (struct envoy_config_core_v3_HeaderValue*)_upb_Message_New(&envoy_config_core_v3_HeaderValue_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(12, 16), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -212,12 +200,12 @@ UPB_INLINE struct envoy_config_core_v3_HeaderValue* envoy_config_core_v3_GrpcSer
 /* envoy.config.core.v3.GrpcService.EnvoyGrpc */
 
 UPB_INLINE envoy_config_core_v3_GrpcService_EnvoyGrpc* envoy_config_core_v3_GrpcService_EnvoyGrpc_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcService_EnvoyGrpc*)_upb_Message_New(&envoy_config_core_v3_GrpcService_EnvoyGrpc_msginit, arena);
+  return (envoy_config_core_v3_GrpcService_EnvoyGrpc*)_upb_Message_New(&envoy_config_core_v3_GrpcService_EnvoyGrpc_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcService_EnvoyGrpc* envoy_config_core_v3_GrpcService_EnvoyGrpc_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_EnvoyGrpc* ret = envoy_config_core_v3_GrpcService_EnvoyGrpc_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_EnvoyGrpc_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_EnvoyGrpc_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -227,7 +215,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService_EnvoyGrpc* envoy_config_core_v3_Grpc
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_EnvoyGrpc* ret = envoy_config_core_v3_GrpcService_EnvoyGrpc_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_EnvoyGrpc_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_EnvoyGrpc_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -235,13 +223,13 @@ UPB_INLINE envoy_config_core_v3_GrpcService_EnvoyGrpc* envoy_config_core_v3_Grpc
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_EnvoyGrpc_serialize(const envoy_config_core_v3_GrpcService_EnvoyGrpc* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_EnvoyGrpc_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_EnvoyGrpc_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_EnvoyGrpc_serialize_ex(const envoy_config_core_v3_GrpcService_EnvoyGrpc* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_EnvoyGrpc_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_EnvoyGrpc_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_config_core_v3_GrpcService_EnvoyGrpc_clear_cluster_name(const envoy_config_core_v3_GrpcService_EnvoyGrpc* msg) {
@@ -267,12 +255,12 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_EnvoyGrpc_set_authority(envoy_c
 /* envoy.config.core.v3.GrpcService.GoogleGrpc */
 
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc* envoy_config_core_v3_GrpcService_GoogleGrpc_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcService_GoogleGrpc*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_msginit, arena);
+  return (envoy_config_core_v3_GrpcService_GoogleGrpc*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc* envoy_config_core_v3_GrpcService_GoogleGrpc_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -282,7 +270,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc* envoy_config_core_v3_Grp
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -290,13 +278,13 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc* envoy_config_core_v3_Grp
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_serialize(const envoy_config_core_v3_GrpcService_GoogleGrpc* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_serialize_ex(const envoy_config_core_v3_GrpcService_GoogleGrpc* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_clear_target_uri(const envoy_config_core_v3_GrpcService_GoogleGrpc* msg) {
@@ -310,6 +298,7 @@ UPB_INLINE bool envoy_config_core_v3_GrpcService_GoogleGrpc_has_channel_credenti
 }
 UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_clear_channel_credentials(const envoy_config_core_v3_GrpcService_GoogleGrpc* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(12, 24), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_channel_credentials(const envoy_config_core_v3_GrpcService_GoogleGrpc* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(12, 24), const envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials*);
@@ -340,6 +329,7 @@ UPB_INLINE bool envoy_config_core_v3_GrpcService_GoogleGrpc_has_config(const env
 }
 UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_clear_config(const envoy_config_core_v3_GrpcService_GoogleGrpc* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(36, 72), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 2);
 }
 UPB_INLINE const struct google_protobuf_Struct* envoy_config_core_v3_GrpcService_GoogleGrpc_config(const envoy_config_core_v3_GrpcService_GoogleGrpc* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(36, 72), const struct google_protobuf_Struct*);
@@ -349,6 +339,7 @@ UPB_INLINE bool envoy_config_core_v3_GrpcService_GoogleGrpc_has_per_stream_buffe
 }
 UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_clear_per_stream_buffer_limit_bytes(const envoy_config_core_v3_GrpcService_GoogleGrpc* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(40, 80), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 3);
 }
 UPB_INLINE const struct google_protobuf_UInt32Value* envoy_config_core_v3_GrpcService_GoogleGrpc_per_stream_buffer_limit_bytes(const envoy_config_core_v3_GrpcService_GoogleGrpc* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(40, 80), const struct google_protobuf_UInt32Value*);
@@ -358,6 +349,7 @@ UPB_INLINE bool envoy_config_core_v3_GrpcService_GoogleGrpc_has_channel_args(con
 }
 UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_clear_channel_args(const envoy_config_core_v3_GrpcService_GoogleGrpc* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(44, 88), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 4);
 }
 UPB_INLINE const envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs* envoy_config_core_v3_GrpcService_GoogleGrpc_channel_args(const envoy_config_core_v3_GrpcService_GoogleGrpc* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(44, 88), const envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs*);
@@ -373,7 +365,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_set_channel_credenti
 UPB_INLINE struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_mutable_channel_credentials(envoy_config_core_v3_GrpcService_GoogleGrpc* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials*)envoy_config_core_v3_GrpcService_GoogleGrpc_channel_credentials(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msginit, arena);
+    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_set_channel_credentials(msg, sub);
   }
@@ -386,7 +378,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials** envoy_c
   return (envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials**)_upb_Array_Resize_accessor2(msg, UPB_SIZE(16, 32), len, UPB_SIZE(2, 3), arena);
 }
 UPB_INLINE struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_add_call_credentials(envoy_config_core_v3_GrpcService_GoogleGrpc* msg, upb_Arena* arena) {
-  struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msginit, arena);
+  struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msg_init, arena);
   bool ok = _upb_Array_Append_accessor2(msg, UPB_SIZE(16, 32), UPB_SIZE(2, 3), &sub, arena);
   if (!ok) return NULL;
   return sub;
@@ -404,7 +396,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_set_config(envoy_con
 UPB_INLINE struct google_protobuf_Struct* envoy_config_core_v3_GrpcService_GoogleGrpc_mutable_config(envoy_config_core_v3_GrpcService_GoogleGrpc* msg, upb_Arena* arena) {
   struct google_protobuf_Struct* sub = (struct google_protobuf_Struct*)envoy_config_core_v3_GrpcService_GoogleGrpc_config(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Struct*)_upb_Message_New(&google_protobuf_Struct_msginit, arena);
+    sub = (struct google_protobuf_Struct*)_upb_Message_New(&google_protobuf_Struct_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_set_config(msg, sub);
   }
@@ -417,7 +409,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_set_per_stream_buffe
 UPB_INLINE struct google_protobuf_UInt32Value* envoy_config_core_v3_GrpcService_GoogleGrpc_mutable_per_stream_buffer_limit_bytes(envoy_config_core_v3_GrpcService_GoogleGrpc* msg, upb_Arena* arena) {
   struct google_protobuf_UInt32Value* sub = (struct google_protobuf_UInt32Value*)envoy_config_core_v3_GrpcService_GoogleGrpc_per_stream_buffer_limit_bytes(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msginit, arena);
+    sub = (struct google_protobuf_UInt32Value*)_upb_Message_New(&google_protobuf_UInt32Value_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_set_per_stream_buffer_limit_bytes(msg, sub);
   }
@@ -430,7 +422,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_set_channel_args(env
 UPB_INLINE struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs* envoy_config_core_v3_GrpcService_GoogleGrpc_mutable_channel_args(envoy_config_core_v3_GrpcService_GoogleGrpc* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs* sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs*)envoy_config_core_v3_GrpcService_GoogleGrpc_channel_args(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msginit, arena);
+    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_set_channel_args(msg, sub);
   }
@@ -440,12 +432,12 @@ UPB_INLINE struct envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs* envoy
 /* envoy.config.core.v3.GrpcService.GoogleGrpc.SslCredentials */
 
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msginit, arena);
+  return (envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -455,7 +447,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* envoy_con
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -463,13 +455,13 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* envoy_con
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_serialize(const envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_serialize_ex(const envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_has_root_certs(const envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* msg) {
@@ -477,6 +469,7 @@ UPB_INLINE bool envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_has_r
 }
 UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_clear_root_certs(const envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 1);
 }
 UPB_INLINE const struct envoy_config_core_v3_DataSource* envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_root_certs(const envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(4, 8), const struct envoy_config_core_v3_DataSource*);
@@ -486,6 +479,7 @@ UPB_INLINE bool envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_has_p
 }
 UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_clear_private_key(const envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(8, 16), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 2);
 }
 UPB_INLINE const struct envoy_config_core_v3_DataSource* envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_private_key(const envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(8, 16), const struct envoy_config_core_v3_DataSource*);
@@ -495,6 +489,7 @@ UPB_INLINE bool envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_has_c
 }
 UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_clear_cert_chain(const envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* msg) {
   *UPB_PTR_AT(msg, UPB_SIZE(12, 24), const upb_Message*) = NULL;
+  _upb_clearhas(msg, 3);
 }
 UPB_INLINE const struct envoy_config_core_v3_DataSource* envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_cert_chain(const envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* msg) {
   return *UPB_PTR_AT(msg, UPB_SIZE(12, 24), const struct envoy_config_core_v3_DataSource*);
@@ -507,7 +502,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_set_r
 UPB_INLINE struct envoy_config_core_v3_DataSource* envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_mutable_root_certs(envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_DataSource* sub = (struct envoy_config_core_v3_DataSource*)envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_root_certs(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_DataSource*)_upb_Message_New(&envoy_config_core_v3_DataSource_msginit, arena);
+    sub = (struct envoy_config_core_v3_DataSource*)_upb_Message_New(&envoy_config_core_v3_DataSource_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_set_root_certs(msg, sub);
   }
@@ -520,7 +515,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_set_p
 UPB_INLINE struct envoy_config_core_v3_DataSource* envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_mutable_private_key(envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_DataSource* sub = (struct envoy_config_core_v3_DataSource*)envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_private_key(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_DataSource*)_upb_Message_New(&envoy_config_core_v3_DataSource_msginit, arena);
+    sub = (struct envoy_config_core_v3_DataSource*)_upb_Message_New(&envoy_config_core_v3_DataSource_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_set_private_key(msg, sub);
   }
@@ -533,7 +528,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_set_c
 UPB_INLINE struct envoy_config_core_v3_DataSource* envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_mutable_cert_chain(envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_DataSource* sub = (struct envoy_config_core_v3_DataSource*)envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_cert_chain(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_DataSource*)_upb_Message_New(&envoy_config_core_v3_DataSource_msginit, arena);
+    sub = (struct envoy_config_core_v3_DataSource*)_upb_Message_New(&envoy_config_core_v3_DataSource_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_set_cert_chain(msg, sub);
   }
@@ -543,12 +538,12 @@ UPB_INLINE struct envoy_config_core_v3_DataSource* envoy_config_core_v3_GrpcServ
 /* envoy.config.core.v3.GrpcService.GoogleGrpc.GoogleLocalCredentials */
 
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msginit, arena);
+  return (envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -558,7 +553,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials* e
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -566,13 +561,13 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials* e
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_serialize(const envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_serialize_ex(const envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 
@@ -580,12 +575,12 @@ UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredenti
 /* envoy.config.core.v3.GrpcService.GoogleGrpc.ChannelCredentials */
 
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msginit, arena);
+  return (envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -595,7 +590,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* envoy
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -603,13 +598,13 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* envoy
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_serialize(const envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_serialize_ex(const envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {
@@ -655,7 +650,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_s
 UPB_INLINE struct envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_mutable_ssl_credentials(envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials* sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials*)envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_ssl_credentials(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msginit, arena);
+    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_set_ssl_credentials(msg, sub);
   }
@@ -667,7 +662,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_s
 UPB_INLINE struct google_protobuf_Empty* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_mutable_google_default(envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* msg, upb_Arena* arena) {
   struct google_protobuf_Empty* sub = (struct google_protobuf_Empty*)envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_google_default(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Empty*)_upb_Message_New(&google_protobuf_Empty_msginit, arena);
+    sub = (struct google_protobuf_Empty*)_upb_Message_New(&google_protobuf_Empty_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_set_google_default(msg, sub);
   }
@@ -679,7 +674,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_s
 UPB_INLINE struct envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_mutable_local_credentials(envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials* sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials*)envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_local_credentials(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msginit, arena);
+    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_set_local_credentials(msg, sub);
   }
@@ -689,12 +684,12 @@ UPB_INLINE struct envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredent
 /* envoy.config.core.v3.GrpcService.GoogleGrpc.CallCredentials */
 
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msginit, arena);
+  return (envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -704,7 +699,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* envoy_co
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -712,13 +707,13 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* envoy_co
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_serialize(const envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_serialize_ex(const envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {
@@ -807,7 +802,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_set_
 UPB_INLINE struct google_protobuf_Empty* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_mutable_google_compute_engine(envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* msg, upb_Arena* arena) {
   struct google_protobuf_Empty* sub = (struct google_protobuf_Empty*)envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_google_compute_engine(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Empty*)_upb_Message_New(&google_protobuf_Empty_msginit, arena);
+    sub = (struct google_protobuf_Empty*)_upb_Message_New(&google_protobuf_Empty_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_set_google_compute_engine(msg, sub);
   }
@@ -822,7 +817,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_set_
 UPB_INLINE struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_mutable_service_account_jwt_access(envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials* sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials*)envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_service_account_jwt_access(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msginit, arena);
+    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_set_service_account_jwt_access(msg, sub);
   }
@@ -834,7 +829,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_set_
 UPB_INLINE struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_mutable_google_iam(envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials* sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials*)envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_google_iam(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msginit, arena);
+    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_set_google_iam(msg, sub);
   }
@@ -846,7 +841,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_set_
 UPB_INLINE struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_mutable_from_plugin(envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin* sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin*)envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_from_plugin(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msginit, arena);
+    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_set_from_plugin(msg, sub);
   }
@@ -858,7 +853,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_set_
 UPB_INLINE struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_mutable_sts_service(envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials* msg, upb_Arena* arena) {
   struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService* sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService*)envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_sts_service(msg);
   if (sub == NULL) {
-    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msginit, arena);
+    sub = (struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_set_sts_service(msg, sub);
   }
@@ -868,12 +863,12 @@ UPB_INLINE struct envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_St
 /* envoy.config.core.v3.GrpcService.GoogleGrpc.CallCredentials.ServiceAccountJWTAccessCredentials */
 
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msginit, arena);
+  return (envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -883,7 +878,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAc
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -891,13 +886,13 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAc
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_serialize(const envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_serialize_ex(const envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_clear_json_key(const envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials* msg) {
@@ -923,12 +918,12 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_Serv
 /* envoy.config.core.v3.GrpcService.GoogleGrpc.CallCredentials.GoogleIAMCredentials */
 
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msginit, arena);
+  return (envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -938,7 +933,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAM
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -946,13 +941,13 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAM
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_serialize(const envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_serialize_ex(const envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_clear_authorization_token(const envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials* msg) {
@@ -978,12 +973,12 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_Goog
 /* envoy.config.core.v3.GrpcService.GoogleGrpc.CallCredentials.MetadataCredentialsFromPlugin */
 
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msginit, arena);
+  return (envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -993,7 +988,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataC
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -1001,13 +996,13 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataC
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_serialize(const envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_serialize_ex(const envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {
@@ -1042,7 +1037,7 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_Meta
 UPB_INLINE struct google_protobuf_Any* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_mutable_typed_config(envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin* msg, upb_Arena* arena) {
   struct google_protobuf_Any* sub = (struct google_protobuf_Any*)envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_typed_config(msg);
   if (sub == NULL) {
-    sub = (struct google_protobuf_Any*)_upb_Message_New(&google_protobuf_Any_msginit, arena);
+    sub = (struct google_protobuf_Any*)_upb_Message_New(&google_protobuf_Any_msg_init, arena);
     if (!sub) return NULL;
     envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_set_typed_config(msg, sub);
   }
@@ -1052,12 +1047,12 @@ UPB_INLINE struct google_protobuf_Any* envoy_config_core_v3_GrpcService_GoogleGr
 /* envoy.config.core.v3.GrpcService.GoogleGrpc.CallCredentials.StsService */
 
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msginit, arena);
+  return (envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -1067,7 +1062,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsServic
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -1075,13 +1070,13 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsServic
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_serialize(const envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_serialize_ex(const envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_clear_token_exchange_service_uri(const envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService* msg) {
@@ -1170,12 +1165,12 @@ UPB_INLINE void envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsS
 /* envoy.config.core.v3.GrpcService.GoogleGrpc.ChannelArgs */
 
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msginit, arena);
+  return (envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -1185,7 +1180,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs* envoy_config
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -1193,13 +1188,13 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs* envoy_config
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_serialize(const envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_serialize_ex(const envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE bool envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_has_args(const envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs* msg) {
@@ -1232,12 +1227,12 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_ArgsEntry* en
 /* envoy.config.core.v3.GrpcService.GoogleGrpc.ChannelArgs.Value */
 
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_new(upb_Arena* arena) {
-  return (envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_msginit, arena);
+  return (envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value*)_upb_Message_New(&envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_msg_init, arena);
 }
 UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_parse(const char* buf, size_t size, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_msginit, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_msg_init, NULL, 0, arena) != kUpb_DecodeStatus_Ok) {
     return NULL;
   }
   return ret;
@@ -1247,7 +1242,7 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value* envoy_
                            int options, upb_Arena* arena) {
   envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value* ret = envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_new(arena);
   if (!ret) return NULL;
-  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_msginit, extreg, options, arena) !=
+  if (upb_Decode(buf, size, ret, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_msg_init, extreg, options, arena) !=
       kUpb_DecodeStatus_Ok) {
     return NULL;
   }
@@ -1255,13 +1250,13 @@ UPB_INLINE envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value* envoy_
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_serialize(const envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value* msg, upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_msginit, 0, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_msg_init, 0, arena, &ptr, len);
   return ptr;
 }
 UPB_INLINE char* envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_serialize_ex(const envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value* msg, int options,
                                  upb_Arena* arena, size_t* len) {
   char* ptr;
-  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_msginit, options, arena, &ptr, len);
+  (void)upb_Encode(msg, &envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_msg_init, options, arena, &ptr, len);
   return ptr;
 }
 typedef enum {

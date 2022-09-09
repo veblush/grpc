@@ -7,6 +7,7 @@
  * regenerated. */
 
 #include <stddef.h>
+#include "upb/internal/array.h"
 #include "upb/msg_internal.h"
 #include "envoy/type/v3/semantic_version.upb.h"
 #include "udpa/annotations/status.upb.h"
@@ -20,14 +21,14 @@ static const upb_MiniTable_Field envoy_type_v3_SemanticVersion__fields[3] = {
   {3, UPB_SIZE(8, 8), UPB_SIZE(0, 0), kUpb_NoSub, 13, kUpb_FieldMode_Scalar | (kUpb_FieldRep_4Byte << kUpb_FieldRep_Shift)},
 };
 
-const upb_MiniTable envoy_type_v3_SemanticVersion_msginit = {
+const upb_MiniTable envoy_type_v3_SemanticVersion_msg_init = {
   NULL,
   &envoy_type_v3_SemanticVersion__fields[0],
   UPB_SIZE(16, 16), 3, kUpb_ExtMode_NonExtendable, 3, 255, 0,
 };
 
 static const upb_MiniTable *messages_layout[1] = {
-  &envoy_type_v3_SemanticVersion_msginit,
+  &envoy_type_v3_SemanticVersion_msg_init,
 };
 
 const upb_MiniTable_File envoy_type_v3_semantic_version_proto_upb_file_layout = {
