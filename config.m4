@@ -246,15 +246,14 @@ if test "$PHP_GRPC" != "no"; then
     src/core/ext/upb-generated/google/api/expr/v1alpha1/syntax.upb.c \
     src/core/ext/upb-generated/google/api/http.upb.c \
     src/core/ext/upb-generated/google/api/httpbody.upb.c \
+    src/core/ext/upb-generated/google/protobuf/any.upb.c \
     src/core/ext/upb-generated/google/protobuf/descriptor.upb.c \
+    src/core/ext/upb-generated/google/protobuf/duration.upb.c \
+    src/core/ext/upb-generated/google/protobuf/empty.upb.c \
+    src/core/ext/upb-generated/google/protobuf/struct.upb.c \
+    src/core/ext/upb-generated/google/protobuf/timestamp.upb.c \
+    src/core/ext/upb-generated/google/protobuf/wrappers.upb.c \
     src/core/ext/upb-generated/google/rpc/status.upb.c \
-    src/core/ext/upb-generated/oogle/protobuf/any.upb.c \
-    src/core/ext/upb-generated/oogle/protobuf/descriptor.upb.c \
-    src/core/ext/upb-generated/oogle/protobuf/duration.upb.c \
-    src/core/ext/upb-generated/oogle/protobuf/empty.upb.c \
-    src/core/ext/upb-generated/oogle/protobuf/struct.upb.c \
-    src/core/ext/upb-generated/oogle/protobuf/timestamp.upb.c \
-    src/core/ext/upb-generated/oogle/protobuf/wrappers.upb.c \
     src/core/ext/upb-generated/opencensus/proto/trace/v1/trace_config.upb.c \
     src/core/ext/upb-generated/src/proto/grpc/gcp/altscontext.upb.c \
     src/core/ext/upb-generated/src/proto/grpc/gcp/handshaker.upb.c \
@@ -392,15 +391,14 @@ if test "$PHP_GRPC" != "no"; then
     src/core/ext/upbdefs-generated/google/api/expr/v1alpha1/syntax.upbdefs.c \
     src/core/ext/upbdefs-generated/google/api/http.upbdefs.c \
     src/core/ext/upbdefs-generated/google/api/httpbody.upbdefs.c \
+    src/core/ext/upbdefs-generated/google/protobuf/any.upbdefs.c \
     src/core/ext/upbdefs-generated/google/protobuf/descriptor.upbdefs.c \
+    src/core/ext/upbdefs-generated/google/protobuf/duration.upbdefs.c \
+    src/core/ext/upbdefs-generated/google/protobuf/empty.upbdefs.c \
+    src/core/ext/upbdefs-generated/google/protobuf/struct.upbdefs.c \
+    src/core/ext/upbdefs-generated/google/protobuf/timestamp.upbdefs.c \
+    src/core/ext/upbdefs-generated/google/protobuf/wrappers.upbdefs.c \
     src/core/ext/upbdefs-generated/google/rpc/status.upbdefs.c \
-    src/core/ext/upbdefs-generated/oogle/protobuf/any.upbdefs.c \
-    src/core/ext/upbdefs-generated/oogle/protobuf/descriptor.upbdefs.c \
-    src/core/ext/upbdefs-generated/oogle/protobuf/duration.upbdefs.c \
-    src/core/ext/upbdefs-generated/oogle/protobuf/empty.upbdefs.c \
-    src/core/ext/upbdefs-generated/oogle/protobuf/struct.upbdefs.c \
-    src/core/ext/upbdefs-generated/oogle/protobuf/timestamp.upbdefs.c \
-    src/core/ext/upbdefs-generated/oogle/protobuf/wrappers.upbdefs.c \
     src/core/ext/upbdefs-generated/opencensus/proto/trace/v1/trace_config.upbdefs.c \
     src/core/ext/upbdefs-generated/src/proto/grpc/lookup/v1/rls_config.upbdefs.c \
     src/core/ext/upbdefs-generated/udpa/annotations/migrate.upbdefs.c \
@@ -1276,7 +1274,6 @@ if test "$PHP_GRPC" != "no"; then
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upb-generated/google/api/expr/v1alpha1)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upb-generated/google/protobuf)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upb-generated/google/rpc)
-  PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upb-generated/oogle/protobuf)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upb-generated/opencensus/proto/trace/v1)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upb-generated/src/proto/grpc/gcp)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upb-generated/src/proto/grpc/health/v1)
@@ -1324,7 +1321,6 @@ if test "$PHP_GRPC" != "no"; then
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/google/api/expr/v1alpha1)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/google/protobuf)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/google/rpc)
-  PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/oogle/protobuf)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/opencensus/proto/trace/v1)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/src/proto/grpc/lookup/v1)
   PHP_ADD_BUILD_DIR($ext_builddir/src/core/ext/upbdefs-generated/udpa/annotations)

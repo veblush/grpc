@@ -68,12 +68,10 @@ grpc_cc_library(
         "ruby_generator_string-inl.h",
         "schema_interface.h",
     ],
-    external_deps = [
-        "protobuf_clib",
-    ],
     language = "c++",
     deps = [
         "//:grpc++_config_proto",
+        "@com_google_protobuf//src/google/protobuf/compiler:protoc",
     ],
 )
 
