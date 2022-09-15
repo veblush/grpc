@@ -500,7 +500,7 @@ def _expand_upb_proto_library_rules(bazel_rules):
     # upb.h and upb.c files.
     GEN_UPB_ROOT = '//:src/core/ext/upb-generated/'
     GEN_UPBDEFS_ROOT = '//:src/core/ext/upbdefs-generated/'
-    EXTERNAL_LINKS = [('@com_google_protobuf//', ':src/'),
+    EXTERNAL_LINKS = [('@com_google_protobuf//', 'src/'),
                       ('@com_google_googleapis//', ''),
                       ('@com_github_cncf_udpa//', ''),
                       ('@com_envoyproxy_protoc_gen_validate//', ''),

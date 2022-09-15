@@ -38,7 +38,7 @@ import subprocess
 import xml.etree.ElementTree
 
 # Rule object representing the UPB rule of Bazel BUILD.
-Rule = collections.namedtuple('Rule', 'name type srcs deps proto_files')
+Rule = collections.namedtuple('Rule', 'name type srcs deps proto_files actual')
 
 BAZEL_BIN = 'tools/bazel'
 
@@ -47,6 +47,7 @@ def parse_bazel_rule(elem):
     '''Returns a rule from bazel XML rule.'''
     srcs = []
     deps = []
+    actual = None
     for child in elem:
         if child.tag == 'list' and child.attrib['name'] == 'srcs':
             for tag in child:
@@ -56,8 +57,19 @@ def parse_bazel_rule(elem):
             for tag in child:
                 if tag.tag == 'label':
                     deps.append(tag.attrib['value'])
-    return Rule(elem.attrib['name'], elem.attrib['class'], srcs, deps, [])
+        if child.tag == 'label':
+            label_name = child.attrib['name']
+            if label_name in ['actual'] and 'value' in child.attrib:
+                actual = child.attrib['value']
 
+    return Rule(elem.attrib['name'], elem.attrib['class'], srcs, deps, [], actual)
+
+
+
+def get_actual_rule(rules, rule):
+    while rule != None and rule.actual != None:
+        rule = rules.get(rule.actual, None)
+    return rule
 
 def get_transitive_protos(rules, t):
     que = [
@@ -68,6 +80,7 @@ def get_transitive_protos(rules, t):
     while que:
         name = que.pop(0)
         rule = rules.get(name, None)
+        rule = get_actual_rule(rules, rule)
         if rule:
             for dep in rule.deps:
                 if dep not in visited:
@@ -136,7 +149,7 @@ def get_bazel_bin_root_path(elink):
 
 
 def get_external_link(file):
-    EXTERNAL_LINKS = [('@com_google_protobuf//', ':src/'),
+    EXTERNAL_LINKS = [('@com_google_protobuf//', 'src/'),
                       ('@com_google_googleapis//', ''),
                       ('@com_github_cncf_udpa//', ''),
                       ('@com_envoyproxy_protoc_gen_validate//', ''),
@@ -157,12 +170,15 @@ def copy_upb_generated_files(rules, args):
             frag = '.upbdefs'
             output_dir = args.upbdefs_out
         for proto_file in rule.proto_files:
+            print(proto_file)
             elink = get_external_link(proto_file)
-            proto_file = proto_file[len(elink[0]) + len(elink[1]):]
+            proto_src_file = proto_file[len(elink[0]):]
+            proto_dst_file = proto_file[len(elink[0]) + len(elink[1]):]
             for ext in ('.h', '.c'):
-                file = get_upb_path(proto_file, frag + ext)
-                src = os.path.join(get_bazel_bin_root_path(elink), file)
-                dst = os.path.join(output_dir, file)
+                src_file = get_upb_path(proto_src_file, frag + ext)
+                src = os.path.join(get_bazel_bin_root_path(elink), src_file)
+                dst_file = get_upb_path(proto_dst_file, frag + ext)
+                dst = os.path.join(output_dir, dst_file)
                 files[src] = dst
     for src, dst in files.items():
         if args.verbose:
