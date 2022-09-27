@@ -368,9 +368,11 @@ void GoogleCloud2ProdResolver::StartXdsResolver() {
     };
   };
   if (*supports_ipv6_) {
-    node["metadata"] = Json::Object{
-        {"TRAFFICDIRECTOR_DIRECTPATH_C2P_IPV6_CAPABLE", true},
-    };
+    if (UniquePtr<char>(gpr_getenv("GRPC_TEST_ONLY_GOOGLE_C2P_RESOLVER_DISABLE_IPV6")) == nullptr) {
+      node["metadata"] = Json::Object{
+          {"TRAFFICDIRECTOR_DIRECTPATH_C2P_IPV6_CAPABLE", true},
+      };
+    }
   }
   // Allow the TD server uri to be overridden for testing purposes.
   UniquePtr<char> override_server(
