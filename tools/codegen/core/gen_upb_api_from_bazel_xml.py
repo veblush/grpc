@@ -62,14 +62,15 @@ def parse_bazel_rule(elem):
             if label_name in ['actual'] and 'value' in child.attrib:
                 actual = child.attrib['value']
 
-    return Rule(elem.attrib['name'], elem.attrib['class'], srcs, deps, [], actual)
-
+    return Rule(elem.attrib['name'], elem.attrib['class'], srcs, deps, [],
+                actual)
 
 
 def get_actual_rule(rules, rule):
     while rule != None and rule.actual != None:
         rule = rules.get(rule.actual, None)
     return rule
+
 
 def get_transitive_protos(rules, t):
     que = [
