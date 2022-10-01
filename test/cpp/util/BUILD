@@ -137,7 +137,7 @@ grpc_cc_library(
     external_deps = [
         "absl/flags:flag",
         "protobuf",
-        "protobuf_clib",
+        "protobuf_compiler_code_generator",
     ],
     deps = [
         ":grpc++_proto_reflection_desc_db",

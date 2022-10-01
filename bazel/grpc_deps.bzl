@@ -76,9 +76,11 @@ def grpc_deps():
     )
 
     native.bind(
-        name = "protobuf_clib",
+        name = "protobuf_compiler_code_generator",
         actual = "@com_google_protobuf//src/google/protobuf/compiler:code_generator",
     )
+
+    # "protobuf_clib": "//net/proto2/compiler/public:plugin,//net/proto2/compiler/public:code_generator,//net/proto2/io/public:io,//net/proto2/compiler/public:importer,//net/proto2/proto:descriptor_cc_proto",
 
     native.bind(
         name = "protobuf_headers",
@@ -218,13 +220,11 @@ def grpc_deps():
     if "com_google_protobuf" not in native.existing_rules():
         http_archive(
             name = "com_google_protobuf",
-            sha256 = "64d9f1b3ab66e37d76b9aaea30271461198615b0c2c36b1576a5eeded7c03f71",
-            strip_prefix = "protobuf-9c40a8447b2ff33fe642f9e9f6a9c3b65a655d3e",
+            sha256 = "bdea1ecbc2849eb443c2b7607676ff50e14114fef141b30e5bc90638c0b5f0b8",
+            strip_prefix = "protobuf-488b8b91f81e6f7d50bd5f879ba429d50b0ba901",
             urls = [
-                "https://github.com/protocolbuffers/protobuf/archive/9c40a8447b2ff33fe642f9e9f6a9c3b65a655d3e.tar.gz",
+                "https://github.com/protocolbuffers/protobuf/archive/488b8b91f81e6f7d50bd5f879ba429d50b0ba901.tar.gz",
             ],
-            #patches = ["@com_github_grpc_grpc//third_party:protobuf.patch"],
-            patch_args = ["-p1"],
         )
 
     if "com_google_googletest" not in native.existing_rules():

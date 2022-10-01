@@ -71,7 +71,12 @@ grpc_cc_library(
     language = "c++",
     deps = [
         "//:grpc++_config_proto",
-        "@com_google_protobuf//src/google/protobuf/compiler:protoc",
+        "@com_google_protobuf//:protobuf",
+        "@com_google_protobuf//src/google/protobuf/compiler:code_generator",
+        "@com_google_protobuf//src/google/protobuf/compiler/csharp:names",
+        "@com_google_protobuf//src/google/protobuf/compiler/php:names",
+        "@com_google_protobuf//src/google/protobuf/compiler/objectivec:names",
+        #"@com_google_protobuf//src/google/protobuf/util:json_util",
     ],
 )
 
