@@ -3253,7 +3253,26 @@ libs:
   - src/compiler/php_generator.cc
   - src/compiler/python_generator.cc
   - src/compiler/ruby_generator.cc
-  deps: []
+  deps:
+  - absl/base:base
+  - absl/base:core_headers
+  - absl/base:dynamic_annotations
+  - absl/cleanup:cleanup
+  - absl/container:flat_hash_map
+  - absl/container:flat_hash_set
+  - absl/functional:function_ref
+  - absl/hash:hash
+  - absl/numeric:bits
+  - absl/status:status
+  - absl/status:statusor
+  - absl/strings:internal
+  - absl/strings:str_format
+  - absl/strings:strings
+  - absl/synchronization:synchronization
+  - absl/time:time
+  - absl/types:optional
+  - absl/types:span
+  - absl/types:variant
 - name: grpcpp_channelz
   build: all
   language: c++

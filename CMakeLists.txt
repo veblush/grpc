@@ -4146,6 +4146,25 @@ target_link_libraries(grpc_plugin_support
   ${_gRPC_PROTOBUF_PROTOC_LIBRARIES}
   ${_gRPC_PROTOBUF_LIBRARIES}
   ${_gRPC_ALLTARGETS_LIBRARIES}
+  absl::base
+  absl::core_headers
+  absl::dynamic_annotations
+  absl::cleanup
+  absl::flat_hash_map
+  absl::flat_hash_set
+  absl::function_ref
+  absl::hash
+  absl::bits
+  absl::status
+  absl::statusor
+  absl::strings_internal
+  absl::str_format
+  absl::strings
+  absl::synchronization
+  absl::time
+  absl::optional
+  absl::span
+  absl::variant
 )
 
 foreach(_hdr
