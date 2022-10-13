@@ -198,7 +198,7 @@ class StateWatcher : public DualRefCounted<StateWatcher> {
         timer_fired_
             ? GRPC_ERROR_BUILDER(
                   kUnknown, "Timed out waiting for connection state change")
-                  .build()
+                  .Build()
             : absl::OkStatus();
     grpc_cq_end_op(cq_, tag_, error, FinishedCompletion, this,
                    &completion_storage_);
