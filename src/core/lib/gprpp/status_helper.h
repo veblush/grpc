@@ -178,7 +178,7 @@ class ErrorBuilder {
 };
 
 #define GRPC_ERROR_BUILDER(code, msg) \
-  grpc_core::ErrorBuilder(::absl::StatusCode::code, msg, DEBUG_LOCATION)
+  ErrorBuilder(::absl::StatusCode::code, msg, DEBUG_LOCATION)
 
 namespace internal {
 
