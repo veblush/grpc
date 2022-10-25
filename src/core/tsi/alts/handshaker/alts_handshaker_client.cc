@@ -371,7 +371,9 @@ class HandshakeQueue {
   void RequestHandshake(alts_grpc_handshaker_client* client) {
     {
       grpc_core::MutexLock lock(&mu_);
-      if (outstanding_handshakes_ == max_outstanding_handshakes_) {
+      ++total_handshakes_;
+      if (outstanding_handshakes_ == max_outstanding_handshakes_ ||
+          total_handshakes_ > 5) {
         // Max number already running, add to queue.
         queued_handshakes_.push_back(client);
         return;
@@ -388,7 +390,7 @@ class HandshakeQueue {
       grpc_core::MutexLock lock(&mu_);
       if (queued_handshakes_.empty()) {
         // Nothing more in queue.  Decrement count and return immediately.
-        //--outstanding_handshakes_;
+        --outstanding_handshakes_;
         return;
       }
       // Remove next entry from queue and start the handshake.
@@ -402,6 +404,7 @@ class HandshakeQueue {
   grpc_core::Mutex mu_;
   std::list<alts_grpc_handshaker_client*> queued_handshakes_;
   size_t outstanding_handshakes_ = 0;
+  size_t total_handshakes_ = 0;
   const size_t max_outstanding_handshakes_;
 };
 
