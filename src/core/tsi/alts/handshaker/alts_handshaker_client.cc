@@ -378,6 +378,7 @@ class HandshakeQueue {
       grpc_core::MutexLock lock(&mu_);
       ++total_handshakes_;
       if (total_handshakes_ > 5) {
+        gpr_log(GPR_INFO, "alts:kick-RequestHandshake");
         return;
       }
       if (outstanding_handshakes_ == max_outstanding_handshakes_) {
