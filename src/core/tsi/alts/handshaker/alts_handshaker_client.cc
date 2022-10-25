@@ -418,7 +418,7 @@ HandshakeQueue* g_client_handshake_queue;
 HandshakeQueue* g_server_handshake_queue;
 
 void DoHandshakeQueuesInit(void) {
-  const size_t per_queue_max_outstanding_handshakes = 40;
+  const size_t per_queue_max_outstanding_handshakes = 0;
   g_client_handshake_queue =
       new HandshakeQueue(per_queue_max_outstanding_handshakes);
   g_server_handshake_queue =
