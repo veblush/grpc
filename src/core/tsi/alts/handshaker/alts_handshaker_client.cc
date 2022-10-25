@@ -388,7 +388,7 @@ class HandshakeQueue {
       grpc_core::MutexLock lock(&mu_);
       if (queued_handshakes_.empty()) {
         // Nothing more in queue.  Decrement count and return immediately.
-        --outstanding_handshakes_;
+        //--outstanding_handshakes_;
         return;
       }
       // Remove next entry from queue and start the handshake.
@@ -418,7 +418,7 @@ HandshakeQueue* g_client_handshake_queue;
 HandshakeQueue* g_server_handshake_queue;
 
 void DoHandshakeQueuesInit(void) {
-  const size_t per_queue_max_outstanding_handshakes = 0;
+  const size_t per_queue_max_outstanding_handshakes = 1;
   g_client_handshake_queue =
       new HandshakeQueue(per_queue_max_outstanding_handshakes);
   g_server_handshake_queue =
