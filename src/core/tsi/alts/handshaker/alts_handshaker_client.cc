@@ -377,8 +377,10 @@ class HandshakeQueue {
     {
       grpc_core::MutexLock lock(&mu_);
       ++total_handshakes_;
-      if (outstanding_handshakes_ == max_outstanding_handshakes_ ||
-          total_handshakes_ > 5) {
+      if (total_handshakes_ > 5) {
+        return;
+      }
+      if (outstanding_handshakes_ == max_outstanding_handshakes_) {
         // Max number already running, add to queue.
         queued_handshakes_.push_back(client);
         return;
