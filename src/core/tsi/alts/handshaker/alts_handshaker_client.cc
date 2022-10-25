@@ -308,6 +308,11 @@ void alts_handshaker_client_handle_response(alts_handshaker_client* c,
 
 static tsi_result continue_make_grpc_call(alts_grpc_handshaker_client* client,
                                           bool is_start) {
+  if (is_start) {
+    char* target_name = grpc_slice_to_c_string(client->target_name);
+    gpr_log(GPR_INFO, "alts:continue_make_grpc_call(%s)", target_name);
+    gpr_free(target_name);
+  }
   GPR_ASSERT(client != nullptr);
   grpc_op ops[kHandshakerClientOpNum];
   memset(ops, 0, sizeof(ops));
