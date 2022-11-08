@@ -314,7 +314,9 @@ def _create_portability_test_jobs(extra_args=[],
                                     timeout_seconds=_CPP_RUNTESTS_TIMEOUT)
 
     # portability C on Windows 64-bit (x86 is the default)
-    test_jobs += _generate_jobs(languages=['c',],
+    test_jobs += _generate_jobs(languages=[
+        'c',
+    ],
                                 configs=['dbg'],
                                 platforms=['windows'],
                                 arch='x64',
