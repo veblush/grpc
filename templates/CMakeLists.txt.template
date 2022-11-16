@@ -882,9 +882,9 @@
     "high performance general RPC framework"
     "<%text>${gRPC_CORE_VERSION}</%text>"
     "${" ".join(["gpr"] + list_abseil_pkg_targets("grpc"))}"
-    "${" ".join(["openssl", "re2", "libcares", "zlib"])}"
+    "${" ".join(["openssl", "libcares", "zlib"])}"
     "${" ".join(("-l" + l) for l in ["grpc",])}"
-    "${" ".join(("-l" + l) for l in ["address_sorting", "upb"])}"
+    "${" ".join(("-l" + l) for l in ["address_sorting", "re2", "upb"])}"
     "grpc.pc")
 
   # grpc_unsecure .pc file
@@ -893,9 +893,9 @@
     "high performance general RPC framework without SSL"
     "<%text>${gRPC_CORE_VERSION}</%text>"
     "${" ".join(["gpr"] + list_abseil_pkg_targets("grpc_unsecure"))}"
-    "${" ".join(["re2", "libcares", "zlib"])}"
+    "${" ".join(["libcares", "zlib"])}"
     "${" ".join(("-l" + l) for l in ["grpc_unsecure"])}"
-    "${" ".join(("-l" + l) for l in ["address_sorting", "upb"])}"
+    "${" ".join(("-l" + l) for l in ["address_sorting", "re2", "upb"])}"
     "grpc_unsecure.pc")
 
   # grpc++ .pc file
