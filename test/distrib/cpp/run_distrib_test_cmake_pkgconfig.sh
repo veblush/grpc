@@ -85,9 +85,9 @@ popd
 export PKG_CONFIG_PATH=/usr/local/grpc/lib/pkgconfig
 export PATH=$PATH:/usr/local/grpc/bin
 pkg-config --cflags grpc
-pkg-config --libs grpc
+pkg-config --libs --static grpc
 pkg-config --cflags grpc++
-pkg-config --libs grpc++
+pkg-config --libs --static grpc++
 
 # Build helloworld example using Makefile and pkg-config
 pushd examples/cpp/helloworld
