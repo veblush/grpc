@@ -7651,7 +7651,7 @@ if(_gRPC_PLATFORM_LINUX OR _gRPC_PLATFORM_MAC OR _gRPC_PLATFORM_POSIX)
     third_party/googletest/googletest/src/gtest-all.cc
     third_party/googletest/googlemock/src/gmock-all.cc
   )
-
+  target_compile_features(cf_event_engine_test PUBLIC cxx_std_14)
   target_include_directories(cf_event_engine_test
     PRIVATE
       ${CMAKE_CURRENT_SOURCE_DIR}
@@ -10379,7 +10379,7 @@ add_executable(event_engine_wakeup_scheduler_test
   third_party/googletest/googletest/src/gtest-all.cc
   third_party/googletest/googlemock/src/gmock-all.cc
 )
-
+target_compile_features(event_engine_wakeup_scheduler_test PUBLIC cxx_std_14)
 target_include_directories(event_engine_wakeup_scheduler_test
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -15217,7 +15217,7 @@ add_executable(mpsc_test
   third_party/googletest/googletest/src/gtest-all.cc
   third_party/googletest/googlemock/src/gmock-all.cc
 )
-
+target_compile_features(mpsc_test PUBLIC cxx_std_14)
 target_include_directories(mpsc_test
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -17539,7 +17539,7 @@ add_executable(round_robin_test
   third_party/googletest/googletest/src/gtest-all.cc
   third_party/googletest/googlemock/src/gmock-all.cc
 )
-
+target_compile_features(round_robin_test PUBLIC cxx_std_14)
 target_include_directories(round_robin_test
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -21928,7 +21928,7 @@ add_executable(weighted_round_robin_config_test
   third_party/googletest/googletest/src/gtest-all.cc
   third_party/googletest/googlemock/src/gmock-all.cc
 )
-
+target_compile_features(weighted_round_robin_config_test PUBLIC cxx_std_14)
 target_include_directories(weighted_round_robin_config_test
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -21965,7 +21965,7 @@ add_executable(weighted_round_robin_test
   third_party/googletest/googletest/src/gtest-all.cc
   third_party/googletest/googlemock/src/gmock-all.cc
 )
-
+target_compile_features(weighted_round_robin_test PUBLIC cxx_std_14)
 target_include_directories(weighted_round_robin_test
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
