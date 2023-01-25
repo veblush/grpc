@@ -1061,10 +1061,12 @@
 - cmake_target: absl::log_internal_nullguard
   deps:
   - absl/base:config
+  - absl/base:core_headers
   headers:
   - third_party/abseil-cpp/absl/log/internal/nullguard.h
   name: absl/log/internal:nullguard
-  src: []
+  src:
+  - third_party/abseil-cpp/absl/log/internal/nullguard.cc
 - cmake_target: absl::log_internal_nullstream
   deps:
   - absl/base:config
