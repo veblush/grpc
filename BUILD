@@ -800,6 +800,7 @@ grpc_cc_library(
     name = "grpc++_public_hdrs",
     hdrs = GRPCXX_PUBLIC_HDRS,
     external_deps = [
+        "absl/strings:cord",
         "absl/synchronization",
         "protobuf_headers",
     ],
@@ -820,6 +821,9 @@ grpc_cc_library(
         "src/cpp/client/secure_credentials.h",
         "src/cpp/common/secure_auth_context.h",
         "src/cpp/server/secure_server_credentials.h",
+    ],
+    external_deps = [
+        "absl/strings:cord",
     ],
     language = "c++",
     public_hdrs = GRPCXX_PUBLIC_HDRS,
@@ -1959,6 +1963,7 @@ grpc_cc_library(
 grpc_cc_library(
     name = "grpc++_codegen_proto",
     external_deps = [
+        "absl/strings:cord",
         "protobuf_headers",
     ],
     language = "c++",
