@@ -1164,7 +1164,6 @@ Pod::Spec.new do |s|
                       'third_party/re2/util/test.h',
                       'third_party/re2/util/utf.h',
                       'third_party/re2/util/util.h',
-                      'third_party/upb/third_party/utf8_range/utf8_range.h',
                       'third_party/upb/upb/alloc.h',
                       'third_party/upb/upb/arena.h',
                       'third_party/upb/upb/array.h',
@@ -1271,6 +1270,7 @@ Pod::Spec.new do |s|
                       'third_party/upb/upb/wire/reader.h',
                       'third_party/upb/upb/wire/swap_internal.h',
                       'third_party/upb/upb/wire/types.h',
+                      'third_party/utf8_range/utf8_range.h',
                       'third_party/xxhash/xxhash.h'
 
     ss.private_header_files = 'src/core/ext/filters/backend_metrics/backend_metric_filter.h',
@@ -2131,7 +2131,6 @@ Pod::Spec.new do |s|
                               'third_party/re2/util/test.h',
                               'third_party/re2/util/utf.h',
                               'third_party/re2/util/util.h',
-                              'third_party/upb/third_party/utf8_range/utf8_range.h',
                               'third_party/upb/upb/alloc.h',
                               'third_party/upb/upb/arena.h',
                               'third_party/upb/upb/array.h',
@@ -2238,6 +2237,7 @@ Pod::Spec.new do |s|
                               'third_party/upb/upb/wire/reader.h',
                               'third_party/upb/upb/wire/swap_internal.h',
                               'third_party/upb/upb/wire/types.h',
+                              'third_party/utf8_range/utf8_range.h',
                               'third_party/xxhash/xxhash.h'
   end
 

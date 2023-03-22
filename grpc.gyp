@@ -2429,9 +2429,9 @@
       'dependencies': [
       ],
       'sources': [
-        'third_party/upb/third_party/utf8_range/naive.c',
-        'third_party/upb/third_party/utf8_range/range2-neon.c',
-        'third_party/upb/third_party/utf8_range/range2-sse.c',
+        'third_party/utf8_range/naive.c',
+        'third_party/utf8_range/range2-neon.c',
+        'third_party/utf8_range/range2-sse.c',
         'third_party/upb/upb/base/status.c',
         'third_party/upb/upb/collections/array.c',
         'third_party/upb/upb/collections/map.c',

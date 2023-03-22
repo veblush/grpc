@@ -1218,9 +1218,6 @@ if (PHP_GRPC != "no") {
     "third_party\\re2\\util\\pcre.cc " +
     "third_party\\re2\\util\\rune.cc " +
     "third_party\\re2\\util\\strutil.cc " +
-    "third_party\\upb\\third_party\\utf8_range\\naive.c " +
-    "third_party\\upb\\third_party\\utf8_range\\range2-neon.c " +
-    "third_party\\upb\\third_party\\utf8_range\\range2-sse.c " +
     "third_party\\upb\\upb\\base\\status.c " +
     "third_party\\upb\\upb\\collections\\array.c " +
     "third_party\\upb\\upb\\collections\\map.c " +
@@ -1262,6 +1259,9 @@ if (PHP_GRPC != "no") {
     "third_party\\upb\\upb\\wire\\encode.c " +
     "third_party\\upb\\upb\\wire\\eps_copy_input_stream.c " +
     "third_party\\upb\\upb\\wire\\reader.c " +
+    "third_party\\utf8_range\\naive.c " +
+    "third_party\\utf8_range\\range2-neon.c " +
+    "third_party\\utf8_range\\range2-sse.c " +
     "third_party\\zlib\\adler32.c " +
     "third_party\\zlib\\compress.c " +
     "third_party\\zlib\\crc32.c " +
@@ -1732,8 +1732,6 @@ if (PHP_GRPC != "no") {
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\third_party\\re2\\re2");
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\third_party\\re2\\util");
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\third_party\\upb");
-  FSO.CreateFolder(base_dir+"\\ext\\grpc\\third_party\\upb\\third_party");
-  FSO.CreateFolder(base_dir+"\\ext\\grpc\\third_party\\upb\\third_party\\utf8_range");
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\third_party\\upb\\upb");
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\third_party\\upb\\upb\\base");
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\third_party\\upb\\upb\\collections");
@@ -1746,6 +1744,7 @@ if (PHP_GRPC != "no") {
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\third_party\\upb\\upb\\reflection");
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\third_party\\upb\\upb\\text");
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\third_party\\upb\\upb\\wire");
+  FSO.CreateFolder(base_dir+"\\ext\\grpc\\third_party\\utf8_range");
   FSO.CreateFolder(base_dir+"\\ext\\grpc\\third_party\\zlib");
   _build_dirs = new Array();
   for (i = 0; i < build_dirs.length; i++) {
