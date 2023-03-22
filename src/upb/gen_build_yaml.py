@@ -29,9 +29,9 @@ try:
         'build': 'all',
         'language': 'c',
         'src': [
-            "third_party/upb/third_party/utf8_range/naive.c",
-            "third_party/upb/third_party/utf8_range/range2-neon.c",
-            "third_party/upb/third_party/utf8_range/range2-sse.c",
+            "third_party/utf8_range/naive.c",
+            "third_party/utf8_range/range2-neon.c",
+            "third_party/utf8_range/range2-sse.c",
             "third_party/upb/upb/base/status.c",
             "third_party/upb/upb/collections/array.c",
             "third_party/upb/upb/collections/map.c",
@@ -77,7 +77,7 @@ try:
             "src/core/ext/upbdefs-generated/google/protobuf/descriptor.upbdefs.c",
         ],
         'headers': [
-            "third_party/upb/third_party/utf8_range/utf8_range.h",
+            "third_party/utf8_range/utf8_range.h",
             "third_party/upb/upb/alloc.h",
             "third_party/upb/upb/arena.h",
             "third_party/upb/upb/array.h",
