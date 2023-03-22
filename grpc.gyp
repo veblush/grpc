@@ -60,6 +60,7 @@
       '-Ithird_party/upb',
       '-Isrc/core/ext/upb-generated',
       '-Isrc/core/ext/upbdefs-generated',
+      '-Ithird_party/utf8_range',
       '-Ithird_party/xxhash',
     ],
     'ldflags': [
@@ -140,6 +141,7 @@
             '-Ithird_party/upb',
             '-Isrc/core/ext/upb-generated',
             '-Isrc/core/ext/upbdefs-generated',
+            '-Ithird_party/utf8_range',
             '-Ithird_party/xxhash',
           ],
           'OTHER_CPLUSPLUSFLAGS': [
@@ -152,6 +154,7 @@
             '-Ithird_party/upb',
             '-Isrc/core/ext/upb-generated',
             '-Isrc/core/ext/upbdefs-generated',
+            '-Ithird_party/utf8_range',
             '-Ithird_party/xxhash',
             '-stdlib=libc++',
             '-std=c++14',
