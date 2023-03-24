@@ -55,6 +55,7 @@ GRPC_LLVM_WARNING_FLAGS = [
     # Exceptions but will be removed
     "-Wno-deprecated-declarations",
     "-Wno-unused-function",
+    "-Wno-unused-parameter",
 ]
 
 GRPC_DEFAULT_COPTS = select({
