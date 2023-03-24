@@ -48,7 +48,7 @@ CC_FILES={cc_files}
 
 PROTO_FILES={proto_files}
 
-CC_INCLUDE={cc_include}
+CC_INCLUDES={cc_includes}
 PROTO_INCLUDE={proto_include}
 
 {commit_hash}
@@ -58,40 +58,69 @@ COMMIT_HASH_PREFIX = 'PROTOBUF_SUBMODULE_VERSION="'
 COMMIT_HASH_SUFFIX = '"'
 
 # Bazel query result prefix for expected source files in protobuf.
-PROTOBUF_CC_PREFIX = '//src/'
-PROTOBUF_CC_PREFIX_PRE_22_X = '//:src/'
-PROTOBUF_PROTO_PREFIX = '//src/'
-PROTOBUF_PROTO_PREFIX_PRE_22_X = '//:src/'
+#PROTOBUF_CC_PREFIX = '//src/'
+#PROTOBUF_CC_PREFIX_PRE_22_X = '//:src/'
+PROTOBUF_PROTO_PREFIX = '@com_google_protobuf//src/'
+#PROTOBUF_PROTO_PREFIX_PRE_22_X = '//:src/'
 
+EXTERNAL_LINKS = [
+    ('@com_google_absl//', 'third_party/abseil-cpp/'),
+    ('@com_google_protobuf//', 'third_party/protobuf/'),
+    ('@utf8_range//:', 'third_party/utf8_range/'),
+]
+
+# grpc repo root
 GRPC_ROOT = os.path.abspath(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
 
 GRPC_PYTHON_ROOT = os.path.join(GRPC_ROOT, 'tools', 'distrib', 'python',
                                 'grpcio_tools')
 
+
+CC_INCLUDES = [
+    os.path.join('third_party', 'abseil-cpp'),
+    os.path.join('third_party', 'protobuf', 'src'),
+    os.path.join('third_party', 'utf8_range'),
+]
 GRPC_PYTHON_PROTOBUF_RELATIVE_ROOT = os.path.join('third_party', 'protobuf',
                                                   'src')
+
 GRPC_PROTOBUF = os.path.join(GRPC_ROOT, GRPC_PYTHON_PROTOBUF_RELATIVE_ROOT)
-GRPC_PROTOBUF_SUBMODULE_ROOT = os.path.join(GRPC_ROOT, 'third_party',
-                                            'protobuf')
-GRPC_PROTOC_PLUGINS = os.path.join(GRPC_ROOT, 'src', 'compiler')
 GRPC_PYTHON_PROTOBUF = os.path.join(GRPC_PYTHON_ROOT, 'third_party', 'protobuf',
                                     'src')
+
+GRPC_PROTOC_PLUGINS = os.path.join(GRPC_ROOT, 'src', 'compiler')
 GRPC_PYTHON_PROTOC_PLUGINS = os.path.join(GRPC_PYTHON_ROOT, 'grpc_root', 'src',
                                           'compiler')
-GRPC_PYTHON_PROTOC_LIB_DEPS = os.path.join(GRPC_PYTHON_ROOT,
-                                           'protoc_lib_deps.py')
 
 GRPC_INCLUDE = os.path.join(GRPC_ROOT, 'include')
 GRPC_PYTHON_INCLUDE = os.path.join(GRPC_PYTHON_ROOT, 'grpc_root', 'include')
 
+
+# for getting the protobuf commit SHA
+GRPC_PROTOBUF_SUBMODULE_ROOT = os.path.join(GRPC_ROOT, 'third_party', 'protobuf')
+
+#(GRPC_PROTOBUF, GRPC_PYTHON_PROTOBUF),
+#(GRPC_PROTOC_PLUGINS, GRPC_PYTHON_PROTOC_PLUGINS),
+#(GRPC_INCLUDE, GRPC_PYTHON_INCLUDE)
+
+# the file to generate
+GRPC_PYTHON_PROTOC_LIB_DEPS = os.path.join(GRPC_PYTHON_ROOT,
+                                           'protoc_lib_deps.py')
+
+# the script to run for getting dependencies
 BAZEL_DEPS = os.path.join(GRPC_ROOT, 'tools', 'distrib', 'python',
                           'bazel_deps.sh')
-BAZEL_DEPS_PROTOC_LIB_QUERY = '//:protoc_lib'
+
+# the target to scrape
+BAZEL_DEPS_PROTOC_LIB_QUERY = '@com_google_protobuf//:protoc_lib'
+
+
+
 BAZEL_DEPS_COMMON_PROTOS_QUERIES = [
-    '//:well_known_type_protos',
+    '@com_google_protobuf//:well_known_type_protos',
     # has both plugin.proto and descriptor.proto
-    '//:compiler_plugin_proto',
+    '@com_google_protobuf//:compiler_plugin_proto',
 ]
 
 
@@ -123,21 +152,32 @@ def _pretty_print_list(items):
     return formatted
 
 
+def _bazel_name_to_file_path(name):
+    """Transform bazel reference to source file name."""
+    for link in EXTERNAL_LINKS:
+        if name.startswith(link[0]):
+            filepath = link[1] + name[len(link[0]):].replace(':', '/')
+            
+            # TODO: get the correct path for WKT protos and remove this hack
+            return filepath.replace('wkt/google/protobuf/', '')
+    return None
+
+
 def get_deps():
     """Write the result of the bazel query `query` against protobuf to
      `out_file`."""
     cc_files_output = bazel_query(BAZEL_DEPS_PROTOC_LIB_QUERY)
 
-    cc_files = [
-        name[len(PROTOBUF_CC_PREFIX):].replace(':', '/')
-        for name in cc_files_output
-        if name.endswith('.cc') and name.startswith(PROTOBUF_CC_PREFIX)
-    ] + [
-        # compatibility with versions of protobuf 21.x and older
-        name[len(PROTOBUF_CC_PREFIX_PRE_22_X):]
-        for name in cc_files_output
-        if name.endswith('.cc') and name.startswith(PROTOBUF_CC_PREFIX_PRE_22_X)
-    ]
+    cc_files=[]
+    for name in cc_files_output:
+        if name.endswith('.cc'):
+            filepath = _bazel_name_to_file_path(name)
+            if filepath:
+                cc_files.append(filepath)
+
+    #print(_pretty_print_list(sorted(cc_files)))
+    #sys.exit(1)
+
     raw_proto_files = []
     for target in BAZEL_DEPS_COMMON_PROTOS_QUERIES:
         raw_proto_files += bazel_query(target)
@@ -145,18 +185,13 @@ def get_deps():
         name[len(PROTOBUF_PROTO_PREFIX):].replace(':', '/')
         for name in raw_proto_files
         if name.endswith('.proto') and name.startswith(PROTOBUF_PROTO_PREFIX)
-    ] + [
-        # compatibility with versions of protobuf 21.x and older
-        name[len(PROTOBUF_PROTO_PREFIX_PRE_22_X):]
-        for name in raw_proto_files
-        if name.endswith('.proto') and
-        name.startswith(PROTOBUF_PROTO_PREFIX_PRE_22_X)
-    ]
+    ]    
+
     commit_hash = protobuf_submodule_commit_hash()
     deps_file_content = DEPS_FILE_CONTENT.format(
         cc_files=_pretty_print_list(sorted(cc_files)),
         proto_files=_pretty_print_list(sorted(proto_files)),
-        cc_include=repr(GRPC_PYTHON_PROTOBUF_RELATIVE_ROOT),
+        cc_includes=_pretty_print_list(CC_INCLUDES),
         proto_include=repr(GRPC_PYTHON_PROTOBUF_RELATIVE_ROOT),
         commit_hash=COMMIT_HASH_PREFIX + commit_hash + COMMIT_HASH_SUFFIX)
     return deps_file_content
@@ -172,9 +207,16 @@ def long_path(path):
 def main():
     os.chdir(GRPC_ROOT)
 
+    # TODO: add proper comments
+    # Copy files under the local subtree
+    # TODO: only copy files that are necessary?
+    # TODO: why is the copying done so clumsily?
     for source, target in [(GRPC_PROTOBUF, GRPC_PYTHON_PROTOBUF),
                            (GRPC_PROTOC_PLUGINS, GRPC_PYTHON_PROTOC_PLUGINS),
-                           (GRPC_INCLUDE, GRPC_PYTHON_INCLUDE)]:
+                           (GRPC_INCLUDE, GRPC_PYTHON_INCLUDE),
+                           (os.path.join(GRPC_ROOT, 'third_party', 'abseil-cpp', 'absl'), os.path.join(GRPC_PYTHON_ROOT, 'third_party', 'abseil-cpp', 'absl')),
+                           (os.path.join(GRPC_ROOT, 'third_party', 'utf8_range'), os.path.join(GRPC_PYTHON_ROOT, 'third_party', 'utf8_range'))]:
+        print('Copying contents of %s to %s' % (source, target))
         for source_dir, _, files in os.walk(source):
             target_dir = os.path.abspath(
                 os.path.join(target, os.path.relpath(source_dir, source)))
