@@ -37,7 +37,6 @@ CC_FILES=[
     'third_party/abseil-cpp/absl/crc/internal/crc_memcpy_x86_64.cc',
     'third_party/abseil-cpp/absl/crc/internal/crc_non_temporal_memcpy.cc',
     'third_party/abseil-cpp/absl/crc/internal/crc_x86_arm_combined.cc',
-    'third_party/abseil-cpp/absl/debugging/failure_signal_handler.cc',
     'third_party/abseil-cpp/absl/debugging/internal/address_is_readable.cc',
     'third_party/abseil-cpp/absl/debugging/internal/demangle.cc',
     'third_party/abseil-cpp/absl/debugging/internal/elf_mem_image.cc',
@@ -135,7 +134,6 @@ CC_FILES=[
     'third_party/abseil-cpp/absl/time/internal/cctz/src/time_zone_posix.cc',
     'third_party/abseil-cpp/absl/time/internal/cctz/src/zone_info_source.cc',
     'third_party/abseil-cpp/absl/time/time.cc',
-    'third_party/abseil-cpp/absl/types/bad_any_cast.cc',
     'third_party/abseil-cpp/absl/types/bad_optional_access.cc',
     'third_party/abseil-cpp/absl/types/bad_variant_access.cc',
     'third_party/protobuf/src/google/protobuf/any.cc',
@@ -337,4 +335,4 @@ CC_INCLUDES=[
 ]
 PROTO_INCLUDE='third_party/protobuf/src'
 
-PROTOBUF_SUBMODULE_VERSION="ec1a192689871dc63c83d7491e38c364c11b4527"
+PROTOBUF_SUBMODULE_VERSION="f1c7820c9bd0e31f8b7d091092851441ad2716b6"
