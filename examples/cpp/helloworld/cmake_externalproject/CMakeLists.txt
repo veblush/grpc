@@ -58,6 +58,7 @@ ExternalProject_Add(protobuf
   CMAKE_CACHE_ARGS
         -Dprotobuf_BUILD_TESTS:BOOL=OFF
         -Dprotobuf_WITH_ZLIB:BOOL=OFF
+        -Dprotobuf_ABSL_PROVIDER:STRING=package
         -Dprotobuf_MSVC_STATIC_RUNTIME:BOOL=OFF
         -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_CURRENT_BINARY_DIR}/protobuf
 )
