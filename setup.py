@@ -314,8 +314,8 @@ EXTENSION_INCLUDE_DIRECTORIES = ((PYTHON_STEM,) + CORE_INCLUDE + ABSL_INCLUDE +
                                  RE2_INCLUDE + SSL_INCLUDE + UPB_INCLUDE +
                                  UPB_GRPC_GENERATED_INCLUDE +
                                  UPBDEFS_GRPC_GENERATED_INCLUDE +
-                                 UTF8_RANGE_INCLUDE +
-                                 XXHASH_INCLUDE + ZLIB_INCLUDE)
+                                 UTF8_RANGE_INCLUDE + XXHASH_INCLUDE +
+                                 ZLIB_INCLUDE)
 
 EXTENSION_LIBRARIES = ()
 if "linux" in sys.platform:
