@@ -195,7 +195,9 @@ CC_FILES = [os.path.normpath(cc_file) for cc_file in protoc_lib_deps.CC_FILES]
 PROTO_FILES = [
     os.path.normpath(proto_file) for proto_file in protoc_lib_deps.PROTO_FILES
 ]
-CC_INCLUDES = [os.path.normpath(include_dir) for include_dir in protoc_lib_deps.CC_INCLUDES]
+CC_INCLUDES = [
+    os.path.normpath(include_dir) for include_dir in protoc_lib_deps.CC_INCLUDES
+]
 PROTO_INCLUDE = os.path.normpath(protoc_lib_deps.PROTO_INCLUDE)
 
 GRPC_PYTHON_TOOLS_PACKAGE = 'grpc_tools'
