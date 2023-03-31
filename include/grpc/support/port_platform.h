@@ -19,6 +19,8 @@
 #ifndef GRPC_SUPPORT_PORT_PLATFORM_H
 #define GRPC_SUPPORT_PORT_PLATFORM_H
 
+#define GRPC_CORD_SUPPORT_ENABLED 1
+
 /*
  * Define GPR_BACKWARDS_COMPATIBILITY_MODE to try harder to be ABI
  * compatible with older platforms (currently only on Linux)
