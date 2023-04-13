@@ -124,7 +124,7 @@ class ProtoBufferReader : public grpc::protobuf::io::ZeroCopyInputStream {
 
 #ifdef GRPC_PROTOBUF_CORD_SUPPORT_ENABLED
   /// Read the next `count` bytes and append it to the given Cord.
-  virtual bool ReadCord(absl::Cord* cord, int count) {
+  bool ReadCord(absl::Cord* cord, int count) override {
     if (!status().ok()) {
       return false;
     }
