@@ -25,6 +25,8 @@
 
 #include <memory>
 
+#include <ares.h>
+
 #include "absl/base/thread_annotations.h"
 
 #include <grpc/support/log.h>
@@ -50,6 +52,7 @@ extern grpc_core::TraceFlag grpc_trace_cares_resolver;
   } while (0)
 
 struct ares_addr_port_node;
+
 typedef struct grpc_ares_ev_driver grpc_ares_ev_driver;
 
 struct grpc_ares_request {
@@ -131,7 +134,6 @@ bool grpc_ares_query_ipv6();
 void grpc_cares_wrapper_address_sorting_sort(
     const grpc_ares_request* request, grpc_core::ServerAddressList* addresses);
 
-struct ares_channeldata;
 typedef struct ares_channeldata* ares_channel;
 
 // Exposed in this header for C-core tests only
