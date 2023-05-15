@@ -32,12 +32,13 @@
 
 #ifdef BAZEL_BUILD
 #include "examples/protos/helloworld.grpc.pb.h"
-#include "src/proto/grpc/status/status.pb.h"
 #include "google/rpc/error_details.pb.h"
+
+#include "src/proto/grpc/status/status.pb.h"
 #else
+#include "error_details.pb.h"
 #include "helloworld.grpc.pb.h"
 #include "status.pb.h"
-#include "error_details.pb.h"
 #endif
 
 ABSL_FLAG(uint16_t, port, 50051, "Server port for the service");
@@ -74,8 +75,8 @@ class GreeterServiceImpl final : public Greeter::CallbackService {
       violation->set_subject("name: " + request->name());
       violation->set_description("Limit one greeting per person");
       s.add_details()->PackFrom(quota_failure);
-      reactor->Finish(Status(StatusCode::RESOURCE_EXHAUSTED,
-                             "Duplicate", s.SerializeAsString()));
+      reactor->Finish(Status(StatusCode::RESOURCE_EXHAUSTED, "Duplicate",
+                             s.SerializeAsString()));
       return reactor;
     }
     // Handles it
@@ -84,14 +85,14 @@ class GreeterServiceImpl final : public Greeter::CallbackService {
     return reactor;
   }
 
-  private:
-   bool CheckRequestDuplicate(const std::string& name) {
+ private:
+  bool CheckRequestDuplicate(const std::string& name) {
     absl::MutexLock lock(&mu_);
     return !request_name_set_.insert(name).second;
-   }
+  }
 
-   absl::Mutex mu_;
-   std::unordered_set<std::string> request_name_set_;
+  absl::Mutex mu_;
+  std::unordered_set<std::string> request_name_set_;
 };
 
 void RunServer(uint16_t port) {
