@@ -793,4 +793,22 @@ extern void gpr_unreachable_code(const char* reason, const char* file,
 #endif
 #endif
 
+/* When building gRPC as a DLL, this macro expands to `__declspec(dllexport)`
+  so we can annotate symbols appropriately as being exported. When used in
+  headers consuming a DLL, this macro expands to `__declspec(dllimport)` so
+  that consumers know the symbol is defined inside the DLL. In all other cases,
+  the macro expands to nothing.
+ */
+#if defined(_MSC_VER)
+#if defined(GRPC_BUILD_DLL)
+#define GRPC_DLL __declspec(dllexport)
+#elif defined(GRPC_CONSUME_DLL)
+#define GRPC_DLL __declspec(dllimport)
+#else
+#define GRPC_DLL
+#endif
+#else
+#define GRPC_DLL
+#endif  // defined(_MSC_VER)
+
 #endif /* GRPC_SUPPORT_PORT_PLATFORM_H */

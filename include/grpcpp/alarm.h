@@ -31,7 +31,7 @@
 
 namespace grpc {
 
-class Alarm : private grpc::internal::GrpcLibrary {
+class GRPC_DLL Alarm : private grpc::internal::GrpcLibrary {
  public:
   /// Create an unset completion queue alarm
   Alarm();
