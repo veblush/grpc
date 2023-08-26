@@ -23,7 +23,6 @@
 #include <memory>
 #include <string>
 #include <type_traits>
-#include <utility>
 
 #include "absl/strings/str_cat.h"
 #include "absl/types/optional.h"
