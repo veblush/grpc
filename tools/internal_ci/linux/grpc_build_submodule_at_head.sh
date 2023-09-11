@@ -69,6 +69,15 @@ then
   src/abseil-cpp/preprocessed_builds.yaml.gen.py
 fi
 
+# TODO(veblush): Remove this hack once protobuf fixes IWYU problem in their arena.cc
+if [ "${SUBMODULE_NAME}" == "abseil-cpp" ]
+then
+  # Protobuf has IWYU issue preventing abseil-at-head from passing so abseil-at-head
+  # test should use the HEAD version to have the following change:
+  # https://github.com/protocolbuffers/protobuf/commit/e052928c94f5a9a6a6cbdb82e09ab4ee92b7815f
+  (cd "third_party/protobuf" && git fetch origin && git checkout "origin/main")
+fi
+
 tools/buildgen/generate_projects.sh
 
 if [ "${SUBMODULE_NAME}" == "abseil-cpp" ] || [ "${SUBMODULE_NAME}" == "protobuf" ]
