@@ -42,12 +42,12 @@
 
 namespace grpc_core {
 
-// The interface hierarchy is as follows -
-//                 CallTracerAnnotationInterface
-//                      /          \
-//        ClientCallTracer       CallTracerInterface
-//                                /             \
-//                      CallAttemptTracer    ServerCallTracer
+// The interface hierarchy is as follows -                    |
+//                 CallTracerAnnotationInterface              |
+//                      /          \                          |
+//        ClientCallTracer       CallTracerInterface          |
+//                                /             \             |
+//                      CallAttemptTracer    ServerCallTracer |
 
 // The base class for all tracer implementations.
 class CallTracerAnnotationInterface {
