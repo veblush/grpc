@@ -230,6 +230,16 @@ def grpc_deps():
         actual = "@com_google_googleapis//google/logging/v2:logging_cc_proto",
     )
 
+    if "platforms" not in native.existing_rules():
+        http_archive(
+            name = "platforms",
+            sha256 = "8150406605389ececb6da07cbcb509d5637a3ab9a24bc69b1101531367d89d74",
+            urls = [
+                "https://storage.googleapis.com/grpc-bazel-mirror/github.com/bazelbuild/platforms/releases/download/0.0.8/platforms-0.0.8.tar.gz",
+                "https://github.com/bazelbuild/platforms/releases/download/0.0.8/platforms-0.0.8.tar.gz",
+            ],
+        )
+
     if "boringssl" not in native.existing_rules():
         http_archive(
             name = "boringssl",
