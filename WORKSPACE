@@ -46,6 +46,7 @@ android_workspace()
 # will trigger bazel failure when Android SDK is not configured.
 # The targets in the following folder need to be included in APK and will
 # be invoked by binder transport implementation through JNI.
+# TODO(sifmelcara@) Enable this once figured out how to enable this with Bazel 7
 #local_repository(
 #    name = "binder_transport_android_helper",
 #    path = "./src/core/ext/transport/binder/java",

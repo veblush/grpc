@@ -298,22 +298,22 @@ def grpc_deps():
     if "rules_cc" not in native.existing_rules():
         http_archive(
             name = "rules_cc",
-            sha256 = "3d9e271e2876ba42e114c9b9bc51454e379cbf0ec9ef9d40e2ae4cec61a31b40",
-            strip_prefix = "rules_cc-0.0.6",
+            sha256 = "2037875b9a4456dce4a79d112a8ae885bbc4aad968e6587dca6e64f3a0900cdf",
+            strip_prefix = "rules_cc-0.0.9",
             urls = [
-                "https://storage.googleapis.com/grpc-bazel-mirror/github.com/bazelbuild/rules_cc/releases/download/0.0.6/rules_cc-0.0.6.tar.gz",
-                "https://github.com/bazelbuild/rules_cc/releases/download/0.0.6/rules_cc-0.0.6.tar.gz",
+                "https://storage.googleapis.com/grpc-bazel-mirror/github.com/bazelbuild/rules_cc/releases/download/0.0.9/rules_cc-0.0.9.tar.gz",
+                "https://github.com/bazelbuild/rules_cc/releases/download/0.0.9/rules_cc-0.0.9.tar.gz",
             ],
         )
 
     if "com_github_google_benchmark" not in native.existing_rules():
         http_archive(
             name = "com_github_google_benchmark",
-            sha256 = "4e47ca279d5ae967c506c136bd8afb42eedcaf010aebb48a0e87790cae4b488a",
-            strip_prefix = "benchmark-015d1a091af6937488242b70121858bce8fd40e9",
+            sha256 = "6bc180a57d23d4d9515519f92b0c83d61b05b5bab188961f36ac7b06b0d9e9ce",
+            strip_prefix = "benchmark-1.8.3",
             urls = [
-                # v1.8.2
-                "https://github.com/google/benchmark/archive/015d1a091af6937488242b70121858bce8fd40e9.tar.gz",
+                "https://storage.googleapis.com/grpc-bazel-mirror/github.com/google/benchmark/archive/refs/tags/v1.8.3.tar.gz",
+                "https://github.com/google/benchmark/archive/refs/tags/v1.8.3.tar.gz",
             ],
         )
 
