@@ -47,6 +47,7 @@ _ZOPEFOUNDATION_ZOPE_INTERFACE_DEP_NAME = (
 _TWISTED_CONSTANTLY_DEP_NAME = "com_github_twisted_constantly"
 
 _GRPC_DEP_NAMES = [
+    "platforms",
     "boringssl",
     "zlib",
     "com_google_protobuf",
@@ -83,6 +84,7 @@ _GRPC_DEP_NAMES = [
 ]
 
 _GRPC_BAZEL_ONLY_DEPS = [
+    "platforms",
     "rules_cc",
     "com_google_absl",
     "com_google_fuzztest",
@@ -172,9 +174,15 @@ build_rules = {
     "Label": lambda a: None,
 }
 exec((bazel_file), build_rules)
-for name in _GRPC_DEP_NAMES:
-    assert name in list(names_and_urls.keys())
-assert len(_GRPC_DEP_NAMES) == len(list(names_and_urls.keys()))
+##for name in _GRPC_DEP_NAMES:
+#    assert name in list(names_and_urls.keys())
+grpc_dep_names_set = set(_GRPC_DEP_NAMES)
+names_and_urls_set = set(names_and_urls.keys())
+if grpc_dep_names_set != names_and_urls_set:
+    print("Mismatch detected between _GRPC_DEP_NAMES & BUILD")
+    print("- _GRPC_DEP_NAMES only:", grpc_dep_names_set - names_and_urls_set)
+    print("- BUILD only:", names_and_urls_set-grpc_dep_names_set)
+    sys.exit(1)
 
 # There are some "bazel-only" deps that are exceptions to this sanity check,
 # we don't require that there is a corresponding git module for these.
@@ -182,6 +190,7 @@ names_without_bazel_only_deps = list(names_and_urls.keys())
 for dep_name in _GRPC_BAZEL_ONLY_DEPS:
     names_without_bazel_only_deps.remove(dep_name)
 archive_urls = [names_and_urls[name] for name in names_without_bazel_only_deps]
+print(archive_urls)
 workspace_git_hashes = {
     re.search(git_hash_pattern, url).group() for url in archive_urls
 }
