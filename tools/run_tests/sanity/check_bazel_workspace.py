@@ -181,7 +181,7 @@ names_and_urls_set = set(names_and_urls.keys())
 if grpc_dep_names_set != names_and_urls_set:
     print("Mismatch detected between _GRPC_DEP_NAMES & BUILD")
     print("- _GRPC_DEP_NAMES only:", grpc_dep_names_set - names_and_urls_set)
-    print("- BUILD only:", names_and_urls_set-grpc_dep_names_set)
+    print("- BUILD only:", names_and_urls_set - grpc_dep_names_set)
     sys.exit(1)
 
 # There are some "bazel-only" deps that are exceptions to this sanity check,
