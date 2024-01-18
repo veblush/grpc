@@ -227,7 +227,7 @@ class ChannelzSampler final {
         }
       }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   // get the descedent channels/subchannels/sockets of a subchannel
@@ -282,7 +282,7 @@ class ChannelzSampler final {
         }
       }
     }
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   // Set up the channelz sampler client
@@ -345,7 +345,7 @@ class ChannelzSampler final {
         break;
       }
     }
-    std::cout << "Number of servers = " << all_servers_.size() << std::endl;
+    std::cout << "Number of servers = " << all_servers_.size() << '\n';
   }
 
   // Get sockets that belongs to servers
@@ -363,7 +363,7 @@ class ChannelzSampler final {
           StoreSocketInJson(so);
         }
       }
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
@@ -401,9 +401,8 @@ class ChannelzSampler final {
         break;
       }
     }
-    std::cout << std::endl
-              << "Number of top channels = " << top_channels_.size()
-              << std::endl;
+    std::cout << '\n'
+              << "Number of top channels = " << top_channels_.size() << '\n';
   }
 
   // layer traverse for each top channel
@@ -412,11 +411,11 @@ class ChannelzSampler final {
       int tree_depth = 0;
       std::queue<grpc::channelz::v1::Channel> channel_queue;
       std::queue<grpc::channelz::v1::Subchannel> subchannel_queue;
-      std::cout << "Tree depth = " << tree_depth << std::endl;
+      std::cout << "Tree depth = " << tree_depth << '\n';
       GetChannelDescedence(_topchannel, channel_queue, subchannel_queue);
       while (!channel_queue.empty() || !subchannel_queue.empty()) {
         ++tree_depth;
-        std::cout << "Tree depth = " << tree_depth << std::endl;
+        std::cout << "Tree depth = " << tree_depth << '\n';
         int ch_q_size = channel_queue.size();
         int subch_q_size = subchannel_queue.size();
         for (int i = 0; i < ch_q_size; ++i) {
@@ -430,7 +429,7 @@ class ChannelzSampler final {
           GetSubchannelDescedence(subch, channel_queue, subchannel_queue);
         }
       }
-      std::cout << std::endl;
+      std::cout << '\n';
     }
   }
 
@@ -439,7 +438,7 @@ class ChannelzSampler final {
     std::string data_str;
     for (const auto& _channel : all_channels_) {
       std::cout << "channel ID" << GetChannelID(_channel) << "_"
-                << GetChannelName(_channel) << " data:" << std::endl;
+                << GetChannelName(_channel) << " data:" << '\n';
       // TODO(mohanli): TextFormat::PrintToString records time as seconds and
       // nanos. Need a more human readable way.
       ::google::protobuf::TextFormat::PrintToString(_channel.data(), &data_str);
@@ -447,20 +446,20 @@ class ChannelzSampler final {
     }
     for (const auto& _subchannel : all_subchannels_) {
       std::cout << "subchannel ID" << GetSubchannelID(_subchannel) << "_"
-                << GetSubchannelName(_subchannel) << " data:" << std::endl;
+                << GetSubchannelName(_subchannel) << " data:" << '\n';
       ::google::protobuf::TextFormat::PrintToString(_subchannel.data(),
                                                     &data_str);
       printf("%s\n", data_str.c_str());
     }
     for (const auto& _server : all_servers_) {
       std::cout << "server ID" << GetServerID(_server) << "_"
-                << GetServerName(_server) << " data:" << std::endl;
+                << GetServerName(_server) << " data:" << '\n';
       ::google::protobuf::TextFormat::PrintToString(_server.data(), &data_str);
       printf("%s\n", data_str.c_str());
     }
     for (const auto& _socket : all_sockets_) {
       std::cout << "socket ID" << GetSocketID(_socket) << "_"
-                << GetSocketName(_socket) << " data:" << std::endl;
+                << GetSocketName(_socket) << " data:" << '\n';
       ::google::protobuf::TextFormat::PrintToString(_socket.data(), &data_str);
       printf("%s\n", data_str.c_str());
     }
@@ -575,13 +574,13 @@ int main(int argc, char** argv) {
                            absl::GetFlag(FLAGS_server_address));
     std::cout << "Wait for sampling interval "
               << absl::GetFlag(FLAGS_sampling_interval_seconds) << "s..."
-              << std::endl;
+              << '\n';
     const gpr_timespec kDelay = gpr_time_add(
         gpr_now(GPR_CLOCK_MONOTONIC),
         gpr_time_from_seconds(absl::GetFlag(FLAGS_sampling_interval_seconds),
                               GPR_TIMESPAN));
     gpr_sleep_until(kDelay);
-    std::cout << "##### " << i << "th sampling #####" << std::endl;
+    std::cout << "##### " << i << "th sampling #####" << '\n';
     channelz_sampler.RecordNow();
     channelz_sampler.GetServersRPC();
     channelz_sampler.GetSocketsOfServers();
