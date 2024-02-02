@@ -99,11 +99,11 @@ EXTERNAL_PROTO_LIBRARIES = {
 # For that we need mapping from external repo name to a corresponding
 # path to a git submodule.
 EXTERNAL_SOURCE_PREFIXES = {
-    "@utf8_range": "third_party/utf8_range",
-    "@com_googlesource_code_re2": "third_party/re2",
-    "@com_google_googletest": "third_party/googletest",
-    "@com_google_protobuf": "third_party/upb",
-    "@zlib": "third_party/zlib",
+    "@com_googlesource_code_re2//": "third_party/re2",
+    "@com_google_googletest//": "third_party/googletest",
+    "@com_google_protobuf//upb": "third_party/upb/upb",
+    "@com_google_protobuf//third_party/utf8_range": "third_party/utf8_range",
+    "@zlib//": "third_party/zlib",
 }
 
 
@@ -209,9 +209,10 @@ def _try_extract_source_file_path(label: str) -> str:
         # This is an external source file. We are only interested in sources
         # for some of the external libraries.
         for lib_name, prefix in EXTERNAL_SOURCE_PREFIXES.items():
-            if label.startswith(lib_name + "//"):
+            if label.startswith(lib_name):
+                print("!!!! ", label, "~", lib_name, ":", prefix)
                 return (
-                    label.replace("%s//" % lib_name, prefix + "/")
+                    label.replace("%s" % lib_name, prefix)
                     .replace(":", "/")
                     .replace("//", "/")
                 )
@@ -1100,7 +1101,7 @@ _BUILD_EXTRA_METADATA = {
         "build": "all",
         "_RENAME": "upb_textformat_lib",
     },
-    "@utf8_range//:utf8_range": {
+    "@com_google_protobuf//third_party/utf8_range:utf8_range": {
         "language": "c",
         "build": "all",
         # rename to utf8_range_lib is necessary for now to avoid clash with utf8_range target in protobuf's cmake
