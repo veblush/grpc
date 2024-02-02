@@ -5,18 +5,19 @@
 // license that can be found in the LICENSE file or at
 // https://developers.google.com/open-source/licenses/bsd
 
-#include "upb/util/compare.h"
+#include "upb/message/internal/compare_unknown.h"
 
 #include <stdlib.h>
 
 #include "upb/base/string_view.h"
+#include "upb/mem/alloc.h"
 #include "upb/wire/eps_copy_input_stream.h"
 #include "upb/wire/reader.h"
 #include "upb/wire/types.h"
+
 // Must be last.
 #include "upb/port/def.inc"
 
-struct upb_UnknownFields;
 typedef struct upb_UnknownFields upb_UnknownFields;
 
 typedef struct {
@@ -108,9 +109,11 @@ static void upb_UnknownFields_SortRecursive(upb_UnknownField* arr, size_t start,
 static void upb_UnknownFields_Sort(upb_UnknownField_Context* ctx,
                                    upb_UnknownFields* fields) {
   if (ctx->tmp_size < fields->size) {
+    const int oldsize = ctx->tmp_size * sizeof(*ctx->tmp);
     ctx->tmp_size = UPB_MAX(8, ctx->tmp_size);
     while (ctx->tmp_size < fields->size) ctx->tmp_size *= 2;
-    ctx->tmp = realloc(ctx->tmp, ctx->tmp_size * sizeof(*ctx->tmp));
+    const int newsize = ctx->tmp_size * sizeof(*ctx->tmp);
+    ctx->tmp = upb_grealloc(ctx->tmp, oldsize, newsize);
   }
   upb_UnknownFields_SortRecursive(fields->fields, 0, fields->size, ctx->tmp);
 }
@@ -261,15 +264,13 @@ static upb_UnknownCompareResult upb_UnknownField_Compare(
   }
 
   upb_Arena_Free(ctx->arena);
-  free(ctx->tmp);
+  upb_gfree(ctx->tmp);
   return ret;
 }
 
-upb_UnknownCompareResult upb_Message_UnknownFieldsAreEqual(const char* buf1,
-                                                           size_t size1,
-                                                           const char* buf2,
-                                                           size_t size2,
-                                                           int max_depth) {
+upb_UnknownCompareResult UPB_PRIVATE(_upb_Message_UnknownFieldsAreEqual)(
+    const char* buf1, size_t size1, const char* buf2, size_t size2,
+    int max_depth) {
   if (size1 == 0 && size2 == 0) return kUpb_UnknownCompareResult_Equal;
   if (size1 == 0 || size2 == 0) return kUpb_UnknownCompareResult_NotEqual;
   if (memcmp(buf1, buf2, size1) == 0) return kUpb_UnknownCompareResult_Equal;
