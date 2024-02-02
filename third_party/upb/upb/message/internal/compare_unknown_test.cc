@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file or at
 // https://developers.google.com/open-source/licenses/bsd
 
-#include "upb/util/compare.h"
+#include "upb/message/internal/compare_unknown.h"
 
 #include <stdint.h>
 
@@ -15,8 +15,11 @@
 #include <vector>
 
 #include <gtest/gtest.h>
-#include "upb/wire/internal/swap.h"
+#include "upb/base/internal/endian.h"
 #include "upb/wire/types.h"
+
+// Must be last.
+#include "upb/port/def.inc"
 
 struct UnknownField;
 
@@ -81,11 +84,11 @@ std::string ToBinaryPayload(const UnknownFields& fields) {
       ret.append(val->val);
     } else if (const auto* val = std::get_if<Fixed64>(&field.value)) {
       EncodeVarint(field.field_number << 3 | kUpb_WireType_64Bit, &ret);
-      uint64_t swapped = _upb_BigEndian_Swap64(val->val);
+      uint64_t swapped = upb_BigEndian64(val->val);
       ret.append(reinterpret_cast<const char*>(&swapped), sizeof(swapped));
     } else if (const auto* val = std::get_if<Fixed32>(&field.value)) {
       EncodeVarint(field.field_number << 3 | kUpb_WireType_32Bit, &ret);
-      uint32_t swapped = _upb_BigEndian_Swap32(val->val);
+      uint32_t swapped = upb_BigEndian32(val->val);
       ret.append(reinterpret_cast<const char*>(&swapped), sizeof(swapped));
     } else if (const auto* val = std::get_if<Group>(&field.value)) {
       EncodeVarint(field.field_number << 3 | kUpb_WireType_StartGroup, &ret);
@@ -102,8 +105,8 @@ upb_UnknownCompareResult CompareUnknownWithMaxDepth(UnknownFields uf1,
                                                     int max_depth) {
   std::string buf1 = ToBinaryPayload(uf1);
   std::string buf2 = ToBinaryPayload(uf2);
-  return upb_Message_UnknownFieldsAreEqual(buf1.data(), buf1.size(),
-                                           buf2.data(), buf2.size(), max_depth);
+  return UPB_PRIVATE(_upb_Message_UnknownFieldsAreEqual)(
+      buf1.data(), buf1.size(), buf2.data(), buf2.size(), max_depth);
 }
 
 upb_UnknownCompareResult CompareUnknown(UnknownFields uf1, UnknownFields uf2) {
