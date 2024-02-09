@@ -97,6 +97,9 @@ set(gRPC_ABSL_PROVIDER "module" CACHE STRING "Provider of absl library")
 set_property(CACHE gRPC_ABSL_PROVIDER PROPERTY STRINGS "module" "package")
 
 set(gRPC_ABSL_USED_TARGETS
+  absl_absl_check
+  absl_absl_log
+  absl_absl_vlog_is_on
   absl_algorithm
   absl_algorithm_container
   absl_any_invocable
@@ -107,12 +110,14 @@ set(gRPC_ABSL_USED_TARGETS
   absl_base_internal
   absl_bind_front
   absl_bits
+  absl_btree
   absl_charset
   absl_city
   absl_civil_time
   absl_cleanup
   absl_cleanup_internal
   absl_common_policy_traits
+  absl_compare
   absl_compressed_tuple
   absl_config
   absl_container_common
@@ -135,6 +140,7 @@ set(gRPC_ABSL_USED_TARGETS
   absl_dynamic_annotations
   absl_endian
   absl_errno_saver
+  absl_examine_stack
   absl_exponential_biased
   absl_fast_type_id
   absl_fixed_array
@@ -158,12 +164,33 @@ set(gRPC_ABSL_USED_TARGETS
   absl_hash_policy_traits
   absl_hashtable_debug_hooks
   absl_hashtablez_sampler
+  absl_if_constexpr
   absl_inlined_vector
   absl_inlined_vector_internal
   absl_int128
   absl_kernel_timeout_internal
   absl_layout
+  absl_log_entry
+  absl_log_globals
+  absl_log_internal_append_truncated
+  absl_log_internal_check_impl
+  absl_log_internal_check_op
+  absl_log_internal_conditions
+  absl_log_internal_config
+  absl_log_internal_fnmatch
+  absl_log_internal_format
+  absl_log_internal_globals
+  absl_log_internal_log_impl
+  absl_log_internal_log_sink_set
+  absl_log_internal_message
+  absl_log_internal_nullguard
+  absl_log_internal_nullstream
+  absl_log_internal_proto
+  absl_log_internal_strip
+  absl_log_internal_voidify
   absl_log_severity
+  absl_log_sink
+  absl_log_sink_registry
   absl_low_level_hash
   absl_malloc_internal
   absl_memory
@@ -221,6 +248,7 @@ set(gRPC_ABSL_USED_TARGETS
   absl_type_traits
   absl_utility
   absl_variant
+  absl_vlog_config_internal
   absl_meta
 )
 
@@ -4065,6 +4093,7 @@ add_library(grpc++
   src/cpp/util/status.cc
   src/cpp/util/string_ref.cc
   src/cpp/util/time_cc.cc
+  third_party/utf8_range/utf8_validity.cc
   ${gRPC_UPB_GEN_DUPL_SRC}
 )
 
@@ -4110,6 +4139,15 @@ target_include_directories(grpc++
 )
 target_link_libraries(grpc++
   ${_gRPC_ALLTARGETS_LIBRARIES}
+  absl::dynamic_annotations
+  absl::prefetch
+  absl::btree
+  absl::layout
+  absl::absl_check
+  absl::absl_log
+  absl::bits
+  absl::strings_internal
+  absl::if_constexpr
   grpc
   ${_gRPC_PROTOBUF_LIBRARIES}
 )
@@ -4810,6 +4848,7 @@ add_library(grpc++_unsecure
   src/cpp/util/status.cc
   src/cpp/util/string_ref.cc
   src/cpp/util/time_cc.cc
+  third_party/utf8_range/utf8_validity.cc
   ${gRPC_UPB_GEN_DUPL_SRC}
   ${gRPC_ADDITIONAL_DLL_CXX_SRC}
 )
@@ -4856,6 +4895,15 @@ target_include_directories(grpc++_unsecure
 )
 target_link_libraries(grpc++_unsecure
   ${_gRPC_ALLTARGETS_LIBRARIES}
+  absl::dynamic_annotations
+  absl::prefetch
+  absl::btree
+  absl::layout
+  absl::absl_check
+  absl::absl_log
+  absl::bits
+  absl::strings_internal
+  absl::if_constexpr
   grpc_unsecure
   ${_gRPC_PROTOBUF_LIBRARIES}
 )
@@ -5529,6 +5577,7 @@ add_library(grpc_plugin_support
   src/compiler/proto_parser_helper.cc
   src/compiler/python_generator.cc
   src/compiler/ruby_generator.cc
+  third_party/utf8_range/utf8_validity.cc
 )
 
 target_compile_features(grpc_plugin_support PUBLIC cxx_std_14)
@@ -5565,6 +5614,40 @@ target_include_directories(grpc_plugin_support
 )
 target_link_libraries(grpc_plugin_support
   ${_gRPC_ALLTARGETS_LIBRARIES}
+  utf8_range_lib
+  ${_gRPC_ZLIB_LIBRARIES}
+  absl::algorithm_container
+  absl::base
+  absl::config
+  absl::core_headers
+  absl::dynamic_annotations
+  absl::prefetch
+  absl::cleanup
+  absl::btree
+  absl::flat_hash_map
+  absl::flat_hash_set
+  absl::layout
+  absl::flags
+  absl::any_invocable
+  absl::function_ref
+  absl::hash
+  absl::absl_check
+  absl::absl_log
+  absl::memory
+  absl::type_traits
+  absl::bits
+  absl::status
+  absl::statusor
+  absl::cord
+  absl::strings_internal
+  absl::str_format
+  absl::strings
+  absl::synchronization
+  absl::time
+  absl::optional
+  absl::span
+  absl::variant
+  absl::if_constexpr
   ${_gRPC_PROTOBUF_LIBRARIES}
   ${_gRPC_PROTOBUF_PROTOC_LIBRARIES}
 )
@@ -8145,6 +8228,7 @@ add_executable(binder_transport_test
   src/cpp/util/time_cc.cc
   test/core/transport/binder/binder_transport_test.cc
   test/core/transport/binder/mock_objects.cc
+  third_party/utf8_range/utf8_validity.cc
 )
 if(WIN32 AND MSVC)
   if(BUILD_SHARED_LIBS)
@@ -8178,6 +8262,15 @@ target_include_directories(binder_transport_test
 target_link_libraries(binder_transport_test
   ${_gRPC_ALLTARGETS_LIBRARIES}
   gtest
+  absl::dynamic_annotations
+  absl::prefetch
+  absl::btree
+  absl::layout
+  absl::absl_check
+  absl::absl_log
+  absl::bits
+  absl::strings_internal
+  absl::if_constexpr
   ${_gRPC_PROTOBUF_LIBRARIES}
   grpc_test_util
 )
@@ -12574,6 +12667,7 @@ add_executable(endpoint_binder_pool_test
   src/cpp/util/time_cc.cc
   test/core/transport/binder/endpoint_binder_pool_test.cc
   test/core/transport/binder/mock_objects.cc
+  third_party/utf8_range/utf8_validity.cc
 )
 if(WIN32 AND MSVC)
   if(BUILD_SHARED_LIBS)
@@ -12607,6 +12701,15 @@ target_include_directories(endpoint_binder_pool_test
 target_link_libraries(endpoint_binder_pool_test
   ${_gRPC_ALLTARGETS_LIBRARIES}
   gtest
+  absl::dynamic_annotations
+  absl::prefetch
+  absl::btree
+  absl::layout
+  absl::absl_check
+  absl::absl_log
+  absl::bits
+  absl::strings_internal
+  absl::if_constexpr
   ${_gRPC_PROTOBUF_LIBRARIES}
   grpc_test_util
 )
@@ -13433,6 +13536,7 @@ add_executable(fake_binder_test
   src/cpp/util/time_cc.cc
   test/core/transport/binder/end2end/fake_binder.cc
   test/core/transport/binder/end2end/fake_binder_test.cc
+  third_party/utf8_range/utf8_validity.cc
 )
 if(WIN32 AND MSVC)
   if(BUILD_SHARED_LIBS)
@@ -13466,6 +13570,15 @@ target_include_directories(fake_binder_test
 target_link_libraries(fake_binder_test
   ${_gRPC_ALLTARGETS_LIBRARIES}
   gtest
+  absl::dynamic_annotations
+  absl::prefetch
+  absl::btree
+  absl::layout
+  absl::absl_check
+  absl::absl_log
+  absl::bits
+  absl::strings_internal
+  absl::if_constexpr
   ${_gRPC_PROTOBUF_LIBRARIES}
   grpc_test_util
 )
@@ -30410,6 +30523,7 @@ add_executable(transport_stream_receiver_test
   src/cpp/util/string_ref.cc
   src/cpp/util/time_cc.cc
   test/core/transport/binder/transport_stream_receiver_test.cc
+  third_party/utf8_range/utf8_validity.cc
 )
 if(WIN32 AND MSVC)
   if(BUILD_SHARED_LIBS)
@@ -30443,6 +30557,15 @@ target_include_directories(transport_stream_receiver_test
 target_link_libraries(transport_stream_receiver_test
   ${_gRPC_ALLTARGETS_LIBRARIES}
   gtest
+  absl::dynamic_annotations
+  absl::prefetch
+  absl::btree
+  absl::layout
+  absl::absl_check
+  absl::absl_log
+  absl::bits
+  absl::strings_internal
+  absl::if_constexpr
   ${_gRPC_PROTOBUF_LIBRARIES}
   grpc_test_util
 )
@@ -31242,6 +31365,7 @@ add_executable(wire_reader_test
   src/cpp/util/time_cc.cc
   test/core/transport/binder/mock_objects.cc
   test/core/transport/binder/wire_reader_test.cc
+  third_party/utf8_range/utf8_validity.cc
 )
 if(WIN32 AND MSVC)
   if(BUILD_SHARED_LIBS)
@@ -31275,6 +31399,15 @@ target_include_directories(wire_reader_test
 target_link_libraries(wire_reader_test
   ${_gRPC_ALLTARGETS_LIBRARIES}
   gtest
+  absl::dynamic_annotations
+  absl::prefetch
+  absl::btree
+  absl::layout
+  absl::absl_check
+  absl::absl_log
+  absl::bits
+  absl::strings_internal
+  absl::if_constexpr
   ${_gRPC_PROTOBUF_LIBRARIES}
   grpc_test_util
 )
@@ -31348,6 +31481,7 @@ add_executable(wire_writer_test
   src/cpp/util/time_cc.cc
   test/core/transport/binder/mock_objects.cc
   test/core/transport/binder/wire_writer_test.cc
+  third_party/utf8_range/utf8_validity.cc
 )
 if(WIN32 AND MSVC)
   if(BUILD_SHARED_LIBS)
@@ -31381,6 +31515,15 @@ target_include_directories(wire_writer_test
 target_link_libraries(wire_writer_test
   ${_gRPC_ALLTARGETS_LIBRARIES}
   gtest
+  absl::dynamic_annotations
+  absl::prefetch
+  absl::btree
+  absl::layout
+  absl::absl_check
+  absl::absl_log
+  absl::bits
+  absl::strings_internal
+  absl::if_constexpr
   ${_gRPC_PROTOBUF_LIBRARIES}
   grpc_test_util
 )
@@ -31866,6 +32009,7 @@ add_executable(xds_client_test
   src/cpp/util/status.cc
   test/core/xds/xds_client_test.cc
   test/core/xds/xds_transport_fake.cc
+  third_party/utf8_range/utf8_validity.cc
 )
 if(WIN32 AND MSVC)
   if(BUILD_SHARED_LIBS)
@@ -31899,6 +32043,15 @@ target_include_directories(xds_client_test
 target_link_libraries(xds_client_test
   ${_gRPC_ALLTARGETS_LIBRARIES}
   gtest
+  absl::dynamic_annotations
+  absl::prefetch
+  absl::btree
+  absl::layout
+  absl::absl_check
+  absl::absl_log
+  absl::bits
+  absl::strings_internal
+  absl::if_constexpr
   ${_gRPC_PROTOBUF_LIBRARIES}
   grpc_test_util
 )
@@ -32158,6 +32311,7 @@ add_executable(xds_cluster_resource_type_test
   ${_gRPC_PROTO_GENS_DIR}/src/proto/grpc/testing/xds/v3/wrr_locality.grpc.pb.h
   src/cpp/util/status.cc
   test/core/xds/xds_cluster_resource_type_test.cc
+  third_party/utf8_range/utf8_validity.cc
 )
 if(WIN32 AND MSVC)
   if(BUILD_SHARED_LIBS)
@@ -32191,6 +32345,15 @@ target_include_directories(xds_cluster_resource_type_test
 target_link_libraries(xds_cluster_resource_type_test
   ${_gRPC_ALLTARGETS_LIBRARIES}
   gtest
+  absl::dynamic_annotations
+  absl::prefetch
+  absl::btree
+  absl::layout
+  absl::absl_check
+  absl::absl_log
+  absl::bits
+  absl::strings_internal
+  absl::if_constexpr
   ${_gRPC_PROTOBUF_LIBRARIES}
   grpc_test_util
 )
@@ -33152,6 +33315,7 @@ add_executable(xds_endpoint_resource_type_test
   ${_gRPC_PROTO_GENS_DIR}/src/proto/grpc/testing/xds/v3/percent.grpc.pb.h
   src/cpp/util/status.cc
   test/core/xds/xds_endpoint_resource_type_test.cc
+  third_party/utf8_range/utf8_validity.cc
 )
 if(WIN32 AND MSVC)
   if(BUILD_SHARED_LIBS)
@@ -33185,6 +33349,15 @@ target_include_directories(xds_endpoint_resource_type_test
 target_link_libraries(xds_endpoint_resource_type_test
   ${_gRPC_ALLTARGETS_LIBRARIES}
   gtest
+  absl::dynamic_annotations
+  absl::prefetch
+  absl::btree
+  absl::layout
+  absl::absl_check
+  absl::absl_log
+  absl::bits
+  absl::strings_internal
+  absl::if_constexpr
   ${_gRPC_PROTOBUF_LIBRARIES}
   grpc_test_util
 )
@@ -35434,7 +35607,7 @@ generate_pkgconfig(
   "gRPC++"
   "C++ wrapper for gRPC"
   "${gRPC_CPP_VERSION}"
-  "absl_algorithm_container absl_any_invocable absl_base absl_bind_front absl_cleanup absl_config absl_cord absl_core_headers absl_flags absl_flags_marshalling absl_flat_hash_map absl_flat_hash_set absl_function_ref absl_hash absl_inlined_vector absl_memory absl_optional absl_random_bit_gen_ref absl_random_distributions absl_random_random absl_span absl_status absl_statusor absl_str_format absl_strings absl_synchronization absl_time absl_type_traits absl_utility absl_variant gpr grpc"
+  "absl_absl_check absl_absl_log absl_algorithm_container absl_any_invocable absl_base absl_bind_front absl_bits absl_btree absl_cleanup absl_config absl_cord absl_core_headers absl_dynamic_annotations absl_flags absl_flags_marshalling absl_flat_hash_map absl_flat_hash_set absl_function_ref absl_hash absl_if_constexpr absl_inlined_vector absl_layout absl_memory absl_optional absl_prefetch absl_random_bit_gen_ref absl_random_distributions absl_random_random absl_span absl_status absl_statusor absl_str_format absl_strings absl_strings_internal absl_synchronization absl_time absl_type_traits absl_utility absl_variant gpr grpc"
   "libcares openssl re2 zlib"
   "-lgrpc++"
   "-laddress_sorting -lupb_textformat_lib -lupb_json_lib -lupb_message_lib -lupb_mem_lib -lupb_base_lib -lutf8_range_lib"
@@ -35445,7 +35618,7 @@ generate_pkgconfig(
   "gRPC++ unsecure"
   "C++ wrapper for gRPC without SSL"
   "${gRPC_CPP_VERSION}"
-  "absl_algorithm_container absl_any_invocable absl_base absl_bind_front absl_cleanup absl_config absl_cord absl_core_headers absl_flags absl_flags_marshalling absl_flat_hash_map absl_flat_hash_set absl_function_ref absl_hash absl_inlined_vector absl_memory absl_optional absl_random_bit_gen_ref absl_random_distributions absl_random_random absl_span absl_status absl_statusor absl_str_format absl_strings absl_synchronization absl_time absl_type_traits absl_utility absl_variant gpr grpc_unsecure"
+  "absl_absl_check absl_absl_log absl_algorithm_container absl_any_invocable absl_base absl_bind_front absl_bits absl_btree absl_cleanup absl_config absl_cord absl_core_headers absl_dynamic_annotations absl_flags absl_flags_marshalling absl_flat_hash_map absl_flat_hash_set absl_function_ref absl_hash absl_if_constexpr absl_inlined_vector absl_layout absl_memory absl_optional absl_prefetch absl_random_bit_gen_ref absl_random_distributions absl_random_random absl_span absl_status absl_statusor absl_str_format absl_strings absl_strings_internal absl_synchronization absl_time absl_type_traits absl_utility absl_variant gpr grpc_unsecure"
   "libcares zlib"
   "-lgrpc++_unsecure"
   "-laddress_sorting -lupb_message_lib -lupb_mem_lib -lupb_base_lib -lutf8_range_lib"

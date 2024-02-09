@@ -230,24 +230,32 @@ Pod::Spec.new do |s|
     ss.dependency 'abseil/base/base', abseil_version
     ss.dependency 'abseil/base/config', abseil_version
     ss.dependency 'abseil/base/core_headers', abseil_version
+    ss.dependency 'abseil/base/dynamic_annotations', abseil_version
+    ss.dependency 'abseil/base/prefetch', abseil_version
     ss.dependency 'abseil/cleanup/cleanup', abseil_version
+    ss.dependency 'abseil/container/btree', abseil_version
     ss.dependency 'abseil/container/flat_hash_map', abseil_version
     ss.dependency 'abseil/container/flat_hash_set', abseil_version
     ss.dependency 'abseil/container/inlined_vector', abseil_version
+    ss.dependency 'abseil/container/layout', abseil_version
     ss.dependency 'abseil/flags/flag', abseil_version
     ss.dependency 'abseil/flags/marshalling', abseil_version
     ss.dependency 'abseil/functional/any_invocable', abseil_version
     ss.dependency 'abseil/functional/bind_front', abseil_version
     ss.dependency 'abseil/functional/function_ref', abseil_version
     ss.dependency 'abseil/hash/hash', abseil_version
+    ss.dependency 'abseil/log/absl_check', abseil_version
+    ss.dependency 'abseil/log/absl_log', abseil_version
     ss.dependency 'abseil/memory/memory', abseil_version
     ss.dependency 'abseil/meta/type_traits', abseil_version
+    ss.dependency 'abseil/numeric/bits', abseil_version
     ss.dependency 'abseil/random/bit_gen_ref', abseil_version
     ss.dependency 'abseil/random/distributions', abseil_version
     ss.dependency 'abseil/random/random', abseil_version
     ss.dependency 'abseil/status/status', abseil_version
     ss.dependency 'abseil/status/statusor', abseil_version
     ss.dependency 'abseil/strings/cord', abseil_version
+    ss.dependency 'abseil/strings/internal', abseil_version
     ss.dependency 'abseil/strings/str_format', abseil_version
     ss.dependency 'abseil/strings/strings', abseil_version
     ss.dependency 'abseil/synchronization/synchronization', abseil_version
@@ -255,6 +263,7 @@ Pod::Spec.new do |s|
     ss.dependency 'abseil/types/optional', abseil_version
     ss.dependency 'abseil/types/span', abseil_version
     ss.dependency 'abseil/types/variant', abseil_version
+    ss.dependency 'abseil/utility/if_constexpr', abseil_version
     ss.dependency 'abseil/utility/utility', abseil_version
 
     ss.source_files = 'src/core/client_channel/backend_metric.h',
@@ -1525,6 +1534,8 @@ Pod::Spec.new do |s|
                       'third_party/upb/upb/wire/reader.h',
                       'third_party/upb/upb/wire/types.h',
                       'third_party/utf8_range/utf8_range.h',
+                      'third_party/utf8_range/utf8_validity.cc',
+                      'third_party/utf8_range/utf8_validity.h',
                       'third_party/xxhash/xxhash.h',
                       'third_party/zlib/crc32.h',
                       'third_party/zlib/deflate.h',
@@ -2741,6 +2752,7 @@ Pod::Spec.new do |s|
                               'third_party/upb/upb/wire/reader.h',
                               'third_party/upb/upb/wire/types.h',
                               'third_party/utf8_range/utf8_range.h',
+                              'third_party/utf8_range/utf8_validity.h',
                               'third_party/xxhash/xxhash.h',
                               'third_party/zlib/crc32.h',
                               'third_party/zlib/deflate.h',
