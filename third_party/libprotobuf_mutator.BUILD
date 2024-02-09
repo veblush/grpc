@@ -22,6 +22,8 @@ cc_library(
     ),
     hdrs = glob(["src/*.h", "port/*.h", "src/libfuzzer/*.h"]),
     deps = [
+        "@com_google_protobuf//:any_cc_proto",
+        "@com_google_protobuf//:differencer",
         "@com_google_protobuf//:protobuf",
         "@com_google_googletest//:gtest",
     ],
