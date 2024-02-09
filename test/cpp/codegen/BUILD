@@ -52,6 +52,7 @@ grpc_cc_test(
     external_deps = [
         "gtest",
         "protobuf",
+        "protobuf_json_util",
     ],
     uses_event_engine = False,
     uses_polling = False,
