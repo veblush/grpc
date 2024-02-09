@@ -78,6 +78,7 @@ grpc_cc_library(
     external_deps = [
         "protobuf_clib",
         "protobuf",
+        "protobuf_json_util",
     ],
     language = "c++",
     deps = [

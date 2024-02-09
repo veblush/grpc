@@ -99,6 +99,7 @@ grpc_cc_library(
     external_deps = [
         "gtest",
         "protobuf",
+        "protobuf_json_util",
     ],
     deps = [
         "//:grpc++",
@@ -112,6 +113,7 @@ grpc_cc_library(
     hdrs = GRPCXX_TESTUTIL_HDRS,
     external_deps = [
         "protobuf",
+        "protobuf_json_util",
     ],
     deps = [
         "//:grpc++_unsecure",
@@ -140,6 +142,7 @@ grpc_cc_library(
         "absl/flags:flag",
         "protobuf",
         "protobuf_clib",
+        "protobuf_json_util",
     ],
     deps = [
         ":grpc++_proto_reflection_desc_db",

@@ -854,6 +854,7 @@ grpc_cc_library(
         "absl/synchronization",
         "protobuf_headers",
         "protobuf",
+        "protobuf_json_util",
     ],
     tags = [
         "avoid_dep",
@@ -2069,6 +2070,7 @@ grpc_cc_library(
         "absl/strings:cord",
         "protobuf_headers",
         "protobuf",
+        "protobuf_json_util",
     ],
     language = "c++",
     public_hdrs = [
@@ -2092,6 +2094,7 @@ grpc_cc_library(
     external_deps = [
         "protobuf_headers",
         "protobuf",
+        "protobuf_json_util",
     ],
     language = "c++",
     public_hdrs = [

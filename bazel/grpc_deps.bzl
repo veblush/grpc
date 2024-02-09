@@ -91,6 +91,11 @@ def grpc_deps():
     )
 
     native.bind(
+        name = "protobuf_json_util",
+        actual = "@com_google_protobuf//:json_util",
+    )
+
+    native.bind(
         name = "protobuf_clib",
         actual = "@com_google_protobuf//:protoc_lib",
     )
