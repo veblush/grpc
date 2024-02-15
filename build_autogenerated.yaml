@@ -3841,6 +3841,7 @@ libs:
   - src/cpp/server/secure_server_credentials.h
   - src/cpp/server/thread_pool_interface.h
   - src/cpp/thread_manager/thread_manager.h
+  - third_party/utf8_range/utf8_validity.h
   src:
   - src/core/ext/transport/binder/client/binder_connector.cc
   - src/core/ext/transport/binder/client/channel_create.cc
@@ -3907,7 +3908,17 @@ libs:
   - src/cpp/util/status.cc
   - src/cpp/util/string_ref.cc
   - src/cpp/util/time_cc.cc
+  - third_party/utf8_range/utf8_validity.cc
   deps:
+  - absl/base:dynamic_annotations
+  - absl/base:prefetch
+  - absl/container:btree
+  - absl/container:layout
+  - absl/log:absl_check
+  - absl/log:absl_log
+  - absl/numeric:bits
+  - absl/strings:internal
+  - absl/utility:if_constexpr
   - grpc
   - protobuf
   baselib: true
@@ -4241,6 +4252,7 @@ libs:
   - src/cpp/server/health/default_health_check_service.h
   - src/cpp/server/thread_pool_interface.h
   - src/cpp/thread_manager/thread_manager.h
+  - third_party/utf8_range/utf8_validity.h
   src:
   - src/cpp/client/channel_cc.cc
   - src/cpp/client/client_callback.cc
@@ -4278,7 +4290,17 @@ libs:
   - src/cpp/util/status.cc
   - src/cpp/util/string_ref.cc
   - src/cpp/util/time_cc.cc
+  - third_party/utf8_range/utf8_validity.cc
   deps:
+  - absl/base:dynamic_annotations
+  - absl/base:prefetch
+  - absl/container:btree
+  - absl/container:layout
+  - absl/log:absl_check
+  - absl/log:absl_log
+  - absl/numeric:bits
+  - absl/strings:internal
+  - absl/utility:if_constexpr
   - grpc_unsecure
   - protobuf
   baselib: true
@@ -5039,6 +5061,7 @@ libs:
   - src/compiler/ruby_generator_map-inl.h
   - src/compiler/ruby_generator_string-inl.h
   - src/compiler/schema_interface.h
+  - third_party/utf8_range/utf8_validity.h
   src:
   - src/compiler/cpp_generator.cc
   - src/compiler/csharp_generator.cc
@@ -5048,7 +5071,42 @@ libs:
   - src/compiler/proto_parser_helper.cc
   - src/compiler/python_generator.cc
   - src/compiler/ruby_generator.cc
+  - third_party/utf8_range/utf8_validity.cc
   deps:
+  - utf8_range_lib
+  - z
+  - absl/algorithm:container
+  - absl/base:base
+  - absl/base:config
+  - absl/base:core_headers
+  - absl/base:dynamic_annotations
+  - absl/base:prefetch
+  - absl/cleanup:cleanup
+  - absl/container:btree
+  - absl/container:flat_hash_map
+  - absl/container:flat_hash_set
+  - absl/container:layout
+  - absl/flags:flag
+  - absl/functional:any_invocable
+  - absl/functional:function_ref
+  - absl/hash:hash
+  - absl/log:absl_check
+  - absl/log:absl_log
+  - absl/memory:memory
+  - absl/meta:type_traits
+  - absl/numeric:bits
+  - absl/status:status
+  - absl/status:statusor
+  - absl/strings:cord
+  - absl/strings:internal
+  - absl/strings:str_format
+  - absl/strings:strings
+  - absl/synchronization:synchronization
+  - absl/time:time
+  - absl/types:optional
+  - absl/types:span
+  - absl/types:variant
+  - absl/utility:if_constexpr
   - protobuf
   - protoc
 - name: grpcpp_channelz
@@ -6136,6 +6194,7 @@ targets:
   - src/cpp/server/thread_pool_interface.h
   - src/cpp/thread_manager/thread_manager.h
   - test/core/transport/binder/mock_objects.h
+  - third_party/utf8_range/utf8_validity.h
   src:
   - src/core/ext/transport/binder/client/binder_connector.cc
   - src/core/ext/transport/binder/client/channel_create.cc
@@ -6201,8 +6260,18 @@ targets:
   - src/cpp/util/time_cc.cc
   - test/core/transport/binder/binder_transport_test.cc
   - test/core/transport/binder/mock_objects.cc
+  - third_party/utf8_range/utf8_validity.cc
   deps:
   - gtest
+  - absl/base:dynamic_annotations
+  - absl/base:prefetch
+  - absl/container:btree
+  - absl/container:layout
+  - absl/log:absl_check
+  - absl/log:absl_log
+  - absl/numeric:bits
+  - absl/strings:internal
+  - absl/utility:if_constexpr
   - protobuf
   - grpc_test_util
   uses_polling: false
@@ -8832,6 +8901,7 @@ targets:
   - src/cpp/server/thread_pool_interface.h
   - src/cpp/thread_manager/thread_manager.h
   - test/core/transport/binder/mock_objects.h
+  - third_party/utf8_range/utf8_validity.h
   src:
   - src/core/ext/transport/binder/client/binder_connector.cc
   - src/core/ext/transport/binder/client/channel_create.cc
@@ -8897,8 +8967,18 @@ targets:
   - src/cpp/util/time_cc.cc
   - test/core/transport/binder/endpoint_binder_pool_test.cc
   - test/core/transport/binder/mock_objects.cc
+  - third_party/utf8_range/utf8_validity.cc
   deps:
   - gtest
+  - absl/base:dynamic_annotations
+  - absl/base:prefetch
+  - absl/container:btree
+  - absl/container:layout
+  - absl/log:absl_check
+  - absl/log:absl_log
+  - absl/numeric:bits
+  - absl/strings:internal
+  - absl/utility:if_constexpr
   - protobuf
   - grpc_test_util
   uses_polling: false
@@ -9323,6 +9403,7 @@ targets:
   - src/cpp/server/thread_pool_interface.h
   - src/cpp/thread_manager/thread_manager.h
   - test/core/transport/binder/end2end/fake_binder.h
+  - third_party/utf8_range/utf8_validity.h
   src:
   - src/core/ext/transport/binder/client/binder_connector.cc
   - src/core/ext/transport/binder/client/channel_create.cc
@@ -9388,8 +9469,18 @@ targets:
   - src/cpp/util/time_cc.cc
   - test/core/transport/binder/end2end/fake_binder.cc
   - test/core/transport/binder/end2end/fake_binder_test.cc
+  - third_party/utf8_range/utf8_validity.cc
   deps:
   - gtest
+  - absl/base:dynamic_annotations
+  - absl/base:prefetch
+  - absl/container:btree
+  - absl/container:layout
+  - absl/log:absl_check
+  - absl/log:absl_log
+  - absl/numeric:bits
+  - absl/strings:internal
+  - absl/utility:if_constexpr
   - protobuf
   - grpc_test_util
   uses_polling: false
@@ -19284,6 +19375,7 @@ targets:
   - src/cpp/server/secure_server_credentials.h
   - src/cpp/server/thread_pool_interface.h
   - src/cpp/thread_manager/thread_manager.h
+  - third_party/utf8_range/utf8_validity.h
   src:
   - src/core/ext/transport/binder/client/binder_connector.cc
   - src/core/ext/transport/binder/client/channel_create.cc
@@ -19348,8 +19440,18 @@ targets:
   - src/cpp/util/string_ref.cc
   - src/cpp/util/time_cc.cc
   - test/core/transport/binder/transport_stream_receiver_test.cc
+  - third_party/utf8_range/utf8_validity.cc
   deps:
   - gtest
+  - absl/base:dynamic_annotations
+  - absl/base:prefetch
+  - absl/container:btree
+  - absl/container:layout
+  - absl/log:absl_check
+  - absl/log:absl_log
+  - absl/numeric:bits
+  - absl/strings:internal
+  - absl/utility:if_constexpr
   - protobuf
   - grpc_test_util
   uses_polling: false
@@ -19656,6 +19758,7 @@ targets:
   - src/cpp/server/thread_pool_interface.h
   - src/cpp/thread_manager/thread_manager.h
   - test/core/transport/binder/mock_objects.h
+  - third_party/utf8_range/utf8_validity.h
   src:
   - src/core/ext/transport/binder/client/binder_connector.cc
   - src/core/ext/transport/binder/client/channel_create.cc
@@ -19721,8 +19824,18 @@ targets:
   - src/cpp/util/time_cc.cc
   - test/core/transport/binder/mock_objects.cc
   - test/core/transport/binder/wire_reader_test.cc
+  - third_party/utf8_range/utf8_validity.cc
   deps:
   - gtest
+  - absl/base:dynamic_annotations
+  - absl/base:prefetch
+  - absl/container:btree
+  - absl/container:layout
+  - absl/log:absl_check
+  - absl/log:absl_log
+  - absl/numeric:bits
+  - absl/strings:internal
+  - absl/utility:if_constexpr
   - protobuf
   - grpc_test_util
   uses_polling: false
@@ -19763,6 +19876,7 @@ targets:
   - src/cpp/server/thread_pool_interface.h
   - src/cpp/thread_manager/thread_manager.h
   - test/core/transport/binder/mock_objects.h
+  - third_party/utf8_range/utf8_validity.h
   src:
   - src/core/ext/transport/binder/client/binder_connector.cc
   - src/core/ext/transport/binder/client/channel_create.cc
@@ -19828,8 +19942,18 @@ targets:
   - src/cpp/util/time_cc.cc
   - test/core/transport/binder/mock_objects.cc
   - test/core/transport/binder/wire_writer_test.cc
+  - third_party/utf8_range/utf8_validity.cc
   deps:
   - gtest
+  - absl/base:dynamic_annotations
+  - absl/base:prefetch
+  - absl/container:btree
+  - absl/container:layout
+  - absl/log:absl_check
+  - absl/log:absl_log
+  - absl/numeric:bits
+  - absl/strings:internal
+  - absl/utility:if_constexpr
   - protobuf
   - grpc_test_util
   uses_polling: false
@@ -20097,6 +20221,7 @@ targets:
   headers:
   - test/core/util/scoped_env_var.h
   - test/core/xds/xds_transport_fake.h
+  - third_party/utf8_range/utf8_validity.h
   src:
   - src/proto/grpc/testing/xds/v3/base.proto
   - src/proto/grpc/testing/xds/v3/discovery.proto
@@ -20104,8 +20229,18 @@ targets:
   - src/cpp/util/status.cc
   - test/core/xds/xds_client_test.cc
   - test/core/xds/xds_transport_fake.cc
+  - third_party/utf8_range/utf8_validity.cc
   deps:
   - gtest
+  - absl/base:dynamic_annotations
+  - absl/base:prefetch
+  - absl/container:btree
+  - absl/container:layout
+  - absl/log:absl_check
+  - absl/log:absl_log
+  - absl/numeric:bits
+  - absl/strings:internal
+  - absl/utility:if_constexpr
   - protobuf
   - grpc_test_util
   uses_polling: false
@@ -20175,7 +20310,8 @@ targets:
   gtest: true
   build: test
   language: c++
-  headers: []
+  headers:
+  - third_party/utf8_range/utf8_validity.h
   src:
   - src/proto/grpc/testing/xds/v3/address.proto
   - src/proto/grpc/testing/xds/v3/aggregate_cluster.proto
@@ -20197,8 +20333,18 @@ targets:
   - src/proto/grpc/testing/xds/v3/wrr_locality.proto
   - src/cpp/util/status.cc
   - test/core/xds/xds_cluster_resource_type_test.cc
+  - third_party/utf8_range/utf8_validity.cc
   deps:
   - gtest
+  - absl/base:dynamic_annotations
+  - absl/base:prefetch
+  - absl/container:btree
+  - absl/container:layout
+  - absl/log:absl_check
+  - absl/log:absl_log
+  - absl/numeric:bits
+  - absl/strings:internal
+  - absl/utility:if_constexpr
   - protobuf
   - grpc_test_util
   uses_polling: false
@@ -20534,6 +20680,7 @@ targets:
   language: c++
   headers:
   - test/core/util/scoped_env_var.h
+  - third_party/utf8_range/utf8_validity.h
   src:
   - src/proto/grpc/testing/xds/v3/address.proto
   - src/proto/grpc/testing/xds/v3/base.proto
@@ -20542,8 +20689,18 @@ targets:
   - src/proto/grpc/testing/xds/v3/percent.proto
   - src/cpp/util/status.cc
   - test/core/xds/xds_endpoint_resource_type_test.cc
+  - third_party/utf8_range/utf8_validity.cc
   deps:
   - gtest
+  - absl/base:dynamic_annotations
+  - absl/base:prefetch
+  - absl/container:btree
+  - absl/container:layout
+  - absl/log:absl_check
+  - absl/log:absl_log
+  - absl/numeric:bits
+  - absl/strings:internal
+  - absl/utility:if_constexpr
   - protobuf
   - grpc_test_util
   uses_polling: false
