@@ -91,7 +91,10 @@ COPY_FILES_SOURCE_TARGET_PAIRS = [
     ("third_party/abseil-cpp/absl", "third_party/abseil-cpp/absl"),
     ("third_party/protobuf/src", "third_party/protobuf/src"),
     ("third_party/protobuf/upb", "third_party/protobuf/upb"),
-    ("third_party/protobuf/upb_generator", "third_party/protobuf/upb_generator"),
+    (
+        "third_party/protobuf/upb_generator",
+        "third_party/protobuf/upb_generator",
+    ),
     (
         "third_party/protobuf/third_party/utf8_range",
         "third_party/protobuf/third_party/utf8_range",
