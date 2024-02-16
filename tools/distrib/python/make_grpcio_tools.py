@@ -71,7 +71,9 @@ PROTOBUF_PROTO_PREFIX = "@com_google_protobuf//src/"
 # will be added to include path when building grpcio_tools
 CC_INCLUDES = [
     os.path.join("third_party", "abseil-cpp"),
+    os.path.join("third_party", "protobuf"),
     os.path.join("third_party", "protobuf", "src"),
+    os.path.join("third_party", "protobuf", "upb"),
     os.path.join("third_party", "protobuf", "third_party", "utf8_range"),
 ]
 
@@ -88,6 +90,8 @@ COPY_FILES_SOURCE_TARGET_PAIRS = [
     ("src/compiler", "grpc_root/src/compiler"),
     ("third_party/abseil-cpp/absl", "third_party/abseil-cpp/absl"),
     ("third_party/protobuf/src", "third_party/protobuf/src"),
+    ("third_party/protobuf/upb", "third_party/protobuf/upb"),
+    ("third_party/protobuf/upb_generator", "third_party/protobuf/upb_generator"),
     (
         "third_party/protobuf/third_party/utf8_range",
         "third_party/protobuf/third_party/utf8_range",
