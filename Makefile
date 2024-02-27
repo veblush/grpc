@@ -268,49 +268,6 @@ ifndef VALID_CONFIG_$(CONFIG)
 $(error Invalid CONFIG value '$(CONFIG)')
 endif
 
-ifeq ($(SYSTEM),Linux)
-TMPOUT = /dev/null
-else
-TMPOUT = `mktemp /tmp/test-out-XXXXXX`
-endif
-
-CHECK_NO_CXX14_COMPAT_WORKS_CMD = $(CC) -std=c++14 -Werror -Wno-c++14-compat -o $(TMPOUT) -c test/build/no-c++14-compat.cc
-HAS_WORKING_NO_CXX14_COMPAT = $(shell $(CHECK_NO_CXX14_COMPAT_WORKS_CMD) 2> /dev/null && echo true || echo false)
-ifeq ($(HAS_WORKING_NO_CXX14_COMPAT),true)
-W_NO_CXX14_COMPAT=-Wno-c++14-compat
-endif
-
-CHECK_EXTRA_SEMI_WORKS_CMD = $(CC) -std=c99 -Werror -Wextra-semi -o $(TMPOUT) -c test/build/extra-semi.c
-HAS_WORKING_EXTRA_SEMI = $(shell $(CHECK_EXTRA_SEMI_WORKS_CMD) 2> /dev/null && echo true || echo false)
-ifeq ($(HAS_WORKING_EXTRA_SEMI),true)
-W_EXTRA_SEMI=-Wextra-semi
-NO_W_EXTRA_SEMI=-Wno-extra-semi
-endif
-CHECK_NO_SHIFT_NEGATIVE_VALUE_WORKS_CMD = $(CC) -std=c99 -Werror -Wno-shift-negative-value -o $(TMPOUT) -c test/build/no-shift-negative-value.c
-HAS_WORKING_NO_SHIFT_NEGATIVE_VALUE = $(shell $(CHECK_NO_SHIFT_NEGATIVE_VALUE_WORKS_CMD) 2> /dev/null && echo true || echo false)
-ifeq ($(HAS_WORKING_NO_SHIFT_NEGATIVE_VALUE),true)
-W_NO_SHIFT_NEGATIVE_VALUE=-Wno-shift-negative-value
-NO_W_NO_SHIFT_NEGATIVE_VALUE=-Wshift-negative-value
-endif
-CHECK_NO_UNUSED_BUT_SET_VARIABLE_WORKS_CMD = $(CC) -std=c99 -Werror -Wno-unused-but-set-variable -o $(TMPOUT) -c test/build/no-unused-but-set-variable.c
-HAS_WORKING_NO_UNUSED_BUT_SET_VARIABLE = $(shell $(CHECK_NO_UNUSED_BUT_SET_VARIABLE_WORKS_CMD) 2> /dev/null && echo true || echo false)
-ifeq ($(HAS_WORKING_NO_UNUSED_BUT_SET_VARIABLE),true)
-W_NO_UNUSED_BUT_SET_VARIABLE=-Wno-unused-but-set-variable
-NO_W_NO_UNUSED_BUT_SET_VARIABLE=-Wunused-but-set-variable
-endif
-CHECK_NO_MAYBE_UNINITIALIZED_WORKS_CMD = $(CC) -std=c99 -Werror -Wno-maybe-uninitialized -o $(TMPOUT) -c test/build/no-maybe-uninitialized.c
-HAS_WORKING_NO_MAYBE_UNINITIALIZED = $(shell $(CHECK_NO_MAYBE_UNINITIALIZED_WORKS_CMD) 2> /dev/null && echo true || echo false)
-ifeq ($(HAS_WORKING_NO_MAYBE_UNINITIALIZED),true)
-W_NO_MAYBE_UNINITIALIZED=-Wno-maybe-uninitialized
-NO_W_NO_MAYBE_UNINITIALIZED=-Wmaybe-uninitialized
-endif
-CHECK_NO_UNKNOWN_WARNING_OPTION_WORKS_CMD = $(CC) -std=c99 -Werror -Wno-unknown-warning-option -o $(TMPOUT) -c test/build/no-unknown-warning-option.c
-HAS_WORKING_NO_UNKNOWN_WARNING_OPTION = $(shell $(CHECK_NO_UNKNOWN_WARNING_OPTION_WORKS_CMD) 2> /dev/null && echo true || echo false)
-ifeq ($(HAS_WORKING_NO_UNKNOWN_WARNING_OPTION),true)
-W_NO_UNKNOWN_WARNING_OPTION=-Wno-unknown-warning-option
-NO_W_NO_UNKNOWN_WARNING_OPTION=-Wunknown-warning-option
-endif
-
 # The HOST compiler settings are used to compile the protoc plugins.
 # In most cases, you won't have to change anything, but if you are
 # cross-compiling, you can override these variables from GNU make's
@@ -321,7 +278,7 @@ HOST_CXX ?= $(CXX)
 HOST_LD ?= $(LD)
 HOST_LDXX ?= $(LDXX)
 
-CFLAGS += -std=c11 $(W_EXTRA_SEMI)
+CFLAGS += -std=c11
 CXXFLAGS += -std=c++14
 ifeq ($(SYSTEM),Darwin)
 CXXFLAGS += -stdlib=libc++

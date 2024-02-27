@@ -151,19 +151,6 @@
     sources_that_need_openssl = set()
     sources_that_don_t_need_openssl = set()
 
-    # warnings we'd like, but that don't exist in all compilers
-    PREFERRED_WARNINGS=['extra-semi']
-    CHECK_WARNINGS=PREFERRED_WARNINGS + ['no-shift-negative-value', 'no-unused-but-set-variable', 'no-maybe-uninitialized', 'no-unknown-warning-option']
-
-    def warning_var(fmt, warning):
-      return fmt % warning.replace('-', '_').replace('+', 'X').upper()
-
-    def neg_warning(warning):
-      if warning[0:3] == 'no-':
-        return warning[3:]
-      else:
-        return 'no-' + warning
-
     lang_to_var = {
       'c': 'CORE',
       'c++': 'CPP',
@@ -317,27 +304,6 @@
   $(error Invalid CONFIG value '$(CONFIG)')
   endif
 
-  ifeq ($(SYSTEM),Linux)
-  TMPOUT = /dev/null
-  else
-  TMPOUT = `mktemp /tmp/test-out-XXXXXX`
-  endif
-
-  CHECK_NO_CXX14_COMPAT_WORKS_CMD = $(CC) -std=c++14 -Werror -Wno-c++14-compat -o $(TMPOUT) -c test/build/no-c++14-compat.cc
-  HAS_WORKING_NO_CXX14_COMPAT = $(shell $(CHECK_NO_CXX14_COMPAT_WORKS_CMD) 2> /dev/null && echo true || echo false)
-  ifeq ($(HAS_WORKING_NO_CXX14_COMPAT),true)
-  W_NO_CXX14_COMPAT=-Wno-c++14-compat
-  endif
-
-  %for warning in CHECK_WARNINGS:
-  ${warning_var('CHECK_%s_WORKS_CMD', warning)} = $(CC) -std=c99 -Werror -W${warning} -o $(TMPOUT) -c test/build/${warning}.c
-  ${warning_var('HAS_WORKING_%s', warning)} = $(shell $(${warning_var('CHECK_%s_WORKS_CMD', warning)}) 2> /dev/null && echo true || echo false)
-  ifeq ($(${warning_var('HAS_WORKING_%s', warning)}),true)
-  ${warning_var('W_%s', warning)}=-W${warning}
-  ${warning_var('NO_W_%s', warning)}=-W${neg_warning(warning)}
-  endif
-  %endfor
-
   # The HOST compiler settings are used to compile the protoc plugins.
   # In most cases, you won't have to change anything, but if you are
   # cross-compiling, you can override these variables from GNU make's
@@ -348,7 +314,7 @@
   HOST_LD ?= $(LD)
   HOST_LDXX ?= $(LDXX)
 
-  CFLAGS += -std=c11 ${' '.join(warning_var('$(W_%s)', warning) for warning in PREFERRED_WARNINGS)}
+  CFLAGS += -std=c11
   CXXFLAGS += -std=c++14
   ifeq ($(SYSTEM),Darwin)
   CXXFLAGS += -stdlib=libc++
@@ -835,11 +801,6 @@
   	$(Q) $(HOST_CXX) $(HOST_CXXFLAGS) $(HOST_CPPFLAGS) -MMD -MF $(addsuffix .dep, $(basename $@)) -c -o $@ $<
 
   $(OBJDIR)/$(CONFIG)/src/core/%.o : src/core/%.cc
-  	$(E) "[CXX]     Compiling $<"
-  	$(Q) mkdir -p `dirname $@`
-  	$(Q) $(CXX) $(CPPFLAGS) $(CXXFLAGS) $(COREFLAGS) -MMD -MF $(addsuffix .dep, $(basename $@)) -c -o $@ $<
-
-  $(OBJDIR)/$(CONFIG)/test/core/%.o : test/core/%.cc
   	$(E) "[CXX]     Compiling $<"
   	$(Q) mkdir -p `dirname $@`
   	$(Q) $(CXX) $(CPPFLAGS) $(CXXFLAGS) $(COREFLAGS) -MMD -MF $(addsuffix .dep, $(basename $@)) -c -o $@ $<
