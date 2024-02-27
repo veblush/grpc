@@ -706,11 +706,6 @@ $(OBJDIR)/$(CONFIG)/src/core/%.o : src/core/%.cc
 	$(Q) mkdir -p `dirname $@`
 	$(Q) $(CXX) $(CPPFLAGS) $(CXXFLAGS) $(COREFLAGS) -MMD -MF $(addsuffix .dep, $(basename $@)) -c -o $@ $<
 
-$(OBJDIR)/$(CONFIG)/test/core/%.o : test/core/%.cc
-	$(E) "[CXX]     Compiling $<"
-	$(Q) mkdir -p `dirname $@`
-	$(Q) $(CXX) $(CPPFLAGS) $(CXXFLAGS) $(COREFLAGS) -MMD -MF $(addsuffix .dep, $(basename $@)) -c -o $@ $<
-
 $(OBJDIR)/$(CONFIG)/%.o : %.cc
 	$(E) "[CXX]     Compiling $<"
 	$(Q) mkdir -p `dirname $@`
