@@ -146,7 +146,8 @@ if EXTRA_ENV_COMPILE_ARGS is None:
         EXTRA_ENV_COMPILE_ARGS += " /MT"
     elif "linux" in sys.platform or "darwin" in sys.platform:
         # GCC & Clang by defaults uses C17 so only C++14 needs to be specified.
-        EXTRA_ENV_COMPILE_ARGS += " -std=c++14"
+        # test....
+        # EXTRA_ENV_COMPILE_ARGS += " -std=c++14"
         EXTRA_ENV_COMPILE_ARGS += " -fno-wrapv -frtti"
 if EXTRA_ENV_LINK_ARGS is None:
     EXTRA_ENV_LINK_ARGS = ""
