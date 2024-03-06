@@ -126,6 +126,33 @@ class BuildExt(build_ext.build_ext):
             filename = filename[: -len(orig_ext_suffix)] + new_ext_suffix
         return filename
 
+    def build_extensions(self):
+        # This special conditioning is here due to difference of compiler
+        #   behavior in gcc and clang. The clang doesn't take --stdc++11
+        #   flags but gcc does. Since the setuptools of Python only support
+        #   all C or all C++ compilation, the mix of C and C++ will crash.
+        #   *By default*, macOS and FreBSD use clang and Linux use gcc
+        #
+        #   If we are not using a permissive compiler that's OK with being
+        #   passed wrong std flags, swap out compile function by adding a filter
+        #   for it.
+        old_compile = self.compiler._compile
+
+        def new_compile(obj, src, ext, cc_args, extra_postargs, pp_opts):
+            if src.endswith(".c"):
+                extra_postargs = [
+                    arg for arg in extra_postargs if not "-std=c++" in arg
+                ]
+            elif src.endswith(".cc") or src.endswith(".cpp"):
+                extra_postargs = [
+                    arg for arg in extra_postargs if not "-std=c11" in arg
+                ]
+            return old_compile(
+                obj, src, ext, cc_args, extra_postargs, pp_opts
+            )
+
+        self.compiler._compile = new_compile
+
 
 # There are some situations (like on Windows) where CC, CFLAGS, and LDFLAGS are
 # entirely ignored/dropped/forgotten by distutils and its Cygwin/MinGW support.
@@ -144,10 +171,20 @@ if EXTRA_ENV_COMPILE_ARGS is None:
         # We need to statically link the C++ Runtime, only the C runtime is
         # available dynamically
         EXTRA_ENV_COMPILE_ARGS += " /MT"
-    elif "linux" in sys.platform or "darwin" in sys.platform:
-        # GCC & Clang by defaults uses C17 so only C++14 needs to be specified.
+    elif "linux" in sys.platform:
+        # GCC by defaults uses C17 so only C++14 needs to be specified.
         EXTRA_ENV_COMPILE_ARGS += " -std=c++14"
-        EXTRA_ENV_COMPILE_ARGS += " -fno-wrapv -frtti"
+        EXTRA_ENV_COMPILE_ARGS += (
+            " -fvisibility=hidden -fno-wrapv"
+        )
+    elif "darwin" in sys.platform:
+        # AppleClang by defaults uses C17 so only C++14 needs to be specified.
+        EXTRA_ENV_COMPILE_ARGS += " -std=c++14"
+        EXTRA_ENV_COMPILE_ARGS += (
+            " -stdlib=libc++ -fvisibility=hidden -fno-wrapv"
+            " -DHAVE_UNISTD_H"
+        )
+
 if EXTRA_ENV_LINK_ARGS is None:
     EXTRA_ENV_LINK_ARGS = ""
     # NOTE(rbellevi): Clang on Mac OS will make all static symbols (both
