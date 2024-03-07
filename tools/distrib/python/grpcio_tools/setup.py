@@ -144,12 +144,20 @@ if EXTRA_ENV_COMPILE_ARGS is None:
         # We need to statically link the C++ Runtime, only the C runtime is
         # available dynamically
         EXTRA_ENV_COMPILE_ARGS += " /MT"
-    elif "linux" in sys.platform or "darwin" in sys.platform:
-        # GCC & Clang by defaults uses C17 so only C++14 needs to be specified.
-        # test....
-        # EXTRA_ENV_COMPILE_ARGS += " -std=c++14"
-        os.environ["CXXFLAGS"] = os.environ.get("CXXFLAGS", "") + " -std=c++14"
-        EXTRA_ENV_COMPILE_ARGS += " -fno-wrapv -frtti"
+    elif "linux" in sys.platform:
+        # GCC by defaults uses C17 so only C++14 needs to be specified.
+        EXTRA_ENV_COMPILE_ARGS += " -std=c++14"
+        EXTRA_ENV_COMPILE_ARGS += (
+            " -fvisibility=hidden -fno-wrapv -fno-exceptions"
+        )
+    elif "darwin" in sys.platform:
+        # AppleClang by defaults uses C17 so only C++14 needs to be specified.
+        EXTRA_ENV_COMPILE_ARGS += " -std=c++14"
+        EXTRA_ENV_COMPILE_ARGS += (
+            " -stdlib=libc++ -fvisibility=hidden -fno-wrapv -fno-exceptions"
+            " -DHAVE_UNISTD_H"
+        )
+
 if EXTRA_ENV_LINK_ARGS is None:
     EXTRA_ENV_LINK_ARGS = ""
     # NOTE(rbellevi): Clang on Mac OS will make all static symbols (both
