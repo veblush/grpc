@@ -148,6 +148,7 @@ if EXTRA_ENV_COMPILE_ARGS is None:
         # GCC & Clang by defaults uses C17 so only C++14 needs to be specified.
         # test....
         # EXTRA_ENV_COMPILE_ARGS += " -std=c++14"
+        os.environ["CXXFLAGS"] = os.environ.get("CXXFLAGS", "") + " -std=c++14"
         EXTRA_ENV_COMPILE_ARGS += " -fno-wrapv -frtti"
 if EXTRA_ENV_LINK_ARGS is None:
     EXTRA_ENV_LINK_ARGS = ""
