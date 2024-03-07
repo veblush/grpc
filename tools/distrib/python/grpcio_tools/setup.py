@@ -147,9 +147,7 @@ class BuildExt(build_ext.build_ext):
                 extra_postargs = [
                     arg for arg in extra_postargs if not "-std=c11" in arg
                 ]
-            return old_compile(
-                obj, src, ext, cc_args, extra_postargs, pp_opts
-            )
+            return old_compile(obj, src, ext, cc_args, extra_postargs, pp_opts)
 
         self.compiler._compile = new_compile
 
@@ -161,6 +159,7 @@ class BuildExt(build_ext.build_ext):
             raise CommandError(
                 "Failed `build_ext` step:\n{}".format(formatted_exception)
             )
+
 
 # There are some situations (like on Windows) where CC, CFLAGS, and LDFLAGS are
 # entirely ignored/dropped/forgotten by distutils and its Cygwin/MinGW support.
