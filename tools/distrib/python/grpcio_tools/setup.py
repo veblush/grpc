@@ -147,15 +147,12 @@ if EXTRA_ENV_COMPILE_ARGS is None:
     elif "linux" in sys.platform:
         # GCC by defaults uses C17 so only C++14 needs to be specified.
         EXTRA_ENV_COMPILE_ARGS += " -std=c++14"
-        EXTRA_ENV_COMPILE_ARGS += (
-            " -fvisibility=hidden -fno-wrapv"
-        )
+        EXTRA_ENV_COMPILE_ARGS += " -fvisibility=hidden -fno-wrapv"
     elif "darwin" in sys.platform:
         # AppleClang by defaults uses C17 so only C++14 needs to be specified.
         EXTRA_ENV_COMPILE_ARGS += " -std=c++14"
         EXTRA_ENV_COMPILE_ARGS += (
-            " -stdlib=libc++ -fvisibility=hidden -fno-wrapv"
-            " -DHAVE_UNISTD_H"
+            " -stdlib=libc++ -fvisibility=hidden -fno-wrapv" " -DHAVE_UNISTD_H"
         )
 
 if EXTRA_ENV_LINK_ARGS is None:
