@@ -152,7 +152,6 @@ CC_FILES=[
     'third_party/protobuf/src/google/protobuf/compiler/cpp/field_generators/message_field.cc',
     'third_party/protobuf/src/google/protobuf/compiler/cpp/field_generators/primitive_field.cc',
     'third_party/protobuf/src/google/protobuf/compiler/cpp/field_generators/string_field.cc',
-    'third_party/protobuf/src/google/protobuf/compiler/cpp/field_generators/string_view_field.cc',
     'third_party/protobuf/src/google/protobuf/compiler/cpp/file.cc',
     'third_party/protobuf/src/google/protobuf/compiler/cpp/generator.cc',
     'third_party/protobuf/src/google/protobuf/compiler/cpp/helpers.cc',
@@ -334,4 +333,4 @@ CC_INCLUDES=[
 ]
 PROTO_INCLUDE='third_party/protobuf/src'
 
-PROTOBUF_SUBMODULE_VERSION="0ce48b30b5c925fc2e30fa2d8f234fc9e3611276"
+PROTOBUF_SUBMODULE_VERSION="999744ca08774b54f9732880eefb46739a35c67b"

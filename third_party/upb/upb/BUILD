@@ -23,7 +23,7 @@ load(
 # end:github_only
 
 # begin:google_only
-# package(default_applicable_licenses = [":license"])
+# package(default_applicable_licenses = ["//upb:license"])
 #
 # license(
 #     name = "license",
@@ -437,11 +437,7 @@ filegroup(
 #         "**/*.hpp",
 #     ]),
 #     kotlin_package = "upb",
-#     no_string_conversion = [
-#         "_upb_MiniTable_Build",
-#         "upb_Decode",
-#         "upb_StringView_FromDataAndSize",
-#     ],
+#     no_string_conversion = ["_upb_MiniTable_Build"],
 #     strict_enums = [
 #         "upb_CType",
 #         "upb_DecodeStatus",
