@@ -304,6 +304,7 @@ CC_FILES=[
     'third_party/protobuf/src/google/protobuf/unknown_field_set.cc',
     'third_party/protobuf/src/google/protobuf/wire_format.cc',
     'third_party/protobuf/src/google/protobuf/wire_format_lite.cc',
+    'third_party/protobuf/third_party/utf8_range/utf8_range.c',
     'third_party/protobuf/third_party/utf8_range/utf8_validity.cc',
     'third_party/protobuf/upb_generator/mangle.cc'
 ]
@@ -332,4 +333,4 @@ CC_INCLUDES=[
 ]
 PROTO_INCLUDE='third_party/protobuf/src'
 
-PROTOBUF_SUBMODULE_VERSION="999744ca08774b54f9732880eefb46739a35c67b"
+PROTOBUF_SUBMODULE_VERSION="7f94235e552599141950d7a4a3eaf93bc87d1b22"
