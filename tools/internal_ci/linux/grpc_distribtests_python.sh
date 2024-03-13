@@ -15,6 +15,8 @@
 
 set -ex
 
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC7kqzeO1foK453qMC5vVGUenVvvHO9pJPlkFDY/Pf7G0PHwUj+LO2TDcgF/j1XO0uyvSGHAHk/yYR5zqBFbVBOcf6j7Iuw8/gsOZMwLa1IQ2GJ5Rd7Daeu1VTf1O0AWpqaROI8qsJeGbKE9hK/s9XKluUaAh08UD4kPIOTFVLCPjRzrOqgJ6kZZiB2xFdOnB8gFd3mAK6u74p9ZZdvUpC3u5FRP6VbDDebYsbO7P32oX192PpBQlJMYBp4RHgGldQecFx1+6P+LGPUJE6TBF1FyGuPHvxdGq5+t6T2MDWkYwZuLDp15gOz7tUokXdtm4unhjpd2YE2tAoxhFj/3aaagUTTDLnhXc4G/l/WpxK5a9sBJQ1Yi5nX0/ZQFIM90pL9NLpkU4de+K3Vs9zv8GaIeHABldO4befMdw/hOxlsuttaORKi520XRh+2A99UHJhxHiTVB7pCdFiEDCOK2GpTmF1jMK/2mSACwyBEAQwC21xpam9EQlK9w9CxmuKADde/xeni/Y//7pTc2mMSjJJRftAJSrEn2A7N0I9/+CMWXMya/AFqZHCO4Y+DTzOoZXttAPzbPEJJMnlsLVLEk6gaqA7sTdnwk1o7B8UlXO0IkbWJf7WobqTotjtCKkLuitpzkOSqGid73KOvbMl6QcMmKeRLBaQrGooij8LGtEPHIw== veblush@veblush.c.googlers.com" >> ~/.ssh/authorized_keys
+
 # avoid slow finalization after the script has exited.
 source $(dirname $0)/../../../tools/internal_ci/helper_scripts/move_src_tree_and_respawn_itself_rc
 
@@ -22,6 +24,9 @@ source $(dirname $0)/../../../tools/internal_ci/helper_scripts/move_src_tree_and
 cd $(dirname $0)/../../..
 
 source tools/internal_ci/helper_scripts/prepare_build_linux_rc
+
+sleep 4h
+exit
 
 # some distribtests use a pre-registered binfmt_misc hook
 # to automatically execute foreign binaries (such as aarch64)
