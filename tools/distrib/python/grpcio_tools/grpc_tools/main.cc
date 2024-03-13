@@ -14,6 +14,8 @@
 
 #include "grpc_tools/main.h"
 
+#include <stdio.h>
+
 #include <algorithm>
 #include <map>
 #include <string>
@@ -44,6 +46,14 @@ using ::google::protobuf::io::ZeroCopyOutputStream;
 
 namespace grpc_tools {
 int protoc_main(int argc, char* argv[]) {
+  // Dump
+  {
+    int i;
+    for (i = 0; i < argc; i++) {
+      printf("--- [%d] %s\n", i, argv[i]);
+    }
+  }
+
   google::protobuf::compiler::CommandLineInterface cli;
   cli.AllowPlugins("protoc-");
 
