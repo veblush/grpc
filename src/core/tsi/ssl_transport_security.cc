@@ -228,8 +228,8 @@ static void init_openssl(void) {
 static void ssl_log_where_info(const SSL* ssl, int where, int flag,
                                const char* msg) {
   if ((where & flag) && GRPC_TRACE_FLAG_ENABLED(tsi_tracing_enabled)) {
-    gpr_log(GPR_INFO, "%20.20s - %s  - %s", msg,
-            SSL_state_string_long(ssl), SSL_state_string(ssl));
+    gpr_log(GPR_INFO, "%20.20s - %s  - %s", msg, SSL_state_string_long(ssl),
+            SSL_state_string(ssl));
   }
 }
 
@@ -1832,7 +1832,8 @@ static tsi_result ssl_handshaker_next(tsi_handshaker* self,
       self->handshaker_result_created = true;
       // Output Cipher information
       if (GRPC_TRACE_FLAG_ENABLED(tsi_tracing_enabled)) {
-        tsi_ssl_handshaker_result* result = reinterpret_cast<tsi_ssl_handshaker_result*>(*handshaker_result);
+        tsi_ssl_handshaker_result* result =
+            reinterpret_cast<tsi_ssl_handshaker_result*>(*handshaker_result);
         gpr_log(GPR_INFO, "X1");
         auto ssl = result->ssl;
         gpr_log(GPR_INFO, "X1-b: %p", ssl);
