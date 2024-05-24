@@ -1832,10 +1832,11 @@ static tsi_result ssl_handshaker_next(tsi_handshaker* self,
       self->handshaker_result_created = true;
       // Output Cipher information
       if (GRPC_TRACE_FLAG_ENABLED(tsi_tracing_enabled)) {
+        tsi_ssl_handshaker_result* result = reinterpret_cast<tsi_ssl_handshaker_result*>(*handshaker_result);
         gpr_log(GPR_INFO, "X1");
-        auto ssl = impl->ssl;
+        auto ssl = result->ssl;
         gpr_log(GPR_INFO, "X1-b: %p", ssl);
-        auto cipher = SSL_get_current_cipher(impl->ssl);
+        auto cipher = SSL_get_current_cipher(ssl);
         gpr_log(GPR_INFO, "X2");
         if (cipher != nullptr) {
           gpr_log(GPR_INFO, "X3");
