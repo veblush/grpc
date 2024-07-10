@@ -569,7 +569,11 @@ class CLanguage(object):
 
         if compiler == "default" or compiler == "cmake":
             # This is to address Apple clang defaults C++98.
-            cmake_args = ["-DCMAKE_CXX_STANDARD=14"] if platform_string() == "mac" else []
+            cmake_args = (
+                ["-DCMAKE_CXX_STANDARD=14"]
+                if platform_string() == "mac"
+                else []
+            )
             return ("debian11", cmake_args)
         elif compiler == "gcc8":
             return ("gcc_8", [])
