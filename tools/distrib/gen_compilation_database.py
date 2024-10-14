@@ -100,7 +100,7 @@ def modifyCompileCommand(target, args):
     # Workaround for bazel added C++14 options, those doesn't affect build itself but
     # clang-tidy will misinterpret them.
     options = options.replace("-std=c++0x ", "")
-    options = options.replace("-std=c++14 ", "")
+    options = options.replace("-std=c++17 ", "")
 
     # Add -DNDEBUG so that editors show the correct size information for structs.
     options += " -DNDEBUG"
@@ -119,7 +119,7 @@ def modifyCompileCommand(target, args):
         options += " -Wno-unused-function"
         if not target["file"].startswith("external/"):
             # *.h file is treated as C header by default while our headers files are all C++14.
-            options = "-x c++ -std=c++14 -fexceptions " + options
+            options = "-x c++ -std=c++17 -fexceptions " + options
 
     target["command"] = " ".join([cc, options])
     return target
