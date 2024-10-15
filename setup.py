@@ -26,7 +26,6 @@ del UnixCCompiler
 
 import os
 import os.path
-import packaging.version
 import pathlib
 import platform
 import re
@@ -38,6 +37,7 @@ import sys
 import sysconfig
 
 import _metadata
+import packaging.version
 from setuptools import Extension
 from setuptools.command import egg_info
 
@@ -236,18 +236,20 @@ def check_linker_need_libatomic():
     cpp_test.communicate(input=code_test)
     return cpp_test.returncode == 0
 
+
 # When building extensions for macOS on a system running macOS 10.14 or newer,
 # make sure they target macOS 10.14 or newer to use C++17 stdlib properly.
 # This overrides the default behavior of distutils, which targets the macOS
 # version Python was built on. You can further customize the target macOS
 # version by setting the MACOSX_DEPLOYMENT_TARGET environment variable before
 # running setup.py.
-if sys.platform == 'darwin':
-    if 'MACOSX_DEPLOYMENT_TARGET' not in os.environ:
-        target_ver = sysconfig.get_config_var('MACOSX_DEPLOYMENT_TARGET')
-        if (target_ver == '' or
-            packaging.version.Version(target_ver) < packaging.version.Version('10.14')):
-            os.environ['MACOSX_DEPLOYMENT_TARGET'] = '10.14'
+if sys.platform == "darwin":
+    if "MACOSX_DEPLOYMENT_TARGET" not in os.environ:
+        target_ver = sysconfig.get_config_var("MACOSX_DEPLOYMENT_TARGET")
+        if target_ver == "" or packaging.version.Version(
+            target_ver
+        ) < packaging.version.Version("10.14"):
+            os.environ["MACOSX_DEPLOYMENT_TARGET"] = "10.14"
 
 # There are some situations (like on Windows) where CC, CFLAGS, and LDFLAGS are
 # entirely ignored/dropped/forgotten by distutils and its Cygwin/MinGW support.
