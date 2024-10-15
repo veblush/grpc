@@ -100,7 +100,7 @@ def modifyCompileCommand(target, args):
     # Workaround for bazel added C++14 options, those doesn't affect build itself but
     # clang-tidy will misinterpret them.
     options = options.replace("-std=c++0x ", "")
-    options = options.replace("-std=c++17 ", "")
+    options = options.replace("-std=c++14 ", "")
 
     # Add -DNDEBUG so that editors show the correct size information for structs.
     options += " -DNDEBUG"
