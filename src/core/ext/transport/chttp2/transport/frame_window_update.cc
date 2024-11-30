@@ -29,6 +29,7 @@
 
 #include "src/core/ext/transport/chttp2/transport/flow_control.h"
 #include "src/core/ext/transport/chttp2/transport/internal.h"
+#include "src/core/lib/debug/trace.h"
 
 extern grpc_core::TraceFlag grpc_flowctl_trace;
 
