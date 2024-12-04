@@ -36,8 +36,8 @@ namespace grpc {
 
 #if GRPC_STRING_REF_IS_ABSL_STRING_VIEW
 using string_ref = absl::string_view;
-using absl::StartsWith;
 using absl::EndsWith;
+using absl::StartsWith;
 #else
 
 /// This class is a non owning reference to a string.
