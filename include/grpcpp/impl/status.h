@@ -57,7 +57,7 @@ class GRPC_MUST_USE_RESULT_WHEN_USE_STRICT_WARNING GRPCXX_DLL Status {
   Status(StatusCode code, absl::string_view msg, absl::string_view details)
       : status_(static_cast<absl::StatusCode>(code), msg) {
     if (!details.empty()) {
-      status_.SetPayload("_d", absl::Cord(msg));
+      status_.SetPayload("_d", absl::Cord(details));
     }
   }
 
