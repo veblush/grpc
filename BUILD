@@ -4841,6 +4841,11 @@ grpc_cc_library(
     srcs = [
         "src/cpp/util/status.cc",
     ],
+    external_deps = [
+        "absl/status",
+        "absl/strings:cord",
+        "absl/strings:string_view",
+    ],
     public_hdrs = [
         "include/grpc++/support/status.h",
         "include/grpcpp/impl/status.h",
@@ -4853,11 +4858,6 @@ grpc_cc_library(
         "grpc++_public_hdrs",
         "grpc_public_hdrs",
     ],
-    external_deps = [
-        "absl/status",
-        "absl/strings:cord",
-        "absl/strings:string_view",
-    ]
 )
 
 grpc_cc_library(
