@@ -8,6 +8,9 @@ common --enable_workspace=true
 # for platform-appropriate cxxopts
 common --enable_platform_specific_config
 
+# for Bazel 8
+common --incompatible_disallow_empty_glob=false
+
 build:windows --cxxopt='/std:c++14'
 build:windows --host_cxxopt='/std:c++14'
 build:linux   --cxxopt='-std=c++14'
