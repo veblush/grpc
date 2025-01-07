@@ -140,8 +140,10 @@ class BuildExt(build_ext.build_ext):
         #   passed wrong std flags, swap out compile function by adding a filter
         #   for it.
         old_compile = self.compiler._compile
+        print("@build_extensions")
 
         def new_compile(obj, src, ext, cc_args, extra_postargs, pp_opts):
+            print("@extra_postargs:", extra_postargs)
             if src.endswith(".c"):
                 extra_postargs = [
                     arg
@@ -154,6 +156,7 @@ class BuildExt(build_ext.build_ext):
                     for arg in extra_postargs
                     if not arg.startswith(("-std=c11", "/std:c11"))
                 ]
+            print("&extra_postargs:", extra_postargs)
             return old_compile(obj, src, ext, cc_args, extra_postargs, pp_opts)
 
         self.compiler._compile = new_compile

@@ -248,6 +248,8 @@ class BuildExt(build_ext.build_ext):
         return filename
 
     def build_extensions(self):
+        print("@build_extensions")
+
         def compiler_ok_with_extra_std():
             """Test if default compiler is okay with specifying c++ version
             when invoked in C mode. GCC is okay with this, while clang is not.
@@ -282,6 +284,7 @@ class BuildExt(build_ext.build_ext):
             old_compile = self.compiler._compile
 
             def new_compile(obj, src, ext, cc_args, extra_postargs, pp_opts):
+                print("@extra_postargs:", extra_postargs)
                 if src.endswith(".c"):
                     extra_postargs = [
                         arg
@@ -294,6 +297,7 @@ class BuildExt(build_ext.build_ext):
                         for arg in extra_postargs
                         if not arg.startswith(("-std=c11", "/std:c11"))
                     ]
+                print("&extra_postargs:", extra_postargs)
                 return old_compile(
                     obj, src, ext, cc_args, extra_postargs, pp_opts
                 )
