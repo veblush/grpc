@@ -250,27 +250,6 @@ class BuildExt(build_ext.build_ext):
     def build_extensions(self):
         print("@build_extensions")
 
-        def compiler_ok_with_extra_std():
-            """Test if default compiler is okay with specifying c++ version
-            when invoked in C mode. GCC is okay with this, while clang is not.
-            """
-            try:
-                # TODO(lidiz) Remove the generated a.out for success tests.
-                cc = os.environ.get("CC", "cc")
-                cc_test = subprocess.Popen(
-                    [cc, "-x", "c", "-std=c++17", "-"],
-                    stdin=subprocess.PIPE,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                )
-                _, cc_err = cc_test.communicate(input=b"int main(){return 0;}")
-                return not "invalid argument" in str(cc_err)
-            except:
-                sys.stderr.write(
-                    "Non-fatal exception:" + traceback.format_exc() + "\n"
-                )
-                return False
-
         # This special conditioning is here due to difference of compiler
         #   behavior in gcc and clang. The clang doesn't take --stdc++11
         #   flags but gcc does. Since the setuptools of Python only support
@@ -280,29 +259,28 @@ class BuildExt(build_ext.build_ext):
         #   If we are not using a permissive compiler that's OK with being
         #   passed wrong std flags, swap out compile function by adding a filter
         #   for it.
-        if not compiler_ok_with_extra_std():
-            old_compile = self.compiler._compile
+        old_compile = self.compiler._compile
 
-            def new_compile(obj, src, ext, cc_args, extra_postargs, pp_opts):
-                print("@extra_postargs:", extra_postargs)
-                if src.endswith(".c"):
-                    extra_postargs = [
-                        arg
-                        for arg in extra_postargs
-                        if not arg.startswith(("-std=c++", "/std:c++"))
-                    ]
-                elif src.endswith(".cc") or src.endswith(".cpp"):
-                    extra_postargs = [
-                        arg
-                        for arg in extra_postargs
-                        if not arg.startswith(("-std=c11", "/std:c11"))
-                    ]
-                print("&extra_postargs:", extra_postargs)
-                return old_compile(
-                    obj, src, ext, cc_args, extra_postargs, pp_opts
-                )
+        def new_compile(obj, src, ext, cc_args, extra_postargs, pp_opts):
+            print("@extra_postargs:", extra_postargs)
+            if src.endswith(".c"):
+                extra_postargs = [
+                    arg
+                    for arg in extra_postargs
+                    if not arg.startswith(("-std=c++", "/std:c++"))
+                ]
+            elif src.endswith(".cc") or src.endswith(".cpp"):
+                extra_postargs = [
+                    arg
+                    for arg in extra_postargs
+                    if not arg.startswith(("-std=c11", "/std:c11"))
+                ]
+            print("&extra_postargs:", extra_postargs)
+            return old_compile(
+                obj, src, ext, cc_args, extra_postargs, pp_opts
+            )
 
-            self.compiler._compile = new_compile
+        self.compiler._compile = new_compile
 
         compiler = self.compiler.compiler_type
         if compiler in BuildExt.C_OPTIONS:
