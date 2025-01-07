@@ -276,9 +276,7 @@ class BuildExt(build_ext.build_ext):
                     if not arg.startswith(("-std=c11", "/std:c11"))
                 ]
             print("&extra_postargs:", extra_postargs)
-            return old_compile(
-                obj, src, ext, cc_args, extra_postargs, pp_opts
-            )
+            return old_compile(obj, src, ext, cc_args, extra_postargs, pp_opts)
 
         self.compiler._compile = new_compile
 
