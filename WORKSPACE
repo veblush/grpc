@@ -13,8 +13,11 @@ grpc_extra_deps()
 # rules_java
 
 load("@rules_java//java:rules_java_deps.bzl", "rules_java_dependencies")
+
 rules_java_dependencies()
+
 load("@rules_java//java:repositories.bzl", "rules_java_toolchains")
+
 rules_java_toolchains()
 
 # RBE
