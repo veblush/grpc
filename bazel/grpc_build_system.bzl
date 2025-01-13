@@ -23,6 +23,8 @@
 # each change must be ported from one to the other.
 #
 
+load("@com_google_protobuf//bazel:cc_proto_library.bzl", "cc_proto_library")
+
 """
 Contains macros used throughout the repo.
 """
@@ -256,7 +258,7 @@ def grpc_internal_proto_library(
     )
 
 def grpc_cc_proto_library(name, deps = [], visibility = None):
-    native.cc_proto_library(name = name, deps = deps, visibility = visibility)
+    cc_proto_library(name = name, deps = deps, visibility = visibility)
 
 # DO NOT USE -- callers should instead be changed to use separate
 # grpc_internal_proto_library(), grpc_cc_proto_library(), and
