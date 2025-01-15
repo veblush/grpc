@@ -24,6 +24,7 @@ grpc_sh_test(
         "simple/expected/HelloworldGrpc.cs",
         "simple/proto/helloworld.proto",
         "//src/compiler:grpc_csharp_plugin",
+        "@bazel_tools//tools/bash/runfiles",
         "@com_google_protobuf//:protoc",
     ],
     tags = [
