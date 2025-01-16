@@ -52,7 +52,7 @@ RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tl
     msys 'pacman --noconfirm -Syy zstd'; \
     msys 'pacman --noconfirm -Syy git curl zip unzip'; \
     $old_path = [Environment]::GetEnvironmentVariable(\"PATH\", \"Machine\"); \
-    [Environment]::SetEnvironmentVariable(\"PATH\", $old_path + \";C:\msys64;C:\msys64\usr\bin\", \"Machine\");
+    [Environment]::SetEnvironmentVariable(\"PATH\", $old_path + \";C:\msys64;C:\msys64\usr\bin\", \"Machine\"); \
     [Environment]::SetEnvironmentVariable(\"BAZEL_SH\", \"C:\msys64\usr\bin\bash.exe\", \"Machine\")
 # Install Python 3.
 RUN Invoke-WebRequest "https://www.python.org/ftp/python/3.10.4/python-3.10.4-amd64.exe" \
