@@ -41,19 +41,6 @@ ExternalProject_Add(absl
         -DCMAKE_CXX_STANDARD:STRING=17
 )
 
-# Builds utf8_range project from the git submodule.
-ExternalProject_Add(utf8_range
-  PREFIX utf8_range
-  SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../../third_party/utf8_range"
-  CMAKE_CACHE_ARGS
-        -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=TRUE
-        -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_CURRENT_BINARY_DIR}/utf8_range
-        -DCMAKE_CXX_STANDARD:STRING=17
-        -Dutf8_range_ENABLE_TESTS:BOOL=OFF
-        -Dabsl_DIR:STRING=${CMAKE_CURRENT_BINARY_DIR}/absl/lib/cmake/absl
-  DEPENDS absl
-)
-
 # Builds c-ares project from the git submodule.
 ExternalProject_Add(c-ares
   PREFIX c-ares
@@ -78,7 +65,7 @@ ExternalProject_Add(protobuf
         -Dabsl_DIR:STRING=${CMAKE_CURRENT_BINARY_DIR}/absl/lib/cmake/absl
         -Dutf8_range_DIR:STRING=${CMAKE_CURRENT_BINARY_DIR}/utf8_range/lib/cmake/utf8_range
         -Dprotobuf_MSVC_STATIC_RUNTIME:BOOL=OFF
-  DEPENDS absl utf8_range
+  DEPENDS absl
 )
 
 # Builds re2 project from the git submodule.
