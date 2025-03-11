@@ -21,5 +21,8 @@ FROM golang:latest
 # Using login shell removes Go from path, so we add it.
 RUN ln -s /usr/local/go/bin/go /usr/local/bin
 
+RUN git config --global --add safe.directory "*"
+RUN git config --global protocol.file.allow always
+
 # Define the default command.
 CMD ["bash"]
