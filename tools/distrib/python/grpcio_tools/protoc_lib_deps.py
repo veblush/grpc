@@ -402,6 +402,7 @@ PROTO_FILES=[
 ]
 
 CC_INCLUDES=[
+    'grpc_root/core/ext/upb-gen',
     'third_party/abseil-cpp',
     'third_party/protobuf',
     'third_party/protobuf/src',

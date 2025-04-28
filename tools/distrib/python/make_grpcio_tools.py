@@ -89,7 +89,10 @@ GRPCIO_TOOLS_ROOT_PREFIX = "tools/distrib/python/grpcio_tools/"
 COPY_FILES_SOURCE_TARGET_PAIRS = [
     ("include", "grpc_root/include"),
     ("src/compiler", "grpc_root/src/compiler"),
-    ("src/core/ext/upb-gen/google/protobuf", "grpc_root/core/ext/upb-gen/google/protobuf"),
+    (
+        "src/core/ext/upb-gen/google/protobuf",
+        "grpc_root/core/ext/upb-gen/google/protobuf",
+    ),
     ("third_party/abseil-cpp/absl", "third_party/abseil-cpp/absl"),
     ("third_party/protobuf/src", "third_party/protobuf/src"),
     ("third_party/protobuf/upb", "third_party/protobuf/upb"),
