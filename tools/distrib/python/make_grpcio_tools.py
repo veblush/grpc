@@ -189,6 +189,8 @@ def _bazel_name_to_file_path(name):
             # to use a pre-generated file for Cmake instead.
             filepath = filepath.replace("/upb/reflection/stage1/", "/upb/reflection/cmake/")
             filepath = filepath.replace("/upb_generator/stage1/", "/upb_generator/cmake/")
+            if "/upb/reflection/stage0/" in filepath or "/upb_generator/stage0/" in filepath:
+                return None
 
             return filepath
     return None
