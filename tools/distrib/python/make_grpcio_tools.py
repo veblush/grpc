@@ -92,7 +92,10 @@ GRPCIO_TOOLS_ROOT_PREFIX = "tools/distrib/python/grpcio_tools/"
 COPY_FILES_SOURCE_TARGET_PAIRS = [
     ("include", "grpc_root/include"),
     ("src/compiler", "grpc_root/src/compiler"),
-    ("src/core/ext/upb-gen/google/protobuf", "grpc_root/core/ext/upb-gen/google/protobuf"),
+    (
+        "src/core/ext/upb-gen/google/protobuf",
+        "grpc_root/core/ext/upb-gen/google/protobuf",
+    ),
     ("third_party/abseil-cpp/absl", "third_party/abseil-cpp/absl"),
     ("third_party/protobuf/src", "third_party/protobuf/src"),
     ("third_party/protobuf/upb", "third_party/protobuf/upb"),
@@ -187,9 +190,16 @@ def _bazel_name_to_file_path(name):
             # The some files which Bazel generates during the build process,
             # are not accessible for Python build. Therefore, they need to be redirected
             # to use a pre-generated file for Cmake instead.
-            filepath = filepath.replace("/upb/reflection/stage1/", "/upb/reflection/cmake/")
-            filepath = filepath.replace("/upb_generator/stage1/", "/upb_generator/cmake/")
-            if "/upb/reflection/stage0/" in filepath or "/upb_generator/stage0/" in filepath:
+            filepath = filepath.replace(
+                "/upb/reflection/stage1/", "/upb/reflection/cmake/"
+            )
+            filepath = filepath.replace(
+                "/upb_generator/stage1/", "/upb_generator/cmake/"
+            )
+            if (
+                "/upb/reflection/stage0/" in filepath
+                or "/upb_generator/stage0/" in filepath
+            ):
                 return None
 
             return filepath
