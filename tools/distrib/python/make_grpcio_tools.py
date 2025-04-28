@@ -180,7 +180,14 @@ def _bazel_name_to_file_path(name):
             # end up being reported by bazel as having an extra 'wkt/google/protobuf'
             # in path. Removing it makes the compilation pass.
             # TODO(jtattermusch) Get dir of this hack.
-            return filepath.replace("wkt/google/protobuf/", "")
+            filepath = filepath.replace("wkt/google/protobuf/", "")
+
+            # The plugin.upb_minitable.c file, which Bazel generates during the build process,
+            # is not accessible for Python build. Therefore, it needs to be reconfigured
+            # to use an alternative file for Cmake instead.
+            filepath = filepath.replace("upb_generator/stage1/", "upb_generator/cmake/")
+
+            return filepath
     return None
 
 
