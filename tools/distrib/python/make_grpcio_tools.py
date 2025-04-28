@@ -70,12 +70,12 @@ PROTOBUF_PROTO_PREFIX = "@com_google_protobuf//src/"
 
 # will be added to include path when building grpcio_tools
 CC_INCLUDES = [
-    os.path.join("grpc_root", "core", "ext", "upb-gen"),
     os.path.join("third_party", "abseil-cpp"),
     os.path.join("third_party", "protobuf"),
     os.path.join("third_party", "protobuf", "src"),
     os.path.join("third_party", "protobuf", "upb_generator", "stage0"),
     os.path.join("third_party", "protobuf", "upb"),
+    os.path.join("third_party", "protobuf", "upb", "reflection", "stage0"),
     os.path.join("third_party", "protobuf", "third_party", "utf8_range"),
 ]
 
