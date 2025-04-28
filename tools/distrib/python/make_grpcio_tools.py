@@ -184,10 +184,11 @@ def _bazel_name_to_file_path(name):
             # TODO(jtattermusch) Get dir of this hack.
             filepath = filepath.replace("wkt/google/protobuf/", "")
 
-            # The plugin.upb_minitable.c file, which Bazel generates during the build process,
-            # is not accessible for Python build. Therefore, it needs to be reconfigured
-            # to use an alternative file for Cmake instead.
-            filepath = filepath.replace("upb_generator/stage1/", "upb_generator/cmake/")
+            # The some files which Bazel generates during the build process,
+            # are not accessible for Python build. Therefore, they need to be redirected
+            # to use a pre-generated file for Cmake instead.
+            filepath = filepath.replace("/upb/reflection/stage1/", "/upb/reflection/cmake/")
+            filepath = filepath.replace("/upb_generator/stage1/", "/upb_generator/cmake/")
 
             return filepath
     return None
