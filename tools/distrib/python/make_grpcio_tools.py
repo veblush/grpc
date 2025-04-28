@@ -77,6 +77,7 @@ CC_INCLUDES = [
     os.path.join("third_party", "protobuf", "upb_generator", "cmake"),
     os.path.join("third_party", "protobuf", "upb"),
     os.path.join("third_party", "protobuf", "upb", "reflection", "stage0"),
+    os.path.join("third_party", "protobuf", "upb", "reflection", "cmake"),
     os.path.join("third_party", "protobuf", "third_party", "utf8_range"),
 ]
 
