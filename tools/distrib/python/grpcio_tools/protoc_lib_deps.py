@@ -346,6 +346,7 @@ CC_FILES=[
     'third_party/protobuf/upb/mini_table/extension_registry.c',
     'third_party/protobuf/upb/mini_table/internal/message.c',
     'third_party/protobuf/upb/mini_table/message.c',
+    'third_party/protobuf/upb/reflection/cmake/google/protobuf/descriptor.upb_minitable.c',
     'third_party/protobuf/upb/reflection/def_pool.c',
     'third_party/protobuf/upb/reflection/def_type.c',
     'third_party/protobuf/upb/reflection/desc_state.c',
@@ -364,7 +365,6 @@ CC_FILES=[
     'third_party/protobuf/upb/reflection/oneof_def.c',
     'third_party/protobuf/upb/reflection/service_def.c',
     'third_party/protobuf/upb/reflection/stage0/google/protobuf/descriptor.upb.c',
-    'third_party/protobuf/upb/reflection/stage1/google/protobuf/descriptor.upb_minitable.c',
     'third_party/protobuf/upb/wire/decode.c',
     'third_party/protobuf/upb/wire/encode.c',
     'third_party/protobuf/upb/wire/eps_copy_input_stream.c',
@@ -373,6 +373,7 @@ CC_FILES=[
     'third_party/protobuf/upb_generator/c/generator.cc',
     'third_party/protobuf/upb_generator/c/names.cc',
     'third_party/protobuf/upb_generator/c/names_internal.cc',
+    'third_party/protobuf/upb_generator/cmake/google/protobuf/compiler/plugin.upb_minitable.c',
     'third_party/protobuf/upb_generator/common.cc',
     'third_party/protobuf/upb_generator/common/names.cc',
     'third_party/protobuf/upb_generator/file_layout.cc',
@@ -382,8 +383,7 @@ CC_FILES=[
     'third_party/protobuf/upb_generator/minitable/names.cc',
     'third_party/protobuf/upb_generator/minitable/names_internal.cc',
     'third_party/protobuf/upb_generator/plugin.cc',
-    'third_party/protobuf/upb_generator/stage0/google/protobuf/compiler/plugin.upb.c',
-    'third_party/protobuf/upb_generator/stage1/google/protobuf/compiler/plugin.upb_minitable.c'
+    'third_party/protobuf/upb_generator/stage0/google/protobuf/compiler/plugin.upb.c'
 ]
 
 PROTO_FILES=[
@@ -405,7 +405,11 @@ CC_INCLUDES=[
     'third_party/abseil-cpp',
     'third_party/protobuf',
     'third_party/protobuf/src',
+    'third_party/protobuf/upb_generator/stage0',
+    'third_party/protobuf/upb_generator/cmake',
     'third_party/protobuf/upb',
+    'third_party/protobuf/upb/reflection/stage0',
+    'third_party/protobuf/upb/reflection/cmake',
     'third_party/protobuf/third_party/utf8_range'
 ]
 PROTO_INCLUDE='third_party/protobuf/src'
