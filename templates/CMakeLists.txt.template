@@ -894,7 +894,7 @@
     endif()
     % endif
     if(gRPC_INSTALL)
-      install(FILES <%text>${CMAKE_CURRENT_BINARY_DIR}/</%text>${lib.name}.pdb
+      install(FILES $<TARGET_PDB_FILE:${lib.name}>
         DESTINATION <%text>${gRPC_INSTALL_LIBDIR}</%text> OPTIONAL
       )
     endif()
