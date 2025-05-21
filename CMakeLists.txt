@@ -1946,7 +1946,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/address_sorting.pdb
+    install(FILES $<TARGET_PDB_FILE:address_sorting>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -2042,7 +2042,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gpr.pdb
+    install(FILES $<TARGET_PDB_FILE:gpr>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -2998,7 +2998,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -3152,7 +3152,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc_test_util.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc_test_util>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -3226,7 +3226,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc_test_util_unsecure.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc_test_util_unsecure>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -3691,7 +3691,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc_unsecure.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc_unsecure>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -3832,7 +3832,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gtest.pdb
+    install(FILES $<TARGET_PDB_FILE:gtest>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -3891,7 +3891,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/upb_base_lib.pdb
+    install(FILES $<TARGET_PDB_FILE:upb_base_lib>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -3942,7 +3942,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/upb_hash_lib.pdb
+    install(FILES $<TARGET_PDB_FILE:upb_hash_lib>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -3996,7 +3996,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/upb_json_lib.pdb
+    install(FILES $<TARGET_PDB_FILE:upb_json_lib>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -4052,7 +4052,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/upb_lex_lib.pdb
+    install(FILES $<TARGET_PDB_FILE:upb_lex_lib>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -4104,7 +4104,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/upb_mem_lib.pdb
+    install(FILES $<TARGET_PDB_FILE:upb_mem_lib>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -4162,7 +4162,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/upb_message_lib.pdb
+    install(FILES $<TARGET_PDB_FILE:upb_message_lib>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -4218,7 +4218,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/upb_mini_descriptor_lib.pdb
+    install(FILES $<TARGET_PDB_FILE:upb_mini_descriptor_lib>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -4272,7 +4272,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/upb_mini_table_lib.pdb
+    install(FILES $<TARGET_PDB_FILE:upb_mini_table_lib>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -4342,7 +4342,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/upb_reflection_lib.pdb
+    install(FILES $<TARGET_PDB_FILE:upb_reflection_lib>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -4396,7 +4396,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/upb_textformat_lib.pdb
+    install(FILES $<TARGET_PDB_FILE:upb_textformat_lib>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -4454,7 +4454,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/upb_wire_lib.pdb
+    install(FILES $<TARGET_PDB_FILE:upb_wire_lib>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -4507,7 +4507,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/utf8_range_lib.pdb
+    install(FILES $<TARGET_PDB_FILE:utf8_range_lib>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -4601,7 +4601,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/benchmark_helpers.pdb
+    install(FILES $<TARGET_PDB_FILE:benchmark_helpers>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -4707,7 +4707,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc++.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc++>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -4991,7 +4991,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc++_alts.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc++_alts>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -5062,7 +5062,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc++_error_details.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc++_error_details>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -5143,7 +5143,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc++_reflection.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc++_reflection>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -5218,7 +5218,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc++_test.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc++_test>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -5289,7 +5289,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc++_test_config.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc++_test_config>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -5353,7 +5353,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc++_test_util.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc++_test_util>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -5447,7 +5447,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc++_unsecure.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc++_unsecure>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -5996,7 +5996,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc_authorization_provider.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc_authorization_provider>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -6124,7 +6124,7 @@ if(WIN32 AND MSVC)
     COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
   )
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpc_plugin_support.pdb
+    install(FILES $<TARGET_PDB_FILE:grpc_plugin_support>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -6205,7 +6205,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpcpp_channelz.pdb
+    install(FILES $<TARGET_PDB_FILE:grpcpp_channelz>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
@@ -6283,7 +6283,7 @@ if(WIN32 AND MSVC)
     )
   endif()
   if(gRPC_INSTALL)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/grpcpp_otel_plugin.pdb
+    install(FILES $<TARGET_PDB_FILE:grpcpp_otel_plugin>
       DESTINATION ${gRPC_INSTALL_LIBDIR} OPTIONAL
     )
   endif()
